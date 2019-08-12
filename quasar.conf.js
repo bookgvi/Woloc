@@ -7,8 +7,8 @@ module.exports = function (ctx) {
     // --> boot files are part of "main.js"
     boot: [
       'i18n',
-      // 'vuelidate',
-      'moment'
+      'moment',
+      'vuelidate'
     ],
 
     css: [
@@ -68,16 +68,17 @@ module.exports = function (ctx) {
     build: {
       scopeHoisting: true,
       vueRouterMode: 'history',
-      // env: ctx.dev
-      //   ? { // so on dev we'll have
-      //     API: JSON.stringify('https://dev.api.com')
-      //   }
-      //   : { // and on build (production):
-      //     API: JSON.stringify('https://prod.api.com')
-      //   },
+      env: {
+        API_URL: ctx.dev
+          // dev API
+          ? JSON.stringify('https://localhost/api')
+          // prod API
+          : JSON.stringify('https://dev.ugoloc.ucann.ru/api'),
+        API_TIMEOUT: 30000
+      },
       // vueCompiler: true,
-      // gzip: true,
-      // analyze: true,
+      gzip: true,
+      analyze: true,
       // extractCSS: false,
       extendWebpack (cfg) {
         cfg.module.rules.push({
