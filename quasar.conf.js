@@ -6,7 +6,9 @@ module.exports = function (ctx) {
     // app boot file (/src/boot)
     // --> boot files are part of "main.js"
     boot: [
-      'i18n'
+      'i18n',
+      // 'vuelidate',
+      'moment'
     ],
 
     css: [
@@ -16,52 +18,63 @@ module.exports = function (ctx) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v3',
-      // 'fontawesome-v5',
+      'fontawesome-v5',
       // 'eva-icons',
       // 'themify',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
-      'roboto-font', // optional, you are not bound to it
+      // 'roboto-font', // optional, you are not bound to it
       'material-icons' // optional, you are not bound to it
     ],
 
     framework: {
       // iconSet: 'ionicons-v4',
-      // lang: 'de', // Quasar language
+      lang: 'ru', // Quasar language
+      cssAddon: true, // Adds the flex responsive++ CSS classes (noticeable bump in footprint)
+      all: true, // --- includes everything; for dev only!
 
-      // all: true, // --- includes everything; for dev only!
-
-      components: [
-        'QLayout',
-        'QHeader',
-        'QDrawer',
-        'QPageContainer',
-        'QPage',
-        'QToolbar',
-        'QToolbarTitle',
-        'QBtn',
-        'QIcon',
-        'QList',
-        'QItem',
-        'QItemSection',
-        'QItemLabel'
-      ],
+      // components: [
+      //   'QLayout',
+      //   'QHeader',
+      //   'QDrawer',
+      //   'QPageContainer',
+      //   'QPage',
+      //   'QToolbar',
+      //   'QToolbarTitle',
+      //   'QBtn',
+      //   'QIcon',
+      //   'QList',
+      //   'QItem',
+      //   'QItemSection',
+      //   'QItemLabel'
+      // ],
 
       directives: [
-        'Ripple'
+        'Ripple',
+        'ClosePopup'
       ],
 
       // Quasar plugins
       plugins: [
-        'Notify'
+        'Notify',
+        'LocalStorage',
+        'Loading',
+        'Dialog'
       ]
     },
 
-    supportIE: false,
+    supportIE: true,
 
     build: {
       scopeHoisting: true,
-      // vueRouterMode: 'history',
+      vueRouterMode: 'history',
+      // env: ctx.dev
+      //   ? { // so on dev we'll have
+      //     API: JSON.stringify('https://dev.api.com')
+      //   }
+      //   : { // and on build (production):
+      //     API: JSON.stringify('https://prod.api.com')
+      //   },
       // vueCompiler: true,
       // gzip: true,
       // analyze: true,
@@ -76,13 +89,18 @@ module.exports = function (ctx) {
             formatter: require('eslint').CLIEngine.getFormatter('stylish')
           }
         })
+
+        cfg.module.rules.push({
+          test: /\.pug$/,
+          loader: 'pug-plain-loader'
+        })
       }
     },
 
     devServer: {
       // https: true,
       // port: 8080,
-      open: true // opens browser window automatically
+      open: false // opens browser window automatically
     },
 
     // animations: 'all', // --- includes all animations
@@ -96,9 +114,9 @@ module.exports = function (ctx) {
       // workboxPluginMode: 'InjectManifest',
       // workboxOptions: {}, // only for NON InjectManifest
       manifest: {
-        // name: 'Ugoloc Admin Panel',
-        // short_name: 'Ugoloc Admin Panel',
-        // description: 'Admin Panel for ugoloc.ru',
+        // name: 'BIMLIB Producer LK',
+        // short_name: 'BIMLIB Producer LK',
+        // description: 'BIMLIB LK for producers',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -162,7 +180,7 @@ module.exports = function (ctx) {
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        // appId: 'ugoloc-admin-front'
+        // appId: 'bimlib_producer_dashboard'
       }
     }
   }
