@@ -1,35 +1,23 @@
 <template lang="pug">
   .row.header.justify-between.items-center
-      .col-1
-        Logo
-      .col-9
-        NavTabs
-      .col-2
-        User
+    .col-9
+      RoomName
+    .col-3
+      Controls
 </template>
 
 <script>
-import Logo from './Blocks/Logo'
-import User from './Blocks/User'
-import NavTabs from './Blocks/NavTabs'
+import RoomName from './Blocks/RoomName'
+import Controls from './Blocks/Controls'
 
 export default {
-  name: 'Header',
-  components: { NavTabs, User, Logo },
-  data () {
-    return {
-      screenWidth: 1920
-    }
-  },
-  mounted () {
-    this.screenWidth = window.screen.width
-  }
+  name: 'CalendarDateControls',
+  components: { RoomName, Controls }
 }
 </script>
 
 <style scoped lang="stylus">
   .header
-    display flex
     background $primary
     width 100%
     height 80px
@@ -39,4 +27,5 @@ export default {
     margin-top 0
     visibility visible
     border-bottom 2px solid $secondary
+    box-shadow inset 0 -1px 0 0 rgba(0,0,0,0.1)
 </style>

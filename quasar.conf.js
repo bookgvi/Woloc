@@ -24,11 +24,11 @@ module.exports = function (ctx) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       // 'roboto-font', // optional, you are not bound to it
-      'material-icons' // optional, you are not bound to it
+      // 'material-icons' // optional, you are not bound to it
     ],
 
     framework: {
-      // iconSet: 'ionicons-v4',
+      iconSet: 'fontawesome-v5',
       lang: 'ru', // Quasar language
       cssAddon: true, // Adds the flex responsive++ CSS classes (noticeable bump in footprint)
       all: true, // --- includes everything; for dev only!
