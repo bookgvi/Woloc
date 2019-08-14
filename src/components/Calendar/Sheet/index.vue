@@ -2,19 +2,20 @@
   .sheet
     .row
       .col-9
-        span.room-name Kap"s Studios м. Бауманская
+        span.room-name Kap"s Studios м. Бауманская{{month}}
       .col-3
         q-toolbar
           q-btn.btn.btn-calendar(
             color=$primary
             icon="calendar_today"
+            @click="dateDialog = true"
             )
           q-btn.btn.btn-today(
-            color=$primary
-            label="Сегодня"
-            no-caps
-            @click="calendarToday"
-            )
+              color=$primary
+              label="Сегодня"
+              no-caps
+              @click="calendarToday"
+              )
           q-btn.btn.btn-nav(
             color=$primary
             icon="chevron_left"
@@ -25,6 +26,15 @@
             icon="chevron_right"
             @click="calendarNext"
             )
+          q-dialog(
+            v-model="dateDialog"
+            )
+            q-date(
+              v-model="selectedDate"
+              minimal
+              mask="YYYY-MM-DD"
+              )
+
     q-calendar(
       ref="calendar"
       :weekdays="[1, 2, 3, 4, 5, 6, 0]"
@@ -49,7 +59,32 @@ export default {
   data () {
     return {
       selectedDate: '',
-      resources: []
+      resources: [],
+      dateDialog: false,
+      date: ''
+    }
+  },
+  created: function () {
+    this.calendarToday()
+  },
+  computed: {
+    month () {
+      const months = [
+        'Январь',
+        'Февраль',
+        'Март',
+        'Апрель',
+        'Май',
+        'Июнь',
+        'Июль',
+        'Август',
+        'Сентябрь',
+        'Октябрь',
+        'Ноябрь',
+        'Декабрь',
+      ]
+      const date = this.selectedDate.split('-')
+      return `, ${months[+date[1] - 1]} ${date[0]}`
     }
   },
   methods: {
