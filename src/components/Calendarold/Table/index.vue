@@ -5,21 +5,6 @@
       bordered
       :separator="separator"
     )
-      template(slot="top" slot-scope="props")
-        .flex.justify-end.items-center.full-width
-        q-btn.btn-calendar(
-          icon='calendar'
-        )
-        q-btn.btn-today(
-          label='Сегодня'
-          no-caps
-        )
-        q-btn.btn-nav(
-          icon='chevron-left'
-        )
-        q-btn.btn-nav(
-          icon='chevron-right'
-        )
         q-tr
           q-th.text-left Время
           q-th.text-left {{weekLabels[0]}}

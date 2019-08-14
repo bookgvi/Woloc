@@ -1,19 +1,17 @@
 <template lang="pug">
   .calendar
     CalendarMenu
-    CalendarDateControls
-    CalendarTable
+    CalendarSheet
 
 </template>
 
 <script>
-import CalendarTable from './Table/index'
 import CalendarMenu from './Menu/index'
-import CalendarDateControls from './DateControls/index'
+import CalendarSheet from './Sheet/index'
 
 export default {
   name: 'Calendar',
-  components: { CalendarTable, CalendarMenu, CalendarDateControls }
+  components: { CalendarMenu, CalendarSheet }
 }
 </script>
 

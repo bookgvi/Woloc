@@ -935,6 +935,13 @@
   resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.2.0.tgz#46520c283aa82cc4bb65c7a7b6a6e048fb356335"
   integrity sha512-DUo4KRayuwnMwzRK4vYjd6q6e6sGOkt5moD2Lz/q5PiPqvEjoNeQd9vcNPTqpSjWk7AUDVW4meDR2ThHyQMzAQ==
 
+"@quasar/quasar-app-extension-qcalendar@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qcalendar/-/quasar-app-extension-qcalendar-1.0.3.tgz#23c38f2205820efc0962e2e006b9d81a7cd06c25"
+  integrity sha512-grnhWYtL8x3B+YSgeUeSGLc6hvv2Mlg7W5l7vHkU5IJeyt+mzvcRNss6Luomq2MZ7laDwnIQHIcIlysQrPcC5w==
+  dependencies:
+    quasar-mixin-colorize "^1.0.0-alpha.4"
+
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.7"
   resolved "https://registry.yarnpkg.com/@types/babel-types/-/babel-types-7.0.7.tgz#667eb1640e8039436028055737d2b9986ee336e3"
@@ -6564,6 +6571,11 @@ qs@6.7.0:
   version "6.7.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
+
+quasar-mixin-colorize@^1.0.0-alpha.4:
+  version "1.0.0-alpha.6"
+  resolved "https://registry.yarnpkg.com/quasar-mixin-colorize/-/quasar-mixin-colorize-1.0.0-alpha.6.tgz#6cd5cdb62d37bf3bde6b740f4ca4d70bf55bfeaf"
+  integrity sha512-4G4OFMCv+4tXQ74hMV7V8RA/UhWdj1WDxE7hryjj7p9RDXO9hiGKLDTOR86MtGbkSglIBvNwBsAO6yaKxktiuQ==
 
 quasar@^1.0.0:
   version "1.0.5"
