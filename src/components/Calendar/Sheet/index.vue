@@ -9,10 +9,12 @@
     q-calendar(ref='calendar'
       hour24-format=true
       now
+      max-days="7"
       :interval-start="8"
       :interval-count="16"
+      :resources="resources"
       v-model='selectedDate'
-      view="week"
+      view="scheduler"
       locale='ru-ru'
       short-weekday-label
       body=''
