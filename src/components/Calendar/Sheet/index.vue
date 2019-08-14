@@ -2,12 +2,12 @@
   .sheet
     .row
       .col-9
-        span.room-name Kap"s Studios м. Бауманская, Октябрь 2018
+        span.room-name Kap"s Studios м. Бауманская
       .col-3
         q-toolbar
           q-btn.btn.btn-calendar(
             color=$primary
-            icon="assignment"
+            icon="calendar_today"
             )
           q-btn.btn.btn-today(
             color=$primary
@@ -17,12 +17,12 @@
             )
           q-btn.btn.btn-nav(
             color=$primary
-            icon="backspace"
+            icon="chevron_left"
             @click="calendarPrev"
             )
           q-btn.btn.btn-nav(
             color=$primary
-            icon="forward"
+            icon="chevron_right"
             @click="calendarNext"
             )
     q-calendar(
@@ -60,7 +60,10 @@ export default {
       this.$refs.calendar.prev()
     },
     calendarToday () {
-      // this.calendar.
+      const timestamp = new Date()
+      const today =
+        `${timestamp.getFullYear()}-${timestamp.getMonth() + 1}-${timestamp.getDate()}`
+      this.selectedDate = today
     }
   }
 }
