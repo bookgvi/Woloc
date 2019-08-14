@@ -1,6 +1,6 @@
 <template lang="pug">
   .row.justify-start
-    .room Kap's Studios м. Бауманская, Октябрь 2018
+    .room Kap"s Studios м. Бауманская, Октябрь 2018
 </template>
 
 <script>

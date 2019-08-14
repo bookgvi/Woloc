@@ -1,17 +1,17 @@
 <template lang="pug">
   .controls
     q-btn.btn-calendar(
-      icon='calendar'
+      icon="calendar"
     )
     q-btn.btn-today(
-      label='Сегодня'
+      label="Сегодня"
       no-caps
     )
     q-btn.btn-nav(
-      icon='chevron-left'
+      icon="chevron-left"
     )
     q-btn.btn-nav(
-      icon='chevron-right'
+      icon="chevron-right"
     )
 
 </template>

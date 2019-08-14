@@ -4,7 +4,7 @@
 module.exports = function (ctx) {
   return {
     // app boot file (/src/boot)
-    // --> boot files are part of "main.js"
+    // --> boot files are part of 'main.js'
     boot: [
       'i18n',
       'moment',
@@ -24,11 +24,10 @@ module.exports = function (ctx) {
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       // 'roboto-font', // optional, you are not bound to it
-      // 'material-icons' // optional, you are not bound to it
+      'material-icons' // optional, you are not bound to it
     ],
 
     framework: {
-      iconSet: 'fontawesome-v5',
       lang: 'ru', // Quasar language
       cssAddon: true, // Adds the flex responsive++ CSS classes (noticeable bump in footprint)
       all: true, // --- includes everything; for dev only!
