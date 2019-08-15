@@ -1,12 +1,14 @@
 <template lang="pug">
   q-page(padding)
-    <!-- content -->
-    h1 PageCalendar
+    Calendar
 </template>
 
 <script>
+import Calendar from '../components/Calendar/index'
+
 export default {
   name: 'PageCalendar',
+  components: { Calendar },
 }
 </script>
 

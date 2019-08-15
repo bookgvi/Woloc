@@ -17,7 +17,7 @@ instance.defaults.headers.put['Content-Type'] = 'application/json'
 instance.interceptors.request.use(
   conf => {
     // Do something before request is sent
-    const token = LocalStorage.getItem('user-token')
+    // const token = LocalStorage.getItem('user-token')
     // if (token) {
     //   conf.headers['Authorization'] = `Bearer ${token}`
     // }
