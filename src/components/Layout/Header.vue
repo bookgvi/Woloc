@@ -30,7 +30,7 @@ export default {
 <style scoped lang="stylus">
   .header
     display flex
-    background $primary
+    background-color #FFFFFF
     width 100%
     height 80px
     top 0
@@ -38,5 +38,5 @@ export default {
     opacity 1
     margin-top 0
     visibility visible
-    border-bottom 2px solid $secondary
+    border-bottom 1px solid $secondary
 </style>

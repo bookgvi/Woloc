@@ -6,23 +6,26 @@
       .col-3.row
         q-toolbar.toolbar.justify-end
           q-btn.btn.btn-calendar(
-            color=$primary
             icon="calendar_today"
-            @click="dateDialog = true"
+            push
             )
+            q-popup-proxy
+              q-banner
+                q-date(
+                  v-model="selectedDate"
+                  minimal
+                  mask="YYYY-MM-DD"
+                )
           q-btn.btn.btn-today(
-              color=$primary
               label="Сегодня"
               no-caps
               @click="calendarToday"
               )
           q-btn.btn.btn-nav(
-            color=$primary
             icon="chevron_left"
             @click="calendarPrev"
             )
           q-btn.btn.btn-nav(
-            color=$primary
             icon="chevron_right"
             @click="calendarNext"
             )
@@ -49,19 +52,50 @@
       transition-prev="slide-right"
       transition-next="slide-left"
       class="calendar-container"
-      )
-      template(#day-header="{ date }")
+    )
+      template(
+        #day-header="{ date }"
+        )
         .row.justify-center
-          template(v-for="(event, index) in eventsMap[date]")
-            q-badge.ellipsis(v-if="!event.time", :key="index", style="width: 100%; cursor: pointer;", :class="badgeClasses(event, 'header')", :style="badgeStyles(event, 'header')")
-              q-icon.q-mr-xs(v-if="event.icon", :name="event.icon")
-              span.ellipsis {{ event.title }}
-            q-badge.q-ma-xs(v-else="", :key="index", :class="badgeClasses(event, 'header')", :style="badgeStyles(event, 'header')", style="width: 10px; max-width: 10px; height: 10px; max-height: 10px")
-      template(#day-body="{ date, timeStartPos, timeDurationHeight }")
-        template(v-for="(event, index) in getEvents(date)")
-          q-badge.my-event.justify-center.ellipsis(v-if="event.time", :key="index", :class="badgeClasses(event, 'body')", :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)")
-            q-icon.q-mr-xs(v-if="event.icon", :name="event.icon")
-            span.ellipsis {{ event.title }}
+          template(
+            v-for="(event, index) in eventsMap[date]"
+          )
+            q-badge.ellipsis(
+              v-if="!event.time"
+              :key="index"
+              style="width: 100%; cursor: pointer;"
+              :class="badgeClasses(event, 'header')"
+              :style="badgeStyles(event, 'header')"
+            )
+              q-icon.q-mr-xs(
+                v-if="event.icon"
+                :name="event.icon"
+                )
+                span.ellipsis {{ event.title }}
+            q-badge.q-ma-xs(
+              v-else=""
+              :key="index"
+              :class="badgeClasses(event, 'header')"
+              :style="badgeStyles(event, 'header')"
+              style="width: 10px; max-width: 10px; height: 10px; max-height: 10px"
+            )
+      template(
+        #day-body="{ date, timeStartPos, timeDurationHeight }"
+      )
+        template(
+          v-for="(event, index) in getEvents(date)"
+          )
+          q-badge.my-event.justify-center.ellipsis(
+            v-if="event.time"
+            :key="index"
+            :class="badgeClasses(event, 'body')"
+            :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
+            )
+              q-icon.q-mr-xs(
+                v-if="event.icon"
+                :name="event.icon"
+                )
+                span.ellipsis {{ event.title }}
 
 </template>
 
@@ -72,24 +106,6 @@ export default {
   name: 'CalendarSheet',
   data () {
     return {
-      resources: [
-        { label: '08:00 - 09:00' },
-        { label: '09:00 - 10:00' },
-        { label: '10:00 - 11:00' },
-        { label: '11:00 - 12:00' },
-        { label: '12:00 - 13:00' },
-        { label: '13:00 - 14:00' },
-        { label: '14:00 - 15:00' },
-        { label: '15:00 - 16:00' },
-        { label: '16:00 - 17:00' },
-        { label: '17:00 - 18:00' },
-        { label: '18:00 - 19:00' },
-        { label: '19:00 - 20:00' },
-        { label: '20:00 - 21:00' },
-        { label: '21:00 - 22:00' },
-        { label: '22:00 - 23:00' },
-        { label: '23:00 - 00:00' }
-      ],
       events: [],
       selectedDate: '',
       dateDialog: false,
@@ -236,7 +252,7 @@ export default {
     width 49.75%
 
   .btn
-    color $text-black
+    color black
     border: 1px solid #ECECEC
 
   .btn-calendar

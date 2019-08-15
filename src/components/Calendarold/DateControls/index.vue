@@ -18,7 +18,7 @@ export default {
 
 <style scoped lang="stylus">
   .header
-    background $primary
+    background "#FFFFFF"
     width 100%
     height 80px
     top 0

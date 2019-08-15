@@ -1,7 +1,7 @@
 <template lang="pug">
   .user.flex.justify-end
-      .username username
-      img.img.round(src="../../../statics/icons/icon-128x128.png")
+      .username Андрей
+      img.img.round(src="../../../statics/face.jpg")
 </template>
 
 <script>
@@ -19,6 +19,8 @@ export default {
     padding-right 20px
   .img
     width 30px
+    height 30px
+    object-fit cover
     color black
   .username
     margin auto

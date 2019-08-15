@@ -12,7 +12,7 @@ export default {
 <style scoped lang="stylus">
   .menu
     display block
-    background $primary
+    background "#FFFFFF"
     width 100%
     height 50px
     box-shadow inset 0 -1px 0 0 rgba(0,0,0,0.1)

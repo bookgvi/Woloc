@@ -24,7 +24,7 @@ export default {
 
 <style scoped lang="stylus">
   btn
-    color $primary
+    color "#FFFFFF"
     text-color $text-black
     border: 1px solid #ECECEC;
   .btn-calendar
