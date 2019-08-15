@@ -40,7 +40,7 @@
 
     q-calendar(
       ref="calendar"
-      :weekdays="[1, 2, 3, 4, 5, 6, 0]"
+      :weekdays=[1, 2, 3, 4, 5, 6, 0]
       :interval-start="8"
       :interval-count="16"
       v-model="selectedDate"
@@ -52,6 +52,8 @@
       transition-prev="slide-right"
       transition-next="slide-left"
       class="calendar-container"
+      @click:time="addEventMenu"
+      @click:day="addEventMenu"
     )
       template(
         #day-header="{ date }"
@@ -100,6 +102,17 @@
 </template>
 
 <script>
+
+const formDefault = {
+  title: '',
+  details: '',
+  allDay: false,
+  dateTimeStart: '',
+  dateTimeEnd: '',
+  icon: '',
+  bgcolor: '#0000FF'
+}
+
 import { date, colors } from 'quasar'
 
 export default {
@@ -107,9 +120,11 @@ export default {
   data () {
     return {
       events: [],
+      addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: ''
+      date: '',
+      eventForm: {}
     }
   },
   created: function () {
@@ -171,7 +186,6 @@ export default {
       s['align-items'] = 'flex-start'
       return s
     },
-
     getEvents (dt) {
       let events = []
       for (let i = 0; i < this.events.length; ++i) {
@@ -210,6 +224,70 @@ export default {
         }
       }
       return events
+    },
+    addEventMenu (day, type) {
+      this.resetForm()
+      this.contextDay = { ...day }
+      let timestamp
+      if (this.contextDay.hasTime === true) {
+        timestamp = this.getTimestamp(this.adjustTimestamp(this.contextDay))
+        let startTime = new Date(timestamp)
+        let endTime = date.addToDate(startTime, { hours: 1 })
+        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
+      } else {
+        timestamp = this.contextDay.date + ' 00:00'
+      }
+      this.eventForm.dateTimeStart = timestamp
+      this.eventForm.allDay = this.contextDay.hasTime === false
+      this.eventForm.bgcolor = '#0000FF' // starting color
+      console.log(this.$app.calendar.dialogs)
+      this.$app.calendar.dialogs.update = true
+    },
+    editEvent (event) {
+      this.resetForm()
+      this.contextDay = { ...event }
+      let timestamp
+      if (event.time) {
+        timestamp = event.date + ' ' + event.time
+        let startTime = new Date(timestamp)
+        let endTime = date.addToDate(startTime, { minutes: event.duration })
+        this.eventForm.dateTimeStart = this.formatDate(startTime) + ' ' + this.formatTime(startTime) // endTime.toString()
+        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
+      } else {
+        timestamp = event.date
+        this.eventForm.dateTimeStart = timestamp
+      }
+      this.eventForm.allDay = !event.time
+      this.eventForm.bgcolor = event.bgcolor
+      this.eventForm.icon = event.icon
+      this.eventForm.title = event.title
+      this.eventForm.details = event.details
+      this.$app.calendar.dialogs.update = true
+    },
+    resetForm () {
+      this.$set(this, 'eventForm', { ...formDefault })
+    },
+    adjustTimestamp (day) {
+      day.minute = day.minute < 15 || day.minute >= 45 ? 0 : 30
+      return day
+    },
+    getTimestamp (day) {
+      return day.date + ' ' + (day.hour) + ':' + (day.minute) + ':00.000'
+    },
+    formatDate (date) {
+      let d = date !== void 0 ? new Date(date) : new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear()
+
+      return [year, month, day].join('-')
+    },
+    formatTime (date) {
+      let d = date !== void 0 ? new Date(date) : new Date(),
+        hours = '' + d.getHours(),
+        minutes = '' + d.getMinutes()
+
+      return [hours, minutes].join(':')
     },
     calendarNext () {
       this.$refs.calendar.next()
