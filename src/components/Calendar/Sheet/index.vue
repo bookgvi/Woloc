@@ -10,8 +10,9 @@
             push
             )
             q-popup-proxy
-              q-banner
+              q-card
                 q-date(
+                  full-width
                   v-model="selectedDate"
                   minimal
                   mask="YYYY-MM-DD"
@@ -29,14 +30,6 @@
             icon="chevron_right"
             @click="calendarNext"
             )
-          q-dialog(
-            v-model="dateDialog"
-            )
-            q-date(
-              v-model="selectedDate"
-              minimal
-              mask="YYYY-MM-DD"
-              )
 
     q-calendar(
       ref="calendar"
@@ -46,59 +39,14 @@
       v-model="selectedDate"
       view="week"
       locale="ru-ru"
-      short-weekday-label
       animated
+      no-scroll
       hour24-format
       transition-prev="slide-right"
       transition-next="slide-left"
       class="calendar-container"
       @click:time="addEventMenu"
-      @click:day="addEventMenu"
     )
-      template(
-        #day-header="{ date }"
-        )
-        .row.justify-center
-          template(
-            v-for="(event, index) in eventsMap[date]"
-          )
-            q-badge.ellipsis(
-              v-if="!event.time"
-              :key="index"
-              style="width: 100%; cursor: pointer;"
-              :class="badgeClasses(event, 'header')"
-              :style="badgeStyles(event, 'header')"
-            )
-              q-icon.q-mr-xs(
-                v-if="event.icon"
-                :name="event.icon"
-                )
-                span.ellipsis {{ event.title }}
-            q-badge.q-ma-xs(
-              v-else=""
-              :key="index"
-              :class="badgeClasses(event, 'header')"
-              :style="badgeStyles(event, 'header')"
-              style="width: 10px; max-width: 10px; height: 10px; max-height: 10px"
-            )
-      template(
-        #day-body="{ date, timeStartPos, timeDurationHeight }"
-      )
-        template(
-          v-for="(event, index) in getEvents(date)"
-          )
-          q-badge.my-event.justify-center.ellipsis(
-            v-if="event.time"
-            :key="index"
-            :class="badgeClasses(event, 'body')"
-            :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
-            )
-              q-icon.q-mr-xs(
-                v-if="event.icon"
-                :name="event.icon"
-                )
-                span.ellipsis {{ event.title }}
-
 </template>
 
 <script>
@@ -226,6 +174,7 @@ export default {
       return events
     },
     addEventMenu (day, type) {
+      console.log(this)
       this.resetForm()
       this.contextDay = { ...day }
       let timestamp
@@ -240,7 +189,6 @@ export default {
       this.eventForm.dateTimeStart = timestamp
       this.eventForm.allDay = this.contextDay.hasTime === false
       this.eventForm.bgcolor = '#0000FF' // starting color
-      console.log(this.$app.calendar.dialogs)
       this.$app.calendar.dialogs.update = true
     },
     editEvent (event) {

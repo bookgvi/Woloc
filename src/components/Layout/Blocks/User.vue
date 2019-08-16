@@ -12,7 +12,7 @@ export default {
 
 <style scoped lang="stylus">
   .round
-    border 0 $tertiary solid
+    border 0 solid
     border-radius 30px
   .user
     width 150px
@@ -25,7 +25,7 @@ export default {
   .username
     margin auto
     margin-right 20px
-    color $text-gray
+    color #9b9b9b
     font-size 14px
     font-family Montserrat
     font-weight 500
