@@ -105,32 +105,33 @@
                 v-else
                 name="keyboard_arrow_up"
               )
-          q-card-section.col-12.row.justify-around.items-center(
+          q-card-section.col-12.row.justify-start.items-center(
             v-if="cards_bottom.time"
           )
-            .text.text_small Интервал, {{ +booking.time.to.replace(':00', '') - +booking.time.from.replace(':00', '') }} часа
+            .text.text_small Интервал, {{ booking.time.to - booking.time.from }} часа
             .row
               .col-6
                 q-input(
-                  v-model="booking.time.from"
+                  v-model="range.min"
                 )
               .col-6
                 q-input(
-                  v-model="booking.time.to"
+                  v-model="range.max"
                 )
-            .col-12.row.text.text_small Зеленым отмечено свободное время.
+            .col-12.row.text.text_extrasmall Зеленым отмечено свободное время.
             q-range(
               v-model="range"
               :min="0"
-              :max="50"
+              :max="24"
               color="green"
             )
-          q-card-section.col-12.row.justify-around.items-center(
+          q-card-section.col-12.row.justify-center.items-center(
             v-if="cards_top.action"
             @click="sectionToggle('action')"
           )
             .col-11.flex.justify-left.items-center
-              .text.text_bald Цель {{ booking.action }}
+              .text.text_bald Цель
+              .text.text_gray {{ booking.action.name }}
             .col-1
               q-icon(
                 v-if="!cards_bottom.action"
@@ -143,11 +144,17 @@
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_bottom.action"
           )
-            q-option-group(
-              v-model="booking.action"
-              :options="actions"
-              color="green"
-            )
+            .col-7.row.justify-left.items-center
+              q-option-group(
+                v-model="booking.action"
+                :options="actions"
+              )
+            .col-5.flex.justify-left.items-center
+              q-list
+                q-item(
+                  v-for="(action, index) in actions"
+                 )
+                  .text.text_gray {{ action.value.price }} р.
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_top.extras"
             @click="sectionToggle('extras')"
@@ -166,12 +173,13 @@
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_bottom.extras"
           )
-            q-option-group(
-              v-model="booking.extras"
-              :options="extras"
-              color="green"
-              type="checkbox"
-            )
+            .col-12.flex.justify-left.items-center
+              q-option-group(
+                v-model="booking.extras"
+                :options="extras"
+                color="green"
+                type="checkbox"
+              )
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_top.members"
             @click="sectionToggle('members')"
@@ -190,14 +198,22 @@
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_bottom.members"
           )
-            template(v-for="(member, index) in booking.members")
-              q-input(
-                label="member"
-                readonly
-              )
+            template
+              .col-12.row.justify-left.items-center
+                q-list
+                  q-item(
+                    v-for="(member, index) in booking.members"
+                  )
+                    .text.text_small {{ member }}
+              .col-11.row.justify-left.items-center
+                q-input(
+                  v-model="newMember"
+                 )
+              .col-1.row.justify-left.items-center
                 q-btn.q-mt-sm(
                   @click="addNewMember"
-                  color="positive"
+                  color="#B5B5B5"
+                  text-color="$primary"
                   icon="add"
                   dense
                 )
@@ -205,9 +221,10 @@
             v-if="cards_top.price"
             @click="sectionToggle('price')"
           )
-            .col-11.flex.justify-left.items-center
-              .text.text_bald Оплата {{ booking.price }} р.
-            .col-1
+            .col-11.row.justify-left.items-center
+              .text.text_bald Оплата
+              .text.text_gray {{ booking.prepayment }} • {{ price }} р.
+            .col-1.row.justify-left.items-center
               q-icon(
                 v-if="!cards_bottom.price"
                 name="keyboard_arrow_down"
@@ -219,29 +236,32 @@
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_bottom.price"
           )
-            template(v-for="(item, index) in items")
-              .row
-                .col-9
-                  q-input(
-                    v-model="item.name"
-                    readonly
+            template
+              .col-12.row.justify-around.items-center(
+                v-for="(item, index) in items"
+                )
+                template
+                  .col-9.row.justify-left.items-center
+                    .text.text_small {{ item.label }}
+                  .col-3.row.justify-left.items-center
+                    .text.text_gray {{ item.value }}
+                  q-separator(
+                    dark
                   )
-                .col-3
-                  q-input(
-                    v-model="item.price"
-                    readonly
-                  )
-              .text Скидка/надбавка, р.
+              .col-12.row.justify-left.items-center
+                .text Скидка/надбавка, р.
                 .row
                   .col-3
                     q-btn.q-mt-sm(
                       @click="changeSign"
-                      color="positive"
-                      icon="add"
-                      dense
+                      color="#FFFFFF"
+                      text-color="black"
+                      label="+/-"
                     )
                   .col-9
                     q-input(
+                      square
+                      filled
                       v-model="booking.discount"
                     )
           q-card-section.col-12.row.justify-around.items-center(
@@ -262,16 +282,20 @@
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_bottom.comment"
           )
-            .text Коммент
-            q-input(
-              v-model="booking.user_comment"
-              readonly
-            )
-            .text Админ
-            q-input(
-              v-model="booking.manager_comment"
-              readonly
-            )
+            .col-12.row.justify-left.items-center
+              q-input.col-12(
+                v-model="booking.user_comment"
+                readonly
+                type="textarea"
+              )
+            .col-12.row.justify-left.items-center
+              .text Админ
+            .col-12.row.justify-left.items-center
+              q-input.col-12(
+                v-model="booking.manager_comment"
+                filled
+                type="textarea"
+              )
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_top.delete"
             @click="sectionToggle('delete')"
@@ -292,9 +316,11 @@
           )
             q-btn.q-mt-sm(
               @click="changeSign"
-              color="positive"
-              icon="add"
-              dense
+              color="#FFFFFF"
+              text-color="red"
+              no-caps
+              label="Удалить"
+              full-width
             )
           q-card-section.col-12.row.justify-around.items-center(
           )
@@ -352,33 +378,48 @@ export default {
       room: {
         name: 'Зал 11'
       },
+      newMember: '',
       booking: {
         price: 7777,
-        extras: [],
-        discount: 0,
+        action: {
+          name: 'Видео',
+          price: 1400
+        },
+        extras: [
+          {
+            name: 'Фотосъемка',
+            price: 1200
+          },
+          {
+            name: 'Набор ванны водой',
+            price: 300
+          }
+        ],
+        discount: 500,
         date: '2019-08-16',
+        promo: {
+          name: 'Kap10',
+          value: -570
+        },
+        prepayment: 4000,
         time: {
-          from: '09.00',
-          to: '13.00'
+          from: 9,
+          to: 13
         },
         user_comment: `Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit
-        in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident,
-        sunt in culpa qui officia deserunt mollit anim id est laborum.`,
-        manager_comment: `Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-        sed do eiusmod tempor incididunt ut labore et dolore
-        magna aliqua. Ut enim ad minim veniam, quis nostrud
-        exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit
-        in voluptate velit esse cillum dolore eu fugiat nulla
-        pariatur. Excepteur sint occaecat cupidatat non proident,
-        sunt in culpa qui officia deserunt mollit anim id est laborum.`,
+          sed do eiusmod tempor incididunt ut labore et dolore
+          magna aliqua. Ut enim ad minim veniam, quis nostrud`,
+        manager_comment: `
+          in voluptate velit esse cillum dolore eu fugiat nulla
+          pariatur. Excepteur sint occaecat cupidatat non proident,
+          sunt in culpa qui officia deserunt mollit anim id est laborum.`,
         members: [
-          'Fynjy'
+          'Андрей Ревин',
+          'Антон Куранов',
+          'Джим Кэмп',
+          'Андрей Владимирович',
+          'Куранов Антон',
+          'Джим Кэмп'
         ]
       },
       rooms: [
@@ -409,12 +450,113 @@ export default {
         }
       ],
       range: {
-        min: 10,
-        max: 35
+        min: 9,
+        max: 13
       },
-      actions: [],
-      extras: [],
-      items: []
+      actions: [
+        {
+          label: 'Фотосъемка',
+          value: {
+            name: 'Фотосъемка',
+            price: 1200
+          }
+        },
+        {
+          label: 'Видео',
+          value: {
+            name: 'Видео',
+            price: 1400
+          }
+        },
+        {
+          label: 'Мероприятие',
+          value: {
+            name: 'Мероприятие',
+            price: 1200
+          }
+        },
+      ],
+      extras: [
+        {
+          label: 'Покраска циклорамы',
+          value: {
+            name: 'Покраска циклорамы',
+            price: 500
+          }
+        },
+        {
+          label: 'Набор ванны водой',
+          value: {
+            name: 'Набор ванны водой',
+            price: 300
+          }
+        },
+        {
+          label: 'Бумажный фон',
+          value: {
+            name: 'Бумажный фон',
+            price: 400
+          }
+        },
+        {
+          label: 'Доп. штатив',
+          value: {
+            name: 'Доп. штатив',
+            price: 350
+          }
+        }
+      ]
+    }
+  },
+  computed: {
+    duration () {
+      return this.booking.time.to - this.booking.time.from
+    },
+    prepaymentPercents () {
+      return +Number(this.booking.prepayment / this.price * 100).toFixed()
+    },
+    items () {
+      let array = []
+      let sum = 0
+      const action = {
+        label: `${this.duration} ч. • ${this.booking.action.price} р.`,
+        value: this.duration * this.booking.action.price
+      }
+      array.push(action)
+      sum += +action.value
+      this.booking.extras.forEach((extra) => {
+        const bookExtra = {
+          label: `${extra.name}, р.`,
+          value: +extra.price
+        }
+        array.push(bookExtra)
+        sum += +bookExtra.value
+      })
+      const promo = {
+        label: `Промокод (${this.booking.promo.name})`,
+        value: this.booking.promo.value
+      }
+      array.push(promo)
+      sum += promo.value
+      const prepayment = {
+        label: `Предоплата ${this.prepaymentPercents}%, р.`,
+        value: this.booking.prepayment
+      }
+      array.push(prepayment)
+      const total = {
+        label: 'Итого',
+        value: sum
+      }
+      array.push(total)
+      return array
+    },
+    price () {
+      let price = this.booking.action.price * this.duration -
+        this.booking.promo.value
+      this.booking.extras.forEach((extra) => {
+        price += +extra.price
+      })
+      return price
     }
   },
   methods: {
@@ -428,7 +570,8 @@ export default {
       }
     },
     changeSign () {
-      //
+      console.log(this.booking.discount)
+      this.booking.discount = -this.booking.discount
     },
     cancelBooking () {
       //
@@ -437,7 +580,7 @@ export default {
       //
     },
     addNewMember () {
-      //
+      this.booking.members.push(this.newMember)
     }
   }
 
@@ -461,6 +604,11 @@ export default {
   .text_small
     color #4A4A4A
     font-size 14px
+    font-weight 500
+    line-height 24px
+  .text_extrasmall
+    color #4A4A4A
+    font-size 13px
     font-weight 500
     line-height 24px
   .text_gray
