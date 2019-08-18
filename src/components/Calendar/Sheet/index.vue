@@ -2,7 +2,7 @@
   .sheet
     .row
       .col-9.row
-        span.room-name Kap's Studios м. Бауманская{{month}}
+        span Kap's Studios м. Бауманская{{month}}
       .col-3.row
         q-toolbar.toolbar.justify-end
           q-btn.btn.btn-calendar(
@@ -254,55 +254,53 @@ export default {
 
 <style scoped lang="stylus">
   // this page
-  .toolbar
-    height 80px
-  .calendar-container
-    position relative
-    width 100%
+  /*.toolbar*/
+  /*  height 80px*/
+  /*.calendar-container*/
+  /*  position relative*/
+  /*  width 100%*/
 
-  .my-event
-    width 100%
-    position absolute
-    font-size 12
+  /*.my-event*/
+  /*  width 100%*/
+  /*  position absolute*/
+  /*  font-size 12*/
 
-  .full-width
-    left 0
-    width 100%
+  /*.full-width*/
+  /*  left 0*/
+  /*  width 100%*/
 
-  .left-side
-    left 0
-    width 49.75%
+  /*.left-side*/
+  /*  left 0*/
+  /*  width 49.75%*/
 
-  .right-side
-    left 50.25%
-    width 49.75%
+  /*.right-side*/
+  /*  left 50.25%*/
+  /*  width 49.75%*/
 
-  .btn
-    color black
-    border: 1px solid #ECECEC
+  /*.btn*/
+  /*  color black*/
+  /*  border: 1px solid #ECECEC*/
 
-  .btn-calendar
-    width 40px
-    height 40px
-    margin-right 30px
+  /*.btn-calendar*/
+  /*  width 40px*/
+  /*  height 40px*/
+  /*  margin-right 30px*/
 
-  .btn-today
-    font-family: Montserrat
-    font-size: 14px
-    height 40px
-    margin-right 10px
-    width 110px
+  /*.btn-today*/
+  /*  font-size: 14px*/
+  /*  height 40px*/
+  /*  margin-right 10px*/
+  /*  width 110px*/
 
-  .btn-nav
-    width 40px
-    height 40px
+  /*.btn-nav*/
+  /*  width 40px*/
+  /*  height 40px*/
 
-  .room-name
-    margin auto 0 auto 0
-    display block
-    color: #4A4A4A
-    font-family: Montserrat
-    font-size: 21px
-    font-weight: 600
-    line-height: 25px
+  /*.room-name*/
+  /*  margin auto 0 auto 0*/
+  /*  display block*/
+  /*  color: #4A4A4A*/
+  /*  font-size: 21px*/
+  /*  font-weight: 600*/
+  /*  line-height: 25px*/
 </style>

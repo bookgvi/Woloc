@@ -1,6 +1,6 @@
 <template lang="pug">
   q-layout(view="hHh Lpr lFf")
-    q-header(elevated)
+    q-header.bg-white.text-grey(elevated height-hint="61.59")
       Header
     q-page-container
       router-view

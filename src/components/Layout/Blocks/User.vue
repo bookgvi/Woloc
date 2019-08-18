@@ -1,7 +1,12 @@
 <template lang="pug">
-  .user.flex.justify-end
-      .username Андрей
-      img.img.round(src="../../../statics/face.jpg")
+  .user
+    q-list
+      q-item
+        q-item-section
+          span {{'Username'}}
+        q-item-section
+          q-avatar
+            img(src="https://cdn.quasar.dev/img/avatar.png")
 </template>
 
 <script>
@@ -11,7 +16,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .round
+/*  .round
     border 0 solid
     border-radius 30px
   .user
@@ -32,4 +37,5 @@ export default {
     letter-spacing -0.3px
     line-height 18px
     text-align right
+ */
 </style>

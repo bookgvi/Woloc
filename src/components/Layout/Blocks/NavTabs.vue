@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .tabs
+/*  .tabs
     width 100%
     height 78px
     font-size 14px
@@ -32,5 +32,5 @@ export default {
     font-weight: 500
     letter-spacing -0.3px
     line-height 18px
-
+*/
 </style>

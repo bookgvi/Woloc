@@ -1,11 +1,8 @@
 <template lang="pug">
-  .row.header.justify-between.items-center
-      .col-1
-        Logo
-      .col-9
-        NavTabs
-      .col-2
-        User
+  q-toolbar
+    Logo
+    NavTabs
+    User
 </template>
 
 <script>
@@ -28,7 +25,7 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .header
+/*  .header
     display flex
     background-color #FFFFFF
     width 100%
@@ -39,4 +36,5 @@ export default {
     margin-top 0
     visibility visible
     border-bottom 1px solid $secondary
+ */
 </style>
