@@ -153,7 +153,8 @@
               q-list
                 q-item(
                   v-for="(action, index) in actions"
-                 )
+                  :key="index"
+                )
                   .text.text_gray {{ action.value.price }} р.
           q-card-section.col-12.row.justify-around.items-center(
             v-if="cards_top.extras"
@@ -203,6 +204,7 @@
                 q-list
                   q-item(
                     v-for="(member, index) in booking.members"
+                    :key="index"
                   )
                     .text.text_small {{ member }}
               .col-11.row.justify-left.items-center
@@ -239,7 +241,8 @@
             template
               .col-12.row.justify-around.items-center(
                 v-for="(item, index) in items"
-                )
+                :key="index"
+              )
                 template
                   .col-9.row.justify-left.items-center
                     .text.text_small {{ item.label }}
