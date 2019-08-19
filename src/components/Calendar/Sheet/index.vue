@@ -1,14 +1,14 @@
 <template lang="pug">
-  .sheet
-    .row
-      .col-9.row
-        span Kap's Studios м. Бауманская{{month}}
-      .col-3.row
-        q-toolbar.toolbar.justify-end
+  .sheet.row.q-px-none
+    .row.col-12.justify-start.items-center.q-px-md.no-wrap
+      .justify-start.items-center
+        h6.wrap-md Kap's Studios м. Бауманская{{ month }}
+      q-space
+      .justify-end.items-center
+        q-toolbar.row.justify-end.q-px-none
           q-btn.btn.btn-calendar(
             icon="calendar_today"
-            push
-            )
+          )
             q-popup-proxy
               q-card
                 q-date(
@@ -17,36 +17,37 @@
                   minimal
                   mask="YYYY-MM-DD"
                 )
-          q-btn.btn.btn-today(
-              label="Сегодня"
-              no-caps
-              @click="calendarToday"
-              )
-          q-btn.btn.btn-nav(
+          q-btn(
+            label="Сегодня"
+            no-caps
+            @click="calendarToday"
+          )
+          q-btn(
             icon="chevron_left"
             @click="calendarPrev"
-            )
-          q-btn.btn.btn-nav(
+           )
+          q-btn(
             icon="chevron_right"
             @click="calendarNext"
-            )
-
-    q-calendar(
-      ref="calendar"
-      :weekdays=[1, 2, 3, 4, 5, 6, 0]
-      :interval-start="8"
-      :interval-count="16"
-      v-model="selectedDate"
-      view="week"
-      locale="ru-ru"
-      animated
-      no-scroll
-      hour24-format
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      class="calendar-container"
-      @click:time="addEventMenu"
-    )
+           )
+    template
+      q-calendar.row.col-12.q-px-md(
+        style="width: 100%;"
+        ref="calendar"
+        :weekdays=[1, 2, 3, 4, 5, 6, 0]
+        :interval-start="8"
+        :interval-count="16"
+        v-model="selectedDate"
+        view="week"
+        locale="ru-ru"
+        animated
+        no-scroll
+        hour24-format
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        class="calendar-container"
+        @click:time="addEventMenu"
+      )
 </template>
 
 <script>

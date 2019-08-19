@@ -1,10 +1,10 @@
 <template lang="pug">
-  .user
+  .q-px-md.justify-end
     q-list
-      q-item
-        q-item-section
+      q-item.col-12
+        q-item-section.col-9
           span {{'Username'}}
-        q-item-section
+        q-item-section.col-3
           q-avatar
             img(src="https://cdn.quasar.dev/img/avatar.png")
 </template>

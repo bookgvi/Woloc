@@ -1,19 +1,20 @@
 <template lang="pug">
-  q-tabs(
-    swipeable
-    animated
-    class="tabs"
-    no-caps
-    active-color="black")
-    q-route-tab(to="/" label="Дашборд")
-    q-route-tab(to="/users" label="Пользователи")
-    q-route-tab(to="/calendar" label="Календарь")
-    q-route-tab(to="/bookings" label="Бронирования")
-    q-route-tab(to="/invoices" label="Заявки")
-    q-route-tab(to="/finances" label="Финансы")
-    q-route-tab(to="/refunds" label="Возврат")
-    q-route-tab(to="/documents" label="Документы")
-    q-route-tab(to="/settings" label="Настройки")
+    q-tabs(
+      shrink
+      align="left"
+      animated
+      no-caps
+      active-color="black"
+    )
+      q-route-tab.q-px-xs(to="/" label="Дашборд")
+      q-route-tab.q-px-xs(to="/users" label="Пользователи")
+      q-route-tab.q-px-xs(to="/calendar" label="Календарь")
+      q-route-tab.q-px-xs(to="/bookings" label="Бронирования")
+      q-route-tab.q-px-xs(to="/invoices" label="Заявки")
+      q-route-tab.q-px-xs(to="/finances" label="Финансы")
+      q-route-tab.q-px-xs(to="/refunds" label="Возврат")
+      q-route-tab.q-px-xs(to="/documents" label="Документы")
+      q-route-tab.q-px-xs(to="/settings" label="Настройки")
 </template>
 
 <script>

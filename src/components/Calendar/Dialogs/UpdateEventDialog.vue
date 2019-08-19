@@ -7,7 +7,7 @@
       )
         pre {{}}
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="!cards_bottom.user"
+          v-if="!cardsBottom.user"
           @click="sectionToggle('user')"
         )
           .col-4
@@ -32,7 +32,7 @@
              name="keyboard_arrow_up"
            )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.user"
+          v-if="cardsBottom.user"
         )
           q-input.col-12.row.text.text_small(
             v-model="user.phone"
@@ -43,7 +43,7 @@
             readonly
           )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.room"
+          v-if="cardsTop.room"
           @click="sectionToggle('room')"
         )
           .col-11.flex.justify-left.items-center
@@ -51,7 +51,7 @@
             .text.text_gray {{ room.name }}
           .col-1
             q-icon(
-              v-if="!cards_bottom.room"
+              v-if="!cardsBottom.room"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -59,7 +59,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.room"
+          v-if="cardsBottom.room"
         )
             q-option-group.col-12.justify-left.items-center(
               v-model="room.name"
@@ -67,7 +67,7 @@
               keep-color
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.date"
+          v-if="cardsTop.date"
           @click="sectionToggle('date')"
         )
           .col-11.flex.justify-left.items-center
@@ -75,7 +75,7 @@
             .text.text_gray {{ booking.date }}
           .col-1
             q-icon(
-              v-if="!cards_bottom.date"
+              v-if="!cardsBottom.date"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -83,7 +83,7 @@
               name="keyboard_arrow_up"
             )
         card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.date"
+          v-if="cardsBottom.date"
         )
           q-date(
             v-model="booking.date"
@@ -91,7 +91,7 @@
             mask="YYYY-MM-DD"
           )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.time"
+          v-if="cardsTop.time"
           @click="sectionToggle('time')"
         )
           .col-11.flex.justify-left.items-center
@@ -99,7 +99,7 @@
             .text.text_gray {{ booking.time.from }}-{{ booking.time.to }}
           .col-1
             q-icon(
-              v-if="!cards_bottom.time"
+              v-if="!cardsBottom.time"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -107,7 +107,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-start.items-center(
-          v-if="cards_bottom.time"
+          v-if="cardsBottom.time"
         )
           .text.text_small Интервал, {{ booking.time.to - booking.time.from }} часа
           .row
@@ -127,7 +127,7 @@
             color="green"
           )
         q-card-section.col-12.row.justify-center.items-center(
-          v-if="cards_top.action"
+          v-if="cardsTop.action"
           @click="sectionToggle('action')"
         )
           .col-11.flex.justify-left.items-center
@@ -135,7 +135,7 @@
             .text.text_gray {{ booking.action.name }}
           .col-1
             q-icon(
-              v-if="!cards_bottom.action"
+              v-if="!cardsBottom.action"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -143,7 +143,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.action"
+          v-if="cardsBottom.action"
         )
           .col-7.row.justify-left.items-center
             q-option-group(
@@ -158,14 +158,14 @@
               )
                 .text.text_gray {{ action.value.price }} р.
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.extras"
+          v-if="cardsTop.extras"
           @click="sectionToggle('extras')"
         )
           .col-11.flex.justify-left.items-center
             .text.text_bald Доп. услуги {{ booking.extras.length }}
           .col-1
             q-icon(
-              v-if="!cards_bottom.extras"
+              v-if="!cardsBottom.extras"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -173,7 +173,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.extras"
+          v-if="cardsBottom.extras"
         )
           .col-12.flex.justify-left.items-center
             q-option-group(
@@ -183,14 +183,14 @@
               type="checkbox"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.members"
+          v-if="cardsTop.members"
           @click="sectionToggle('members')"
         )
           .col-11.flex.justify-left.items-center
             .text.text_bald Участники {{ booking.members.length }}
           .col-1
             q-icon(
-              v-if="!cards_bottom.members"
+              v-if="!cardsBottom.members"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -198,7 +198,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.members"
+          v-if="cardsBottom.members"
         )
           template
             .col-12.row.justify-left.items-center
@@ -221,7 +221,7 @@
                 dense
               )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.price"
+          v-if="cardsTop.price"
           @click="sectionToggle('price')"
         )
           .col-11.row.justify-left.items-center
@@ -229,7 +229,7 @@
             .text.text_gray {{ booking.prepayment }} • {{ price }} р.
           .col-1.row.justify-left.items-center
             q-icon(
-              v-if="!cards_bottom.price"
+              v-if="!cardsBottom.price"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -237,7 +237,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.price"
+          v-if="cardsBottom.price"
         )
           template
             .col-12.row.justify-around.items-center(
@@ -269,14 +269,14 @@
                     v-model="booking.discount"
                   )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.comment"
+          v-if="cardsTop.comment"
           @click="sectionToggle('comment')"
         )
           .col-11.flex.justify-left.items-center
             .text.text_bald Коммент
           .col-1
             q-icon(
-              v-if="!cards_bottom.comment"
+              v-if="!cardsBottom.comment"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -284,7 +284,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.comment"
+          v-if="cardsBottom.comment"
         )
           .col-12.row.justify-left.items-center
             q-input.col-12(
@@ -301,14 +301,14 @@
               type="textarea"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_top.delete"
+          v-if="cardsTop.delete"
           @click="sectionToggle('delete')"
         )
           .col-11.flex.justify-left.items-center
             .text.text_bald Удалить бронирование
           .col-1
             q-icon(
-              v-if="!cards_bottom.delete"
+              v-if="!cardsBottom.delete"
               name="keyboard_arrow_down"
             )
             q-icon(
@@ -316,7 +316,7 @@
               name="keyboard_arrow_up"
             )
         q-card-section.col-12.row.justify-around.items-center(
-          v-if="cards_bottom.delete"
+          v-if="cardsBottom.delete"
         )
           q-btn.q-mt-sm(
             @click="changeSign"
@@ -350,7 +350,7 @@ export default {
   name: 'UpdateEventDialog',
   data () {
     return {
-      cards_top: {
+      cardsTop: {
         user: true,
         room: true,
         date: true,
@@ -362,7 +362,7 @@ export default {
         comment: true,
         delete: true
       },
-      cards_bottom: {
+      cardsBottom: {
         user: false,
         room: false,
         date: false,
@@ -565,11 +565,11 @@ export default {
   },
   methods: {
     sectionToggle (section) {
-      for (const key in this.cards_bottom) {
+      for (const key in this.cardsBottom) {
         if (key === section) {
-          this.cards_bottom[key] = !this.cards_bottom[key]
+          this.cardsBottom[key] = !this.cardsBottom[key]
         } else {
-          this.cards_bottom[key] = false
+          this.cardsBottom[key] = false
         }
       }
     },

@@ -1,5 +1,5 @@
 <template lang="pug">
-  .logo.q-pl-lg
+  .q-pl-none
     q-icon(
       name="location_on"
       style="font-size: 3rem"
