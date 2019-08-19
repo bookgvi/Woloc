@@ -1,6 +1,11 @@
 <template lang="pug">
-  .logo.row.justify-start
-    img.logo(src="../../../statics/icons/icon-128x128.png")
+  .q-pl-none
+    q-icon(
+      name="location_on"
+      style="font-size: 3rem"
+    )
+    //img.logo(src="../../../statics/icons/icon-128x128.png")
+
 </template>
 
 <script>
@@ -10,9 +15,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .logo
+  /*.logo
     color white
     width 90px
-    padding-left 20px
+    padding-left 20px*/
 
 </style>

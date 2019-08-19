@@ -1,99 +1,79 @@
 <template lang="pug">
-  .sheet
-    .row
-      .col-9.row
-        span.room-name Kap's Studios м. Бауманская{{month}}
-      .col-3.row
-        q-toolbar.toolbar.justify-end
+  .sheet.row.q-px-none
+    .row.col-12.justify-start.items-center.q-px-md.no-wrap
+      .justify-start.items-center
+        h6.wrap-md Kap's Studios м. Бауманская{{ month }}
+      q-space
+      .justify-end.items-center
+        q-toolbar.row.justify-end.q-px-none
           q-btn.btn.btn-calendar(
-            color=$primary
             icon="calendar_today"
-            @click="dateDialog = true"
-            )
-          q-btn.btn.btn-today(
-              color=$primary
-              label="Сегодня"
-              no-caps
-              @click="calendarToday"
-              )
-          q-btn.btn.btn-nav(
-            color=$primary
+          )
+            q-popup-proxy
+              q-card
+                q-date(
+                  full-width
+                  v-model="selectedDate"
+                  minimal
+                  mask="YYYY-MM-DD"
+                )
+          q-btn(
+            label="Сегодня"
+            no-caps
+            @click="calendarToday"
+          )
+          q-btn(
             icon="chevron_left"
             @click="calendarPrev"
-            )
-          q-btn.btn.btn-nav(
-            color=$primary
+           )
+          q-btn(
             icon="chevron_right"
             @click="calendarNext"
-            )
-          q-dialog(
-            v-model="dateDialog"
-            )
-            q-date(
-              v-model="selectedDate"
-              minimal
-              mask="YYYY-MM-DD"
-              )
-
-    q-calendar(
-      ref="calendar"
-      :weekdays="[1, 2, 3, 4, 5, 6, 0]"
-      :interval-start="8"
-      :interval-count="16"
-      v-model="selectedDate"
-      view="week"
-      locale="ru-ru"
-      short-weekday-label
-      animated
-      hour24-format
-      transition-prev="slide-right"
-      transition-next="slide-left"
-      class="calendar-container"
+           )
+    template
+      q-calendar.row.col-12.q-px-md(
+        style="width: 100%;"
+        ref="calendar"
+        :weekdays=[1, 2, 3, 4, 5, 6, 0]
+        :interval-start="8"
+        :interval-count="16"
+        v-model="selectedDate"
+        view="week"
+        locale="ru-ru"
+        animated
+        no-scroll
+        hour24-format
+        transition-prev="slide-right"
+        transition-next="slide-left"
+        class="calendar-container"
+        @click:time="addEventMenu"
       )
-      template(#day-header="{ date }")
-        .row.justify-center
-          template(v-for="(event, index) in eventsMap[date]")
-            q-badge.ellipsis(v-if="!event.time", :key="index", style="width: 100%; cursor: pointer;", :class="badgeClasses(event, 'header')", :style="badgeStyles(event, 'header')")
-              q-icon.q-mr-xs(v-if="event.icon", :name="event.icon")
-              span.ellipsis {{ event.title }}
-            q-badge.q-ma-xs(v-else="", :key="index", :class="badgeClasses(event, 'header')", :style="badgeStyles(event, 'header')", style="width: 10px; max-width: 10px; height: 10px; max-height: 10px")
-      template(#day-body="{ date, timeStartPos, timeDurationHeight }")
-        template(v-for="(event, index) in getEvents(date)")
-          q-badge.my-event.justify-center.ellipsis(v-if="event.time", :key="index", :class="badgeClasses(event, 'body')", :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)")
-            q-icon.q-mr-xs(v-if="event.icon", :name="event.icon")
-            span.ellipsis {{ event.title }}
-
 </template>
 
 <script>
+
+const formDefault = {
+  title: '',
+  details: '',
+  allDay: false,
+  dateTimeStart: '',
+  dateTimeEnd: '',
+  icon: '',
+  bgcolor: '#0000FF'
+}
+
 import { date, colors } from 'quasar'
 
 export default {
   name: 'CalendarSheet',
   data () {
     return {
-      resources: [
-        { label: '08:00 - 09:00' },
-        { label: '09:00 - 10:00' },
-        { label: '10:00 - 11:00' },
-        { label: '11:00 - 12:00' },
-        { label: '12:00 - 13:00' },
-        { label: '13:00 - 14:00' },
-        { label: '14:00 - 15:00' },
-        { label: '15:00 - 16:00' },
-        { label: '16:00 - 17:00' },
-        { label: '17:00 - 18:00' },
-        { label: '18:00 - 19:00' },
-        { label: '19:00 - 20:00' },
-        { label: '20:00 - 21:00' },
-        { label: '21:00 - 22:00' },
-        { label: '22:00 - 23:00' },
-        { label: '23:00 - 00:00' }
-      ],
       events: [],
+      addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: ''
+      date: '',
+      eventForm: {}
     }
   },
   created: function () {
@@ -155,7 +135,6 @@ export default {
       s['align-items'] = 'flex-start'
       return s
     },
-
     getEvents (dt) {
       let events = []
       for (let i = 0; i < this.events.length; ++i) {
@@ -195,6 +174,70 @@ export default {
       }
       return events
     },
+    addEventMenu (day, type) {
+      console.log(this)
+      this.resetForm()
+      this.contextDay = { ...day }
+      let timestamp
+      if (this.contextDay.hasTime === true) {
+        timestamp = this.getTimestamp(this.adjustTimestamp(this.contextDay))
+        let startTime = new Date(timestamp)
+        let endTime = date.addToDate(startTime, { hours: 1 })
+        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
+      } else {
+        timestamp = this.contextDay.date + ' 00:00'
+      }
+      this.eventForm.dateTimeStart = timestamp
+      this.eventForm.allDay = this.contextDay.hasTime === false
+      this.eventForm.bgcolor = '#0000FF' // starting color
+      this.$app.calendar.dialogs.update = true
+    },
+    editEvent (event) {
+      this.resetForm()
+      this.contextDay = { ...event }
+      let timestamp
+      if (event.time) {
+        timestamp = event.date + ' ' + event.time
+        let startTime = new Date(timestamp)
+        let endTime = date.addToDate(startTime, { minutes: event.duration })
+        this.eventForm.dateTimeStart = this.formatDate(startTime) + ' ' + this.formatTime(startTime) // endTime.toString()
+        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
+      } else {
+        timestamp = event.date
+        this.eventForm.dateTimeStart = timestamp
+      }
+      this.eventForm.allDay = !event.time
+      this.eventForm.bgcolor = event.bgcolor
+      this.eventForm.icon = event.icon
+      this.eventForm.title = event.title
+      this.eventForm.details = event.details
+      this.$app.calendar.dialogs.update = true
+    },
+    resetForm () {
+      this.$set(this, 'eventForm', { ...formDefault })
+    },
+    adjustTimestamp (day) {
+      day.minute = day.minute < 15 || day.minute >= 45 ? 0 : 30
+      return day
+    },
+    getTimestamp (day) {
+      return day.date + ' ' + (day.hour) + ':' + (day.minute) + ':00.000'
+    },
+    formatDate (date) {
+      let d = date !== void 0 ? new Date(date) : new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear()
+
+      return [year, month, day].join('-')
+    },
+    formatTime (date) {
+      let d = date !== void 0 ? new Date(date) : new Date(),
+        hours = '' + d.getHours(),
+        minutes = '' + d.getMinutes()
+
+      return [hours, minutes].join(':')
+    },
     calendarNext () {
       this.$refs.calendar.next()
     },
@@ -212,55 +255,53 @@ export default {
 
 <style scoped lang="stylus">
   // this page
-  .toolbar
-    height 80px
-  .calendar-container
-    position relative
-    width 100%
+  /*.toolbar*/
+  /*  height 80px*/
+  /*.calendar-container*/
+  /*  position relative*/
+  /*  width 100%*/
 
-  .my-event
-    width 100%
-    position absolute
-    font-size 12
+  /*.my-event*/
+  /*  width 100%*/
+  /*  position absolute*/
+  /*  font-size 12*/
 
-  .full-width
-    left 0
-    width 100%
+  /*.full-width*/
+  /*  left 0*/
+  /*  width 100%*/
 
-  .left-side
-    left 0
-    width 49.75%
+  /*.left-side*/
+  /*  left 0*/
+  /*  width 49.75%*/
 
-  .right-side
-    left 50.25%
-    width 49.75%
+  /*.right-side*/
+  /*  left 50.25%*/
+  /*  width 49.75%*/
 
-  .btn
-    color $text-black
-    border: 1px solid #ECECEC
+  /*.btn*/
+  /*  color black*/
+  /*  border: 1px solid #ECECEC*/
 
-  .btn-calendar
-    width 40px
-    height 40px
-    margin-right 30px
+  /*.btn-calendar*/
+  /*  width 40px*/
+  /*  height 40px*/
+  /*  margin-right 30px*/
 
-  .btn-today
-    font-family: Montserrat
-    font-size: 14px
-    height 40px
-    margin-right 10px
-    width 110px
+  /*.btn-today*/
+  /*  font-size: 14px*/
+  /*  height 40px*/
+  /*  margin-right 10px*/
+  /*  width 110px*/
 
-  .btn-nav
-    width 40px
-    height 40px
+  /*.btn-nav*/
+  /*  width 40px*/
+  /*  height 40px*/
 
-  .room-name
-    margin auto 0 auto 0
-    display block
-    color: #4A4A4A
-    font-family: Montserrat
-    font-size: 21px
-    font-weight: 600
-    line-height: 25px
+  /*.room-name*/
+  /*  margin auto 0 auto 0*/
+  /*  display block*/
+  /*  color: #4A4A4A*/
+  /*  font-size: 21px*/
+  /*  font-weight: 600*/
+  /*  line-height: 25px*/
 </style>

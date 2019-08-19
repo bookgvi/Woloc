@@ -1,14 +1,20 @@
 <template lang="pug">
-  q-tabs(swipeable animated class="tabs" no-caps active-color="black")
-    q-route-tab.tab(to="/" label="Дашборд")
-    q-route-tab.tab(to="/users" label="Пользователи")
-    q-route-tab.tab(to="/calendar" label="Календарь")
-    q-route-tab.tab(to="/bookings" label="Бронирования")
-    q-route-tab.tab(to="/invoices" label="Заявки")
-    q-route-tab.tab(to="/finances" label="Финансы")
-    q-route-tab.tab(to="/refunds" label="Возврат")
-    q-route-tab.tab(to="/documents" label="Документы")
-    q-route-tab.tab(to="/settings" label="Настройки")
+    q-tabs(
+      shrink
+      align="left"
+      animated
+      no-caps
+      active-color="black"
+    )
+      q-route-tab.q-px-xs(to="/" label="Дашборд")
+      q-route-tab.q-px-xs(to="/users" label="Пользователи")
+      q-route-tab.q-px-xs(to="/calendar" label="Календарь")
+      q-route-tab.q-px-xs(to="/bookings" label="Бронирования")
+      q-route-tab.q-px-xs(to="/invoices" label="Заявки")
+      q-route-tab.q-px-xs(to="/finances" label="Финансы")
+      q-route-tab.q-px-xs(to="/refunds" label="Возврат")
+      q-route-tab.q-px-xs(to="/documents" label="Документы")
+      q-route-tab.q-px-xs(to="/settings" label="Настройки")
 </template>
 
 <script>
@@ -18,7 +24,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .tabs
+/*  .tabs
+    width 100%
     height 78px
     font-size 14px
     color #9b9b9b
@@ -26,8 +33,5 @@ export default {
     font-weight: 500
     letter-spacing -0.3px
     line-height 18px
-
-  .tab
-    padding 0
-    margin 0 10px 0 10px
+*/
 </style>
