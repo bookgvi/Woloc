@@ -1,0 +1,851 @@
+openapi: 3.0.0
+info:
+  title: Simple Inventory API
+  description: This is a simple API
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/zarvat/UG-admin/1.0.0
+  description: SwaggerHub API Auto Mocking
+tags:
+- name: users
+  description: Пользователи
+- name: rooms
+  description: Залы
+- name: actions
+  description: Цели
+- name: extras
+  description: Доп. услуги
+- name: promocodes
+  description: Промокоды
+- name: bookings
+  description: Бронирования
+paths:
+  /users:
+    get:
+      tags:
+      - users
+      summary: Список пользователей
+      description: Возвращает список зарегистрированных пользователей
+      operationId: users.getAll
+      responses:
+        200:
+          description: Получение списка пользователей
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/users'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /users/{id}:
+    get:
+      tags:
+      - users
+      summary: Возвращает пользователя по id
+      operationId: users.byId
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: users by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/users'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /rooms:
+    get:
+      tags:
+      - rooms
+      summary: Список rooms
+      description: Возвращает список rooms
+      operationId: rooms.getAll
+      responses:
+        200:
+          description: Получение списка rooms
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/rooms'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /rooms/{id}:
+    get:
+      tags:
+      - rooms
+      summary: Возвращает rooms по id
+      operationId: rooms.byId
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: rooms by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/rooms'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /actions:
+    get:
+      tags:
+      - actions
+      summary: Список actions
+      description: Возвращает список actions
+      operationId: actions.getAll
+      responses:
+        200:
+          description: Получение списка actions
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/actions'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /actions/{id}:
+    get:
+      tags:
+      - actions
+      summary: Возвращает actions по id
+      operationId: actions.byId
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: actions by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/actions'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /extras:
+    get:
+      tags:
+      - extras
+      summary: Список extras
+      description: Возвращает список extras
+      operationId: extras.getAll
+      responses:
+        200:
+          description: Получение списка extras
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/extras'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /extras/{id}:
+    get:
+      tags:
+      - extras
+      summary: Возвращает extras по id
+      operationId: extras.byId
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: extras by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/extras'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /promocodes/{id}:
+    get:
+      tags:
+      - promocodes
+      summary: Возвращает promocodes по id
+      operationId: promocodes.byId
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: promocodes by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/promocodes'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /bookings:
+    post:
+      tags:
+      - bookings
+      summary: Создает новый booking
+      operationId: bookings.add
+      requestBody:
+        $ref: '#/components/requestBodies/default'
+      responses:
+        201:
+          description: Возвращает данные о созданном booking
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bookings'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+  /bookings/{year}/{month}/{day}:
+    get:
+      tags:
+      - bookings
+      summary: Возвращает список bookings на заданную дату
+      operationId: bookings.byDate
+      parameters:
+      - name: year
+        in: path
+        description: Год в дате, на которую назначен bookings
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: month
+        in: path
+        description: Месяц в дате, на которую назначен bookings
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      - name: day
+        in: path
+        description: День в дате, на которую назначен bookings
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: Список bookings на дату year.month.day
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                  - $ref: '#/components/schemas/bookings'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+  /bookings/{id}:
+    get:
+      tags:
+      - bookings
+      summary: Возвращает bookings по id
+      operationId: bookings.byId
+      parameters:
+      - name: id
+        in: path
+        description: id
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        200:
+          description: bookings by id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/bookings'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+        500:
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_500'
+    delete:
+      tags:
+      - bookings
+      summary: Удаляет bookings by id
+      operationId: bookings.delete
+      parameters:
+      - name: id
+        in: path
+        description: Идентификатор
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      responses:
+        204:
+          description: No Content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_204'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+    patch:
+      tags:
+      - bookings
+      summary: Изменение bookings by id
+      operationId: bookings.update
+      parameters:
+      - name: id
+        in: path
+        description: Идентификатор
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+      requestBody:
+        $ref: '#/components/requestBodies/default'
+      responses:
+        200:
+          description: Возвращает измененный bookings
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_400'
+        404:
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_404'
+components:
+  schemas:
+    users:
+      required:
+      - email
+      - id
+      - name
+      - phone
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор
+          example: 5
+        name:
+          type: string
+          description: Имя
+          example: Иванов Иван
+        phone:
+          type: string
+          description: Телефон
+          example: +7(999)999-77-88
+        email:
+          type: string
+          description: Email
+          format: email
+          example: name@yame.ru
+      description: Клиент
+    rooms:
+      required:
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор
+          example: 5
+        name:
+          type: string
+          description: Название
+          example: Зал номер 43
+      description: Зал
+    actions:
+      required:
+      - id
+      - name
+      - price
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор
+          example: 5
+        name:
+          type: string
+          description: Название
+          example: Фотосъемка
+        price:
+          type: number
+          description: Цена за один час пользования залом
+          example: 1200
+      description: Цель бронирования
+    extras:
+      required:
+      - id
+      - name
+      - price
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор
+          example: 5
+        name:
+          type: string
+          description: Название
+          example: Набор ванны водой
+        price:
+          type: number
+          description: Цена за предоставление услуги
+          example: 500
+      description: Доп. услуги
+    promocodes:
+      required:
+      - discount
+      - id
+      - name
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор
+          example: 5
+        name:
+          type: string
+          description: Название
+          example: Промокод
+        discount:
+          type: number
+          description: Коэффициент скидки по промокоду
+          example: 10
+      description: Промокод
+    bookings:
+      required:
+      - action
+      - discount
+      - id
+      - prepayment
+      - reserve_from
+      - reserve_to
+      - room
+      - user
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Идентификатор
+          example: 5
+        user:
+          $ref: '#/components/schemas/users'
+        room:
+          $ref: '#/components/schemas/rooms'
+        reserve_from:
+          type: string
+          description: Начало брони
+          format: date-time
+        reserve_to:
+          type: string
+          description: Конец брони
+          format: date-time
+        action:
+          $ref: '#/components/schemas/actions'
+        extras:
+          type: array
+          description: Массив доп. услуг
+          items:
+            $ref: '#/components/schemas/extras'
+        members:
+          type: array
+          description: Дополнительные участники. Массив.
+          items:
+            type: string
+            description: Дополнительный участник
+            example: Fedor Fedor
+        discount:
+          type: number
+          description: Скидка, устанавливаемая администратором
+          example: 500
+        user_comment:
+          type: string
+          description: Комментарий пользователя
+          example: норм
+        manager_comment:
+          type: string
+          description: Комментарий администрации
+          example: :)
+        prepayment:
+          type: number
+          description: Предоплата
+          example: 500
+        promocode:
+          $ref: '#/components/schemas/promocodes'
+      description: Бронирование
+    inline_response_400_errors:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Передан пустой или некорректный запрос
+        code:
+          type: string
+          example: response-error
+    inline_response_400:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/inline_response_400_errors'
+    inline_response_404_errors:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Сущность с id = {id} не найдена
+        code:
+          type: string
+          example: request-error
+    inline_response_404:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/inline_response_404_errors'
+    inline_response_500_errors:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Внутренняя ошибка
+        code:
+          type: string
+          example: system-error
+    inline_response_500:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/inline_response_500_errors'
+    inline_response_204:
+      type: object
+      properties:
+        message:
+          type: string
+          example: Объект удален успешно
+        code:
+          type: string
+    inline_response_200:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/bookings'
+  responses:
+    204:
+      description: No Content
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_204'
+    400Error:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_400'
+    404Error:
+      description: Not Found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_404'
+    401Error:
+      description: 401 Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Неудачная авторизация
+                    code:
+                      type: string
+                      example: not-authorized
+    403Error:
+      description: 403 Forbidden
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              errors:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    message:
+                      type: string
+                      example: Доступ запрещен
+                    code:
+                      type: string
+                      example: forbidden
+    500Error:
+      description: Internal Server Error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_500'
+  requestBodies:
+    default:
+      description: Базовое тело запроса будет зависеть от параметров сущности
+      content:
+        application/json:
+          schema:
+            properties:
+              data:
+                type: string
+                description: Какая-то дата
