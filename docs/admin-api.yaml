@@ -119,58 +119,9 @@ components:
           description: Цена за один час пользования залом
           type: number
           example: 1200
-    extras:
-      description: Доп. услуги
-      type: object
-      required:
-        - id
-        - name
-        - price
-      properties:  
-        id:
-          description: Идентификатор
-          type: integer
-          example: 5
-        name:
-          description: Название
-          type: string
-          example: Набор ванны водой
-        price:
-          description: Цена за предоставление услуги
-          type: number
-          example: 500 
-    promocodes:
-      description: Промокод
-      type: object
-      required:
-        - id
-        - name
-        - discount
-      properties:  
-        id:
-          description: Идентификатор
-          type: integer
-          example: 5
-        name:
-          description: Название
-          type: string
-          example: Промокод
-        discount:
-          description: Коэффициент скидки по промокоду
-          type: number
-          example: 10           
     bookings:
       description: Бронирование
       type: object
-      required:
-        - id
-        - user
-        - room
-        - reserve_from
-        - reserve_to
-        - action
-        - discount
-        - prepayment
       properties:  
         id:
           description: Идентификатор
@@ -192,36 +143,14 @@ components:
           example: "2019-08-12T11:43:41.961Z"            
         action:
           $ref: '#/components/schemas/actions'           
-        extras:
-          description: Массив доп. услуг 
-          type: array
-          items:
-            $ref: '#/components/schemas/extras'   
-        members:
-          description: Дополнительные участники. Массив. 
-          type: array
-          items:
-            description: Дополнительный участник
-            type: string
-            example: 'Андрей Ревин'  
-        discount:
-          description: Скидка, устанавливаемая администратором
-          type: number
-          example: 500  
-        user_comment:
-          description: Комментарий пользователя
-          type: string
-          example: 'норм'  
-        manager_comment: 
-          description: Комментарий администрации
-          type: string
-          example: ':)'  
         prepayment:
           description: Предоплата
           type: number
           example: 500  
-        promocode:
-          $ref: '#/components/schemas/promocodes'
+        full_price:
+          description: Полная цена 
+          type: integer
+          example: 5000          
           
   requestBodies:
   
