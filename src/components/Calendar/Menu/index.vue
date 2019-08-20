@@ -1,5 +1,28 @@
 <template lang="pug">
-  .menu
+  .justify-end.items-center
+    q-toolbar.row.justify-end.items-center.q-px-md
+      q-btn(
+        no-caps
+        label="Kap's Studios м. Бауманская"
+      )
+      q-btn(
+        no-caps
+        label="Залы 6"
+      )
+      q-btn(
+        no-caps
+        label="Цели"
+      )
+      q-btn(
+        no-caps
+        label="Оплата"
+      )
+      q-space
+      q-btn(
+        no-caps
+        label="Сбросить все"
+      )
+    q-separator.q-mt-xs.q-px-none
 </template>
 
 <script>

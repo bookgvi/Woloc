@@ -46,8 +46,7 @@
         transition-prev="slide-right"
         transition-next="slide-left"
         class="calendar-container"
-        @click:time="addEventMenu"
-      )
+        )
 </template>
 
 <script>

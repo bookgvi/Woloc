@@ -1,348 +1,347 @@
 <template lang="pug">
-  q-popup-proxy
-    .update_dialog
-      q-card.row.justify-center.items-center(
-        v-if="$app.calendar.dialogs.update"
-        style="width: 320px;"
+  q-dialog
+    q-card.row.justify-center.items-center(
+      v-if="$app.calendar.dialogs.update"
+      style="width: 320px;"
+    )
+      pre {{}}
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="!cardsBottom.user"
+        @click="sectionToggle('user')"
       )
-        pre {{}}
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="!cardsBottom.user"
-          @click="sectionToggle('user')"
-        )
-          .col-4
-            .text.text_bald(
-              style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-            ) {{ user.name }}
-          .col-7
-            .text.text_gray {{ user.phone }}
-          .col-1
-            q-icon(
-              name="keyboard_arrow_down"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-else
-          @click="sectionToggle('user')"
-        )
-         .col-11
-           .text.text_bald(
-           ) {{ user.name }}
-         .col-1
-           q-icon(
-             name="keyboard_arrow_up"
-           )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.user"
-        )
-          q-input.col-12.row.text.text_small(
-            v-model="user.phone"
-            readonly
+        .col-4
+          .text.text_bald(
+            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+          ) {{ user.name }}
+        .col-7
+          .text.text_gray {{ user.phone }}
+        .col-1
+          q-icon(
+            name="keyboard_arrow_down"
           )
-          q-input.col-12.row.text.text_small(
-            v-model="user.email"
-            readonly
+      q-card-section.col-12.row.justify-around.items-center(
+        v-else
+        @click="sectionToggle('user')"
+      )
+       .col-11
+         .text.text_bald(
+         ) {{ user.name }}
+       .col-1
+         q-icon(
+           name="keyboard_arrow_up"
+         )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.user"
+      )
+        q-input.col-12.row.text.text_small(
+          v-model="user.phone"
+          readonly
+        )
+        q-input.col-12.row.text.text_small(
+          v-model="user.email"
+          readonly
+        )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.room"
+        @click="sectionToggle('room')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Зал
+          .text.text_gray {{ room.name }}
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.room"
+            name="keyboard_arrow_down"
           )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.room"
-          @click="sectionToggle('room')"
-        )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Зал
-            .text.text_gray {{ room.name }}
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.room"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.room"
-        )
-            q-option-group.col-12.justify-left.items-center(
-              v-model="room.name"
-              :options="rooms"
-              keep-color
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.date"
-          @click="sectionToggle('date')"
-        )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Дата
-            .text.text_gray {{ booking.date }}
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.date"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.date"
-        )
-          q-date(
-            v-model="booking.date"
-            minimal
-            mask="YYYY-MM-DD"
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
           )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.time"
-          @click="sectionToggle('time')"
-        )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Время
-            .text.text_gray {{ booking.time.from }}-{{ booking.time.to }}
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.time"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        q-card-section.col-12.row.justify-start.items-center(
-          v-if="cardsBottom.time"
-        )
-          .text.text_small Интервал, {{ booking.time.to - booking.time.from }} часа
-          .row
-            .col-6
-              q-input(
-                v-model="range.min"
-              )
-            .col-6
-              q-input(
-                v-model="range.max"
-              )
-          .col-12.row.text.text_extrasmall Зеленым отмечено свободное время.
-          q-range(
-            v-model="range"
-            :min="0"
-            :max="24"
-            color="green"
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.room"
+      )
+          q-option-group.col-12.justify-left.items-center(
+            v-model="room.name"
+            :options="rooms"
+            keep-color
           )
-        q-card-section.col-12.row.justify-center.items-center(
-          v-if="cardsTop.action"
-          @click="sectionToggle('action')"
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.date"
+        @click="sectionToggle('date')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Дата
+          .text.text_gray {{ booking.date }}
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.date"
+            name="keyboard_arrow_down"
+          )
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.date"
+      )
+        q-date(
+          v-model="booking.date"
+          minimal
+          mask="YYYY-MM-DD"
         )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Цель
-            .text.text_gray {{ booking.action.name }}
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.action"
-              name="keyboard_arrow_down"
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.time"
+        @click="sectionToggle('time')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Время
+          .text.text_gray {{ booking.time.from }}-{{ booking.time.to }}
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.time"
+            name="keyboard_arrow_down"
+          )
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      q-card-section.col-12.row.justify-start.items-center(
+        v-if="cardsBottom.time"
+      )
+        .text.text_small Интервал, {{ booking.time.to - booking.time.from }} часа
+        .row
+          .col-6
+            q-input(
+              v-model="range.min"
             )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
+          .col-6
+            q-input(
+              v-model="range.max"
             )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.action"
+        .col-12.row.text.text_extrasmall Зеленым отмечено свободное время.
+        q-range(
+          v-model="range"
+          :min="0"
+          :max="24"
+          color="green"
         )
-          .col-7.row.justify-left.items-center
-            q-option-group(
-              v-model="booking.action"
-              :options="actions"
-            )
-          .col-5.flex.justify-left.items-center
-            q-list
-              q-item(
-                v-for="(action, index) in actions"
-                :key="index"
-              )
-                .text.text_gray {{ action.value.price }} р.
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.extras"
-          @click="sectionToggle('extras')"
-        )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Доп. услуги {{ booking.extras.length }}
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.extras"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.extras"
-        )
-          .col-12.flex.justify-left.items-center
-            q-option-group(
-              v-model="booking.extras"
-              :options="extras"
-              color="green"
-              type="checkbox"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.members"
-          @click="sectionToggle('members')"
-        )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Участники {{ booking.members.length }}
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.members"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.members"
-        )
-          template
-            .col-12.row.justify-left.items-center
-              q-list
-                q-item(
-                  v-for="(member, index) in booking.members"
-                  :key="index"
-                )
-                  .text.text_small {{ member }}
-            .col-11.row.justify-left.items-center
-              q-input(
-                v-model="newMember"
-               )
-            .col-1.row.justify-left.items-center
-              q-btn.q-mt-sm(
-                @click="addNewMember"
-                color="#B5B5B5"
-                text-color="$primary"
-                icon="add"
-                dense
-              )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.price"
-          @click="sectionToggle('price')"
-        )
-          .col-11.row.justify-left.items-center
-            .text.text_bald Оплата
-            .text.text_gray {{ booking.prepayment }} • {{ price }} р.
-          .col-1.row.justify-left.items-center
-            q-icon(
-              v-if="!cardsBottom.price"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.price"
-        )
-          template
-            .col-12.row.justify-around.items-center(
-              v-for="(item, index) in items"
+      q-card-section.col-12.row.justify-center.items-center(
+        v-if="cardsTop.action"
+        @click="sectionToggle('action')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Цель
+          .text.text_gray {{ booking.action.name }}
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.action"
+            name="keyboard_arrow_down"
+          )
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.action"
+      )
+        .col-7.row.justify-left.items-center
+          q-option-group(
+            v-model="booking.action"
+            :options="actions"
+          )
+        .col-5.flex.justify-left.items-center
+          q-list
+            q-item(
+              v-for="(action, index) in actions"
               :key="index"
             )
-              template
-                .col-9.row.justify-left.items-center
-                  .text.text_small {{ item.label }}
-                .col-3.row.justify-left.items-center
-                  .text.text_gray {{ item.value }}
-                q-separator(
-                  dark
-                )
-            .col-12.row.justify-left.items-center
-              .text Скидка/надбавка, р.
-              .row
-                .col-3
-                  q-btn.q-mt-sm(
-                    @click="changeSign"
-                    color="#FFFFFF"
-                    text-color="black"
-                    label="+/-"
-                  )
-                .col-9
-                  q-input(
-                    square
-                    filled
-                    v-model="booking.discount"
-                  )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.comment"
-          @click="sectionToggle('comment')"
-        )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Коммент
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.comment"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.comment"
-        )
-          .col-12.row.justify-left.items-center
-            q-input.col-12(
-              v-model="booking.user_comment"
-              readonly
-              type="textarea"
-            )
-          .col-12.row.justify-left.items-center
-            .text Админ
-          .col-12.row.justify-left.items-center
-            q-input.col-12(
-              v-model="booking.manager_comment"
-              filled
-              type="textarea"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsTop.delete"
-          @click="sectionToggle('delete')"
-        )
-          .col-11.flex.justify-left.items-center
-            .text.text_bald Удалить бронирование
-          .col-1
-            q-icon(
-              v-if="!cardsBottom.delete"
-              name="keyboard_arrow_down"
-            )
-            q-icon(
-              v-else
-              name="keyboard_arrow_up"
-            )
-        q-card-section.col-12.row.justify-around.items-center(
-          v-if="cardsBottom.delete"
-        )
-          q-btn.q-mt-sm(
-            @click="changeSign"
-            color="#FFFFFF"
-            text-color="red"
-            no-caps
-            label="Удалить"
-            full-width
+              .text.text_gray {{ action.value.price }} р.
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.extras"
+        @click="sectionToggle('extras')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Доп. услуги {{ booking.extras.length }}
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.extras"
+            name="keyboard_arrow_down"
           )
-        q-card-section.col-12.row.justify-around.items-center(
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.extras"
+      )
+        .col-12.flex.justify-left.items-center
+          q-option-group(
+            v-model="booking.extras"
+            :options="extras"
+            color="green"
+            type="checkbox"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.members"
+        @click="sectionToggle('members')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Участники {{ booking.members.length }}
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.members"
+            name="keyboard_arrow_down"
+          )
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.members"
+      )
+        template
+          .col-12.row.justify-left.items-center
+            q-list
+              q-item(
+                v-for="(member, index) in booking.members"
+                :key="index"
+              )
+                .text.text_small {{ member }}
+          .col-11.row.justify-left.items-center
+            q-input(
+              v-model="newMember"
+             )
+          .col-1.row.justify-left.items-center
+            q-btn.q-mt-sm(
+              @click="addNewMember"
+              color="#B5B5B5"
+              text-color="$primary"
+              icon="add"
+              dense
+            )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.price"
+        @click="sectionToggle('price')"
+      )
+        .col-11.row.justify-left.items-center
+          .text.text_bald Оплата
+          .text.text_gray {{ booking.prepayment }} • {{ price }} р.
+        .col-1.row.justify-left.items-center
+          q-icon(
+            v-if="!cardsBottom.price"
+            name="keyboard_arrow_down"
+          )
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.price"
+      )
+        template
+          .col-12.row.justify-around.items-center(
+            v-for="(item, index) in items"
+            :key="index"
+          )
+            template
+              .col-9.row.justify-left.items-center
+                .text.text_small {{ item.label }}
+              .col-3.row.justify-left.items-center
+                .text.text_gray {{ item.value }}
+              q-separator(
+                dark
+              )
+          .col-12.row.justify-left.items-center
+            .text Скидка/надбавка, р.
+            .row
+              .col-3
+                q-btn.q-mt-sm(
+                  @click="changeSign"
+                  color="#FFFFFF"
+                  text-color="black"
+                  label="+/-"
+                )
+              .col-9
+                q-input(
+                  square
+                  filled
+                  v-model="booking.discount"
+                )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.comment"
+        @click="sectionToggle('comment')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Коммент
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.comment"
+            name="keyboard_arrow_down"
+          )
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.comment"
+      )
+        .col-12.row.justify-left.items-center
+          q-input.col-12(
+            v-model="booking.user_comment"
+            readonly
+            type="textarea"
+          )
+        .col-12.row.justify-left.items-center
+          .text Админ
+        .col-12.row.justify-left.items-center
+          q-input.col-12(
+            v-model="booking.manager_comment"
+            filled
+            type="textarea"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsTop.delete"
+        @click="sectionToggle('delete')"
+      )
+        .col-11.flex.justify-left.items-center
+          .text.text_bald Удалить бронирование
+        .col-1
+          q-icon(
+            v-if="!cardsBottom.delete"
+            name="keyboard_arrow_down"
+          )
+          q-icon(
+            v-else
+            name="keyboard_arrow_up"
+          )
+      q-card-section.col-12.row.justify-around.items-center(
+        v-if="cardsBottom.delete"
+      )
+        q-btn.q-mt-sm(
+          @click="changeSign"
+          color="#FFFFFF"
+          text-color="red"
+          no-caps
+          label="Удалить"
+          full-width
         )
-          .row
-            .col-6
-              q-btn.q-mt-sm(
-                @click="cancelBooking"
-                color="positive"
-                label="Отменить"
-                dense
-              )
-            .col-6
-              q-btn.q-mt-sm(
-                @click="saveBooking"
-                color="positive"
-                label="Сохранить"
-                dense
-              )
+      q-card-section.col-12.row.justify-around.items-center(
+      )
+        .row
+          .col-6
+            q-btn.q-mt-sm(
+              @click="cancelBooking"
+              color="positive"
+              label="Отменить"
+              dense
+            )
+          .col-6
+            q-btn.q-mt-sm(
+              @click="saveBooking"
+              color="positive"
+              label="Сохранить"
+              dense
+            )
 </template>
 
 <script>
@@ -620,4 +619,5 @@ export default {
     font-size 14px
     font-weight bold
     line-height 18px
+
 </style>
