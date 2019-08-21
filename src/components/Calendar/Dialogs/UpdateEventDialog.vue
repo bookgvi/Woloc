@@ -1,3 +1,4 @@
+<!--
 <template lang="pug">
   q-dialog
     q-card.row.justify-center.items-center(
@@ -375,14 +376,6 @@ export default {
         delete: false
       },
       ...bookings,
-      user: {
-        name: 'Егор Егоров',
-        phone: '+7(956)656-65-65',
-        email: 'gre@ger.ru'
-      },
-      room: {
-        name: 'Зал 11'
-      },
       newMember: '',
       rooms: [
         {
@@ -580,3 +573,4 @@ export default {
     line-height 18px
 
 </style>
+-->

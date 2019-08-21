@@ -1,0 +1,48 @@
+[
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 11"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Видео",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Фотосъемка",
+        "price": 1200
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-16",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 4000,
+    "time": {
+      "from": 9,
+      "to": 13
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  }
+]

@@ -47,35 +47,79 @@
         transition-next="slide-left"
         class="calendar-container"
         )
-</template>
+        template(
+          #day-body='{ date, timeStartPos, timeDurationHeight }'
+        )
+          template(
+            v-for='(event, index) in getEvents(date)'
+          )
+            .row.col-12.justify-start.ellipsis
+              q-badge.my-event(
+                v-if='event.time'
+                :key='index'
+                :class="badgeClasses(event, 'body')"
+                :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
+              )
+                q-icon.q-mr-xs(v-if='event.icon', :name='event.icon')
+                span.ellipsis {{ event.title }}
+ </template>
 
 <script>
 
-const formDefault = {
-  title: '',
-  details: '',
-  allDay: false,
-  dateTimeStart: '',
-  dateTimeEnd: '',
-  icon: '',
-  bgcolor: '#0000FF'
-}
-
 import { date, colors } from 'quasar'
+import bookings from '../Data/bookings'
+import icons from '../Data/icons'
 
 export default {
   name: 'CalendarSheet',
   data () {
     return {
-      events: [],
+      events: [
+        {
+          title: bookings[0].user.name,
+          details: 'Time to pitch my idea to the company',
+          date: '2019-08-19',
+          time: '10:00',
+          duration: 360,
+          bgcolor: 'red',
+          icon: 'fas fa-camera-retro'
+        },
+        {
+          title: bookings[0].user.name,
+          details: 'Company is paying!',
+          date: '2019-08-21',
+          time: '10:00',
+          duration: 120,
+          bgcolor: 'green',
+          icon: 'fas fa-camera-retro'
+        },
+        {
+          title: bookings[0].user.name,
+          details: 'Always a nice chat with mom',
+          date: '2019-08-18',
+          time: '10:00',
+          duration: 120,
+          bgcolor: 'blue-grey',
+          icon: 'fas fa-camera-retro'
+        },
+        {
+          title: bookings[0].user.name,
+          details: 'Teaching Javascript 101',
+          date: '2019-08-20',
+          time: '10:00',
+          duration: 180,
+          bgcolor: 'blue',
+          icon: 'fas fa-camera-retro'
+        }
+      ],
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: '',
-      eventForm: {}
+      date: ''
     }
   },
   created: function () {
+    console.log(this)
     this.calendarToday()
   },
   computed: {
@@ -104,10 +148,9 @@ export default {
     }
   },
   methods: {
-    isCssColor (color) {
-      return !!color && !!color.match(/^(#|(rgb|hsl)a?\()/)
+    setIcon (action) {
+      for
     },
-
     badgeClasses (event, type) {
       const cssColor = this.isCssColor(event.bgcolor)
       const isHeader = type === 'header'
@@ -173,69 +216,8 @@ export default {
       }
       return events
     },
-    addEventMenu (day, type) {
-      console.log(this)
-      this.resetForm()
-      this.contextDay = { ...day }
-      let timestamp
-      if (this.contextDay.hasTime === true) {
-        timestamp = this.getTimestamp(this.adjustTimestamp(this.contextDay))
-        let startTime = new Date(timestamp)
-        let endTime = date.addToDate(startTime, { hours: 1 })
-        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
-      } else {
-        timestamp = this.contextDay.date + ' 00:00'
-      }
-      this.eventForm.dateTimeStart = timestamp
-      this.eventForm.allDay = this.contextDay.hasTime === false
-      this.eventForm.bgcolor = '#0000FF' // starting color
-      this.$app.calendar.dialogs.update = true
-    },
-    editEvent (event) {
-      this.resetForm()
-      this.contextDay = { ...event }
-      let timestamp
-      if (event.time) {
-        timestamp = event.date + ' ' + event.time
-        let startTime = new Date(timestamp)
-        let endTime = date.addToDate(startTime, { minutes: event.duration })
-        this.eventForm.dateTimeStart = this.formatDate(startTime) + ' ' + this.formatTime(startTime) // endTime.toString()
-        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
-      } else {
-        timestamp = event.date
-        this.eventForm.dateTimeStart = timestamp
-      }
-      this.eventForm.allDay = !event.time
-      this.eventForm.bgcolor = event.bgcolor
-      this.eventForm.icon = event.icon
-      this.eventForm.title = event.title
-      this.eventForm.details = event.details
-      this.$app.calendar.dialogs.update = true
-    },
-    resetForm () {
-      this.$set(this, 'eventForm', { ...formDefault })
-    },
-    adjustTimestamp (day) {
-      day.minute = day.minute < 15 || day.minute >= 45 ? 0 : 30
-      return day
-    },
-    getTimestamp (day) {
-      return day.date + ' ' + (day.hour) + ':' + (day.minute) + ':00.000'
-    },
-    formatDate (date) {
-      let d = date !== void 0 ? new Date(date) : new Date(),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear()
-
-      return [year, month, day].join('-')
-    },
-    formatTime (date) {
-      let d = date !== void 0 ? new Date(date) : new Date(),
-        hours = '' + d.getHours(),
-        minutes = '' + d.getMinutes()
-
-      return [hours, minutes].join(':')
+    isCssColor (color) {
+      return !!color && !!color.match(/^(#|(rgb|hsl)a?\()/)
     },
     calendarNext () {
       this.$refs.calendar.next()
@@ -253,54 +235,14 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  // this page
-  /*.toolbar*/
-  /*  height 80px*/
-  /*.calendar-container*/
-  /*  position relative*/
-  /*  width 100%*/
+  .calendar-container
+    position relative
 
-  /*.my-event*/
-  /*  width 100%*/
-  /*  position absolute*/
-  /*  font-size 12*/
+  .my-event
+    position absolute
+    font-size 12px
 
-  /*.full-width*/
-  /*  left 0*/
-  /*  width 100%*/
-
-  /*.left-side*/
-  /*  left 0*/
-  /*  width 49.75%*/
-
-  /*.right-side*/
-  /*  left 50.25%*/
-  /*  width 49.75%*/
-
-  /*.btn*/
-  /*  color black*/
-  /*  border: 1px solid #ECECEC*/
-
-  /*.btn-calendar*/
-  /*  width 40px*/
-  /*  height 40px*/
-  /*  margin-right 30px*/
-
-  /*.btn-today*/
-  /*  font-size: 14px*/
-  /*  height 40px*/
-  /*  margin-right 10px*/
-  /*  width 110px*/
-
-  /*.btn-nav*/
-  /*  width 40px*/
-  /*  height 40px*/
-
-  /*.room-name*/
-  /*  margin auto 0 auto 0*/
-  /*  display block*/
-  /*  color: #4A4A4A*/
-  /*  font-size: 21px*/
-  /*  font-weight: 600*/
-  /*  line-height: 25px*/
+  .full-width
+    left 0
+    width 100%
 </style>
