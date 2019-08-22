@@ -6,7 +6,7 @@
       "email": "gre@ger.ru"
     },
     "room": {
-      "name": "Зал 11"
+      "name": "Зал 12"
     },
     "price": 7777,
     "action": {
@@ -32,7 +32,7 @@
     "prepayment": 4000,
     "time": {
       "from": 9,
-      "to": 13
+      "to": 11
     },
     "user_comment": "Lorem ipssum ",
     "manager_comment": "in voluptate velit sse cillum",

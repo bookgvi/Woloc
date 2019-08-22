@@ -151,7 +151,7 @@ export default {
       let timeChecker = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       for (let i = 0; i < this.events.length; i++) {
         if (this.events[i].date === dt) {
-          for (let j = this.events[i].puretime.from; j < this.events[i].puretime.to; j++) {
+          for (let j = this.events[i].puretime.from; j <= this.events[i].puretime.to; j++) {
             timeChecker[j]++
             this.events[i].posx =
               (this.events[i].posx < timeChecker[j]) ? timeChecker[j] : this.events[i].posx
@@ -161,7 +161,7 @@ export default {
       }
       events = events.map((event) => {
         let max = 0
-        for (let i = event.puretime.from; i < event.puretime.to; i++) {
+        for (let i = event.puretime.from; i <= event.puretime.to; i++) {
           max = (max < timeChecker[i]) ? timeChecker[i] : max
         }
         event.max = max
