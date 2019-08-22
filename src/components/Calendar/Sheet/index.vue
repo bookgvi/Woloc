@@ -48,8 +48,12 @@
         class="calendar-container"
         )
         template(
-          #day-body='{ date, timeStartPos, timeDurationHeight }'
+          #day-body="{ date, timeStartPos, timeDurationHeight }"
         )
+          q-separator.timeline(
+            color="red"
+            :style="timelinePos(timeStartPos)"
+          )
           q-badge.my-event(
             v-for='(event, index) in getEvents(date)'
             v-if='event.time'
@@ -128,6 +132,16 @@ export default {
       const icon = icons.find(item => item.name === action).icon
       return icon
     },
+    timelinePos (timeStartPos) {
+      let pos = {}
+      const timestamp = new Date()
+      const hours = date.formatDate(timestamp, 'HH')
+      pos['top'] = `${timeStartPos(hours)}px`
+      pos['left'] = '0px'
+      pos['width'] = '100%'
+      console.log(pos)
+      return pos
+    },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {}
       s['background-color'] = event.bgcolor
@@ -192,4 +206,8 @@ export default {
   .my-event
     position absolute
     font-size 12px
+
+  .timeline
+    position absolute
+    z-index: 9999999
 </style>
