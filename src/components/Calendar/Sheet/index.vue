@@ -69,6 +69,7 @@
 import { date, colors } from 'quasar'
 import bookings from '../Data/bookings'
 import icons from '../Data/icons'
+import rooms from '../Data/rooms'
 import eventsColors from '../Data/colors'
 
 export default {
@@ -93,12 +94,15 @@ export default {
         duration: (+booking.time.to - +booking.time.from) * 60,
         bgcolor: this.setColor(booking.room.name),
         icon: this.setIcon(booking.action.name),
-        puretime: {
-          from: booking.time.from,
-          to: booking.time.to
+        devInfo: {
+          time: {
+            from: booking.time.from,
+            to: booking.time.to
+          },
+          room: booking.room.name
         },
         amount: 1,
-        posx: 1
+        posx: 0
       }
       return event
     })
@@ -132,14 +136,18 @@ export default {
       const icon = icons.find(item => item.name === action).icon
       return icon
     },
+    setOrder (room) {
+      const order = rooms.find(item => item.name === room).order
+      return order
+    },
     timelinePos (timeStartPos) {
       let pos = {}
       const timestamp = new Date()
       const hours = date.formatDate(timestamp, 'HH')
-      pos['top'] = `${timeStartPos(hours)}px`
+      const minutes = date.formatDate(timestamp, 'mm')
+      pos['top'] = (hours >= 8) ? `${timeStartPos(hours) + +40 / 60 * minutes}px` : 0
       pos['left'] = '0px'
       pos['width'] = '100%'
-      console.log(pos)
       return pos
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
@@ -149,39 +157,43 @@ export default {
       if (timeStartPos) {
         s['top'] = timeStartPos(event.time) + 'px'
         s['width'] = `${100 / event.max}%`
-        s['left'] = `${100 / event.max * (event.posx - 1)}%`
+        s['left'] = `${100 / event.max * (event.posx)}%`
       }
       if (timeDurationHeight) {
         s['height'] = timeDurationHeight(event.duration) + 'px'
       }
       s['align-items'] = 'flex-start'
-      console.log(s)
       return s
     },
     getEvents (dt) {
       let events = []
-      // массив 23 элемента, соответствует каждому часу суток, при создании события,
+      // массив 24 элемента, соответствует каждому часу суток, при создании события,
       // час, который событие цепляет увеличивается на 1
-      let timeChecker = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-      for (let i = 0; i < this.events.length; i++) {
-        if (this.events[i].date === dt) {
-          for (let j = this.events[i].puretime.from; j <= this.events[i].puretime.to; j++) {
-            timeChecker[j]++
-            this.events[i].posx =
-              (this.events[i].posx < timeChecker[j]) ? timeChecker[j] : this.events[i].posx
+      let timeChecker = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      for (let order = 0; order < rooms.length; order++) {
+        for (let i = 0; i < this.events.length; i++) {
+          if (this.events[i].date === dt) {
+            if (this.setOrder(this.events[i].devInfo.room) === order) {
+              console.log(order)
+              for (let time = this.events[i].devInfo.time.from; time < this.events[i].devInfo.time.to; time++) {
+                this.events[i].posx = (this.events[i].posx < timeChecker[time]) ? timeChecker[time] : this.events[i].posx
+                timeChecker[time]++
+                console.log(time)
+              }
+              console.log(timeChecker)
+              events.push(this.events[i])
+            }
           }
-          events.push(this.events[i])
         }
       }
       events = events.map((event) => {
         let max = 0
-        for (let i = event.puretime.from; i <= event.puretime.to; i++) {
+        for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
           max = (max < timeChecker[i]) ? timeChecker[i] : max
         }
         event.max = max
         return event
       })
-      console.log(events)
       return events
     },
     calendarNext () {
