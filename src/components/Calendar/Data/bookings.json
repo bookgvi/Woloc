@@ -15,8 +15,8 @@
     },
     "extras": [
       {
-        "name": "Фотосъемка",
-        "price": 1200
+        "name": "Покраска циклорамы",
+        "price": 500
       },
       {
         "name": "Набор ванны водой",
@@ -24,7 +24,7 @@
       }
     ],
     "discount": 500,
-    "date": "2019-08-16",
+    "date": "2019-08-24",
     "promo": {
       "name": "Kap10",
       "value": -570
@@ -33,6 +33,328 @@
     "time": {
       "from": 9,
       "to": 13
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  },
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 12"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Фотосъемка",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Покраска циклорамы",
+        "price": 500
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-24",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 5000,
+    "time": {
+      "from": 15,
+      "to": 19
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  },
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 13"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Мероприятие",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Покраска циклорамы",
+        "price": 500
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-24",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 4000,
+    "time": {
+      "from": 12,
+      "to": 16
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  },
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 15"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Видео",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Покраска циклорамы",
+        "price": 500
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-24",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 4000,
+    "time": {
+      "from": 16,
+      "to": 17
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  },
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 11"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Видео",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Покраска циклорамы",
+        "price": 500
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-24",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 4000,
+    "time": {
+      "from": 9,
+      "to": 13
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  },
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 12"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Фотосъемка",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Покраска циклорамы",
+        "price": 500
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-24",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 5000,
+    "time": {
+      "from": 15,
+      "to": 19
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  },
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 13"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Мероприятие",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Покраска циклорамы",
+        "price": 500
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-24",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 4000,
+    "time": {
+      "from": 12,
+      "to": 16
+    },
+    "user_comment": "Lorem ipssum ",
+    "manager_comment": "in voluptate velit sse cillum",
+    "members": [
+      "Андрей Ревин",
+      "Антон Куранов",
+      "Джим Кэмп",
+      "Андрей Владимирович",
+      "Куранов Антон",
+      "Джим Кэмп"
+    ]
+  },
+  {
+    "user": {
+      "name": "Username",
+      "phone": "+7(956)656-65-65",
+      "email": "gre@ger.ru"
+    },
+    "room": {
+      "name": "Зал 15"
+    },
+    "price": 7777,
+    "action": {
+      "name": "Видео",
+      "price": "1400"
+    },
+    "extras": [
+      {
+        "name": "Покраска циклорамы",
+        "price": 500
+      },
+      {
+        "name": "Набор ванны водой",
+        "price": 300
+      }
+    ],
+    "discount": 500,
+    "date": "2019-08-24",
+    "promo": {
+      "name": "Kap10",
+      "value": -570
+    },
+    "prepayment": 4000,
+    "time": {
+      "from": 16,
+      "to": 17
     },
     "user_comment": "Lorem ipssum ",
     "manager_comment": "in voluptate velit sse cillum",

@@ -50,18 +50,14 @@
         template(
           #day-body='{ date, timeStartPos, timeDurationHeight }'
         )
-          template(
+          q-badge.my-event(
             v-for='(event, index) in getEvents(date)'
+            v-if='event.time'
+            :key='index'
+            :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
           )
-            .row.col-12.justify-start.ellipsis
-              q-badge.my-event(
-                v-if='event.time'
-                :key='index'
-                :class="badgeClasses(event, 'body')"
-                :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
-              )
-                q-icon.q-mr-xs(v-if='event.icon', :name='event.icon')
-                span.ellipsis {{ event.title }}
+            q-icon.q-mr-xs(v-if='event.icon', :name='event.icon')
+            span.ellipsis {{ event.title }}
  </template>
 
 <script>
@@ -69,49 +65,13 @@
 import { date, colors } from 'quasar'
 import bookings from '../Data/bookings'
 import icons from '../Data/icons'
+import eventsColors from '../Data/colors'
 
 export default {
   name: 'CalendarSheet',
   data () {
     return {
-      events: [
-        {
-          title: bookings[0].user.name,
-          details: 'Time to pitch my idea to the company',
-          date: '2019-08-19',
-          time: '10:00',
-          duration: 360,
-          bgcolor: 'red',
-          icon: 'fas fa-camera-retro'
-        },
-        {
-          title: bookings[0].user.name,
-          details: 'Company is paying!',
-          date: '2019-08-21',
-          time: '10:00',
-          duration: 120,
-          bgcolor: 'green',
-          icon: 'fas fa-camera-retro'
-        },
-        {
-          title: bookings[0].user.name,
-          details: 'Always a nice chat with mom',
-          date: '2019-08-18',
-          time: '10:00',
-          duration: 120,
-          bgcolor: 'blue-grey',
-          icon: 'fas fa-camera-retro'
-        },
-        {
-          title: bookings[0].user.name,
-          details: 'Teaching Javascript 101',
-          date: '2019-08-20',
-          time: '10:00',
-          duration: 180,
-          bgcolor: 'blue',
-          icon: 'fas fa-camera-retro'
-        }
-      ],
+      events: [],
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
@@ -119,15 +79,27 @@ export default {
     }
   },
   created: function () {
-    console.log(this)
     this.calendarToday()
+    this.events = bookings.map((booking) => {
+      const event = {
+        title: booking.user.name,
+        details: `${booking.prepayment}/${booking.price}`,
+        date: booking.date,
+        time: `${booking.time.from}:00`,
+        duration: (+booking.time.to - +booking.time.from) * 60,
+        bgcolor: this.setColor(booking.room.name),
+        icon: this.setIcon(booking.action.name),
+        puretime: {
+          from: booking.time.from,
+          to: booking.time.to
+        },
+        amount: 1,
+        posx: 1
+      }
+      return event
+    })
   },
   computed: {
-    eventsMap () {
-      const map = {}
-      this.events.forEach((event) => (map[event.date] = map[event.date] || []).push(event))
-      return map
-    },
     month () {
       const months = [
         'Январь',
@@ -148,76 +120,55 @@ export default {
     }
   },
   methods: {
+    setColor (action) {
+      const color = eventsColors.find(item => item.name === action).color
+      return color
+    },
     setIcon (action) {
-      for
+      const icon = icons.find(item => item.name === action).icon
+      return icon
     },
-    badgeClasses (event, type) {
-      const cssColor = this.isCssColor(event.bgcolor)
-      const isHeader = type === 'header'
-      return {
-        [`text-white bg-${event.bgcolor}`]: !cssColor,
-        'full-width': !isHeader && (!event.side || event.side === 'full'),
-        'left-side': !isHeader && event.side === 'left',
-        'right-side': !isHeader && event.side === 'right'
-      }
-    },
-
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {}
-      if (this.isCssColor(event.bgcolor)) {
-        s['background-color'] = event.bgcolor
-        s['color'] = colors.luminosity(event.bgcolor) > 0.5 ? 'black' : 'white'
-      }
+      s['background-color'] = event.bgcolor
+      s['color'] = colors.luminosity(event.bgcolor) > 0.5 ? 'black' : 'white'
       if (timeStartPos) {
         s['top'] = timeStartPos(event.time) + 'px'
+        s['width'] = `${100 / event.max}%`
+        s['left'] = `${100 / event.max * (event.posx - 1)}%`
       }
       if (timeDurationHeight) {
         s['height'] = timeDurationHeight(event.duration) + 'px'
       }
       s['align-items'] = 'flex-start'
+      console.log(s)
       return s
     },
     getEvents (dt) {
       let events = []
-      for (let i = 0; i < this.events.length; ++i) {
-        let added = false
+      // массив 23 элемента, соответствует каждому часу суток, при создании события,
+      // час, который событие цепляет увеличивается на 1
+      let timeChecker = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+      for (let i = 0; i < this.events.length; i++) {
         if (this.events[i].date === dt) {
-          if (this.events[i].time) {
-            if (events.length > 0) {
-              // check for overlapping times
-              let startTime = new Date(this.events[i].date + ' ' + this.events[i].time)
-              let endTime = date.addToDate(startTime, { minutes: this.events[i].duration })
-              for (let j = 0; j < events.length; ++j) {
-                let startTime2 = new Date(events[j].date + ' ' + events[j].time)
-                let endTime2 = date.addToDate(startTime2, { minutes: events[j].duration })
-                if (date.isBetweenDates(startTime, startTime2, endTime2) || date.isBetweenDates(endTime, startTime2, endTime2)) {
-                  events[j].side = 'left'
-                  this.events[i].side = 'right'
-                  events.push(this.events[i])
-                  added = true
-                  break
-                }
-              }
-            }
+          for (let j = this.events[i].puretime.from; j < this.events[i].puretime.to; j++) {
+            timeChecker[j]++
+            this.events[i].posx =
+              (this.events[i].posx < timeChecker[j]) ? timeChecker[j] : this.events[i].posx
           }
-          if (!added) {
-            this.events[i].side = void 0
-            events.push(this.events[i])
-          }
-        } else if (this.events[i].days) {
-          // check for overlapping dates
-          let startDate = new Date(this.events[i].date)
-          let endDate = date.addToDate(startDate, { days: this.events[i].days })
-          if (date.isBetweenDates(dt, startDate, endDate)) {
-            events.push(this.events[i])
-            added = true
-          }
+          events.push(this.events[i])
         }
       }
+      events = events.map((event) => {
+        let max = 0
+        for (let i = event.puretime.from; i < event.puretime.to; i++) {
+          max = (max < timeChecker[i]) ? timeChecker[i] : max
+        }
+        event.max = max
+        return event
+      })
+      console.log(events)
       return events
-    },
-    isCssColor (color) {
-      return !!color && !!color.match(/^(#|(rgb|hsl)a?\()/)
     },
     calendarNext () {
       this.$refs.calendar.next()
@@ -241,8 +192,4 @@ export default {
   .my-event
     position absolute
     font-size 12px
-
-  .full-width
-    left 0
-    width 100%
 </style>
