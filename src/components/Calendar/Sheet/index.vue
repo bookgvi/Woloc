@@ -102,7 +102,8 @@ export default {
           room: booking.room.name
         },
         amount: 1,
-        posx: 0
+        posx: 0,
+        width: 1
       }
       return event
     })
@@ -165,31 +166,56 @@ export default {
       s['align-items'] = 'flex-start'
       return s
     },
-    getEvents (dt) {
+    getEvents: function (dt) {
+      let posArray = [...Array(rooms.length)].map(() => Array(24).fill(0))
+      const findEmptyPlace = (col, from, to) => {
+        const isEmptyPlace = (c) => {
+          for (let i = from; i < to; i++) {
+            if (posArray[c][i] !== 0) {
+              return false
+            }
+          }
+          return true
+        }
+        for (let c = col; c >= 0; c--) {
+          if (isEmptyPlace(c) === false) {
+            return c + 1
+          }
+        }
+        return 0
+      }
       let events = []
-      // массив 24 элемента, соответствует каждому часу суток, при создании события,
-      // час, который событие цепляет увеличивается на 1
-      let timeChecker = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
       for (let order = 0; order < rooms.length; order++) {
         for (let i = 0; i < this.events.length; i++) {
           if (this.events[i].date === dt) {
             if (this.setOrder(this.events[i].devInfo.room) === order) {
-              console.log(order)
-              for (let time = this.events[i].devInfo.time.from; time < this.events[i].devInfo.time.to; time++) {
-                this.events[i].posx = (this.events[i].posx < timeChecker[time]) ? timeChecker[time] : this.events[i].posx
-                timeChecker[time]++
-                console.log(time)
+              const timeFrom = this.events[i].devInfo.time.from
+              const timeTo = this.events[i].devInfo.time.to
+              let col = order
+              if (col !== 0) {
+                col = findEmptyPlace(col, timeFrom, timeTo)
               }
-              console.log(timeChecker)
+              for (let time = timeFrom; time < timeTo; time++) {
+                posArray[col][time] = 1
+              }
+              this.events[i].posx = col
               events.push(this.events[i])
             }
+          }
+        }
+      }
+      let widthArray = Array(24).fill(1)
+      for (let i = 0; i < widthArray.length; i++) {
+        for (let j = posArray.length - 1; j >= 0; j--) {
+          if (posArray[j][i] !== 0) {
+            widthArray[i] = (widthArray[i] < (j + 1) ? j + 1 : widthArray[i])
           }
         }
       }
       events = events.map((event) => {
         let max = 0
         for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
-          max = (max < timeChecker[i]) ? timeChecker[i] : max
+          max = (max < widthArray[i]) ? widthArray[i] : max
         }
         event.max = max
         return event

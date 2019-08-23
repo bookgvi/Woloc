@@ -78,7 +78,7 @@
     "prepayment": 4000,
     "time": {
       "from": 8,
-      "to": 10
+      "to": 13
     },
     "user_comment": "Lorem ipssum ",
     "manager_comment": "in voluptate velit sse cillum",
@@ -216,7 +216,7 @@
     "prepayment": 4000,
     "time": {
       "from": 8,
-      "to": 14
+      "to": 10
     },
     "user_comment": "Lorem ipssum ",
     "manager_comment": "in voluptate velit sse cillum",
