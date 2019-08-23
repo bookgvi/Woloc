@@ -6,7 +6,7 @@
 <script>
 
 import Vue from 'vue'
-import calendar from './controllers/calendar'
+import bookings from './controllers/bookings'
 
 export default {
   name: 'App',
@@ -15,7 +15,7 @@ export default {
   },
   data () {
     return {
-      calendar: new Vue(calendar)
+      bookings: new Vue(bookings)
     }
   }
 }

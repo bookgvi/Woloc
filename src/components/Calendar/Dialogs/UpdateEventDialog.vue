@@ -2,7 +2,7 @@
 <template lang="pug">
   q-dialog
     q-card.row.justify-center.items-center(
-      v-if="$app.calendar.dialogs.update"
+      v-if="$app.bookings.dialogs.update"
       style="width: 320px;"
     )
       pre {{}}

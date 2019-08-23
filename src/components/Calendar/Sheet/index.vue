@@ -67,16 +67,18 @@
 <script>
 
 import { date, colors } from 'quasar'
-import bookings from '../Data/bookings'
 import icons from '../Data/icons'
+import bookings from '../Data/bookings'
 import rooms from '../Data/rooms'
 import eventsColors from '../Data/colors'
+// import axios from 'axios'
 
 export default {
   name: 'CalendarSheet',
   data () {
     return {
       events: [],
+      bookings: [],
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
@@ -108,6 +110,8 @@ export default {
       return event
     })
   },
+  mounted () {
+  },
   computed: {
     month () {
       const months = [
@@ -129,6 +133,10 @@ export default {
     }
   },
   methods: {
+    async setBooking () {
+      this.bookings = await this.$app.bookings.getForTime(100, '20190801', '20190822')
+      console.log(this.bookings)
+    },
     setColor (action) {
       const color = eventsColors.find(item => item.name === action).color
       return color
