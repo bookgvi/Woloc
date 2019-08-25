@@ -70,7 +70,6 @@ import { date, colors } from 'quasar'
 import icons from '../Data/icons'
 import bookings from '../Data/bookings'
 import rooms from '../Data/rooms'
-import eventsColors from '../Data/colors'
 // import axios from 'axios'
 
 export default {
@@ -89,17 +88,17 @@ export default {
     this.calendarToday()
     this.events = bookings.map((booking) => {
       const event = {
-        title: booking.user.name,
-        details: `${booking.prepayment}/${booking.price}`,
-        date: booking.date,
-        time: `${booking.time.from}:00`,
-        duration: (+booking.time.to - +booking.time.from) * 60,
+        title: booking.customer.firstName,
+        details: `${booking.amount}/${booking.price}`,
+        date: this.getDate(booking.reservedFrom),
+        time: `${this.getTime(booking.reservedFrom)}:00`,
+        duration: (+this.getTime(booking.reservedTo) - +this.getTime(booking.reservedFrom)) * 60,
         bgcolor: this.setColor(booking.room.name),
-        icon: this.setIcon(booking.action.name),
+        icon: this.setIcon(booking.eventType),
         devInfo: {
           time: {
-            from: booking.time.from,
-            to: booking.time.to
+            from: this.getTime(booking.reservedFrom),
+            to: this.getTime(booking.reservedTo)
           },
           room: booking.room.name
         },
@@ -133,12 +132,24 @@ export default {
     }
   },
   methods: {
+    getDate (timestamp) {
+      console.log(date.formatDate(timestamp, 'HH'))
+      if (+date.formatDate(timestamp, 'HH') === 0) {
+        timestamp = date.addToDate(timestamp, { days: -1 })
+      }
+      return date.formatDate(timestamp, 'YYYY-MM-DD')
+    },
+    getTime (timestamp) {
+      const hours = (date.formatDate(timestamp, 'HH') !== '00') ? date.formatDate(timestamp, 'HH') : 24
+      console.log(`h ${hours}`)
+      return hours
+    },
     async setBooking () {
       this.bookings = await this.$app.bookings.getForTime(100, '20190801', '20190822')
       console.log(this.bookings)
     },
-    setColor (action) {
-      const color = eventsColors.find(item => item.name === action).color
+    setColor (room) {
+      const color = rooms.find(item => item.name === room).color
       return color
     },
     setIcon (action) {

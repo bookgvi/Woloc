@@ -1,14 +1,14 @@
 [
   {
-    "name": "Фотосъемка",
+    "name": "photo",
     "icon": "fas fa-camera-retro"
   },
   {
-    "name": "Видео",
+    "name": "video",
     "icon": "fas fa-video"
   },
   {
-    "name": "Мероприятие",
+    "name": "event",
     "icon": "fas fa-calendar-day"
   }
 ]
