@@ -31,7 +31,7 @@
             @click="calendarNext"
            )
     template
-      q-calendar.row.col-12.q-px-md(
+      q-calendar.row.col-12.q-px-md.relative-position(
         style="width: 100%;"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
@@ -45,23 +45,27 @@
         hour24-format
         transition-prev="slide-right"
         transition-next="slide-left"
-        class="calendar-container"
         )
         template(
           #day-body="{ date, timeStartPos, timeDurationHeight }"
         )
-          q-separator.timeline(
+          q-separator.absolute(
             color="red"
-            :style="timelinePos(timeStartPos)"
+            :style="timelinePos(timeStartPos, timeDurationHeight)"
           )
-          q-badge.my-event(
+          q-badge.my-event.absolute-top(
+            multi-line
             v-for='(event, index) in getEvents(date)'
             v-if='event.time'
             :key='index'
             :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
           )
-            q-icon.q-mr-xs(v-if='event.icon', :name='event.icon')
-            span.ellipsis {{ event.title }}
+            .row.col-12.justify-start.q-px-xs
+              q-icon.row.justify-start(v-if='event.icon', :name='event.icon')
+              .row.col-12
+                span {{ event.title }}
+              .row.col-12
+                span.ellipsis {{ event.details }}
  </template>
 
 <script>
@@ -76,6 +80,7 @@ export default {
   name: 'CalendarSheet',
   data () {
     return {
+      interval: {},
       events: [],
       bookings: [],
       addEvent: false,
@@ -86,6 +91,9 @@ export default {
   },
   created: function () {
     this.calendarToday()
+    // this.interval = setInterval(() =>
+    //  this.timelinePos(this.$refs.calendar.timeStartPos, this.$refs.calendar.timeDurationHeight), 1000)
+    // this.setBookings()
     this.events = bookings.map((booking) => {
       const event = {
         title: booking.customer.firstName,
@@ -102,7 +110,6 @@ export default {
           },
           room: booking.room.name
         },
-        amount: 1,
         posx: 0,
         width: 1
       }
@@ -130,10 +137,10 @@ export default {
       const date = this.selectedDate.split('-')
       return `, ${months[+date[1] - 1]} ${date[0]}`
     }
+
   },
   methods: {
     getDate (timestamp) {
-      console.log(date.formatDate(timestamp, 'HH'))
       if (+date.formatDate(timestamp, 'HH') === 0) {
         timestamp = date.addToDate(timestamp, { days: -1 })
       }
@@ -141,12 +148,11 @@ export default {
     },
     getTime (timestamp) {
       const hours = (date.formatDate(timestamp, 'HH') !== '00') ? date.formatDate(timestamp, 'HH') : 24
-      console.log(`h ${hours}`)
       return hours
     },
-    async setBooking () {
+    async setBookings () {
       this.bookings = await this.$app.bookings.getForTime(100, '20190801', '20190822')
-      console.log(this.bookings)
+      // console.log(this.bookings)
     },
     setColor (room) {
       const color = rooms.find(item => item.name === room).color
@@ -160,20 +166,23 @@ export default {
       const order = rooms.find(item => item.name === room).order
       return order
     },
-    timelinePos (timeStartPos) {
+    timelinePos (timeStartPos, timeDurationHeight) {
       let pos = {}
       const timestamp = new Date()
       const hours = date.formatDate(timestamp, 'HH')
       const minutes = date.formatDate(timestamp, 'mm')
-      pos['top'] = (hours >= 8) ? `${timeStartPos(hours) + +40 / 60 * minutes}px` : 0
+      pos['top'] = (hours >= 8) ? `${timeStartPos(hours) + +timeDurationHeight(1) * minutes}px` : 0
       pos['left'] = '0px'
       pos['width'] = '100%'
+      console.log(pos)
       return pos
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {}
-      s['background-color'] = event.bgcolor
-      s['color'] = colors.luminosity(event.bgcolor) > 0.5 ? 'black' : 'white'
+      s['box-shadow'] = `inset 3px -3px 0 ${event.bgcolor}`
+      s['font-size'] = '13px'
+      s['background-color'] = `${event.bgcolor}40`
+      s['color'] = colors.lighten(event.bgcolor, -30)
       if (timeStartPos) {
         s['top'] = timeStartPos(event.time) + 'px'
         s['width'] = `${100 / event.max}%`
@@ -257,14 +266,4 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  .calendar-container
-    position relative
-
-  .my-event
-    position absolute
-    font-size 12px
-
-  .timeline
-    position absolute
-    z-index: 9999999
 </style>
