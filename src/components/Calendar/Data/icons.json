@@ -1,0 +1,14 @@
+[
+  {
+    "name": "photo",
+    "icon": "fas fa-camera-retro"
+  },
+  {
+    "name": "video",
+    "icon": "fas fa-video"
+  },
+  {
+    "name": "event",
+    "icon": "fas fa-calendar-day"
+  }
+]

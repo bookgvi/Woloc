@@ -31,7 +31,7 @@
             @click="calendarNext"
            )
     template
-      q-calendar.row.col-12.q-px-md(
+      q-calendar.row.col-12.q-px-md.relative-position(
         style="width: 100%;"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
@@ -45,46 +45,80 @@
         hour24-format
         transition-prev="slide-right"
         transition-next="slide-left"
-        class="calendar-container"
-        @click:time="addEventMenu"
-      )
-</template>
+        )
+        template(
+          #day-body="{ date, timeStartPos, timeDurationHeight }"
+        )
+          q-separator.absolute(
+            color="red"
+            :style="timelinePos(timeStartPos, timeDurationHeight)"
+          )
+          q-badge.my-event.absolute-top(
+            multi-line
+            v-for='(event, index) in getEvents(date)'
+            v-if='event.time'
+            :key='index'
+            :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
+          )
+            .row.col-12.justify-start.q-px-xs
+              q-icon.row.justify-start(v-if='event.icon', :name='event.icon')
+              .row.col-12
+                span {{ event.title }}
+              .row.col-12
+                span.ellipsis {{ event.details }}
+ </template>
 
 <script>
 
-const formDefault = {
-  title: '',
-  details: '',
-  allDay: false,
-  dateTimeStart: '',
-  dateTimeEnd: '',
-  icon: '',
-  bgcolor: '#0000FF'
-}
-
 import { date, colors } from 'quasar'
+import icons from '../Data/icons'
+import bookings from '../Data/bookings'
+import rooms from '../Data/rooms'
+// import axios from 'axios'
 
 export default {
   name: 'CalendarSheet',
   data () {
     return {
+      interval: {},
       events: [],
+      bookings: [],
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: '',
-      eventForm: {}
+      date: ''
     }
   },
   created: function () {
     this.calendarToday()
+    // this.interval = setInterval(() =>
+    //  this.timelinePos(this.$refs.calendar.timeStartPos, this.$refs.calendar.timeDurationHeight), 1000)
+    // this.setBookings()
+    this.events = bookings.map((booking) => {
+      const event = {
+        title: booking.customer.firstName,
+        details: `${booking.amount}/${booking.price}`,
+        date: this.getDate(booking.reservedFrom),
+        time: `${this.getTime(booking.reservedFrom)}:00`,
+        duration: (+this.getTime(booking.reservedTo) - +this.getTime(booking.reservedFrom)) * 60,
+        bgcolor: this.setColor(booking.room.name),
+        icon: this.setIcon(booking.eventType),
+        devInfo: {
+          time: {
+            from: this.getTime(booking.reservedFrom),
+            to: this.getTime(booking.reservedTo)
+          },
+          room: booking.room.name
+        },
+        posx: 0,
+        width: 1
+      }
+      return event
+    })
+  },
+  mounted () {
   },
   computed: {
-    eventsMap () {
-      const map = {}
-      this.events.forEach((event) => (map[event.date] = map[event.date] || []).push(event))
-      return map
-    },
     month () {
       const months = [
         'Январь',
@@ -103,31 +137,56 @@ export default {
       const date = this.selectedDate.split('-')
       return `, ${months[+date[1] - 1]} ${date[0]}`
     }
+
   },
   methods: {
-    isCssColor (color) {
-      return !!color && !!color.match(/^(#|(rgb|hsl)a?\()/)
-    },
-
-    badgeClasses (event, type) {
-      const cssColor = this.isCssColor(event.bgcolor)
-      const isHeader = type === 'header'
-      return {
-        [`text-white bg-${event.bgcolor}`]: !cssColor,
-        'full-width': !isHeader && (!event.side || event.side === 'full'),
-        'left-side': !isHeader && event.side === 'left',
-        'right-side': !isHeader && event.side === 'right'
+    getDate (timestamp) {
+      if (+date.formatDate(timestamp, 'HH') === 0) {
+        timestamp = date.addToDate(timestamp, { days: -1 })
       }
+      return date.formatDate(timestamp, 'YYYY-MM-DD')
     },
-
+    getTime (timestamp) {
+      const hours = (date.formatDate(timestamp, 'HH') !== '00') ? date.formatDate(timestamp, 'HH') : 24
+      return hours
+    },
+    async setBookings () {
+      this.bookings = await this.$app.bookings.getForTime(100, '20190801', '20190822')
+      // console.log(this.bookings)
+    },
+    setColor (room) {
+      const color = rooms.find(item => item.name === room).color
+      return color
+    },
+    setIcon (action) {
+      const icon = icons.find(item => item.name === action).icon
+      return icon
+    },
+    setOrder (room) {
+      const order = rooms.find(item => item.name === room).order
+      return order
+    },
+    timelinePos (timeStartPos, timeDurationHeight) {
+      let pos = {}
+      const timestamp = new Date()
+      const hours = date.formatDate(timestamp, 'HH')
+      const minutes = date.formatDate(timestamp, 'mm')
+      pos['top'] = (hours >= 8) ? `${timeStartPos(hours) + +timeDurationHeight(1) * minutes}px` : 0
+      pos['left'] = '0px'
+      pos['width'] = '100%'
+      console.log(pos)
+      return pos
+    },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {}
-      if (this.isCssColor(event.bgcolor)) {
-        s['background-color'] = event.bgcolor
-        s['color'] = colors.luminosity(event.bgcolor) > 0.5 ? 'black' : 'white'
-      }
+      s['box-shadow'] = `inset 3px -3px 0 ${event.bgcolor}`
+      s['font-size'] = '13px'
+      s['background-color'] = `${event.bgcolor}40`
+      s['color'] = colors.lighten(event.bgcolor, -30)
       if (timeStartPos) {
         s['top'] = timeStartPos(event.time) + 'px'
+        s['width'] = `${100 / event.max}%`
+        s['left'] = `${100 / event.max * (event.posx)}%`
       }
       if (timeDurationHeight) {
         s['height'] = timeDurationHeight(event.duration) + 'px'
@@ -135,108 +194,61 @@ export default {
       s['align-items'] = 'flex-start'
       return s
     },
-    getEvents (dt) {
-      let events = []
-      for (let i = 0; i < this.events.length; ++i) {
-        let added = false
-        if (this.events[i].date === dt) {
-          if (this.events[i].time) {
-            if (events.length > 0) {
-              // check for overlapping times
-              let startTime = new Date(this.events[i].date + ' ' + this.events[i].time)
-              let endTime = date.addToDate(startTime, { minutes: this.events[i].duration })
-              for (let j = 0; j < events.length; ++j) {
-                let startTime2 = new Date(events[j].date + ' ' + events[j].time)
-                let endTime2 = date.addToDate(startTime2, { minutes: events[j].duration })
-                if (date.isBetweenDates(startTime, startTime2, endTime2) || date.isBetweenDates(endTime, startTime2, endTime2)) {
-                  events[j].side = 'left'
-                  this.events[i].side = 'right'
-                  events.push(this.events[i])
-                  added = true
-                  break
-                }
-              }
+    getEvents: function (dt) {
+      let posArray = [...Array(rooms.length)].map(() => Array(24).fill(0))
+      const findEmptyPlace = (col, from, to) => {
+        const isEmptyPlace = (c) => {
+          for (let i = from; i < to; i++) {
+            if (posArray[c][i] !== 0) {
+              return false
             }
           }
-          if (!added) {
-            this.events[i].side = void 0
-            events.push(this.events[i])
+          return true
+        }
+        for (let c = col; c >= 0; c--) {
+          if (isEmptyPlace(c) === false) {
+            return c + 1
           }
-        } else if (this.events[i].days) {
-          // check for overlapping dates
-          let startDate = new Date(this.events[i].date)
-          let endDate = date.addToDate(startDate, { days: this.events[i].days })
-          if (date.isBetweenDates(dt, startDate, endDate)) {
-            events.push(this.events[i])
-            added = true
+        }
+        return 0
+      }
+      let events = []
+      for (let order = 0; order < rooms.length; order++) {
+        for (let i = 0; i < this.events.length; i++) {
+          if (this.events[i].date === dt) {
+            if (this.setOrder(this.events[i].devInfo.room) === order) {
+              const timeFrom = this.events[i].devInfo.time.from
+              const timeTo = this.events[i].devInfo.time.to
+              let col = order
+              if (col !== 0) {
+                col = findEmptyPlace(col, timeFrom, timeTo)
+              }
+              for (let time = timeFrom; time < timeTo; time++) {
+                posArray[col][time] = 1
+              }
+              this.events[i].posx = col
+              events.push(this.events[i])
+            }
           }
         }
       }
+      let widthArray = Array(24).fill(1)
+      for (let i = 0; i < widthArray.length; i++) {
+        for (let j = posArray.length - 1; j >= 0; j--) {
+          if (posArray[j][i] !== 0) {
+            widthArray[i] = (widthArray[i] < (j + 1) ? j + 1 : widthArray[i])
+          }
+        }
+      }
+      events = events.map((event) => {
+        let max = 0
+        for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+          max = (max < widthArray[i]) ? widthArray[i] : max
+        }
+        event.max = max
+        return event
+      })
       return events
-    },
-    addEventMenu (day, type) {
-      console.log(this)
-      this.resetForm()
-      this.contextDay = { ...day }
-      let timestamp
-      if (this.contextDay.hasTime === true) {
-        timestamp = this.getTimestamp(this.adjustTimestamp(this.contextDay))
-        let startTime = new Date(timestamp)
-        let endTime = date.addToDate(startTime, { hours: 1 })
-        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
-      } else {
-        timestamp = this.contextDay.date + ' 00:00'
-      }
-      this.eventForm.dateTimeStart = timestamp
-      this.eventForm.allDay = this.contextDay.hasTime === false
-      this.eventForm.bgcolor = '#0000FF' // starting color
-      this.$app.calendar.dialogs.update = true
-    },
-    editEvent (event) {
-      this.resetForm()
-      this.contextDay = { ...event }
-      let timestamp
-      if (event.time) {
-        timestamp = event.date + ' ' + event.time
-        let startTime = new Date(timestamp)
-        let endTime = date.addToDate(startTime, { minutes: event.duration })
-        this.eventForm.dateTimeStart = this.formatDate(startTime) + ' ' + this.formatTime(startTime) // endTime.toString()
-        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
-      } else {
-        timestamp = event.date
-        this.eventForm.dateTimeStart = timestamp
-      }
-      this.eventForm.allDay = !event.time
-      this.eventForm.bgcolor = event.bgcolor
-      this.eventForm.icon = event.icon
-      this.eventForm.title = event.title
-      this.eventForm.details = event.details
-      this.$app.calendar.dialogs.update = true
-    },
-    resetForm () {
-      this.$set(this, 'eventForm', { ...formDefault })
-    },
-    adjustTimestamp (day) {
-      day.minute = day.minute < 15 || day.minute >= 45 ? 0 : 30
-      return day
-    },
-    getTimestamp (day) {
-      return day.date + ' ' + (day.hour) + ':' + (day.minute) + ':00.000'
-    },
-    formatDate (date) {
-      let d = date !== void 0 ? new Date(date) : new Date(),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear()
-
-      return [year, month, day].join('-')
-    },
-    formatTime (date) {
-      let d = date !== void 0 ? new Date(date) : new Date(),
-        hours = '' + d.getHours(),
-        minutes = '' + d.getMinutes()
-
-      return [hours, minutes].join(':')
     },
     calendarNext () {
       this.$refs.calendar.next()
@@ -254,54 +266,4 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  // this page
-  /*.toolbar*/
-  /*  height 80px*/
-  /*.calendar-container*/
-  /*  position relative*/
-  /*  width 100%*/
-
-  /*.my-event*/
-  /*  width 100%*/
-  /*  position absolute*/
-  /*  font-size 12*/
-
-  /*.full-width*/
-  /*  left 0*/
-  /*  width 100%*/
-
-  /*.left-side*/
-  /*  left 0*/
-  /*  width 49.75%*/
-
-  /*.right-side*/
-  /*  left 50.25%*/
-  /*  width 49.75%*/
-
-  /*.btn*/
-  /*  color black*/
-  /*  border: 1px solid #ECECEC*/
-
-  /*.btn-calendar*/
-  /*  width 40px*/
-  /*  height 40px*/
-  /*  margin-right 30px*/
-
-  /*.btn-today*/
-  /*  font-size: 14px*/
-  /*  height 40px*/
-  /*  margin-right 10px*/
-  /*  width 110px*/
-
-  /*.btn-nav*/
-  /*  width 40px*/
-  /*  height 40px*/
-
-  /*.room-name*/
-  /*  margin auto 0 auto 0*/
-  /*  display block*/
-  /*  color: #4A4A4A*/
-  /*  font-size: 21px*/
-  /*  font-weight: 600*/
-  /*  line-height: 25px*/
 </style>

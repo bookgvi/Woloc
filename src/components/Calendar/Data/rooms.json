@@ -1,0 +1,27 @@
+[
+  {
+    "name": "Зал Black 55",
+    "color": "#9700E7",
+    "order": 0
+  },
+  {
+    "name": "Зал Wood",
+    "color": "#00F83D",
+    "order": 1
+  },
+  {
+    "name": "Зал 13",
+    "color": "#FF0044",
+    "order": 2
+  },
+  {
+    "name": "Зал 14",
+    "color": "#FCD600",
+    "order": 3
+  },
+  {
+    "name": "Зал 15",
+    "color": "#3591FA",
+    "order": 4
+  }
+]
