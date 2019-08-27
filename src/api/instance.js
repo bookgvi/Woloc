@@ -6,7 +6,6 @@ const instance = axios.create({
   baseURL: 'https://pre.ugoloc.ucann.ru/admin/api/v1.0/', // api base_url
 })
 
-// instance.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 instance.defaults.headers.get['Accept'] = 'application/json'
 

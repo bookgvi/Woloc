@@ -1,27 +1,22 @@
 [
   {
-    "name": "Зал Black 55",
-    "color": "#9700E7",
-    "order": 0
+    "name": "Зал Black 130",
+    "color": "#9700E7"
   },
   {
     "name": "Зал Wood",
-    "color": "#00F83D",
-    "order": 1
+    "color": "#00F83D"
   },
   {
-    "name": "Зал 13",
-    "color": "#FF0044",
-    "order": 2
+    "name": "Зал Black 110",
+    "color": "#FF0044"
   },
   {
-    "name": "Зал 14",
-    "color": "#FCD600",
-    "order": 3
+    "name": "Зал Black 55",
+    "color": "#FCD600"
   },
   {
     "name": "Зал 15",
-    "color": "#3591FA",
-    "order": 4
+    "color": "#3591FA"
   }
 ]

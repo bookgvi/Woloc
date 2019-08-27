@@ -43,15 +43,13 @@
         animated
         no-scroll
         hour24-format
-        transition-prev="slide-right"
-        transition-next="slide-left"
         )
         template(
           #day-body="{ date, timeStartPos, timeDurationHeight }"
         )
           q-separator.absolute(
             color="red"
-            :style="timelinePos(timeStartPos, timeDurationHeight)"
+            :style="timelineCoords"
           )
           q-badge.my-event.absolute-top(
             multi-line
@@ -72,14 +70,30 @@
 
 import { date, colors } from 'quasar'
 import icons from '../Data/icons'
-import bookings from '../Data/bookings'
+// import bookings from '../Data/bookings'
 import rooms from '../Data/rooms'
 // import axios from 'axios'
+
+const formDefault = {
+  title: '',
+  details: '',
+  allDay: false,
+  dateTimeStart: '',
+  dateTimeEnd: '',
+  icon: '',
+  bgcolor: '#0000FF'
+}
 
 export default {
   name: 'CalendarSheet',
   data () {
     return {
+      timelineCoords: {
+        top: 0,
+        left: 0,
+        width: 0
+      },
+      eventForm: { ...formDefault },
       interval: {},
       events: [],
       bookings: [],
@@ -89,12 +103,10 @@ export default {
       date: ''
     }
   },
-  created: function () {
+  created: async function () {
     this.calendarToday()
-    // this.interval = setInterval(() =>
-    //  this.timelinePos(this.$refs.calendar.timeStartPos, this.$refs.calendar.timeDurationHeight), 1000)
-    // this.setBookings()
-    this.events = bookings.map((booking) => {
+    await this.$app.bookings.getForTime(100, '20190501', '20200101')
+    this.events = this.$app.bookings.list.map((booking) => {
       const event = {
         title: booking.customer.firstName,
         details: `${booking.amount}/${booking.price}`,
@@ -116,7 +128,10 @@ export default {
       return event
     })
   },
-  mounted () {
+  mounted: function () {
+    this.timelinePos()
+    this.interval = setInterval(() =>
+      this.timelinePos(), 1000 * 60)
   },
   computed: {
     month () {
@@ -140,6 +155,42 @@ export default {
 
   },
   methods: {
+    resetForm () {
+      this.$set(this, 'eventForm', { ...formDefault })
+    },
+    editEvent (event) {
+      this.resetForm()
+      this.contextDay = { ...event }
+      let timestamp
+      if (event.time) {
+        timestamp = event.date + ' ' + event.time
+        let startTime = new Date(timestamp)
+        let endTime = date.addToDate(startTime, { minutes: event.duration })
+        this.eventForm.dateTimeStart = this.formatDate(startTime) + ' ' + this.formatTime(startTime) // endTime.toString()
+        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
+      } else {
+        timestamp = event.date
+        this.eventForm.dateTimeStart = timestamp
+      }
+      this.eventForm.allDay = !event.time
+      this.eventForm.bgcolor = event.bgcolor
+      this.eventForm.icon = event.icon
+      this.eventForm.title = event.title
+      this.eventForm.details = event.details
+      this.$app.bookings.dialogs.update = true // show dialog
+    },
+    timelinePos () {
+      const timestamp = new Date()
+      const hours = date.formatDate(timestamp, 'HH')
+      const minutes = date.formatDate(timestamp, 'mm')
+      if (this.$refs.calendar) {
+        this.timelineCoords['top'] = (hours >= 8) ? `${this.$refs.calendar.timeStartPos(hours) + +this.$refs.calendar.timeDurationHeight(1) * minutes}px` : 0
+      } else {
+        this.timelineCoords['top'] = '0px'
+      }
+      this.timelineCoords['left'] = '0px'
+      this.timelineCoords['width'] = '100%'
+    },
     getDate (timestamp) {
       if (+date.formatDate(timestamp, 'HH') === 0) {
         timestamp = date.addToDate(timestamp, { days: -1 })
@@ -150,10 +201,6 @@ export default {
       const hours = (date.formatDate(timestamp, 'HH') !== '00') ? date.formatDate(timestamp, 'HH') : 24
       return hours
     },
-    async setBookings () {
-      this.bookings = await this.$app.bookings.getForTime(100, '20190801', '20190822')
-      // console.log(this.bookings)
-    },
     setColor (room) {
       const color = rooms.find(item => item.name === room).color
       return color
@@ -163,19 +210,8 @@ export default {
       return icon
     },
     setOrder (room) {
-      const order = rooms.find(item => item.name === room).order
+      const order = rooms.findIndex(item => item.name === room)
       return order
-    },
-    timelinePos (timeStartPos, timeDurationHeight) {
-      let pos = {}
-      const timestamp = new Date()
-      const hours = date.formatDate(timestamp, 'HH')
-      const minutes = date.formatDate(timestamp, 'mm')
-      pos['top'] = (hours >= 8) ? `${timeStartPos(hours) + +timeDurationHeight(1) * minutes}px` : 0
-      pos['left'] = '0px'
-      pos['width'] = '100%'
-      console.log(pos)
-      return pos
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {}
@@ -198,7 +234,7 @@ export default {
       let posArray = [...Array(rooms.length)].map(() => Array(24).fill(0))
       const findEmptyPlace = (col, from, to) => {
         const isEmptyPlace = (c) => {
-          for (let i = from; i < to; i++) {
+          for (let i = +from; i < +to; i++) {
             if (posArray[c][i] !== 0) {
               return false
             }
