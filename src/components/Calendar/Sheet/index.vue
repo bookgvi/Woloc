@@ -53,18 +53,18 @@
           )
           q-badge.my-event.absolute-top(
             multi-line
-            v-for="(event, index) in events"
-            :value="event"
-            v-if="event.date === date"
+            v-for="(e, index) in events"
+            :value="e"
+            v-if="e.date === date"
             :key="index"
-            :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
+            :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
             .row.col-12.justify-start.q-px-xs
-              q-icon.row.justify-start(v-if='event.icon', :name='event.icon')
+              q-icon.row.justify-start(v-if='e.icon', :name='e.icon')
               .row.col-12
-                span {{ event.title }}
+                span {{ e.title }}
               .row.col-12
-                span.ellipsis {{ event.details }}
+                span.ellipsis {{ e.details }}
  </template>
 
 <script>
