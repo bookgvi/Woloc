@@ -1,5 +1,5 @@
 <template lang="pug">
-    q-tabs(
+    q-tabs.text-body1(
       shrink
       align="left"
       animated

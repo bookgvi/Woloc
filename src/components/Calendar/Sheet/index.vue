@@ -43,6 +43,7 @@
         animated
         no-scroll
         hour24-format
+        short-weekday-label
         )
         template(
           #day-body="{ date, timeStartPos, timeDurationHeight }"
@@ -62,9 +63,9 @@
             .row.col-12.justify-start.q-px-xs
               q-icon.row.justify-start(v-if='e.icon', :name='e.icon')
               .row.col-12
-                span {{ e.title }}
+                span.text-body2.ellipsis {{ e.title }}
               .row.col-12
-                span.ellipsis {{ e.details }}
+                span.text-body2.ellipsis {{ e.details }}
  </template>
 
 <script>
@@ -111,8 +112,6 @@ export default {
   },
   created: async function () {
     this.calendarToday()
-    await this.setRange()
-    this.placeEvents()
     // this.getEvents()
   },
   mounted: function () {
