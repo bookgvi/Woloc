@@ -40,7 +40,6 @@
         v-model="selectedDate"
         view="week"
         locale="ru-ru"
-        animated
         no-scroll
         hour24-format
         short-weekday-label
