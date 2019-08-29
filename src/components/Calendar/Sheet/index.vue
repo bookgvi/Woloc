@@ -111,8 +111,6 @@ export default {
   },
   created: async function () {
     this.calendarToday()
-    await this.setRange()
-    this.placeEvents()
     // this.getEvents()
   },
   mounted: function () {
