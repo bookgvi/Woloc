@@ -71,7 +71,7 @@
 <script>
 
 import { date, colors } from 'quasar'
-import icons from '../Data/icons'
+import icons from 'src/common/eventType/icons'
 import bookings from '../Data/bookings'
 import rooms from '../Data/rooms'
 // import axios from 'axios'
