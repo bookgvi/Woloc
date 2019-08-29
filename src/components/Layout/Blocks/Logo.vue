@@ -1,10 +1,6 @@
 <template lang="pug">
   .q-pl-none
-    q-icon(
-      name="location_on"
-      style="font-size: 3rem"
-    )
-    //img.logo(src="../../../statics/icons/icon-128x128.png")
+    img.logo(src="~assets/ugoloc-logo.svg")
 
 </template>
 
