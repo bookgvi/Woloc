@@ -1,13 +1,15 @@
 <template lang="pug">
-  .sheet.row.q-px-none
-    .row.col-12.justify-start.items-center.q-px-md.no-wrap
+  .wrapper
+    .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
-        h6.wrap-md Kap's Studios м. Бауманская, {{ month }}
+        h5.wrap-md Kap's Studios м. Бауманская, {{ month }}
       q-space
       .justify-end.items-center
-        q-toolbar.row.justify-end.q-px-none
-          q-btn.btn.btn-calendar(
+        .row.justify-end.q-px-none.q-gutter-sm
+          q-btn.q-px-sm(
             icon="calendar_today"
+            outline
+            color="secondary"
           )
             q-popup-proxy
               q-card
@@ -18,25 +20,33 @@
                   mask="YYYY-MM-DD"
                 )
           q-btn(
+            outline
             label="Сегодня"
             no-caps
             @click="calendarToday"
+            color="secondary"
           )
-          q-btn(
-            icon="chevron_left"
-            @click="calendarPrev"
-           )
-          q-btn(
-            icon="chevron_right"
-            @click="calendarNext"
-           )
+          q-btn-group(outline)
+            q-btn.q-px-sm(
+              outline
+              icon="chevron_left"
+              @click="calendarPrev"
+              color="secondary"
+             )
+            q-separator(vertical inset)
+            q-btn.q-px-sm(
+              outline
+              icon="chevron_right"
+              @click="calendarNext"
+              color="secondary"
+             )
     template
-      q-calendar.row.col-12.q-px-md.relative-position(
+      q-calendar.row.col-12(
         style="width: 100%;"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
-        :interval-start="8"
-        :interval-count="16"
+        :interval-start="0"
+        :interval-count="24"
         v-model="selectedDate"
         view="week"
         locale="ru-ru"
@@ -45,9 +55,8 @@
         hour24-format
         short-weekday-label
         )
-        template(
-          #day-body="{ date, timeStartPos, timeDurationHeight }"
-        )
+
+        template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           q-separator.absolute(
             color="red"
             :style="timelineCoords"
