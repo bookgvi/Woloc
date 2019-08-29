@@ -1,10 +1,6 @@
 <template lang="pug">
   .q-pl-none
-    img(
-      src="../../../assets/logo.svg"
-      width="50px"
-    )
-    //img.logo(src="../../../statics/icons/icon-128x128.png")
+    img.logo(src="~assets/ugoloc-logo.svg")
 
 </template>
 
