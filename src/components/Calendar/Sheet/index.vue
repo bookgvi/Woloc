@@ -43,6 +43,7 @@
         animated
         no-scroll
         hour24-format
+        short-weekday-label
         )
         template(
           #day-body="{ date, timeStartPos, timeDurationHeight }"
@@ -60,11 +61,14 @@
             :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
           )
             .row.col-12.justify-start.q-px-xs
-              q-icon.row.justify-start(v-if='event.icon', :name='event.icon')
+              q-icon.row.justify-start(
+                v-if='event.icon'
+                :name='event.icon'
+                )
               .row.col-12
-                span {{ event.title }}
+                span.text-body1.ellipsis {{ event.title }}
               .row.col-12
-                span.ellipsis {{ event.details }}
+                span.text-body1.ellipsis {{ event.details }}
  </template>
 
 <script>

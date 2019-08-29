@@ -1,8 +1,8 @@
 <template lang="pug">
   .q-pl-none
-    q-icon(
-      name="location_on"
-      style="font-size: 3rem"
+    img(
+      src="../../../assets/logo.svg"
+      width="50px"
     )
     //img.logo(src="../../../statics/icons/icon-128x128.png")
 
