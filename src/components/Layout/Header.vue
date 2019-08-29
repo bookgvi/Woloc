@@ -1,10 +1,10 @@
 <template lang="pug">
   q-toolbar.row.col-12.justify-around.items-center.q-py-md.q-px-md
-    template.row.justify-start
+    .row.justify-start
       Logo
       NavTabs
     q-space
-    template.row.justify-end
+    .row.justify-end
       User
 </template>
 

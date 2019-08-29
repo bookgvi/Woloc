@@ -1,28 +1,41 @@
 <template lang="pug">
-  .justify-end.items-center
-    q-toolbar.row.justify-end.items-center.q-px-md
-      q-btn(
-        no-caps
-        label="Kap's Studios м. Бауманская"
-      )
-      q-btn(
-        no-caps
-        label="Залы 6"
-      )
-      q-btn(
-        no-caps
-        label="Цели"
-      )
-      q-btn(
-        no-caps
-        label="Оплата"
-      )
-      q-space
-      q-btn(
-        no-caps
-        label="Сбросить все"
-      )
-    q-separator.q-mt-xs.q-px-none
+  .q-px-none
+    q-separator
+
+    .wrapper
+      .row.items-center.q-py-md.q-gutter-x-sm
+        q-btn(
+          outline
+          no-caps
+          color="secondary"
+          label="Kap's Studios м. Бауманская"
+        )
+        q-btn(
+          outline
+          color="secondary"
+          no-caps
+          label="Залы 6"
+        )
+        q-btn(
+          outline
+          color="secondary"
+          no-caps
+          label="Цели"
+        )
+        q-btn(
+          outline
+          color="secondary"
+          no-caps
+          label="Оплата"
+        )
+        q-space
+        q-btn(
+          outline
+          color="secondary"
+          no-caps
+          label="Сбросить все"
+        )
+    q-separator
 </template>
 
 <script>
