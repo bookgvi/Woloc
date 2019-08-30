@@ -5,24 +5,28 @@
     .wrapper
       .row.items-center.q-py-md.q-gutter-x-sm
         q-btn(
+          size="sm"
           outline
           no-caps
           color="secondary"
           label="Kap's Studios м. Бауманская"
         )
         q-btn(
+          size="sm"
           outline
           color="secondary"
           no-caps
           label="Залы 6"
         )
         q-btn(
+          size="sm"
           outline
           color="secondary"
           no-caps
           label="Цели"
         )
         q-btn(
+          size="sm"
           outline
           color="secondary"
           no-caps
@@ -30,6 +34,7 @@
         )
         q-space
         q-btn(
+          size="sm"
           outline
           color="secondary"
           no-caps

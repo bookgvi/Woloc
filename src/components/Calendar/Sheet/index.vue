@@ -54,12 +54,15 @@
         hour24-format
         short-weekday-label
         )
+<<<<<<< HEAD
         template.row(#intervals-header="days")
           .fit.flex.justify-center.items-center
             span.text-body1 {{ "Время" }}
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
             span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
+=======
+>>>>>>> f1404882385f7c0cea24ea089c7aacefecc03627
 
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           q-separator.absolute(
@@ -88,6 +91,16 @@ import icons from 'src/common/eventType/icons'
 // import bookings from '../Data/bookings'
 import rooms from '../Data/rooms'
 // import bookings from '../Data/bookings'
+
+const formDefault = () => ({
+  title: '',
+  details: '',
+  allDay: false,
+  dateTimeStart: '',
+  dateTimeEnd: '',
+  icon: '',
+  bgcolor: '#0000FF'
+})
 
 const formDefault = () => ({
   title: '',
@@ -134,6 +147,7 @@ export default {
   },
   computed: {
     month () {
+<<<<<<< HEAD
       return date.formatDate(this.selectedDate, 'MMMM YYYY')
     }
   },
@@ -154,6 +168,13 @@ export default {
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
     },
+=======
+      console.log(123, this.selectedDate)
+      return date.formatDate(this.selectedDate, 'MMMM YYYY')
+    },
+  },
+  methods: {
+>>>>>>> f1404882385f7c0cea24ea089c7aacefecc03627
     async placeEvents () {
       let allEvents = []
       const day = +date.formatDate(this.selectedDate, 'E') - 1

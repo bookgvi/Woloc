@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-toolbar.row.col-12.justify-around.items-center.q-py-md.q-px-md
+  q-toolbar.row.col-12.justify-around.items-center.q-pa-none
     .row.justify-start
       Logo
       NavTabs
