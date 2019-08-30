@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-page(padding)
+  q-page
     Calendar
 </template>
 
