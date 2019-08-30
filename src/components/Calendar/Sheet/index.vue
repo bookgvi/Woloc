@@ -54,6 +54,12 @@
         hour24-format
         short-weekday-label
         )
+        template.row(#intervals-header="days")
+          .fit.flex.justify-center.items-center
+            span.text-body1 {{ "Время" }}
+        template(#day-header="{ date }")
+          .row.justify-left.q-px-md.q-py-md
+            span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
 
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           q-separator.absolute(
@@ -69,7 +75,7 @@
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
             .row.col-12.justify-start.q-px-xs
-              q-icon.row.justify-start(v-if='e.icon', :name='e.icon')
+              q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
               .row.col-12
                 span.text-body2.ellipsis {{ e.title }}
               .row.col-12
@@ -80,9 +86,8 @@
 
 import { colors, date } from 'quasar'
 import icons from '../Data/icons'
-// import bookings from '../Data/bookings'
 import rooms from '../Data/rooms'
-// import axios from 'axios'
+// import bookings from '../Data/bookings'
 
 const formDefault = () => ({
   title: '',
@@ -129,11 +134,26 @@ export default {
   },
   computed: {
     month () {
-      console.log(123, this.selectedDate)
       return date.formatDate(this.selectedDate, 'MMMM YYYY')
-    },
+    }
   },
   methods: {
+    padTime (val) {
+      val = Math.floor(val)
+      if (val < 10) {
+        return '0' + val
+      }
+      return val + ''
+    },
+    showOffset (days) {
+      console.log(days)
+    },
+    getTimestamp (day) {
+      return day.date + ' ' + this.padTime(day.hour) + ':' + this.padTime(day.minute) + ':00.000'
+    },
+    dayHeader (dt) {
+      return date.formatDate(dt, 'ddd D')
+    },
     async placeEvents () {
       let allEvents = []
       const day = +date.formatDate(this.selectedDate, 'E') - 1
