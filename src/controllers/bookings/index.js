@@ -28,6 +28,16 @@ export default {
     async getForTime (studio, dateFrom, dateTo) {
       this.loading.list = true
       const res = await api.bookings.getForTime({ studio, dateFrom, dateTo })
+      console.log('bookings :: getForTime', res)
+      if (res) {
+        this.list = res.data
+        this.loading.list = false
+      }
+    },
+
+    async getAll () {
+      this.loading.list = true
+      const res = await api.bookings.getAll()
       console.log('bookings :: getAll', res)
       if (res) {
         this.list = res.data
