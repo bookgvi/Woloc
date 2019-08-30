@@ -2,16 +2,17 @@
   .calendar
     CalendarMenu
     CalendarSheet
+    // UpdateEventDialog
 </template>
 
 <script>
 import CalendarMenu from './Menu/index'
 import CalendarSheet from './Sheet/index'
-// import UpdateEventDialog from './Dialogs/UpdateEventDialog'
+import UpdateEventDialog from './Dialogs/UpdateEventDialog'
 
 export default {
   name: 'Calendar',
-  components: { CalendarMenu, CalendarSheet }
+  components: { CalendarMenu, CalendarSheet, UpdateEventDialog }
 }
 </script>
 
