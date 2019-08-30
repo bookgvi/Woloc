@@ -2,7 +2,7 @@
   .wrapper
     .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
-        h5.wrap-md Kap's Studios м. Бауманская, {{ month }}
+        h6.wrap-md.text-weight-bold Kap's Studios м. Бауманская, {{ month }}
       q-space
       .justify-end.items-center
         .row.justify-end.q-px-none.q-gutter-sm
@@ -41,29 +41,65 @@
               color="secondary"
              )
     template
+      q-markup-table.absolute.z-fab(
+        flat
+        square
+        bordered
+        style="box-sizing: border-box"
+      )
+        tbody
+          tr.text-body1.text-weight-bold.items-center(
+          )
+            td.row.col-12.items-center(
+              style="height: 46px;"
+            )
+              span {{ "Время" }}
+              q-space
+              q-icon(
+                name="fas fa-chevron-down"
+              )
+          tr.text-body1.text-weight-medium.items-center(
+          )
+            td.row.col-12.items-center(
+              style="height: 41px"
+            )
+              span {{ "08:00-09:00" }}
+          tr.text-body1.text-weight-medium(
+            style="height: 40px;"
+            v-for="(t, index) in times"
+            :key="index"
+            :value="t"
+          )
+            td.row.col-12.items-center(
+              style="height: 40px;"
+            )
+              span {{ t }}
+          tr.text-body1.text-weight-medium.items-center(
+          )
+            td.row.col-12.items-center(
+              style="height: 38px"
+            )
+              span {{ "23:00-00:00" }}
       q-calendar.row.col-12(
-        style="width: 100%;"
+        style="width: 95%; margin-left: 5%"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
-        :interval-start="0"
-        :interval-count="24"
+        :interval-start="8"
+        :interval-count="16"
         v-model="selectedDate"
         view="week"
         locale="ru-ru"
         no-scroll
         hour24-format
         short-weekday-label
+        column-header-before
         )
-<<<<<<< HEAD
         template.row(#intervals-header="days")
           .fit.flex.justify-center.items-center
             span.text-body1 {{ "Время" }}
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
             span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
-=======
->>>>>>> f1404882385f7c0cea24ea089c7aacefecc03627
-
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           q-separator.absolute(
             color="red"
@@ -90,17 +126,6 @@ import { date, colors } from 'quasar'
 import icons from 'src/common/eventType/icons'
 // import bookings from '../Data/bookings'
 import rooms from '../Data/rooms'
-// import bookings from '../Data/bookings'
-
-const formDefault = () => ({
-  title: '',
-  details: '',
-  allDay: false,
-  dateTimeStart: '',
-  dateTimeEnd: '',
-  icon: '',
-  bgcolor: '#0000FF'
-})
 
 const formDefault = () => ({
   title: '',
@@ -133,7 +158,23 @@ export default {
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: ''
+      date: '',
+      times: [
+        '09:00-10:00',
+        '10:00-11:00',
+        '11:00-12:00',
+        '12:00-13:00',
+        '13:00-14:00',
+        '14:00-15:00',
+        '15:00-16:00',
+        '16:00-17:00',
+        '17:00-18:00',
+        '18:00-19:00',
+        '19:00-20:00',
+        '20:00-21:00',
+        '21:00-22:00',
+        '22:00-23:00'
+      ]
     }
   },
   created: async function () {
@@ -147,34 +188,13 @@ export default {
   },
   computed: {
     month () {
-<<<<<<< HEAD
       return date.formatDate(this.selectedDate, 'MMMM YYYY')
     }
   },
   methods: {
-    padTime (val) {
-      val = Math.floor(val)
-      if (val < 10) {
-        return '0' + val
-      }
-      return val + ''
-    },
-    showOffset (days) {
-      console.log(days)
-    },
-    getTimestamp (day) {
-      return day.date + ' ' + this.padTime(day.hour) + ':' + this.padTime(day.minute) + ':00.000'
-    },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
     },
-=======
-      console.log(123, this.selectedDate)
-      return date.formatDate(this.selectedDate, 'MMMM YYYY')
-    },
-  },
-  methods: {
->>>>>>> f1404882385f7c0cea24ea089c7aacefecc03627
     async placeEvents () {
       let allEvents = []
       const day = +date.formatDate(this.selectedDate, 'E') - 1
@@ -357,6 +377,7 @@ export default {
     },
     calendarNext () {
       this.$refs.calendar.next()
+      console.log(this.$refs.calendar)
     },
     calendarPrev () {
       this.$refs.calendar.prev()
