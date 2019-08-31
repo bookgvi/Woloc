@@ -20,18 +20,17 @@
       class="flex flex-center q-mr-md"
       )
         q-pagination(
-        v-model="current"
+        v-model="pagination.page"
         class="users-table-pagination"
         color="primary"
-        non-leaking-style-scope
-        :max="12"
+        :max="paginationPagesAmount"
         :maxPages="3"
         :boundary-numbers="true"
         )
       q-select(
       square
       outlined
-      v-model="some"
+      v-model="pagination.rowsPerPage"
       :options="options"
       :dense="true"
       class="q-mr-md"
@@ -42,6 +41,7 @@
       class="no-shadow"
       icon="chevron_left"
       :dense="true"
+      @click="previousPage()"
       )
       q-btn(
       outline
@@ -49,6 +49,7 @@
       class="no-shadow q-mr-md"
       icon="chevron_right"
       :dense="true"
+      @click="nextPage()"
       )
       q-btn(
       color="primary"
@@ -56,8 +57,10 @@
       )
     q-table(
     class="no-shadow users-table-content"
+    ref="table"
     :data="data"
     :columns="columns"
+    :pagination="pagination"
     row-key="name"
     )
       template(v-slot:body="props")
@@ -79,46 +82,39 @@
 </template>
 
 <script>
+import columns from '../Data/columns'
+import data from '../Data/fakeData'
+
 export default {
   name: 'UsersTable',
+  created () {
+
+  },
   data () {
     return {
-      options: [10, 50, 100, 250],
-      some: 100,
-      current: 1,
+      options: [1, 2, 3, 10],
       search: '',
-      columns: [
-        {
-          name: 'name',
-          required: true,
-          label: 'ИМЯ',
-          align: 'left',
-          field: row => row.name,
-          format: val => `${val}`,
-          sortable: true
-        },
-        { name: 'rating',
-          align: 'center',
-          label: 'РЕЙТИНГ',
-          sortable: true,
-          field: row => row.rating
-        },
-        { name: 'chat', label: 'ЧАТ', field: 'chat', sortable: true, align: 'left' },
-      ],
-      data: [
-        {
-          name: 'Андрей Ревин',
-          role: 'Admin',
-          rating: 5,
-          chat: 'Как мне пронести баллон с гелием в студию для съемки? Возможно ли это и какой порядок …',
-        },
-        {
-          name: 'Антон Куранов',
-          role: 'Admin',
-          rating: 2,
-          chat: 'Как мне пронести баллон с гелием в студию для съемки? Возможно ли это и какой порядок …',
-        },
-      ],
+      columns: columns,
+      data: data,
+      pagination: {
+        page: 1,
+        rowsPerPage: 10,
+      }
+    }
+  },
+  computed: {
+    paginationPagesAmount () { return Math.ceil(this.data.length / this.pagination.rowsPerPage) }
+  },
+  methods: {
+    previousPage () {
+      if (this.pagination.page > 1) {
+        --this.pagination.page
+      }
+    },
+    nextPage () {
+      if (this.pagination.page < this.paginationPagesAmount) {
+        ++this.pagination.page
+      }
     }
   }
 }
