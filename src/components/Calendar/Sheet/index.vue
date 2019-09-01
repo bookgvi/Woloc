@@ -97,6 +97,9 @@
         template.row(#intervals-header="days")
           .fit.flex.justify-center.items-center
             span.text-body1 {{ "Время" }}
+        template.row(#interval="{ timeStartPos, timeDurationHeight }")
+          .fit.flex.justify-center.items-center
+            NewEventDialog
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
             span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
@@ -113,6 +116,7 @@
             :key="index"
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
+            // UpdateEventDialog
             .row.col-12.justify-start.q-px-xs
               q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
               .row.col-12
@@ -125,7 +129,10 @@
 import { date, colors } from 'quasar'
 import icons from 'src/common/eventType/icons'
 // import bookings from '../Data/bookings'
-import rooms from '../Data/rooms'
+// import rooms from '../../../mocks/rooms'
+import roomsColors from 'src/common/rooms/colors'
+import NewEventDialog from '../Dialogs/NewEventDialog'
+import UpdateEventDialog from '../Dialogs/UpdateEventDialog'
 
 const formDefault = () => ({
   title: '',
@@ -139,6 +146,7 @@ const formDefault = () => ({
 
 export default {
   name: 'CalendarSheet',
+  components: { UpdateEventDialog, NewEventDialog },
   data () {
     return {
       range: {
@@ -147,6 +155,7 @@ export default {
         to: '20200101'
       },
       bookings: [],
+      rooms: [],
       timelineCoords: {
         top: 0,
         left: 0,
@@ -179,6 +188,10 @@ export default {
   },
   created: async function () {
     this.calendarToday()
+    await this.$app.customers.getAll()
+    await this.$app.events.getAll()
+    await this.$app.extras.getAll()
+    await this.setRooms()
     // this.getEvents()
   },
   mounted: function () {
@@ -192,6 +205,17 @@ export default {
     }
   },
   methods: {
+    async setRooms () {
+      await this.$app.rooms.getAll()
+      const roomsNames = this.$app.rooms.list
+      this.rooms = roomsNames.map((roomName, index) => {
+        const room = {
+          name: roomName.name,
+          color: roomsColors[index].color
+        }
+        return room
+      })
+    },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
     },
@@ -227,7 +251,7 @@ export default {
       }
       const setPositionOfEvents = (dt) => {
         let events = []
-        let posArray = [...Array(rooms.length)].map(() => Array(24).fill(0))
+        let posArray = [...Array(this.rooms.length)].map(() => Array(24).fill(0))
         const findEmptyPlace = (col, from, to) => {
           const isEmptyPlace = (c) => {
             for (let i = +from; i < +to; i++) {
@@ -244,7 +268,7 @@ export default {
           }
           return 0
         }
-        for (let order = 0; order < rooms.length; order++) {
+        for (let order = 0; order < this.rooms.length; order++) {
           for (let i = 0; i < this.events.length; i++) {
             if (this.events[i].date === dt) {
               if (this.setOrder(this.events[i].devInfo.room) === order) {
@@ -344,7 +368,7 @@ export default {
       return hours
     },
     setColor (room) {
-      const color = rooms.find(item => item.name === room).color
+      const color = this.rooms.find(item => item.name === room).color
       return color
     },
     setIcon (action) {
@@ -352,7 +376,7 @@ export default {
       return icon
     },
     setOrder (room) {
-      const order = rooms.findIndex(item => item.name === room)
+      const order = this.rooms.findIndex(item => item.name === room)
       return order
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {

@@ -81,7 +81,7 @@
 
 <script>
 import icons from 'src/common/eventType/icons'
-import bookings from 'src/components/Calendar/Data/bookings'
+import bookings from 'src/mocks/bookings'
 import { date } from 'quasar'
 
 export default {

@@ -2,6 +2,7 @@
   .calendar
     CalendarMenu
     CalendarSheet
+    NewEventDialog
     // UpdateEventDialog
 </template>
 
@@ -9,10 +10,11 @@
 import CalendarMenu from './Menu/index'
 import CalendarSheet from './Sheet/index'
 import UpdateEventDialog from './Dialogs/UpdateEventDialog'
+import NewEventDialog from './Dialogs/NewEventDialog'
 
 export default {
   name: 'Calendar',
-  components: { CalendarMenu, CalendarSheet, UpdateEventDialog }
+  components: { NewEventDialog, CalendarMenu, CalendarSheet, UpdateEventDialog }
 }
 </script>
 
