@@ -1,27 +1,58 @@
 <template lang="pug">
   q-page
-    q-separator
     .wrapper
-      .top-btn-container.flex
-        div.main-btn.flex.q-mr-auto
-          q-btn(
-            no-caps
-            label="Оплата"
-          )
-        q-btn.reset-btn(
-          no-caps
-          label="Сбросить все"
-        )
-    q-separator
-    .wrapper
-      .row.justify-end.q-px-none.q-mb-md
-        .text-h5.q-ma-none Бронирования
+      Menu
+
       q-table(
         :data="bookings"
         :columns="columns"
         row-key="id"
         hide-bottom
       )
+        template(v-slot:top-left)
+          .text-h6 Бронирования
+
+        template(v-slot:top-right="props")
+          q-input.q-mr-sm(
+            v-model="search"
+            :dense="true"
+            square
+            outlined
+            type="search"
+            placeholder="Поиск"
+          )
+            template(v-slot:prepend)
+              q-icon(name="search")
+
+          q-pagination(
+            color="primary"
+            :max="12"
+            :maxPages="3"
+            :boundary-numbers="true"
+            :value="props.pagination.page"
+          )
+          q-select.q-mx-md(
+            square
+            v-model="some"
+            :options="options"
+            :dense="true"
+            outlined
+          )
+          q-btn(
+            flat
+            color="secondary"
+            class="no-shadow"
+            icon="chevron_left"
+            :dense="true"
+          )
+          q-btn(
+            flat
+            color="secondary"
+            class="no-shadow"
+            icon="chevron_right"
+            :dense="true"
+          )
+
         template(v-slot:body="props")
           q-tr(:props="props" :class="props.row.removed && 'removed'")
             q-td(
@@ -45,15 +76,21 @@
 
 <script>
 import icons from 'src/common/eventType/icons'
+import Menu from '../Menu'
 import bookings from '../../mocks/bookings'
 import columns from './columns'
 
 export default {
   name: 'Bookings',
+  components: { Menu },
   methods: {
+    log (...args) {
+      console.log(...args)
+    },
+
     async getBookings () {
-      await this.$app.bookings.getAll()
-      this.bookings = this.$app.bookings.list
+      // await this.$app.bookings.getAll()
+      // this.bookings = this.$app.bookings.list
       this.bookings = bookings
     },
     getEventIcon (eventType) {
@@ -65,6 +102,9 @@ export default {
   },
   data () {
     return {
+      options: [10, 50, 100, 250],
+      some: 100,
+      current: 1,
       bookings: [],
       columns
     }
@@ -73,6 +113,33 @@ export default {
 </script>
 
 <style lang="stylus">
+  .q-table__top
+    padding 20px 0
+  .q-table__control
+    .q-btn
+      width 3em
+      padding 7px 16px !important
+      font-weight bold
+    .q-btn--flat
+      border $grey-12 solid 1px
+      color black !important
+    .q-btn--standard
+      border none
+      color white
+
+    .q-pagination .q-btn
+      margin 0 4px
+
+    .q-select
+      .q-field__native
+        font-weight bold
+
+    .q-field__control
+      input
+        font-weight bold
+
+    .q-field__control:before
+        border-color $grey-12
   thead tr:first-child th
     opacity 1
     background-color $grey-12
@@ -82,9 +149,8 @@ export default {
     tr.removed
       opacity: .2
     .room
-      max-width 80px
       .q-chip
-        width 100%
+        width 100px
         div
           width 100%
           overflow hidden
