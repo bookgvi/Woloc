@@ -21,5 +21,6 @@ export default [
     field: 'chat',
     sortable: true,
     align: 'left'
-  }
+  },
+  {}
 ]

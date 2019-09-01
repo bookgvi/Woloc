@@ -7,6 +7,7 @@
 
 import Vue from 'vue'
 import bookings from './controllers/bookings'
+import users from './controllers/users'
 
 export default {
   name: 'App',
@@ -15,7 +16,8 @@ export default {
   },
   data () {
     return {
-      bookings: new Vue(bookings)
+      bookings: new Vue(bookings),
+      users: new Vue(users)
     }
   }
 }
