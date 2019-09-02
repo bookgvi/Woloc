@@ -3,7 +3,7 @@
     v-model="room"
     :options="rooms"
     keep-color
-  )
+  ) {{ roomComp }}
 </template>
 
 <script>
@@ -26,6 +26,16 @@ export default {
       return room
     })
     this.room = this.rooms[0].value
+  },
+  computed: {
+    roomComp () {
+      return this.roomChange()
+    }
+  },
+  methods: {
+    roomChange () {
+      this.$emit('roomChange', { name: this.room })
+    }
   }
 }
 </script>

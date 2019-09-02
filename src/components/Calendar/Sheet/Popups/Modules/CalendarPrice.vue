@@ -27,7 +27,7 @@
             square
             filled
             v-model="discount"
-          )
+          ) {{ priceComp }}
 </template>
 
 <script>
@@ -58,11 +58,28 @@ export default {
     })
     this.positions = events.concat(extras)
   },
+  computed: {
+    priceComp () {
+      return this.priceChange()
+    },
+    price () {
+      let sum = 0
+      this.positions.forEach((position) => {
+        sum += +position.price
+      })
+      return sum
+    }
+  },
   methods: {
+    priceChange () {
+      this.$emit('priceChange', this.price)
+    },
     changeSign () {
+      console.log(this.fee)
       this.discount = -this.discount
     },
-  }
+  },
+  props: ['extras', 'fee']
 }
 </script>
 

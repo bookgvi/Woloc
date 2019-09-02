@@ -5,7 +5,7 @@
       :options="extras"
       color="green"
       type="checkbox"
-    )
+    ) {{ extrasComp }}
 </template>
 
 <script>
@@ -26,6 +26,16 @@ export default {
       }
       return extra
     })
+  },
+  computed: {
+    extrasComp () {
+      return this.extrasChange()
+    }
+  },
+  methods: {
+    extrasChange () {
+      this.$emit('extrasChange', this.checkedExtras)
+    }
   }
 }
 </script>

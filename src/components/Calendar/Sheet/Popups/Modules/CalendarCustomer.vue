@@ -49,8 +49,7 @@ export default {
   created: async function () {
     this.customers = this.$app.customers.list
     this.customer = this.customers[0]
-  },
-  props: ['onCustomerChange']
+  }
 }
 </script>
 

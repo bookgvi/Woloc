@@ -18,7 +18,7 @@
         text-color="$primary"
         icon="add"
         dense
-      )
+      ) {{ membersComp }}
 </template>
 
 <script>
@@ -30,10 +30,18 @@ export default {
       newMember: ''
     }
   },
+  computed: {
+    membersComp () {
+      return this.membersChange()
+    }
+  },
   methods: {
     addNewMember () {
       this.members.push(this.newMember)
       this.newMember = ''
+    },
+    membersChange () {
+      this.$emit('membersChange', this.members)
     }
   }
 }

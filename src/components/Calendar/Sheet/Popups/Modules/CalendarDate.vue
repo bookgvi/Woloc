@@ -3,7 +3,7 @@
     v-model="date"
     minimal
     mask="YYYY-MM-DD"
-  )
+  ) {{ dateComp }}
 </template>
 
 <script>
@@ -12,6 +12,16 @@ export default {
   data () {
     return {
       date: ''
+    }
+  },
+  computed: {
+    dateComp () {
+      return this.dateChange()
+    }
+  },
+  methods: {
+    dateChange () {
+      this.$emit('dateChange', this.date)
     }
   }
 }

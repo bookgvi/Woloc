@@ -1,10 +1,9 @@
 <template lang="pug">
-  .q-py-md.row.col-12
+  .q-py-md.row.col-12 {{ eventComp }}
     .col-7.row.justify-left.items-center
       q-option-group(
         v-model="event"
         :options="events"
-        option-value="name"
       )
     .col-5.flex.justify-left.items-center
       q-list
@@ -34,6 +33,16 @@ export default {
       return event
     })
     this.event = this.events[0].value
+  },
+  computed: {
+    eventComp () {
+      return this.eventChange()
+    }
+  },
+  methods: {
+    eventChange () {
+      this.$emit('eventChange', this.event)
+    }
   }
 }
 </script>

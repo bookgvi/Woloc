@@ -16,7 +16,7 @@
       :min="8"
       :max="24"
       color="green"
-    )
+    ) {{ timeComp }}
 </template>
 
 <script>
@@ -36,6 +36,17 @@ export default {
       const bar = ([1, 21].includes(foo)) ? 'час' : ([2, 3, 4, 22, 23, 24].includes(foo))
         ? 'часа' : 'часов'
       return `${foo} ${bar}`
+    },
+    timeComp () {
+      return this.timeChange()
+    }
+  },
+  methods: {
+    timeChange () {
+      this.$emit('timeChange', {
+        from: this.range.min,
+        to: this.range.max
+      })
     }
   }
 }

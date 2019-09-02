@@ -97,9 +97,12 @@
         template.row(#intervals-header="days")
           .fit.flex.justify-center.items-center
             span.text-body1 {{ "Время" }}
-        template.row(#interval="{ timeStartPos, timeDurationHeight }")
+        template.row(#interval="{ time, date }")
           .fit.flex.justify-center.items-center
-            NewEventDialog
+            NewEventDialog(
+              :date="date"
+              :interval="time"
+            )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
             span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
@@ -131,8 +134,8 @@ import icons from 'src/common/eventType/icons'
 // import bookings from '../Data/bookings'
 // import rooms from '../../../mocks/rooms'
 import roomsColors from 'src/common/rooms/colors'
-import NewEventDialog from '../Dialogs/NewEventDialog'
-import UpdateEventDialog from '../Dialogs/UpdateEventDialog'
+import NewEventDialog from './Popups/NewEventDialog'
+import UpdateEventDialog from './Popups/UpdateEventDialog'
 
 const formDefault = () => ({
   title: '',
