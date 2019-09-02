@@ -60,8 +60,8 @@ const mocks = [
   },
 ]
 
-for (let i = 0; i < 100; i += 1) {
-  data.push(...mocks)
+for (let i = 0; i < 10; i += 1) {
+  data.push(...mocks.map((mock, j) => ({ ...mock, id: i * 10 + j })))
 }
 
 export default data

@@ -1,3 +1,23 @@
+<script>
+export default {
+  name: 'table-controls',
+  props: {
+    pagesNumber: Number,
+    isFirstPage: Boolean,
+    isLastPage: Boolean,
+    pagination: Object,
+    prevPage: Function,
+    nextPage: Function,
+    setPagination: Function,
+  },
+  data () {
+    return {
+      options: [10, 50, 100, 250],
+    }
+  }
+}
+</script>
+
 <template lang="pug">
   .table-controls.row
     q-input.q-mr-sm(
@@ -45,26 +65,6 @@
       @click="nextPage"
     )
 </template>
-
-<script>
-export default {
-  name: 'table-controls',
-  props: {
-    pagesNumber: Number,
-    isFirstPage: Boolean,
-    isLastPage: Boolean,
-    pagination: Object,
-    prevPage: Function,
-    nextPage: Function,
-    setPagination: Function,
-  },
-  data () {
-    return {
-      options: [10, 50, 100, 250],
-    }
-  }
-}
-</script>
 
 <style lang="stylus">
 .table-controls
