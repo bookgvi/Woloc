@@ -3,7 +3,8 @@ const mocks = [
   {
     id: 55799,
     customer: {
-      name: 'Андрей Ревин'
+      firstName: 'Андрей',
+      lastName: 'Ревин'
     },
     room: {
       name: 'Зал №13 капотня хуётня',
@@ -22,7 +23,8 @@ const mocks = [
   {
     id: 55778,
     customer: {
-      name: 'Джим кэмп'
+      firstName: 'Джим',
+      lastName: 'Кэмп'
     },
     room: {
       name: 'Зал №11 капотня',
@@ -41,7 +43,8 @@ const mocks = [
   {
     id: 55779,
     customer: {
-      name: 'Андрей Куранов'
+      firstName: 'Андрей',
+      lastName: 'Куранов'
     },
     room: {
       name: 'Зал №11 капотня',

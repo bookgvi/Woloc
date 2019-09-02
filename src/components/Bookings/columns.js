@@ -10,7 +10,7 @@ const columns = [
   {
     name: 'customer',
     label: 'клиент',
-    field: row => row.customer.name,
+    field: ({ customer: { firstName, lastName } }) => `${firstName} ${lastName}`
   },
   {
     name: 'room',

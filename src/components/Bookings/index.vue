@@ -9,57 +9,13 @@
         :data="data"
         :columns="columns"
         :pagination.sync="pagination"
-        :loadind="loading"
         @request="onRequest"
       )
         template(v-slot:top-left)
           .text-h6 Бронирования
 
         template(v-slot:top-right="props")
-          q-input.q-mr-sm(
-            :dense="true"
-            square
-            outlined
-            type="search"
-            placeholder="Поиск"
-          )
-            template(v-slot:prepend)
-              q-icon(name="search") {{ log(props) }}
-
-          q-pagination(
-            color="black"
-            :max="props.pagesNumber"
-            :maxPages="3"
-            :boundary-numbers="true"
-            :value="props.pagination.page"
-            @input="changePage"
-          )
-          q-select.q-mx-md(
-            square
-            :value="props.pagination.rowsPerPage"
-            :options="options"
-            :dense="true"
-            @input="changeRowsPerPage"
-            outlined
-          )
-          q-btn(
-            flat
-            color="secondary"
-            class="no-shadow"
-            icon="chevron_left"
-            :dense="true"
-            :disable="props.isFirstPage"
-            @click="props.prevPage"
-          )
-          q-btn(
-            flat
-            color="secondary"
-            class="no-shadow"
-            icon="chevron_right"
-            :dense="true"
-            :disable="props.isLastPage"
-            @click="props.nextPage"
-          )
+          table-controls(v-bind="props" :setPagination="setPagination")
 
         template(v-slot:body="props")
           q-tr(:props="props" :class="props.row.removed && 'removed'")
@@ -85,35 +41,31 @@
 <script>
 import icons from 'src/common/eventType/icons'
 import Menu from '../Menu'
+import TableControls from './table-controls'
 import bookings from '../../mocks/bookings'
 import columns from './columns'
 
 export default {
   name: 'Bookings',
-  components: { Menu },
+  components: { TableControls, Menu },
   methods: {
-    log (...args) {
-      console.log(...args)
-    },
-
     async getBookings (startRow, rowsPerPage, filter, sortBy, descending) {
-      this.loading = true
-      // await this.$app.bookings.getAll()
-      this.loading = false
-      // this.data = this.$app.bookings.list
+      const useMock = true
+
+      if (!useMock) await this.$app.bookings.getAll()
+
+      const data = useMock
+        ? bookings
+        : this.$app.bookings.list
       this.pagination.rowsNumber = bookings.length
 
-      return bookings.slice(startRow, startRow + rowsPerPage)
+      return data.slice(startRow, startRow + rowsPerPage)
     },
     getEventIcon (eventType) {
       return icons.find(({ name }) => name === eventType).icon
     },
-    changeRowsPerPage ($event) {
-      this.pagination.rowsPerPage = $event
-      this.onRequest({ pagination: this.pagination })
-    },
-    changePage ($event) {
-      this.pagination.page = $event
+    setPagination (prop, value) {
+      this.pagination[prop] = value
       this.onRequest({ pagination: this.pagination })
     },
     async onRequest ({ filter, pagination: { page, rowsPerPage, sortBy, descending } }) {
@@ -135,16 +87,11 @@ export default {
   },
   data () {
     return {
-      options: [10, 50, 100, 250],
-      some: 100,
-      current: 1,
       data: [],
       columns,
-      loading: false,
       pagination: {
         sortBy: 'name',
         descending: false,
-        page: 1,
         rowsPerPage: 10,
         rowsNumber: 10
       },
@@ -156,29 +103,7 @@ export default {
 <style lang="stylus">
   .q-table__top
     padding 20px 0
-  .q-table__control
-    .q-btn
-      width 3em
-      padding 7px 16px !important
-      font-weight bold
-    .q-btn--flat
-      border $grey-12 solid 1px
-    .q-btn--standard
-      border none
-      background-color $primary !important
-    .q-pagination .q-btn
-      margin 0 4px
 
-    .q-select
-      .q-field__native
-        font-weight bold
-
-    .q-field__control
-      input
-        font-weight bold
-
-    .q-field__control:before
-        border-color $grey-12
   thead tr:first-child th
     opacity 1
     background-color $grey-12
