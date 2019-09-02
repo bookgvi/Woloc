@@ -1,11 +1,11 @@
 [
   {
     "name": "photo",
-    "icon": "fas fa-camera"
+    "icon": "camera_alt"
   },
   {
     "name": "video",
-    "icon": "fas fa-video"
+    "icon": "videocam"
   },
   {
     "name": "event",

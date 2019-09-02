@@ -14,6 +14,14 @@ export default {
       data: [],
       columns,
       controller: this.$app.bookings,
+      openedRowId: null,
+    }
+  },
+  methods: {
+    toggleOpenedRow (id) {
+      this.openedRowId = this.openedRowId === id
+        ? null
+        : id
     }
   }
 }
@@ -39,7 +47,7 @@ q-page
         table-controls(v-bind="props" :setPagination="setPagination")
 
       template(v-slot:body="props")
-        table-row(v-bind="props")
+        table-row(v-bind="props" @openRow="toggleOpenedRow" :openedRowId="openedRowId")
 </template>
 
 <style lang="stylus">
