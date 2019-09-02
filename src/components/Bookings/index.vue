@@ -4,17 +4,19 @@
       Menu
 
       q-table(
-        :data="bookings"
-        :columns="columns"
         row-key="id"
         hide-bottom
+        :data="data"
+        :columns="columns"
+        :pagination.sync="pagination"
+        :loadind="loading"
+        @request="onRequest"
       )
         template(v-slot:top-left)
           .text-h6 Бронирования
 
         template(v-slot:top-right="props")
           q-input.q-mr-sm(
-            v-model="search"
             :dense="true"
             square
             outlined
@@ -22,20 +24,22 @@
             placeholder="Поиск"
           )
             template(v-slot:prepend)
-              q-icon(name="search")
+              q-icon(name="search") {{ log(props) }}
 
           q-pagination(
-            color="primary"
-            :max="12"
+            color="black"
+            :max="props.pagesNumber"
             :maxPages="3"
             :boundary-numbers="true"
             :value="props.pagination.page"
+            @input="changePage"
           )
           q-select.q-mx-md(
             square
-            v-model="some"
+            :value="props.pagination.rowsPerPage"
             :options="options"
             :dense="true"
+            @input="changeRowsPerPage"
             outlined
           )
           q-btn(
@@ -44,6 +48,8 @@
             class="no-shadow"
             icon="chevron_left"
             :dense="true"
+            :disable="props.isFirstPage"
+            @click="props.prevPage"
           )
           q-btn(
             flat
@@ -51,6 +57,8 @@
             class="no-shadow"
             icon="chevron_right"
             :dense="true"
+            :disable="props.isLastPage"
+            @click="props.nextPage"
           )
 
         template(v-slot:body="props")
@@ -88,25 +96,58 @@ export default {
       console.log(...args)
     },
 
-    async getBookings () {
+    async getBookings (startRow, rowsPerPage, filter, sortBy, descending) {
+      this.loading = true
       // await this.$app.bookings.getAll()
-      // this.bookings = this.$app.bookings.list
-      this.bookings = bookings
+      this.loading = false
+      // this.data = this.$app.bookings.list
+      this.pagination.rowsNumber = bookings.length
+
+      return bookings.slice(startRow, startRow + rowsPerPage)
     },
     getEventIcon (eventType) {
       return icons.find(({ name }) => name === eventType).icon
-    }
+    },
+    changeRowsPerPage ($event) {
+      this.pagination.rowsPerPage = $event
+      this.onRequest({ pagination: this.pagination })
+    },
+    changePage ($event) {
+      this.pagination.page = $event
+      this.onRequest({ pagination: this.pagination })
+    },
+    async onRequest ({ filter, pagination: { page, rowsPerPage, sortBy, descending } }) {
+      const startRow = (page - 1) * rowsPerPage
+
+      this.data = await this.getBookings(startRow, rowsPerPage, filter, sortBy, descending)
+      this.pagination.page = page
+      this.pagination.rowsPerPage = rowsPerPage
+      this.pagination.sortBy = sortBy
+      this.pagination.descending = descending
+    },
   },
-  created () {
-    this.getBookings()
+  mounted () {
+    // get initial data from server (1st page)
+    this.onRequest({
+      pagination: this.pagination,
+      filter: undefined
+    })
   },
   data () {
     return {
       options: [10, 50, 100, 250],
       some: 100,
       current: 1,
-      bookings: [],
-      columns
+      data: [],
+      columns,
+      loading: false,
+      pagination: {
+        sortBy: 'name',
+        descending: false,
+        page: 1,
+        rowsPerPage: 10,
+        rowsNumber: 10
+      },
     }
   }
 }
@@ -122,11 +163,9 @@ export default {
       font-weight bold
     .q-btn--flat
       border $grey-12 solid 1px
-      color black !important
     .q-btn--standard
       border none
-      color white
-
+      background-color $primary !important
     .q-pagination .q-btn
       margin 0 4px
 

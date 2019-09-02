@@ -1,4 +1,5 @@
-export default [
+const data = []
+const mocks = [
   {
     id: 55799,
     customer: {
@@ -55,3 +56,9 @@ export default [
     reservedTo: '2019-10-14 19:00'
   },
 ]
+
+for (let i = 0; i < 100; i += 1) {
+  data.push(...mocks)
+}
+
+export default data
