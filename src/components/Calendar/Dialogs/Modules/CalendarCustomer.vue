@@ -1,6 +1,5 @@
 <template lang="pug">
-  q-card-section.col-12.row.justify-around.items-center(
-  )
+  .fit.col-12.row.justify-around.items-center
     .col-12
       q-select(
         outlined
@@ -24,7 +23,7 @@
         readonly
         label="Эл. почта"
         v-model="customer.email"
-      )
+      ) {{ customerComp }}
 </template>
 
 <script>
@@ -37,10 +36,21 @@ export default {
       customer: ''
     }
   },
+  computed: {
+    customerComp () {
+      return this.customerChange()
+    }
+  },
+  methods: {
+    customerChange () {
+      this.$emit('customerChange', this.customer)
+    }
+  },
   created: async function () {
     this.customers = this.$app.customers.list
     this.customer = this.customers[0]
-  }
+  },
+  props: ['onCustomerChange']
 }
 </script>
 

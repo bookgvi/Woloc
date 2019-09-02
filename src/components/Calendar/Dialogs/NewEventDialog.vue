@@ -1,94 +1,86 @@
 <template lang="pug">
   q-popup-proxy
-    q-card.row.justify-center.items-center(
-      style="width: 320px;"
+    q-card.text-body1.q-py-md(
+      style="width: 350px"
       )
-      .q-pa-md
-        q-list(
-          bordered
-          dense
-          )
-          q-expansion-item(
-            group="new-event"
-            label="Клиент"
-            default-opened
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-customer
-          q-expansion-item(
-            group="new-event"
-            label="Зал"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-room
-          q-expansion-item(
-            group="new-event"
-            label="Дата"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-date
-          q-expansion-item(
-            group="new-event"
-            label="Время"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-time
-          q-expansion-item(
-            group="new-event"
-            label="Цель"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-event
-          q-expansion-item(
-            group="new-event"
-            label="Доп. услуги"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-extras
-          q-expansion-item(
-            group="new-event"
-            label="Участники"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-members
-          q-expansion-item(
-            group="new-event"
-            label="Оплата"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-price
-          q-expansion-item(
-            group="new-event"
-            label="Коммент"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-comment
-          q-expansion-item(
-            group="new-event"
-            label="Удалить бронирование"
-            header-class="text-primary"
-          )
-            q-card
-              q-card-section
-                calendar-delete
+      q-list.text-black.text-weight-bold(
+        bordered
+        dense
+        )
+        q-expansion-item(
+          group="new-event"
+          :label="`Клиент ${customerName}`"
+          default-opened
+        )
+          q-card
+            q-card-section
+              calendar-customer(
+                @customerChange="newBooking.customer = $event"
+                )
+        q-expansion-item(
+          group="new-event"
+          label="Зал"
+        )
+          q-card
+            q-card-section
+              calendar-room
+        q-expansion-item(
+          group="new-event"
+          label="Дата"
+        )
+          q-card
+            q-card-section
+              calendar-date
+        q-expansion-item(
+          group="new-event"
+          label="Время"
+        )
+          q-card
+            q-card-section
+              calendar-time
+        q-expansion-item(
+          group="new-event"
+          label="Цель"
+        )
+          q-card
+            q-card-section
+              calendar-event
+        q-expansion-item(
+          group="new-event"
+          label="Доп. услуги"
+        )
+          q-card
+            q-card-section
+              calendar-extras
+        q-expansion-item(
+          group="new-event"
+          label="Участники"
+        )
+          q-card
+            q-card-section
+              calendar-members
+        q-expansion-item(
+          group="new-event"
+          label="Оплата"
+        )
+          q-card
+            q-card-section
+              calendar-price
+        q-expansion-item(
+          group="new-event"
+          label="Коммент"
+        )
+          q-card
+            q-card-section
+              calendar-comment
+        q-expansion-item(
+          group="new-event"
+          label="Удалить бронирование"
+        )
+          q-card
+            q-card-section
+              calendar-delete
+        calendar-apply
 
 </template>
 
@@ -103,6 +95,7 @@ import CalendarMembers from './Modules/CalendarMembers'
 import CalendarPrice from './Modules/CalendarPrice'
 import CalendarComment from './Modules/CalendarComment'
 import CalendarDelete from './Modules/CalendarDelete'
+import CalendarApply from './Modules/CalendarApply'
 export default {
   name: 'NewEventDialog',
   components: { CalendarDelete,
@@ -114,7 +107,38 @@ export default {
     CalendarTime,
     CalendarDate,
     CalendarRoom,
-    CalendarCustomer
+    CalendarCustomer,
+    CalendarApply
+  },
+  data () {
+    return {
+      newBooking: {
+        'reservedFrom': '',
+        'reservedTo': '',
+        'eventType': '',
+        'price': '',
+        'discount': '0.00',
+        'amount': '',
+        'duration': 0,
+        'customer': {
+          'email': '',
+          'firstName': '',
+          'lastName': '',
+          'phone': ''
+        },
+        'studio': {
+          'name': ''
+        },
+        'room': {
+          'name': ''
+        }
+      }
+    }
+  },
+  computed: {
+    customerName () {
+      return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
+    }
   }
 }
 </script>

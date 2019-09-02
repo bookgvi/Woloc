@@ -1,19 +1,13 @@
 <template lang="pug">
-  .row
-    .col-6
-      q-btn.q-mt-sm(
-        @click="cancelBooking"
-        color="negative"
-        label="Отменить"
-        dense
-      )
-    .col-6
-      q-btn.q-mt-sm(
-        @click="saveBooking"
-        color="positive"
-        label="Сохранить"
-        dense
-      )
+  .row.q-py-none.justify-center
+    q-btn.q-mt-sm(
+      @click=""
+      color="#FFFFFF"
+      text-color="red"
+      no-caps
+      label="Удалить"
+      full-width
+    )
 </template>
 
 <script>
