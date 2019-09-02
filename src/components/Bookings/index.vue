@@ -4,12 +4,14 @@ import TableControls from './table-controls'
 import TableRow from './table-row'
 import bookings from '../../mocks/bookings'
 import columns from './columns'
+import pagination from './pagination'
 
 export default {
   name: 'Bookings',
   components: { Menu, TableControls, TableRow },
+  mixins: [pagination],
   methods: {
-    async getBookings (startRow, rowsPerPage, filter, sortBy, descending) {
+    async loadData (startRow, rowsPerPage, filter, sortBy, descending) {
       const useMock = true
 
       if (!useMock) await this.$app.bookings.getAll()
@@ -21,37 +23,11 @@ export default {
 
       return data.slice(startRow, startRow + rowsPerPage)
     },
-    setPagination (prop, value) {
-      this.pagination[prop] = value
-      this.onRequest({ pagination: this.pagination })
-    },
-    async onRequest ({ filter, pagination: { page, rowsPerPage, sortBy, descending } }) {
-      const startRow = (page - 1) * rowsPerPage
-
-      this.data = await this.getBookings(startRow, rowsPerPage, filter, sortBy, descending)
-      this.pagination.page = page
-      this.pagination.rowsPerPage = rowsPerPage
-      this.pagination.sortBy = sortBy
-      this.pagination.descending = descending
-    },
-  },
-  mounted () {
-    // get initial data from server (1st page)
-    this.onRequest({
-      pagination: this.pagination,
-      filter: undefined
-    })
   },
   data () {
     return {
       data: [],
       columns,
-      pagination: {
-        sortBy: 'name',
-        descending: false,
-        rowsPerPage: 10,
-        rowsNumber: 10
-      },
     }
   }
 }
