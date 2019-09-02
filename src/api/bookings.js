@@ -1,15 +1,16 @@
 import api from './instance'
 
 export default {
-  getAll: async () => {
-    const params = {
-      studio: '100',
-      dateFrom: '20190501',
-      dateTo: '20200101'
-    }
-
+  getAll: async (page) => {
     try {
-      const r = await api.get('bookings', { params })
+      const r = await api.get('bookings', {
+        params: {
+          page,
+          studio: '100',
+          dateFrom: '20190501',
+          dateTo: '20200101'
+        }
+      })
       return r.data
     } catch (e) {
       console.warn('catch :: bookings :: getAll', e)

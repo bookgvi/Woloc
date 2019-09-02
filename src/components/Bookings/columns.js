@@ -27,7 +27,7 @@ const columns = [
   {
     name: 'amount',
     label: 'оплата, р.',
-    field: row => [row.prepayment, row.amount].join(' / '),
+    field: ({ amount, price }) => `${amount} / ${price}`,
     style: 'width: 100px'
   },
   {

@@ -35,14 +35,17 @@ export default {
       }
     },
 
-    async getAll () {
+    async getAll (page) {
       this.loading.list = true
-      const res = await api.bookings.getAll()
-      console.log('bookings :: getAll', res)
-      if (res) {
-        this.list = res.data
+      const { data } = await api.bookings.getAll(page)
+      console.log('bookings :: getAll', data)
+      if (data) {
+        this.list = data.items
+
         this.loading.list = false
       }
+
+      return data
     },
   },
   watch: {

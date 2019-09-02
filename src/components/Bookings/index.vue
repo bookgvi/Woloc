@@ -2,7 +2,6 @@
 import Menu from '../Menu'
 import TableControls from './table-controls'
 import TableRow from './table-row'
-import bookings from '../../mocks/bookings'
 import columns from './columns'
 import pagination from './pagination'
 
@@ -10,24 +9,11 @@ export default {
   name: 'Bookings',
   components: { Menu, TableControls, TableRow },
   mixins: [pagination],
-  methods: {
-    async loadData (startRow, rowsPerPage, filter, sortBy, descending) {
-      const useMock = true
-
-      if (!useMock) await this.$app.bookings.getAll()
-
-      const data = useMock
-        ? bookings
-        : this.$app.bookings.list
-      this.pagination.rowsNumber = bookings.length
-
-      return data.slice(startRow, startRow + rowsPerPage)
-    },
-  },
   data () {
     return {
       data: [],
       columns,
+      controller: this.$app.bookings,
     }
   }
 }

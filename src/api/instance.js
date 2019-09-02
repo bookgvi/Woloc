@@ -1,9 +1,14 @@
 import axios from 'axios'
+import { stringify } from 'qs'
 
 // create an axios instance
 const instance = axios.create({
   // baseURL: process.env.API_URL ||
-  baseURL: 'https://pre.ugoloc.ucann.ru/admin/api/v1.0/', // api base_url
+  // baseURL: 'https://pre.ugoloc.ucann.ru/admin/api/v1.0/', // api base_url
+  baseURL: 'https://ugoloc-693.shot.ugoloc.ucann.ru/admin/api/v1.0/', // api base_url
+  paramsSerializer: function (params) {
+    return stringify(params, { arrayFormat: 'brackets' })
+  },
 })
 
 instance.defaults.headers.post['Content-Type'] = 'application/json'

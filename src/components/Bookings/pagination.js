@@ -1,17 +1,18 @@
 export default {
   methods: {
-    async onRequest ({ filter, pagination: { page, rowsPerPage, sortBy, descending } }) {
-      const startRow = (page - 1) * rowsPerPage
+    async onRequest ({ pagination }) {
+      const { page, rowsPerPage } = pagination
+      const { items, total } = await this.controller.getAll({ number: page, size: rowsPerPage })
 
-      this.data = await this.loadData(startRow, rowsPerPage, filter, sortBy, descending)
-      this.pagination.page = page
-      this.pagination.rowsPerPage = rowsPerPage
-      this.pagination.sortBy = sortBy
-      this.pagination.descending = descending
+      this.data = items
+
+      Object.assign(this.pagination, pagination, { rowsNumber: total })
     },
     setPagination (prop, value) {
-      this.pagination[prop] = value
-      this.onRequest({ pagination: this.pagination })
+      const { pagination } = this
+      if (pagination[prop] === value) return
+
+      this.onRequest({ pagination: { [prop]: value } })
     },
   },
   mounted () {
@@ -23,10 +24,8 @@ export default {
   data () {
     return {
       pagination: {
-        sortBy: 'name',
-        descending: false,
         rowsPerPage: 10,
-        rowsNumber: 10
+        rowsNumber: 100,
       },
     }
   }
