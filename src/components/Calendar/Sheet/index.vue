@@ -129,7 +129,7 @@
  </template>
 
 <script>
-import { date, colors } from 'quasar'
+import { colors, date } from 'quasar'
 import icons from 'src/common/eventType/icons'
 // import bookings from '../Data/bookings'
 // import rooms from '../../../mocks/rooms'
@@ -226,8 +226,10 @@ export default {
       let allEvents = []
       const day = +date.formatDate(this.selectedDate, 'E') - 1
       const start = date.subtractFromDate(this.selectedDate, { days: day })
-      this.range.from = date.formatDate(start, 'YYYY-MM-DD')
-      this.range.to = date.formatDate(date.addToDate(start, { days: 6 }), 'YYYY-MM-DD')
+      this.range = Object.assign({}, {
+        from: date.formatDate(start, 'YYYY-MM-DD'),
+        to: date.formatDate(date.addToDate(start, { days: 6 }), 'YYYY-MM-DD')
+      })
       await this.setRange()
       const setEvents = () => {
         this.events = this.$app.bookings.list.map((booking) => {
@@ -417,7 +419,8 @@ export default {
     }
   },
   watch: {
-    selectedDate () {
+    selectedDate (v) {
+      console.log('watch selectedDate', v)
       this.placeEvents()
     }
   }
