@@ -12,7 +12,7 @@ export default {
       const { pagination } = this
       if (pagination[prop] === value) return
 
-      this.onRequest({ pagination: { [prop]: value } })
+      this.onRequest({ pagination: { ...pagination, [prop]: value } })
     },
   },
   mounted () {
