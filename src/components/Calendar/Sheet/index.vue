@@ -96,6 +96,7 @@ import roomsColors from 'src/common/rooms/colors'
 import NewEventDialog from './Popups/NewEventDialog'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
+import { dtFormat } from '../../../utils/helpers'
 
 const formDefault = () => ({
   title: '',
@@ -112,8 +113,8 @@ export default {
   components: { FirstColumn, UpdateEventDialog, NewEventDialog },
   data () {
     return {
+      studio: 100,
       range: {
-        studio: '100',
         from: '2019-05-01',
         to: '2020-01-01'
       },
@@ -167,110 +168,16 @@ export default {
       return date.formatDate(dt, 'ddd D')
     },
     async placeEvents () {
-      let allEvents = []
       const day = +date.formatDate(this.selectedDate, 'E') - 1
       const start = date.subtractFromDate(this.selectedDate, { days: day })
       this.range = Object.assign({}, {
         from: date.formatDate(start, 'YYYY-MM-DD'),
         to: date.formatDate(date.addToDate(start, { days: 6 }), 'YYYY-MM-DD')
       })
-      await this.setRange()
-      const setEvents = () => {
-        this.events = this.$app.bookings.list.map((booking) => {
-          const event = {
-            title: booking.customer.firstName,
-            details: `${booking.amount}/${booking.price}`,
-            date: this.getDate(booking.reservedFrom),
-            time: `${this.getTime(booking.reservedFrom)}:00`,
-            duration: (+this.getTime(booking.reservedTo) - +this.getTime(booking.reservedFrom)) * 60,
-            bgcolor: this.setColor(booking.room.name),
-            icon: this.setIcon(booking.eventType),
-            devInfo: {
-              time: {
-                from: this.getTime(booking.reservedFrom),
-                to: this.getTime(booking.reservedTo)
-              },
-              room: booking.room.name
-            },
-            posx: 0,
-            width: 1
-          }
-          return event
-        })
-      }
-      const setPositionOfEvents = (dt) => {
-        let events = []
-        let posArray = [...Array(this.rooms.length)].map(() => Array(24).fill(0))
-        const findEmptyPlace = (col, from, to) => {
-          const isEmptyPlace = (c) => {
-            for (let i = +from; i < +to; i++) {
-              if (posArray[c][i] !== 0) {
-                return false
-              }
-            }
-            return true
-          }
-          for (let c = col; c >= 0; c--) {
-            if (isEmptyPlace(c) === false) {
-              return c + 1
-            }
-          }
-          return 0
-        }
-        for (let order = 0; order < this.rooms.length; order++) {
-          for (let i = 0; i < this.events.length; i++) {
-            if (this.events[i].date === dt) {
-              if (this.setOrder(this.events[i].devInfo.room) === order) {
-                const timeFrom = this.events[i].devInfo.time.from
-                const timeTo = this.events[i].devInfo.time.to
-                let col = order
-                if (col !== 0) {
-                  col = findEmptyPlace(col, timeFrom, timeTo)
-                }
-                for (let time = timeFrom; time < timeTo; time++) {
-                  posArray[col][time] = 1
-                }
-                this.events[i].posx = col
-                events.push(this.events[i])
-              }
-            }
-          }
-        }
-        let widthArray = Array(24).fill(1)
-        for (let i = 0; i < widthArray.length; i++) {
-          for (let j = posArray.length - 1; j >= 0; j--) {
-            if (posArray[j][i] !== 0) {
-              widthArray[i] = (widthArray[i] < (j + 1) ? j + 1 : widthArray[i])
-            }
-          }
-        }
-        events = events.map((event) => {
-          let max = 0
-          for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
-            max = (max < widthArray[i]) ? widthArray[i] : max
-          }
-          event.max = max
-          return event
-        })
-        allEvents.push(...events)
-      }
-      const dayOfWeek = +date.formatDate(this.selectedDate, 'E') - 1
-      const startDate = date.subtractFromDate(this.selectedDate, { days: dayOfWeek })
-      setEvents()
-      for (let i = 0; i <= 6; i++) {
-        const currentDate = date.addToDate(startDate, { days: i })
-        const formattedCurrentDate = date.formatDate(currentDate, 'YYYY-MM-DD')
-        setPositionOfEvents(formattedCurrentDate)
-      }
-      this.events = allEvents
+      await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
     },
     resetForm () {
       this.$set(this, 'eventForm', formDefault())
-    },
-    async setRange () {
-      await this.$app.bookings.getForCalendar(this.range.studio, this.range.from, this.range.to)
-      this.bookings = this.$app.bookings.list
-      console.log(this.bookings)
     },
     editEvent (event) {
       this.resetForm()
@@ -308,13 +215,13 @@ export default {
       this.timelineCoords['width'] = '100%'
     },
     getDate (timestamp) {
-      if (+date.formatDate(timestamp, 'HH') === 0) {
+      if (+this.$moment(timestamp).format('HH') === 0) {
         timestamp = date.addToDate(timestamp, { days: -1 })
       }
-      return date.formatDate(timestamp, 'YYYY-MM-DD')
+      return this.$moment(timestamp).format('YYYY-MM-DD')
     },
     getTime (timestamp) {
-      const hours = (date.formatDate(timestamp, 'HH') !== '00') ? date.formatDate(timestamp, 'HH') : 24
+      const hours = this.$moment(timestamp).format('HH') !== '00' ? this.$moment(timestamp).format('HH:mm') : 24
       return hours
     },
     setColor (room) {
@@ -357,14 +264,110 @@ export default {
       this.$refs.calendar.prev()
     },
     calendarToday () {
-      const timestamp = new Date()
-      const today = date.formatDate(timestamp, 'YYYY-MM-DD')
-      this.selectedDate = today
-    }
+      this.selectedDate = date.formatDate(Date.now(), 'YYYY-MM-DD')
+    },
   },
   watch: {
+    '$app.bookings.list' (v) {
+      // console.log('watch $app.bookings.list', v)
+      this.$nextTick(function () {
+        let allEvents = []
+        const bookings = v.map((booking) => {
+          const diff = date.getDateDiff(
+            dtFormat(booking.reservedTo),
+            dtFormat(booking.reservedFrom),
+            'minutes'
+          )
+
+          const event = {
+            title: booking.customer.firstName,
+            details: `${booking.amount}/${booking.price}`,
+            date: this.getDate(booking.reservedFrom),
+            time: this.getTime(booking.reservedFrom),
+            duration: diff,
+            bgcolor: this.setColor(booking.room.name),
+            icon: this.setIcon(booking.eventType),
+            devInfo: {
+              time: {
+                from: this.getTime(booking.reservedFrom),
+                to: this.getTime(booking.reservedTo)
+              },
+              room: booking.room.name
+            },
+            posx: 0,
+            width: 1
+          }
+          return event
+        })
+        const setPositionOfEvents = (dt) => {
+          let events = []
+          let posArray = [...Array(this.rooms.length)].map(() => Array(24).fill(0))
+          const findEmptyPlace = (col, from, to) => {
+            const isEmptyPlace = (c) => {
+              for (let i = +from; i < +to; i++) {
+                if (posArray[c][i] !== 0) {
+                  return false
+                }
+              }
+              return true
+            }
+            for (let c = col; c >= 0; c--) {
+              if (isEmptyPlace(c) === false) {
+                return c + 1
+              }
+            }
+            return 0
+          }
+          for (let order = 0; order < this.rooms.length; order++) {
+            for (let i = 0; i < bookings.length; i++) {
+              const e = bookings[i]
+              if (e.date === dt) {
+                if (this.setOrder(e.devInfo.room) === order) {
+                  const timeFrom = e.devInfo.time.from
+                  const timeTo = e.devInfo.time.to
+                  let col = order
+                  if (col !== 0) {
+                    col = findEmptyPlace(col, timeFrom, timeTo)
+                  }
+                  for (let time = timeFrom; time < timeTo; time++) {
+                    posArray[col][time] = 1
+                  }
+                  e.posx = col
+                  events.push(e)
+                }
+              }
+            }
+          }
+          let widthArray = Array(24).fill(1)
+          for (let i = 0; i < widthArray.length; i++) {
+            for (let j = posArray.length - 1; j >= 0; j--) {
+              if (posArray[j][i] !== 0) {
+                widthArray[i] = (widthArray[i] < (j + 1) ? j + 1 : widthArray[i])
+              }
+            }
+          }
+          events = events.map((event) => {
+            let max = 0
+            for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+              max = (max < widthArray[i]) ? widthArray[i] : max
+            }
+            event.max = max
+            return event
+          })
+          allEvents.push(...events)
+        }
+        const dayOfWeek = +date.formatDate(this.selectedDate, 'E') - 1
+        const startDate = date.subtractFromDate(this.selectedDate, { days: dayOfWeek })
+        for (let i = 0; i < 7; i++) {
+          const currentDate = date.addToDate(startDate, { days: i })
+          const formattedCurrentDate = date.formatDate(currentDate, 'YYYY-MM-DD')
+          setPositionOfEvents(formattedCurrentDate)
+        }
+        this.events = allEvents
+      })
+    },
     selectedDate (v) {
-      console.log('watch selectedDate', v)
+      // console.log('watch selectedDate', v)
       this.placeEvents()
     }
   }
