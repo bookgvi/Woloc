@@ -3,16 +3,21 @@ import Menu from '../Menu'
 import TableControls from './table-controls'
 import TableRow from './table-row'
 import columns from './columns'
+import details from './details'
 import pagination from './pagination'
+import RowDialog from './row-details'
+import bookings from '../../mocks/bookings'
 
 export default {
   name: 'Bookings',
-  components: { Menu, TableControls, TableRow },
+  components: { RowDialog, Menu, TableControls, TableRow },
   mixins: [pagination],
   data () {
     return {
+      row: bookings[10],
       data: [],
       columns,
+      details,
       controller: this.$app.bookings,
       openedRowId: null,
     }
@@ -31,6 +36,8 @@ export default {
 q-page
   .wrapper
     Menu
+
+    row-dialog(:opened="true" :row="row" :sections="details")
 
     q-table(
       row-key="id"

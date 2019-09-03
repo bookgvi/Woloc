@@ -1,6 +1,4 @@
 <script>
-import icons from 'src/common/eventType/icons'
-
 export default {
   name: 'table-row',
   props: {
@@ -9,11 +7,6 @@ export default {
     openedRowId: Number,
     toggleOpenedRow: Function,
   },
-  methods: {
-    getEventIcon (eventType) {
-      return icons.find(({ name }) => name === eventType).icon
-    },
-  }
 }
 </script>
 
@@ -27,7 +20,7 @@ export default {
       template(v-if="name === 'room'")
         q-chip(dense square :color="value.color" :title="value.name") {{value.name}}
       template(v-else-if="name === 'eventType'")
-        q-icon(:name='getEventIcon(value)')
+        q-icon(:name='value.icon')
       template(v-else-if="name === 'isPaid'")
         q-icon(size="sm" name="check" color="green" v-if="value")
       template(v-else-if="name === 'comment'")

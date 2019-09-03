@@ -1,85 +1,83 @@
 import { date } from 'quasar'
+import eventTypes from 'src/common/eventTypes'
 
 const columns = [
   {
     name: 'id',
     label: 'id',
-    field: 'id',
-    style: 'width: 70px'
+    width: 70,
   },
   {
     name: 'customer',
-    label: 'клиент',
+    label: 'Клиент',
     field: ({ customer: { firstName, lastName } }) => `${firstName} ${lastName}`
   },
   {
     name: 'room',
-    label: 'зал',
+    label: 'Зал',
     field: 'room',
-    style: 'width: 120px'
+    width: 120
   },
   {
     name: 'eventType',
-    label: 'цель',
+    label: 'Цель',
     field: 'eventType',
-    style: 'width: 50px'
+    format: (value) => eventTypes[value],
+    width: 50,
   },
   {
     name: 'amount',
-    label: 'оплата, р.',
+    label: 'Оплата, р.',
     field: ({ amount, price }) => `${amount} / ${price}`,
-    style: 'width: 100px'
+    width: 100
   },
   {
     name: 'isPaid',
-    field: 'isPaid',
-    style: 'width: 10px'
+    width: 10,
   },
   {
     name: 'guestsCount',
-    label: 'гости',
-    field: 'guestsCount',
-    style: 'width: 60px'
+    label: 'Гости',
+    width: 60
   },
   {
     name: 'servicesCount',
-    label: 'допы',
-    field: 'servicesCount',
+    label: 'Допы',
     format: value => value || '—',
-    style: 'width: 60px'
+    width: 60
   },
   {
     name: 'date',
-    label: 'дата',
+    label: 'Дата',
     field: 'reservedFrom',
     format: value => date.formatDate(value, 'D MMM'),
-    style: 'width: 60px'
+    width: 60
   },
   {
     name: 'time',
-    label: 'время',
+    label: 'Время',
     format: (value, { reservedFrom, reservedTo }) => [reservedFrom, reservedTo].map(
       part => date.formatDate(part, 'H:mm')
     ).join(' — '),
-    style: 'width: 120px'
+    width: 120
   },
   {
     name: 'promo',
-    label: 'промо',
-    field: 'promo',
+    label: 'Промо',
   },
   {
     name: 'comment',
-    label: 'коммент',
-    field: 'comment',
+    label: 'Коммент',
   },
   {
     name: 'actions',
-    style: 'width: 40px'
+    width: 40
   }
 ].map(col => ({
   ...col,
-  align: 'left'
+  field: col.field || col.name,
+  align: 'left',
+  style: col.width && `width: ${col.width}px`
 }))
 
 export default columns
