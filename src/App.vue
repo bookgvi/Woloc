@@ -7,6 +7,7 @@
 
 import Vue from 'vue'
 import bookings from './controllers/bookings'
+import users from './controllers/users'
 import rooms from './controllers/rooms'
 import customers from './controllers/customers'
 import events from './controllers/events'
@@ -20,6 +21,7 @@ export default {
   data () {
     return {
       bookings: new Vue(bookings),
+      users: new Vue(users),
       rooms: new Vue(rooms),
       customers: new Vue(customers),
       events: new Vue(events),
