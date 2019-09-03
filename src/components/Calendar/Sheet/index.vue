@@ -41,45 +41,7 @@
               color="secondary"
              )
     template
-      q-markup-table.absolute.z-fab(
-        flat
-        square
-        bordered
-        style="box-sizing: border-box"
-      )
-        tbody
-          tr.text-body1.text-weight-bold.items-center(
-          )
-            td.row.col-12.items-center(
-              style="height: 46px;"
-            )
-              span {{ "Время" }}
-              q-space
-              q-icon(
-                name="fas fa-chevron-down"
-              )
-          tr.text-body1.text-weight-medium.items-center(
-          )
-            td.row.col-12.items-center(
-              style="height: 41px"
-            )
-              span {{ "08:00-09:00" }}
-          tr.text-body1.text-weight-medium(
-            style="height: 40px;"
-            v-for="(t, index) in times"
-            :key="index"
-            :value="t"
-          )
-            td.row.col-12.items-center(
-              style="height: 40px;"
-            )
-              span {{ t }}
-          tr.text-body1.text-weight-medium.items-center(
-          )
-            td.row.col-12.items-center(
-              style="height: 38px"
-            )
-              span {{ "23:00-00:00" }}
+      first-column
       q-calendar.row.col-12(
         style="width: 95%; margin-left: 5%"
         ref="calendar"
@@ -94,9 +56,6 @@
         short-weekday-label
         column-header-before
         )
-        template.row(#intervals-header="days")
-          .fit.flex.justify-center.items-center
-            span.text-body1 {{ "Время" }}
         template.row(#interval="{ time, date }")
           .fit.flex.justify-center.items-center
             NewEventDialog(
@@ -136,6 +95,7 @@ import icons from 'src/common/eventType/icons'
 import roomsColors from 'src/common/rooms/colors'
 import NewEventDialog from './Popups/NewEventDialog'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
+import FirstColumn from './Modules/FirstColumn'
 
 const formDefault = () => ({
   title: '',
@@ -149,7 +109,7 @@ const formDefault = () => ({
 
 export default {
   name: 'CalendarSheet',
-  components: { UpdateEventDialog, NewEventDialog },
+  components: { FirstColumn, UpdateEventDialog, NewEventDialog },
   data () {
     return {
       range: {
@@ -170,23 +130,7 @@ export default {
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: '',
-      times: [
-        '09:00-10:00',
-        '10:00-11:00',
-        '11:00-12:00',
-        '12:00-13:00',
-        '13:00-14:00',
-        '14:00-15:00',
-        '15:00-16:00',
-        '16:00-17:00',
-        '17:00-18:00',
-        '18:00-19:00',
-        '19:00-20:00',
-        '20:00-21:00',
-        '21:00-22:00',
-        '22:00-23:00'
-      ]
+      date: ''
     }
   },
   created: async function () {
