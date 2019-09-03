@@ -154,8 +154,8 @@ export default {
     return {
       range: {
         studio: '100',
-        from: '20190501',
-        to: '20200101'
+        from: '2019-05-01',
+        to: '2020-01-01'
       },
       bookings: [],
       rooms: [],
@@ -226,8 +226,8 @@ export default {
       let allEvents = []
       const day = +date.formatDate(this.selectedDate, 'E') - 1
       const start = date.subtractFromDate(this.selectedDate, { days: day })
-      this.range.from = date.formatDate(start, 'YYYYMMDD')
-      this.range.to = date.formatDate(date.addToDate(start, { days: 6 }), 'YYYYMMDD')
+      this.range.from = date.formatDate(start, 'YYYY-MM-DD')
+      this.range.to = date.formatDate(date.addToDate(start, { days: 6 }), 'YYYY-MM-DD')
       await this.setRange()
       const setEvents = () => {
         this.events = this.$app.bookings.list.map((booking) => {
@@ -322,8 +322,9 @@ export default {
       this.$set(this, 'eventForm', formDefault())
     },
     async setRange () {
-      await this.$app.bookings.getForTime(this.range.studio, this.range.from, this.range.to)
+      await this.$app.bookings.getForCalendar(this.range.studio, this.range.from, this.range.to)
       this.bookings = this.$app.bookings.list
+      console.log(this.bookings)
     },
     editEvent (event) {
       this.resetForm()

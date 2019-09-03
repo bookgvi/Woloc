@@ -8,7 +8,7 @@
         type="textarea"
       )
     .col-12.row.justify-left.items-center
-      .text Админ
+      .text-body2 Админ
     .col-12.row.justify-left.items-center
       q-input.col-12(
         v-model="managerComment"

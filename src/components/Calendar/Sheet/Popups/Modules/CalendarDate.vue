@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-date(
+  q-date.fit(
     v-model="date"
     minimal
     mask="YYYY-MM-DD"

@@ -1,6 +1,6 @@
 <template lang="pug">
   .col-12.flex.justify-left.items-center
-    q-option-group(
+    q-option-group.text-body2(
       v-model="checkedExtras"
       :options="extras"
       color="green"

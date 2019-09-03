@@ -1,12 +1,14 @@
 <template lang="pug">
-  .row.q-py-none.col-12.justify-center
-      q-btn.q-px-lg(
+  .row.col-12.justify-center.q-py-md.q-gutter-x-sm
+      q-btn.col-5.text-body2.text-weight-bold(
+        no-caps
         @click="cancelBooking"
         color="negative"
         label="Отменить"
         dense
       )
-      q-btn.q-px-lg(
+      q-btn.col-5.text-body2.text-weight-bold(
+        no-caps
         @click="saveBooking"
         color="positive"
         label="Сохранить"

@@ -1,17 +1,21 @@
 <template lang="pug">
-  .q-py-md
-    .text.text_small Интервал, {{ duration }}
-    .row
-      .col-6
+  .q-py-sm.text-body2
+    .row.span.q-pb-sm Интервал, {{ duration }}
+    .row.justify-around
+      .col-5
         q-input(
+          dense
+          outlined
           v-model="range.min"
         )
-      .col-6
+      .col-5
         q-input(
+          dense
+          outlined
           v-model="range.max"
         )
-    .col-12.row.text.text_extrasmall Зеленым отмечено свободное время.
-    q-range(
+    .row.text-body2.q-py-sm Зеленым отмечено свободное время.
+    q-range.row.q-px-sm(
       v-model="range"
       :min="8"
       :max="24"

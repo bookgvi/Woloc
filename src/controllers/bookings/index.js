@@ -20,12 +20,12 @@ export default {
     },
   },
   methods: {
-    async getForTime (studio, dateFrom, dateTo) {
+    async getForCalendar (studio, dateFrom, dateTo) {
       this.loading.list = true
-      const res = await api.bookings.getForTime({ studio, dateFrom, dateTo })
-      console.log('bookings :: getForTime', res)
+      const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo })
+      console.log('bookings :: getForCalendar', res)
       if (res) {
-        this.list = res.data
+        this.list = res.data.items
         this.loading.list = false
       }
     },

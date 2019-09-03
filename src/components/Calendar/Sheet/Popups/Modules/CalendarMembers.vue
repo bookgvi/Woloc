@@ -1,24 +1,28 @@
 <template lang="pug">
-  .q-py-md
+  .q-py-xs
     .col-12.row.justify-left.items-center
-      q-list
-        q-item(
+      q-list(dense)
+        q-item.text-body2(
           v-for="(member, index) in members"
           :key="index"
+          )
+          .text-body2 {{ member }}
+          q-separator
+    .col-12.row.justify-around.items-center
+      .col-9.q-py-md
+        q-input.text-body2(
+          dense
+          outlined
+          v-model="newMember"
         )
-          .text.text_small {{ member }}
-    .col-11.row.justify-left.items-center
-      q-input(
-        v-model="newMember"
-      )
-    .col-1.row.justify-left.items-center
-      q-btn.q-mt-sm(
-        @click="addNewMember"
-        color="#B5B5B5"
-        text-color="$primary"
-        icon="add"
-        dense
-      ) {{ membersComp }}
+      .col-1.q-py-md
+        q-btn(
+          @click="addNewMember"
+          color="#B5B5B5"
+          text-color="$primary"
+          icon="add"
+          dense
+        ) {{ membersComp }}
 </template>
 
 <script>

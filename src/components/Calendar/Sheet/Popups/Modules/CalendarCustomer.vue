@@ -1,7 +1,7 @@
 <template lang="pug">
   .fit.col-12.row.justify-around.items-center
     .col-12
-      q-select(
+      q-select.text-body2.text-weight-bold(
         outlined
         use-input
         label="Пользователь"
@@ -11,14 +11,15 @@
         v-model="customer"
         )
     .col-12
-      q-input(
+      q-input.text-body2.text-weight-bold(
         outlined
         readonly
+        mask="#(###)###-##-##"
         label="Телефон"
         v-model="customer.phone"
       )
     .col-12
-      q-input(
+      q-input.text-body2.text-weight-bold(
         outlined
         readonly
         label="Эл. почта"

@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-option-group.col-12.justify-left.items-center(
+  q-option-group.col-12.justify-left.items-center.text-body2(
     v-model="room"
     :options="rooms"
     keep-color

@@ -1,20 +1,20 @@
 <template lang="pug">
   q-popup-proxy
-    q-card.text-body1.q-py-md(
+    q-card.q-py-md(
       style="width: 330px"
       )
-      q-list.text-body1.text-black.text-weight-bold(
-        bordered
+      q-list.text-body2.text-black.text-weight-bold(
         dense
         )
         q-expansion-item(
           group="new-event"
+          dense
           default-opened
         )
-          template(v-slot:header).row.col-11.items-center
-            .col-4
+          template(v-slot:header).row.items-center
+            .col-4.q-py-sm
               span {{ "Клиент" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{ customerSlot }}
           q-card
             q-card-section
@@ -23,11 +23,12 @@
                 )
         q-expansion-item(
           group="new-event"
+          dense
         )
-          template(v-slot:header).row.col-11
-            .col-4
+          template(v-slot:header)
+            .col-4.q-py-sm
               span {{ "Зал" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{ roomSlot }}
           q-card
             q-card-section
@@ -36,11 +37,12 @@
                 )
         q-expansion-item(
           group="new-event"
+          dense
         )
-          template(v-slot:header).row.col-11
-            .col-4
+          template(v-slot:header)
+            .col-4.q-py-sm
               span {{ "Дата" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{ dateSlot }}
           q-card
             q-card-section
@@ -49,11 +51,12 @@
               )
         q-expansion-item(
           group="new-event"
+          dense
         )
-          template(v-slot:header).row.col-11
-            .col-4
+          template(v-slot:header)
+            .col-4.q-py-sm
               span {{ "Время" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{ timeSlot }}
           q-card
             q-card-section
@@ -62,12 +65,12 @@
               )
         q-expansion-item(
           group="new-event"
-          label="Цель"
+          dense
         )
-          template(v-slot:header).row.col-11
-            .col-4
+          template(v-slot:header)
+            .col-4.q-py-sm
               span {{ "Цель" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{ eventSlot }}
           q-card
             q-card-section
@@ -76,11 +79,12 @@
               )
         q-expansion-item(
           group="new-event"
+          dense
         )
-          template(v-slot:header).row.col-11
-            .col-4
+          template(v-slot:header)
+            .col-4.q-py-sm
               span {{ "Доп. услуги" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{ extrasSlot }}
           q-card
             q-card-section
@@ -89,11 +93,12 @@
               )
         q-expansion-item(
           group="new-event"
+          dense
         )
-          template(v-slot:header).row.col-11
-            .col-4
+          template(v-slot:header)
+            .col-4.q-py-sm
               span {{ "Участники" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{ membersSlot }}
           q-card
             q-card-section
@@ -102,11 +107,12 @@
               )
         q-expansion-item(
           group="new-event"
+          dense
         )
-          template(v-slot:header).row.col-11
-            .col-4
+          template(v-slot:header)
+            .col-4.q-py-sm
               span {{ "Оплата" }}
-            .col-7
+            .col-7.q-py-sm
               span.text-grey {{priceSlot }}
           q-card
             q-card-section
@@ -117,6 +123,7 @@
               )
         q-expansion-item(
           group="new-event"
+          dense
           label="Коммент"
         )
           q-card
@@ -124,6 +131,7 @@
               calendar-comment
         q-expansion-item(
           group="new-event"
+          dense
           label="Удалить бронирование"
         )
           q-card
@@ -218,6 +226,7 @@ export default {
       return this.newBooking.eventType
     },
     extrasSlot () {
+      console.log(this.helpers.extras)
       return this.helpers.extras.length
     },
     membersSlot () {

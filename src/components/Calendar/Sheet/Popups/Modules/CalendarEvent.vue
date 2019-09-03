@@ -1,17 +1,10 @@
 <template lang="pug">
   .q-py-md.row.col-12 {{ eventComp }}
-    .col-7.row.justify-left.items-center
+    .col-7.text-body2
       q-option-group(
         v-model="event"
         :options="events"
       )
-    .col-5.flex.justify-left.items-center
-      q-list
-        q-item(
-          v-for="(event, index) in events"
-          :key="index"
-        )
-          .text.text_gray {{ event.price }} р.
 </template>
 
 <script>
@@ -26,7 +19,7 @@ export default {
   created: async function () {
     this.events = this.$app.events.list.map((item) => {
       const event = {
-        value: item.name,
+        value: item.alias,
         label: item.alias,
         price: item.price
       }
