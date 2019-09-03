@@ -1,8 +1,6 @@
-<!--
 <template lang="pug">
-  q-dialog
+  q-popup-proxy
     q-card.row.justify-center.items-center(
-      v-if="$app.bookings.dialogs.update"
       style="width: 320px;"
     )
       pre {{}}
@@ -13,20 +11,20 @@
         .col-4
           .text.text_bald(
             style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-          ) {{ user.name }}
+          ) {{ $app.bookings.list[0].customer.firstName }}
         .col-7
-          .text.text_gray {{ user.phone }}
+          .text.text_gray {{ $app.bookings.list[0].customer.phone }}
         .col-1
           q-icon(
             name="keyboard_arrow_down"
           )
       q-card-section.col-12.row.justify-around.items-center(
         v-else
-        @click="sectionToggle('user')"
+        @click="sectionToggle('$app.bookings.list[0].customer')"
       )
        .col-11
          .text.text_bald(
-         ) {{ user.name }}
+         ) {{ $app.bookings.list[0].customer.name }}
        .col-1
          q-icon(
            name="keyboard_arrow_up"
@@ -35,11 +33,11 @@
         v-if="cardsBottom.user"
       )
         q-input.col-12.row.text.text_small(
-          v-model="user.phone"
+          v-model="$app.bookings.list[0].customer.phone"
           readonly
         )
         q-input.col-12.row.text.text_small(
-          v-model="user.email"
+          v-model="$app.bookings.list[0].customer.email"
           readonly
         )
       q-card-section.col-12.row.justify-around.items-center(
@@ -72,7 +70,7 @@
       )
         .col-11.flex.justify-left.items-center
           .text.text_bald Дата
-          .text.text_gray {{ booking.date }}
+          .text.text_gray {{ $app.bookings.list[0].reservedFrom }}
         .col-1
           q-icon(
             v-if="!cardsBottom.date"
@@ -132,7 +130,6 @@
       )
         .col-11.flex.justify-left.items-center
           .text.text_bald Цель
-          .text.text_gray {{ booking.action.name }}
         .col-1
           q-icon(
             v-if="!cardsBottom.action"
@@ -288,7 +285,7 @@
       )
         .col-12.row.justify-left.items-center
           q-input.col-12(
-            v-model="booking.user_comment"
+            v-model="$app.bookings.list[0].customer_comment"
             readonly
             type="textarea"
           )
@@ -346,7 +343,6 @@
 </template>
 
 <script>
-import bookings from '../Data/bookings'
 export default {
   name: 'UpdateEventDialog',
   data () {
@@ -375,7 +371,6 @@ export default {
         comment: false,
         delete: false
       },
-      ...bookings,
       newMember: '',
       rooms: [
         {
@@ -573,4 +568,3 @@ export default {
     line-height 18px
 
 </style>
--->

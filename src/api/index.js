@@ -1,7 +1,13 @@
 import bookings from './bookings'
-import users from './users'
+import rooms from './rooms'
+import customers from './customers'
+import events from './events'
+import extras from './extras'
 
 export default {
+  rooms,
   bookings,
-  users
+  customers,
+  events,
+  extras
 }

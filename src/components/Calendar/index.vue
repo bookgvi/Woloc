@@ -5,9 +5,8 @@
 </template>
 
 <script>
-import CalendarMenu from './Menu/index'
-import CalendarSheet from './Sheet/index'
-// import UpdateEventDialog from './Dialogs/UpdateEventDialog'
+import CalendarMenu from '../Menu'
+import CalendarSheet from './Sheet'
 
 export default {
   name: 'Calendar',
