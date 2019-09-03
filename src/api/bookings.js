@@ -12,13 +12,13 @@ export default {
     }
   },
 
-  getForTime: async (payload) => {
+  getForCalendar: async (payload) => {
     const { studio, dateFrom, dateTo } = payload
     try {
-      const r = await api.get(`bookings?studio=${studio}&dateFrom=${dateFrom}&dateTo=${dateTo}`)
+      const r = await api.get(`calendar/?studio=${studio}&dateFrom=${dateFrom}&dateTo=${dateTo}`)
       return r.data
     } catch (e) {
-      console.warn('catch :: bookings :: getForTime', e)
+      console.warn('catch :: bookings :: getForCalendar', e)
     }
   }
 }
