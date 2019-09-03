@@ -29,6 +29,19 @@ export default {
         this.loading.list = false
       }
     },
+
+    async getAll (page) {
+      this.loading.list = true
+      const { data } = await api.bookings.getAll(page)
+      console.log('bookings :: getAll', data)
+      if (data) {
+        this.list = data.items
+
+        this.loading.list = false
+      }
+
+      return data
+    },
   },
   watch: {
     'loading.list' (v) {

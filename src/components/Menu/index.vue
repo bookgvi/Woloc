@@ -3,13 +3,14 @@
     q-separator
 
     .wrapper
-      .row.items-center.q-py-md.q-gutter-x-sm
+      .menu.row.items-center.q-py-md.q-gutter-x-sm
         q-btn(
           size="sm"
           outline
           no-caps
-          color="secondary"
+          color="black"
           label="Kap's Studios м. Бауманская"
+          dense
         )
         q-btn(
           size="sm"
@@ -17,6 +18,7 @@
           color="secondary"
           no-caps
           label="Залы 6"
+          dense
         )
         q-btn(
           size="sm"
@@ -24,6 +26,7 @@
           color="secondary"
           no-caps
           label="Цели"
+          dense
         )
         q-btn(
           size="sm"
@@ -31,6 +34,7 @@
           color="secondary"
           no-caps
           label="Оплата"
+          dense
         )
         q-space
         q-btn(
@@ -39,6 +43,7 @@
           color="secondary"
           no-caps
           label="Сбросить все"
+          dense
         )
     q-separator
 </template>
@@ -51,12 +56,8 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  /*  .menu
-      display block
-      background-color #FFFFFF
-      width 100%
-      height 34px
-      box-shadow inset 0 -1px 0 0 rgba(0,0,0,0.1)
+  .menu
+    .q-btn
+      font-size 12px !important
 
-   */
 </style>
