@@ -1,7 +1,6 @@
 <template lang="pug">
-  q-dialog
+  q-popup-proxy
     q-card.row.justify-center.items-center(
-      v-if="$app.bookings.dialogs.update"
       style="width: 320px;"
     )
       pre {{}}

@@ -2,7 +2,7 @@ import api from '../../api'
 import { sortBy } from 'lodash'
 
 export default {
-  name: 'bookings',
+  name: 'events',
   data () {
     return {
       loading: {
@@ -16,16 +16,17 @@ export default {
   },
   computed: {
     all () {
-      return sortBy(this.list, 'title')
+      return sortBy(this.list, 'name')
     },
   },
   methods: {
-    async getForCalendar (studio, dateFrom, dateTo) {
+    async getAll () {
       this.loading.list = true
-      const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo })
-      console.log('bookings :: getForCalendar', res)
+      const res = await api.events.getAll()
+      console.log('events :: getAll', res)
       if (res) {
-        this.list = res.data.items
+        console.log(res)
+        this.list = res.data
         this.loading.list = false
       }
     },

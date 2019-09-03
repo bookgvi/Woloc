@@ -1,25 +1,40 @@
 <template lang="pug">
-    q-tabs(
-      shrink
-      align="left"
-      animated
-      no-caps
-      active-color="black"
+  q-tabs(
+    shrink
+    align="justify"
+    animated
+    no-caps
+    active-color="black"
+    narrow-indicator
+    dense
+  )
+    q-route-tab.q-px-sm(
+      v-for="(route, index) in routes"
+      :key="index"
+      :to="route.to"
+      :label="route.label"
     )
-      q-route-tab.q-px-xs(to="/" label="Дашборд")
-      q-route-tab.q-px-xs(to="/users" label="Пользователи")
-      q-route-tab.q-px-xs(to="/calendar" label="Календарь")
-      q-route-tab.q-px-xs(to="/bookings" label="Бронирования")
-      q-route-tab.q-px-xs(to="/invoices" label="Заявки")
-      q-route-tab.q-px-xs(to="/finances" label="Финансы")
-      q-route-tab.q-px-xs(to="/refunds" label="Возврат")
-      q-route-tab.q-px-xs(to="/documents" label="Документы")
-      q-route-tab.q-px-xs(to="/settings" label="Настройки")
+
 </template>
 
 <script>
 export default {
-  name: 'NavTabs'
+  name: 'NavTabs',
+  data () {
+    return {
+      routes: [
+        { to: '/', label: 'Дашборд' },
+        { to: '/users', label: 'Пользователи' },
+        { to: '/calendar', label: 'Календарь' },
+        { to: '/bookings', label: 'Бронирования' },
+        { to: '/invoices', label: 'Заявки' },
+        { to: '/finances', label: 'Финансы' },
+        { to: '/refunds', label: 'Возврат' },
+        { to: '/documents', label: 'Документы' },
+        { to: '/settings', label: 'Настройки' },
+      ]
+    }
+  }
 }
 </script>
 

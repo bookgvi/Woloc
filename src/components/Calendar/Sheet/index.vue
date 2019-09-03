@@ -1,13 +1,15 @@
 <template lang="pug">
-  .sheet.row.q-px-none
-    .row.col-12.justify-start.items-center.q-px-md.no-wrap
+  .wrapper
+    .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
-        h6.wrap-md Kap's Studios м. Бауманская{{ month }}
+        h6.wrap-md.text-weight-bold Kap's Studios м. Бауманская, {{ month }}
       q-space
       .justify-end.items-center
-        q-toolbar.row.justify-end.q-px-none
-          q-btn.btn.btn-calendar(
+        .row.justify-end.q-px-none.q-gutter-sm
+          q-btn.q-px-sm(
             icon="calendar_today"
+            outline
+            color="secondary"
           )
             q-popup-proxy
               q-card
@@ -18,21 +20,68 @@
                   mask="YYYY-MM-DD"
                 )
           q-btn(
+            outline
             label="Сегодня"
             no-caps
             @click="calendarToday"
+            color="secondary"
           )
-          q-btn(
-            icon="chevron_left"
-            @click="calendarPrev"
-           )
-          q-btn(
-            icon="chevron_right"
-            @click="calendarNext"
-           )
+          q-btn-group(outline)
+            q-btn.q-px-sm(
+              outline
+              icon="chevron_left"
+              @click="calendarPrev"
+              color="secondary"
+             )
+            q-separator(vertical inset)
+            q-btn.q-px-sm(
+              outline
+              icon="chevron_right"
+              @click="calendarNext"
+              color="secondary"
+             )
     template
-      q-calendar.row.col-12.q-px-md.relative-position(
-        style="width: 100%;"
+      q-markup-table.absolute.z-fab(
+        flat
+        square
+        bordered
+        style="box-sizing: border-box"
+      )
+        tbody
+          tr.text-body1.text-weight-bold.items-center(
+          )
+            td.row.col-12.items-center(
+              style="height: 46px;"
+            )
+              span {{ "Время" }}
+              q-space
+              q-icon(
+                name="fas fa-chevron-down"
+              )
+          tr.text-body1.text-weight-medium.items-center(
+          )
+            td.row.col-12.items-center(
+              style="height: 41px"
+            )
+              span {{ "08:00-09:00" }}
+          tr.text-body1.text-weight-medium(
+            style="height: 40px;"
+            v-for="(t, index) in times"
+            :key="index"
+            :value="t"
+          )
+            td.row.col-12.items-center(
+              style="height: 40px;"
+            )
+              span {{ t }}
+          tr.text-body1.text-weight-medium.items-center(
+          )
+            td.row.col-12.items-center(
+              style="height: 38px"
+            )
+              span {{ "23:00-00:00" }}
+      q-calendar.row.col-12(
+        style="width: 95%; margin-left: 5%"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
         :interval-start="8"
@@ -40,42 +89,55 @@
         v-model="selectedDate"
         view="week"
         locale="ru-ru"
-        animated
         no-scroll
         hour24-format
+        short-weekday-label
+        column-header-before
         )
-        template(
-          #day-body="{ date, timeStartPos, timeDurationHeight }"
-        )
+        template.row(#intervals-header="days")
+          .fit.flex.justify-center.items-center
+            span.text-body1 {{ "Время" }}
+        template.row(#interval="{ time, date }")
+          .fit.flex.justify-center.items-center
+            NewEventDialog(
+              :date="date"
+              :interval="time"
+            )
+        template(#day-header="{ date }")
+          .row.justify-left.q-px-md.q-py-md
+            span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
+        template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           q-separator.absolute(
             color="red"
             :style="timelineCoords"
           )
           q-badge.my-event.absolute-top(
             multi-line
-            v-for="(event, index) in events"
-            :value="event"
-            v-if="event.date === date"
+            v-for="(e, index) in events"
+            :value="e"
+            v-if="e.date === date"
             :key="index"
-            :style="badgeStyles(event, 'body', timeStartPos, timeDurationHeight)"
+            :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
+            // UpdateEventDialog
             .row.col-12.justify-start.q-px-xs
-              q-icon.row.justify-start(v-if='event.icon', :name='event.icon')
+              q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
               .row.col-12
-                span {{ event.title }}
+                span.text-body2.ellipsis {{ e.title }}
               .row.col-12
-                span.ellipsis {{ event.details }}
+                span.text-body2.ellipsis {{ e.details }}
  </template>
 
 <script>
-
 import { date, colors } from 'quasar'
 import icons from 'src/common/eventType/icons'
 // import bookings from '../Data/bookings'
-import rooms from '../Data/rooms'
-// import axios from 'axios'
+// import rooms from '../../../mocks/rooms'
+import roomsColors from 'src/common/rooms/colors'
+import NewEventDialog from './Popups/NewEventDialog'
+import UpdateEventDialog from './Popups/UpdateEventDialog'
 
-const formDefault = {
+const formDefault = () => ({
   title: '',
   details: '',
   allDay: false,
@@ -83,36 +145,56 @@ const formDefault = {
   dateTimeEnd: '',
   icon: '',
   bgcolor: '#0000FF'
-}
+})
 
 export default {
   name: 'CalendarSheet',
+  components: { UpdateEventDialog, NewEventDialog },
   data () {
     return {
       range: {
         studio: '100',
-        from: '20190501',
-        to: '20200101'
+        from: '2019-05-01',
+        to: '2020-01-01'
       },
       bookings: [],
+      rooms: [],
       timelineCoords: {
         top: 0,
         left: 0,
         width: 0
       },
-      eventForm: { ...formDefault },
+      eventForm: formDefault(),
       interval: {},
       events: [],
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: ''
+      date: '',
+      times: [
+        '09:00-10:00',
+        '10:00-11:00',
+        '11:00-12:00',
+        '12:00-13:00',
+        '13:00-14:00',
+        '14:00-15:00',
+        '15:00-16:00',
+        '16:00-17:00',
+        '17:00-18:00',
+        '18:00-19:00',
+        '19:00-20:00',
+        '20:00-21:00',
+        '21:00-22:00',
+        '22:00-23:00'
+      ]
     }
   },
   created: async function () {
     this.calendarToday()
-    await this.setRange()
-    this.placeEvents()
+    await this.$app.customers.getAll()
+    await this.$app.events.getAll()
+    await this.$app.extras.getAll()
+    await this.setRooms()
     // this.getEvents()
   },
   mounted: function () {
@@ -122,31 +204,30 @@ export default {
   },
   computed: {
     month () {
-      const months = [
-        'Январь',
-        'Февраль',
-        'Март',
-        'Апрель',
-        'Май',
-        'Июнь',
-        'Июль',
-        'Август',
-        'Сентябрь',
-        'Октябрь',
-        'Ноябрь',
-        'Декабрь',
-      ]
-      const date = this.selectedDate.split('-')
-      return `, ${months[+date[1] - 1]} ${date[0]}`
-    },
+      return date.formatDate(this.selectedDate, 'MMMM YYYY')
+    }
   },
   methods: {
+    async setRooms () {
+      await this.$app.rooms.getAll()
+      const roomsNames = this.$app.rooms.list
+      this.rooms = roomsNames.map((roomName, index) => {
+        const room = {
+          name: roomName.name,
+          color: roomsColors[index].color
+        }
+        return room
+      })
+    },
+    dayHeader (dt) {
+      return date.formatDate(dt, 'ddd D')
+    },
     async placeEvents () {
       let allEvents = []
       const day = +date.formatDate(this.selectedDate, 'E') - 1
       const start = date.subtractFromDate(this.selectedDate, { days: day })
-      this.range.from = date.formatDate(start, 'YYYYMMDD')
-      this.range.to = date.formatDate(date.addToDate(start, { days: 6 }), 'YYYYMMDD')
+      this.range.from = date.formatDate(start, 'YYYY-MM-DD')
+      this.range.to = date.formatDate(date.addToDate(start, { days: 6 }), 'YYYY-MM-DD')
       await this.setRange()
       const setEvents = () => {
         this.events = this.$app.bookings.list.map((booking) => {
@@ -173,7 +254,7 @@ export default {
       }
       const setPositionOfEvents = (dt) => {
         let events = []
-        let posArray = [...Array(rooms.length)].map(() => Array(24).fill(0))
+        let posArray = [...Array(this.rooms.length)].map(() => Array(24).fill(0))
         const findEmptyPlace = (col, from, to) => {
           const isEmptyPlace = (c) => {
             for (let i = +from; i < +to; i++) {
@@ -190,7 +271,7 @@ export default {
           }
           return 0
         }
-        for (let order = 0; order < rooms.length; order++) {
+        for (let order = 0; order < this.rooms.length; order++) {
           for (let i = 0; i < this.events.length; i++) {
             if (this.events[i].date === dt) {
               if (this.setOrder(this.events[i].devInfo.room) === order) {
@@ -238,31 +319,34 @@ export default {
       this.events = allEvents
     },
     resetForm () {
-      this.$set(this, 'eventForm', { ...formDefault })
+      this.$set(this, 'eventForm', formDefault())
     },
     async setRange () {
-      await this.$app.bookings.getForTime(this.range.studio, this.range.from, this.range.to)
+      await this.$app.bookings.getForCalendar(this.range.studio, this.range.from, this.range.to)
       this.bookings = this.$app.bookings.list
+      console.log(this.bookings)
     },
     editEvent (event) {
       this.resetForm()
+      const form = formDefault()
       this.contextDay = { ...event }
       let timestamp
       if (event.time) {
         timestamp = event.date + ' ' + event.time
         let startTime = new Date(timestamp)
         let endTime = date.addToDate(startTime, { minutes: event.duration })
-        this.eventForm.dateTimeStart = this.formatDate(startTime) + ' ' + this.formatTime(startTime) // endTime.toString()
-        this.eventForm.dateTimeEnd = this.formatDate(endTime) + ' ' + this.formatTime(endTime) // endTime.toString()
+        form.dateTimeStart = date.formatDate(startTime) + ' ' + date.formatTime(startTime) // endTime.toString()
+        form.dateTimeEnd = date.formatDate(endTime) + ' ' + date.formatTime(endTime) // endTime.toString()
       } else {
         timestamp = event.date
-        this.eventForm.dateTimeStart = timestamp
+        form.dateTimeStart = timestamp
       }
-      this.eventForm.allDay = !event.time
-      this.eventForm.bgcolor = event.bgcolor
-      this.eventForm.icon = event.icon
-      this.eventForm.title = event.title
-      this.eventForm.details = event.details
+      form.allDay = !event.time
+      // form.bgcolor = event.bgcolor
+      // form.icon = event.icon
+      // form.title = event.title
+      // form.details = event.details
+      this.eventForm = Object.assign({}, form, event)
       this.$app.bookings.dialogs.update = true // show dialog
     },
     timelinePos () {
@@ -288,7 +372,7 @@ export default {
       return hours
     },
     setColor (room) {
-      const color = rooms.find(item => item.name === room).color
+      const color = this.rooms.find(item => item.name === room).color
       return color
     },
     setIcon (action) {
@@ -296,28 +380,32 @@ export default {
       return icon
     },
     setOrder (room) {
-      const order = rooms.findIndex(item => item.name === room)
+      const order = this.rooms.findIndex(item => item.name === room)
       return order
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
-      let s = {}
-      s['box-shadow'] = `inset 3px -3px 0 ${event.bgcolor}`
-      s['font-size'] = '13px'
-      s['background-color'] = `${event.bgcolor}40`
-      s['color'] = colors.lighten(event.bgcolor, -30)
+      let s = {
+        'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
+        'font-size': '13px',
+        'background-color': `${event.bgcolor}40`,
+        'color': colors.lighten(event.bgcolor, -30),
+        'align-items': 'flex-start'
+      }
       if (timeStartPos) {
-        s['top'] = timeStartPos(event.time) + 'px'
-        s['width'] = `${100 / event.max}%`
-        s['left'] = `${100 / event.max * (event.posx)}%`
+        s = Object.assign({}, s, {
+          'top': timeStartPos(event.time) + 'px',
+          'width': `${100 / event.max}%`,
+          'left': `${100 / event.max * (event.posx)}%`
+        })
       }
       if (timeDurationHeight) {
-        s['height'] = timeDurationHeight(event.duration) + 'px'
+        s = Object.assign({}, s, { 'height': timeDurationHeight(event.duration) + 'px' })
       }
-      s['align-items'] = 'flex-start'
       return s
     },
     calendarNext () {
       this.$refs.calendar.next()
+      console.log(this.$refs.calendar)
     },
     calendarPrev () {
       this.$refs.calendar.prev()
