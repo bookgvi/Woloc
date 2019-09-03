@@ -4,12 +4,7 @@ export default {
   getAll: async (page) => {
     try {
       const r = await api.get('bookings', {
-        params: {
-          page,
-          studio: '100',
-          dateFrom: '20190501',
-          dateTo: '20200101'
-        }
+        params: { page, studio: 250 }
       })
       return r.data
     } catch (e) {

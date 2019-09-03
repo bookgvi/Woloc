@@ -34,11 +34,15 @@ export default {
         span(:title="value") {{value}}
       template(v-else-if="name === 'actions'")
         .buttons.absolute
-          template(v-if="openedRowId === row.id")
-            q-btn(flat round icon="comment")
-            q-btn(flat round icon="delete")
-            q-btn(flat round icon="edit")
-            q-btn(flat round icon="thumb_up")
+          transition(
+            enter-active-class="animated fadeInRight"
+            leave-active-class="animated fadeOutRight"
+          )
+            .inline-block(v-if="openedRowId === row.id")
+              q-btn(flat round icon="comment")
+              q-btn(flat round icon="delete")
+              q-btn(flat round icon="edit")
+              q-btn(flat round icon="thumb_up")
           q-btn(
             flat
             round
