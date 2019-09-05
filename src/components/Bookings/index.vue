@@ -37,7 +37,7 @@ q-page
   .wrapper
     Menu
 
-    row-dialog(:opened="true" :row="row" :sections="details")
+    row-dialog(:opened="true" :row="row" :details="details" readonly)
 
     q-table(
       row-key="id"

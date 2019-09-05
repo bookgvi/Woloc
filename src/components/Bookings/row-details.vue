@@ -4,14 +4,10 @@ export default {
   props: {
     row: Object,
     opened: Boolean,
-    sections: Array,
+    details: Array,
+    readonly: Boolean,
   },
   methods: {
-    getSectionName (section) {
-      if (typeof section.name === 'function') return section.name(this.row)
-
-      return section.name
-    },
     getFieldValue (field) {
       const value = typeof field.field === 'function'
         ? field.field(this.row)
@@ -26,21 +22,33 @@ export default {
 </script>
 
 <template lang="pug">
-  q-dialog(v-model="opened")
+  q-dialog(value)
     q-card
-      template(v-for="(section, i) of sections")
-        q-card-section.row.items-center
-          .text-h6 {{ getSectionName(section) }}
+      q-card-section
+        .row
+          .text-h6 Бронь {{ row.id }}
           q-space
-          q-btn(v-if="!i" icon="close" flat round dense v-close-popup)
-        q-card-section
+          q-btn(icon="close" flat round dense v-close-popup)
+
+      q-card-section.scroll(style="max-height: 70vh")
+        template(v-for="(group, i) of details")
+          .row.q-mt-md(v-if="group.name")
+            .text-h6 {{ group.name }}
+
           q-input(
-            v-for="field of section.fields"
+            v-for="field of group.fields"
+            :key="field.id"
             :label="field.label"
             :value="getFieldValue(field)"
-            :input-class="field.inputType !== 'textarea' ? 'text-right' : undefned"
+            :borderless="field.inputType === 'textarea'"
+            :input-class="field.inputType !== 'textarea' ? 'text-right' : undefined"
             :type="field.inputType"
           )
+
+      q-card-actions.q-pa-md
+        q-btn(icon="close" outline v-close-popup)
+        q-btn(icon="delete" outline)
+        q-btn.col-grow(label="Редактировать в календаре" color="primary" unelevated)
 </template>
 
 <style lang="stylus">
@@ -53,4 +61,8 @@ export default {
   line-height 24px
   padding-top 24px
   padding-bottom 8px
+
+.q-card__actions
+  button
+    min-width auto !important
 </style>

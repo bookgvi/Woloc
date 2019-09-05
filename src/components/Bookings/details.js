@@ -4,7 +4,6 @@ import eventTypes from '../../common/eventTypes'
 
 export default [
   {
-    name: ({ id }) => `Бронь ${id}`,
     fields: [
       {
         name: 'room',
