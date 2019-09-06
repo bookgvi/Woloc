@@ -10,6 +10,7 @@ export default {
   components: { RowDialog, Menu, TableControls, TableRow },
   mixins: [pagination],
   props: {
+    title: String,
     columns: Array,
     details: Array,
     controller: Object,
@@ -58,18 +59,20 @@ q-page
       @request="onRequest"
     )
       template(v-slot:top-left)
-        .text-h6 Бронирования
+        .text-h6 {{ title }}
 
       template(v-slot:top-right="props")
         table-controls(v-bind="props" :setPagination="setPagination")
+          slot(name="tableActions")
 
       template(v-slot:body="props")
         table-row(
           v-bind="props"
+          v-slot="props"
           :actionsRowId="actionsRowId"
           @toggleActions="toggleActionsRow"
-          @toggleDialog="toggleDialogRow"
         )
+          slot(name="rowActions" :row="props.row" :toggleDialogRow="toggleDialogRow")
 </template>
 
 <style lang="stylus">

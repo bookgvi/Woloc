@@ -20,15 +20,17 @@ export default {
     },
   },
   methods: {
-    async getAll () {
+    async getAll (page) {
       this.loading.list = true
-      const res = await api.customers.getAll()
-      console.log('customers :: getAll', res)
-      if (res) {
-        console.log(res)
-        this.list = res.data
+      const { data } = await api.customers.getAll(page)
+      console.log('customers :: getAll', data)
+      if (data) {
+        this.list = data.items
+
         this.loading.list = false
       }
+
+      return data
     },
   },
   watch: {

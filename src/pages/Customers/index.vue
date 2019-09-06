@@ -1,9 +1,15 @@
 <script>
 import UcTable from '../../components/UcTable'
+import columns from './columns'
 
 export default {
   name: 'customers-page',
   components: { UcTable },
+  data () {
+    return {
+      columns
+    }
+  }
 }
 </script>
 
@@ -13,8 +19,11 @@ export default {
       Menu
 
       uc-table(
+        title="Пользователи"
         :controller="$app.customers"
-        :columns="[]"
+        :columns="columns"
         :details="[]"
       )
+        template(v-slot:tableActions)
+          q-btn(color="primary" label="Добавить пользователя")
 </template>

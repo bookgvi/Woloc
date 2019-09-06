@@ -13,7 +13,6 @@ export default {
     actionsRowId: Number,
     toggleActionsRow: Function,
     dialogRowId: Number,
-    toggleDialogRow: Function,
   },
   methods: {
     actionsAreVisible (row) {
@@ -53,10 +52,7 @@ export default {
             leave-active-class="animated fadeOutRight"
           )
             .inline-block(v-if="actionsAreVisible(row)")
-              q-btn(flat round icon="comment")
-              q-btn(flat round icon="delete")
-              q-btn(flat round icon="edit" @click="$emit('toggleDialog', row.id)")
-              q-btn(flat round icon="thumb_up")
+              slot(:row="row")
           q-btn(
             flat
             round
