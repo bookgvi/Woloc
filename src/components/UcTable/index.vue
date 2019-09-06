@@ -4,7 +4,6 @@ import TableControls from './table-controls'
 import TableRow from './table-row'
 import pagination from './pagination'
 import RowDialog from './row-dialog'
-import bookings from '../../mocks/bookings'
 
 export default {
   name: 'uc-table',
@@ -17,7 +16,7 @@ export default {
   },
   data () {
     return {
-      data: bookings,
+      data: [],
       actionsRowId: undefined,
       dialogRowId: undefined,
     }
@@ -32,7 +31,7 @@ export default {
   },
   computed: {
     dialogRow () {
-      return this.dialogRowId && this.data[this.dialogRowId]
+      return this.dialogRowId && this.data.find(({ id }) => id === this.dialogRowId)
     }
   }
 }
@@ -44,9 +43,9 @@ q-page
     Menu
 
     row-dialog(
+      readonly
       :row="dialogRow"
       :details="details"
-      readonly
       @toggleDialogRow="toggleDialogRow"
     )
 

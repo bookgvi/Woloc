@@ -24,7 +24,7 @@ export default {
     return {
       routes: [
         { to: '/', label: 'Дашборд' },
-        { to: '/users', label: 'Пользователи' },
+        { to: '/customers', label: 'Пользователи' },
         { to: '/calendar', label: 'Календарь' },
         { to: '/bookings', label: 'Бронирования' },
         { to: '/invoices', label: 'Заявки' },

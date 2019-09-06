@@ -1,10 +1,10 @@
 <script>
 import columns from './columns'
 import details from './details'
-import UcTable from '../UcTable'
+import UcTable from '../../components/UcTable'
 
 export default {
-  name: 'Bookings',
+  name: 'bookings-page',
   components: { UcTable },
   data () {
     return {
@@ -16,13 +16,13 @@ export default {
 </script>
 
 <template lang="pug">
-q-page
-  .wrapper
-    Menu
+  q-page
+    .wrapper
+      Menu
 
-    uc-table(
-      :controller="$app.bookings"
-      :columns="columns"
-      :details="details"
-    )
+      uc-table(
+        :controller="$app.bookings"
+        :columns="columns"
+        :details="details"
+      )
 </template>
