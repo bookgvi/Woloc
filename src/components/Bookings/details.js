@@ -8,13 +8,13 @@ export default [
       {
         name: 'room',
         label: 'Зал',
-        field: row => row.room.name,
+        field: ({ room = {} }) => room.name,
       },
       find(columns, { name: 'date' }),
       find(columns, { name: 'time' }),
       {
         ...find(columns, { name: 'eventType' }),
-        format: (value) => eventTypes[value].name
+        format: (value) => value && eventTypes[value].name
       },
       {
         ...find(columns, { name: 'guestsCount' }),
@@ -33,12 +33,12 @@ export default [
       {
         name: 'customerPhone',
         label: 'Телефон',
-        field: row => row.customer.phone
+        field: ({ customer = {} }) => customer.phone
       },
       {
         name: 'customerEmail',
         label: 'Эл. почта',
-        field: row => row.customer.email
+        field: ({ customer = {} }) => customer.email
       },
     ]
   },

@@ -1,9 +1,11 @@
 <script>
 export default {
-  name: 'rowDetails',
+  name: 'row-details',
   props: {
-    row: Object,
-    opened: Boolean,
+    row: {
+      type: Object,
+      default: () => ({}),
+    },
     details: Array,
     readonly: Boolean,
   },
@@ -22,7 +24,7 @@ export default {
 </script>
 
 <template lang="pug">
-  q-dialog(value)
+  q-dialog(:value="!!row.id" @hide="$emit('toggleDialogRow', row.id)")
     q-card
       q-card-section
         .row
@@ -43,6 +45,7 @@ export default {
             :borderless="field.inputType === 'textarea'"
             :input-class="field.inputType !== 'textarea' ? 'text-right' : undefined"
             :type="field.inputType"
+            :readonly="readonly"
           )
 
       q-card-actions.q-pa-md
@@ -54,13 +57,18 @@ export default {
 <style lang="stylus">
 .q-card
   width 620px
-.q-field__label
-  transform none !important
-  top 0
-  right 0 !important
-  line-height 24px
-  padding-top 24px
-  padding-bottom 8px
+.q-field--float
+  .q-field__label
+    transform none
+    top 0
+    right 0
+    line-height 24px
+    padding-top 24px
+    padding-bottom 8px
+
+.q-field--standard.q-field--readonly
+  .q-field__control:before
+    border-bottom-style solid
 
 .q-card__actions
   button

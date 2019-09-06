@@ -6,7 +6,6 @@ import columns from './columns'
 import details from './details'
 import pagination from './pagination'
 import RowDialog from './row-details'
-import bookings from '../../mocks/bookings'
 
 export default {
   name: 'Bookings',
@@ -14,19 +13,25 @@ export default {
   mixins: [pagination],
   data () {
     return {
-      row: bookings[10],
       data: [],
       columns,
       details,
       controller: this.$app.bookings,
-      openedRowId: null,
+      actionsRowId: undefined,
+      dialogRowId: undefined,
     }
   },
   methods: {
-    toggleOpenedRow (id) {
-      this.openedRowId = this.openedRowId === id
-        ? null
-        : id
+    toggleActionsRow (id) {
+      this.actionsRowId = this.actionsRowId === id ? undefined : id
+    },
+    toggleDialogRow (id) {
+      this.dialogRowId = this.dialogRowId === id ? undefined : id
+    }
+  },
+  computed: {
+    dialogRow () {
+      return this.dialogRowId && this.data[this.dialogRowId]
     }
   }
 }
@@ -37,7 +42,12 @@ q-page
   .wrapper
     Menu
 
-    row-dialog(:opened="true" :row="row" :details="details" readonly)
+    row-dialog(
+      :row="dialogRow"
+      :details="details"
+      readonly
+      @toggleDialogRow="toggleDialogRow"
+    )
 
     q-table(
       row-key="id"
@@ -54,7 +64,12 @@ q-page
         table-controls(v-bind="props" :setPagination="setPagination")
 
       template(v-slot:body="props")
-        table-row(v-bind="props" @openRow="toggleOpenedRow" :openedRowId="openedRowId")
+        table-row(
+          v-bind="props"
+          :actionsRowId="actionsRowId"
+          @toggleActions="toggleActionsRow"
+          @toggleDialog="toggleDialogRow"
+        )
 </template>
 
 <style lang="stylus">

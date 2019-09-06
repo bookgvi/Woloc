@@ -10,7 +10,7 @@ const columns = [
   {
     name: 'customer',
     label: 'Клиент',
-    field: ({ customer: { firstName, lastName } }) => `${firstName} ${lastName}`
+    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`
   },
   {
     name: 'room',
@@ -22,7 +22,7 @@ const columns = [
     name: 'eventType',
     label: 'Цель',
     field: 'eventType',
-    format: (value) => eventTypes[value],
+    format: (value) => value && eventTypes[value],
     width: 50,
   },
   {
