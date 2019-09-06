@@ -39,7 +39,7 @@ const mocks = [
     reservedFrom: '2019-10-14 12:15',
     reservedTo: '2019-10-14 19:00',
     comment: 'Удалено',
-    removed: true,
+    disabled: true,
   },
   {
     id: 55779,

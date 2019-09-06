@@ -27,7 +27,7 @@ export default {
 </script>
 
 <template lang="pug">
-  q-tr(:class="row.removed && 'removed'")
+  q-tr(:class="{ disabled: row.disabled }")
     q-td(
       v-for="{name, value} of cols"
       :key="name"
@@ -63,12 +63,13 @@ export default {
             icon="more_vert"
             @click="$emit('toggleActions', row.id)"
             :color="actionsAreVisible(row) ? 'primary' : undefined"
+            :disable="row.disabled"
           )
       template(v-else) {{ value }}
 </template>
 
 <style lang="stylus">
-tr.removed
+tr.disabled
   opacity: .2
 .q-table tbody tr
   .clickable

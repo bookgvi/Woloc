@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'row-details',
+  name: 'row-dialog',
   props: {
     row: {
       type: Object,
@@ -43,7 +43,7 @@ export default {
             :label="field.label"
             :value="getFieldValue(field)"
             :borderless="field.inputType === 'textarea'"
-            :input-class="field.inputType !== 'textarea' ? 'text-right' : undefined"
+            :input-class="{ 'text-right': field.inputType !== 'textarea' }"
             :type="field.inputType"
             :readonly="readonly"
           )
