@@ -88,8 +88,8 @@
  </template>
 
 <script>
-import { colors, date } from 'quasar'
-import icons from 'src/common/eventType/icons'
+import { date, colors } from 'quasar'
+import icons from 'src/common/eventTypes'
 // import bookings from '../Data/bookings'
 // import rooms from '../../../mocks/rooms'
 import roomsColors from 'src/common/rooms/colors'
@@ -229,7 +229,7 @@ export default {
       return color
     },
     setIcon (action) {
-      const icon = icons.find(item => item.name === action).icon
+      const icon = icons[action].icon
       return icon
     },
     setOrder (room) {

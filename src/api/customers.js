@@ -1,14 +1,13 @@
-// import api from './instance'
-import customers from 'src/mocks/customers'
+import api from './instance'
 
 export default {
 
-  getAll: async () => {
+  getAll: async (page) => {
     try {
-      const r = {
-        data: customers
-      }
-      return r
+      const r = await api.get('customers', {
+        params: { page }
+      })
+      return r.data
     } catch (e) {
       console.warn('catch :: customers :: getAll', e)
     }
