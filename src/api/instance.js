@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { stringify } from 'qs'
+import { LocalStorage, Notify } from 'quasar'
 
 // create an axios instance
 const instance = axios.create({
   // baseURL: process.env.API_URL ||
-  baseURL: 'https://pre.ugoloc.ucann.ru/api/cabinet/v1.0/', // api base_url
+  baseURL: 'https://pre.ugoloc.ucann.ru/api/', // api base_url
   paramsSerializer: function (params) {
     return stringify(params, { arrayFormat: 'brackets' })
   },
@@ -12,16 +13,59 @@ const instance = axios.create({
 
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 instance.defaults.headers.get['Accept'] = 'application/json'
-instance.defaults.headers.get['Authorization'] = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczpcL1wvcHJlLnVnb2xvYy51Y2Fubi5ydVwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU2Nzc2NTczOSwiZXhwIjoxNTY3ODUyMTM5LCJuYmYiOjE1Njc3NjU3MzksImp0aSI6IkxTckVtQTdJaDlhN2xaQXIiLCJzdWIiOjMsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjciLCJ1c2VySWQiOjMsImxvZ2luIjoiYXJ0ZW0iLCJsYXN0bmFtZSI6Ilx1MDQyMFx1MDQzZVx1MDQzY1x1MDQzMFx1MDQzZFx1MDQzZVx1MDQzMiIsImZpcnN0bmFtZSI6Ilx1MDQxY1x1MDQzMFx1MDQ0MFx1MDQzYSIsIm1pZGRsZW5hbWUiOiIiLCJlbWFpbCI6ImFydGVtQHVnb2xvYy5ydSIsInBob25lIjoiNzkyNjMzNjAzMDUiLCJyb2xlcyI6WyJsb2dpbiIsImFkbWluIiwib3duZXIiLCJtYW5hZ2VyIl19.S13Qnb-2dvvtHE2ZwCxeQRb3nAjPDSTI6nBsQGJpCk4'
+
+// request interceptor
+instance.interceptors.request.use(
+  conf => {
+    // Do something before request is sent
+    const token = LocalStorage.getItem('user-token')
+    if (token) {
+      conf.headers['Authorization'] = `Bearer ${token}`
+    }
+    return conf
+  },
+  error => {
+    // Do something with request error
+    // console.log('request error: ', error) // for debug
+    Promise.reject(error)
+  })
 
 // response interceptor
 instance.interceptors.response.use(
-  response => {
-    // console.info('response success', response)// for debug
-    return response
-  },
+  response => response,
   error => {
     const response = error.response
+    // console.info('response error', response.data)// for debug
+    if (response) {
+      switch (response.status) {
+        case 401:
+        case 403:
+          LocalStorage.remove('user-token')
+          window.location.href = `/login`
+          break
+        default:
+          if (response.data && response.data.errors) {
+            if (Array.isArray(response.data.errors)) {
+              response.data.errors.forEach(err => {
+                Notify.create({
+                  message: err.message,
+                  color: 'negative',
+                  position: 'bottom-left',
+                  icon: 'warning'
+                })
+              })
+            } else {
+              Notify.create({
+                message: response.data.errors.message,
+                color: 'negative',
+                position: 'bottom-left',
+                icon: 'warning'
+              })
+            }
+          }
+      }
+      // return response.data
+    }
     return Promise.reject(response.data)
   }
 )
