@@ -179,29 +179,6 @@ export default {
     resetForm () {
       this.$set(this, 'eventForm', formDefault())
     },
-    editEvent (event) {
-      this.resetForm()
-      const form = formDefault()
-      this.contextDay = { ...event }
-      let timestamp
-      if (event.time) {
-        timestamp = event.date + ' ' + event.time
-        let startTime = new Date(timestamp)
-        let endTime = date.addToDate(startTime, { minutes: event.duration })
-        form.dateTimeStart = date.formatDate(startTime) + ' ' + date.formatTime(startTime) // endTime.toString()
-        form.dateTimeEnd = date.formatDate(endTime) + ' ' + date.formatTime(endTime) // endTime.toString()
-      } else {
-        timestamp = event.date
-        form.dateTimeStart = timestamp
-      }
-      form.allDay = !event.time
-      // form.bgcolor = event.bgcolor
-      // form.icon = event.icon
-      // form.title = event.title
-      // form.details = event.details
-      this.eventForm = Object.assign({}, form, event)
-      this.$app.bookings.dialogs.update = true // show dialog
-    },
     timelinePos () {
       const timestamp = new Date()
       const hours = date.formatDate(timestamp, 'HH')
@@ -278,7 +255,7 @@ export default {
             dtFormat(booking.reservedFrom),
             'minutes'
           )
-
+          console.log(this.getTime(booking.reservedFrom))
           const event = {
             title: booking.customer.firstName,
             details: `${booking.amount}/${booking.price}`,

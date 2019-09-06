@@ -5,7 +5,7 @@
         outlined
         use-input
         label="Пользователь"
-        :options="customers"
+        :options="this.$app.customers.list"
         option-value="lastName"
         :option-label="opt => opt === null ? null : opt.lastName + ' ' + opt.firstName"
         v-model="customer"
@@ -33,8 +33,7 @@ export default {
   name: 'CalendarCustomer',
   data () {
     return {
-      customers: [],
-      customer: ''
+      customer: this.$app.customers.list[0]
     }
   },
   computed: {
@@ -49,7 +48,6 @@ export default {
   },
   created: async function () {
     this.customers = this.$app.customers.list
-    this.customer = this.customers[0]
   }
 }
 </script>

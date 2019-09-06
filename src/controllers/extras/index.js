@@ -18,6 +18,17 @@ export default {
     all () {
       return sortBy(this.list, 'name')
     },
+    forSelect () {
+      let arr = []
+      for (let i = 0; i < this.all.length; i++) {
+        arr.push(Object.assign({}, {
+          label: this.all[i].name,
+          value: this.all[i].name,
+          price: this.all[i].price,
+        }))
+      }
+      return arr
+    }
   },
   methods: {
     async getAll () {

@@ -3,7 +3,7 @@
     q-separator
 
     .wrapper
-      .menu.row.items-center.q-py-md.q-gutter-x-sm
+      .row.items-center.q-py-md.q-gutter-x-sm
         q-btn(
           size="sm"
           outline
@@ -17,9 +17,17 @@
           outline
           color="secondary"
           no-caps
-          label="Залы 6"
+          :label="roomsAmount"
           dense
         )
+          q-popup-proxy(
+          )
+            q-option-group.text-body2(
+              v-model="checkedRooms"
+              :options="rooms"
+              color="green"
+              type="checkbox"
+            )
         q-btn(
           size="sm"
           outline
@@ -51,13 +59,33 @@
 <script>
 
 export default {
-  name: 'CalendarMenu'
+  name: 'CalendarMenu',
+  data () {
+    return {
+      rooms: [],
+      checkedRooms: [],
+    }
+  },
+  created: async function () {
+    await this.$app.rooms.getAll()
+    console.log('room', this.$app.rooms.list)
+    this.rooms = this.$app.rooms.list.map((item) => {
+      const room = Object.assign({}, {
+        value: item.name,
+        label: item.name,
+        // color: item.color
+      })
+      return room
+    })
+  },
+  computed: {
+    roomsAmount () {
+      return `Залы ${this.$app.rooms.list.length}`
+    }
+  }
 }
 </script>
 
 <style scoped lang="stylus">
-  .menu
-    .q-btn
-      font-size 12px !important
 
 </style>

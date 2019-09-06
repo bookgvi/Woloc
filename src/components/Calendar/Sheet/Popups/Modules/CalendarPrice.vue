@@ -40,22 +40,16 @@ export default {
     }
   },
   created: async function () {
-    const events = this.$app.events.list.map((item) => {
+    console.log(this.fee)
+    const events = this.extras.map((item) => {
       const position = {
-        value: item.name,
+        value: item.alias,
         label: item.alias,
         price: item.price
       }
       return position
     })
-    const extras = this.$app.extras.list.map((item) => {
-      const position = {
-        value: item.name,
-        label: item.name,
-        price: item.price
-      }
-      return position
-    })
+    const extras = this.fee
     this.positions = events.concat(extras)
   },
   computed: {
@@ -75,7 +69,6 @@ export default {
       this.$emit('priceChange', this.price)
     },
     changeSign () {
-      console.log(this.fee)
       this.discount = -this.discount
     },
   },

@@ -18,6 +18,20 @@ export default {
     all () {
       return sortBy(this.list, 'title')
     },
+    forSelect () {
+      let arr = []
+      arr.push({
+        label: 'Любая',
+        value: 0
+      })
+      for (let i = 0; i < this.all.length; i++) {
+        arr.push(Object.assign({}, {
+          label: this.all[i].title,
+          value: this.all[i].id
+        }))
+      }
+      return arr
+    }
   },
   methods: {
     async getForCalendar (studio, dateFrom, dateTo) {
