@@ -1,8 +1,10 @@
 <template lang="pug">
-  .users
-    UsersMenu
-    q-separator.q-mt-xs.q-px-none.q-my-md
-    UsersTable
+  q-page
+    .wrapper
+      .users
+        UsersMenu
+        q-separator.q-mt-xs.q-px-none.q-my-md
+        UsersTable
 </template>
 
 <script>

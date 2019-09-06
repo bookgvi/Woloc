@@ -32,6 +32,7 @@ export default {
 
     q-pagination(
       color="black"
+      width=""
       :max="pagesNumber"
       :maxPages="3"
       :boundary-numbers="true"
@@ -69,7 +70,7 @@ export default {
 
 <style lang="stylus">
 .table-controls
-  .q-btn.square, q-pagination .q-btn
+  .q-btn.square, .q-pagination .q-btn
     width 3em
     padding 7px 16px !important
     font-weight bold
@@ -78,6 +79,7 @@ export default {
   .q-btn--standard
     border none
     background-color $primary !important
+    box-shadow none
   .q-pagination .q-btn
     margin 0 4px
 

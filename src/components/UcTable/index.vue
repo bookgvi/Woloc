@@ -14,17 +14,18 @@ export default {
     columns: Array,
     details: Array,
     controller: Object,
+    activeColumns: Array,
   },
   data () {
     return {
       data: [],
-      actionsRowId: undefined,
+      controlsRowId: undefined,
       dialogRowId: undefined,
     }
   },
   methods: {
-    toggleActionsRow (id) {
-      this.actionsRowId = this.actionsRowId === id ? undefined : id
+    toggleControlsRow (id) {
+      this.controlsRowId = this.controlsRowId === id ? undefined : id
     },
     toggleDialogRow (id) {
       this.dialogRowId = this.dialogRowId === id ? undefined : id
@@ -33,6 +34,14 @@ export default {
   computed: {
     dialogRow () {
       return this.dialogRowId && this.data.find(({ id }) => id === this.dialogRowId)
+    },
+    normalizedColumns () {
+      return this.columns.map(col => ({
+        ...col,
+        field: col.field || col.name,
+        align: 'left',
+        style: col.width && `width: ${col.width}px`
+      }))
     }
   }
 }
@@ -54,7 +63,7 @@ q-page
       row-key="id"
       hide-bottom
       :data="data"
-      :columns="columns"
+      :columns="normalizedColumns"
       :pagination.sync="pagination"
       @request="onRequest"
     )
@@ -63,16 +72,17 @@ q-page
 
       template(v-slot:top-right="props")
         table-controls(v-bind="props" :setPagination="setPagination")
-          slot(name="tableActions")
+          slot(name="table-controls")
 
       template(v-slot:body="props")
         table-row(
           v-bind="props"
           v-slot="props"
-          :actionsRowId="actionsRowId"
-          @toggleActions="toggleActionsRow"
+          :controlsRowId="controlsRowId"
+          @toggleControls="toggleControlsRow"
+          @toggleDialog="toggleDialogRow"
         )
-          slot(name="rowActions" :row="props.row" :toggleDialogRow="toggleDialogRow")
+          slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
 </template>
 
 <style lang="stylus">

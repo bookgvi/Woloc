@@ -3,13 +3,16 @@ export default [
     name: 'customer',
     required: true,
     label: 'Имя',
-    field: ({ firstName, lastName } = {}) => `${firstName} ${lastName}`
+    field: ({ firstName, lastName } = {}) => `${firstName} ${lastName}`,
+    width: 270,
+    active: true,
   },
   {
     name: 'rating',
     align: 'center',
     label: 'Рейтинг',
     sortable: true,
+    width: 60,
   },
   {
     name: 'chat',
@@ -17,7 +20,7 @@ export default [
     sortable: true,
   },
   {
-    name: 'actions',
+    name: 'controls',
     width: 40
   }
 ]

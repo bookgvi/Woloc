@@ -1,16 +1,18 @@
 import { date } from 'quasar'
 import eventTypes from 'src/common/eventTypes'
 
-const columns = [
+export default [
   {
     name: 'id',
     label: 'id',
     width: 70,
+    active: true,
   },
   {
     name: 'customer',
     label: 'Клиент',
-    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`
+    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`,
+    active: true,
   },
   {
     name: 'room',
@@ -70,14 +72,7 @@ const columns = [
     label: 'Коммент',
   },
   {
-    name: 'actions',
+    name: 'controls',
     width: 40
   }
-].map(col => ({
-  ...col,
-  field: col.field || col.name,
-  align: 'left',
-  style: col.width && `width: ${col.width}px`
-}))
-
-export default columns
+]
