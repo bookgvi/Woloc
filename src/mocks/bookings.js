@@ -18,6 +18,7 @@ const mocks = [
     servicesCount: 2,
     reservedFrom: '2019-10-15 13:30',
     reservedTo: '2019-10-15 18:00',
+    promo: 'Промо-промо',
     comment: 'Подготовить что-то, подготовить что-то, подготовить что-то, подготовить что-то, подготовить что-то'
   },
   {
@@ -38,7 +39,7 @@ const mocks = [
     reservedFrom: '2019-10-14 12:15',
     reservedTo: '2019-10-14 19:00',
     comment: 'Удалено',
-    removed: true,
+    disabled: true,
   },
   {
     id: 55779,

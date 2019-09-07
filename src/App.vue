@@ -8,6 +8,7 @@
 import Vue from 'vue'
 import bookings from './controllers/bookings'
 import users from './controllers/users'
+import login from './controllers/login'
 import rooms from './controllers/rooms'
 import customers from './controllers/customers'
 import events from './controllers/events'
@@ -25,7 +26,8 @@ export default {
       rooms: new Vue(rooms),
       customers: new Vue(customers),
       events: new Vue(events),
-      extras: new Vue(extras)
+      extras: new Vue(extras),
+      login: new Vue(login)
     }
   }
 }

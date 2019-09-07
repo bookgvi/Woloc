@@ -1,10 +1,11 @@
 import axios from 'axios'
 import { stringify } from 'qs'
+import { LocalStorage, Notify } from 'quasar'
 
 // create an axios instance
 const instance = axios.create({
   // baseURL: process.env.API_URL ||
-  baseURL: 'https://pre.ugoloc.ucann.ru/api/cabinet/v1.0/', // api base_url
+  baseURL: 'https://pre.ugoloc.ucann.ru/api/', // api base_url
   paramsSerializer: function (params) {
     return stringify(params, { arrayFormat: 'brackets' })
   },
@@ -13,14 +14,58 @@ const instance = axios.create({
 instance.defaults.headers.post['Content-Type'] = 'application/json'
 instance.defaults.headers.get['Accept'] = 'application/json'
 
-// response interceptor
-instance.interceptors.response.use(
-  response => {
-    // console.info('response success', response)// for debug
-    return response
+// request interceptor
+instance.interceptors.request.use(
+  conf => {
+    // Do something before request is sent
+    const token = LocalStorage.getItem('user-token')
+    if (token) {
+      conf.headers['Authorization'] = `Bearer ${token}`
+    }
+    return conf
   },
   error => {
+    // Do something with request error
+    // console.log('request error: ', error) // for debug
+    Promise.reject(error)
+  })
+
+// response interceptor
+instance.interceptors.response.use(
+  response => response,
+  error => {
     const response = error.response
+    // console.info('response error', response.data)// for debug
+    if (response) {
+      switch (response.status) {
+        case 401:
+        case 403:
+          LocalStorage.remove('user-token')
+          window.location.href = `/login`
+          break
+        default:
+          if (response.data && response.data.errors) {
+            if (Array.isArray(response.data.errors)) {
+              response.data.errors.forEach(err => {
+                Notify.create({
+                  message: err.message,
+                  color: 'negative',
+                  position: 'bottom-left',
+                  icon: 'warning'
+                })
+              })
+            } else {
+              Notify.create({
+                message: response.data.errors.message,
+                color: 'negative',
+                position: 'bottom-left',
+                icon: 'warning'
+              })
+            }
+          }
+      }
+      // return response.data
+    }
     return Promise.reject(response.data)
   }
 )

@@ -18,17 +18,33 @@ export default {
     all () {
       return sortBy(this.list, 'lastName')
     },
+    forSelect () {
+      let arr = []
+      arr.push({
+        label: 'Любая',
+        value: 0
+      })
+      for (let i = 0; i < this.all.length; i++) {
+        arr.push(Object.assign({}, {
+          label: this.all[i].name,
+          value: this.all[i].name
+        }))
+      }
+      return arr
+    }
   },
   methods: {
-    async getAll () {
+    async getAll (page) {
       this.loading.list = true
-      const res = await api.customers.getAll()
-      console.log('customers :: getAll', res)
-      if (res) {
-        console.log(res)
-        this.list = res.data
+      const { data } = await api.customers.getAll(page)
+      console.log('customers :: getAll', data)
+      if (data) {
+        this.list = data.items
+
         this.loading.list = false
       }
+
+      return data
     },
   },
   watch: {

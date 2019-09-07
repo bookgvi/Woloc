@@ -1,13 +1,29 @@
+import { checkAuth, checkNoAuth } from 'src/utils/helpers'
 
 const routes = [
   {
+    path: '/login',
+    exact: true,
+    beforeEnter: checkNoAuth,
+    component: () => import('layouts/Default.vue'),
+    children: [
+      {
+        name: 'login',
+        path: '',
+        component: () => import('pages/Login.vue')
+      }
+    ]
+  },
+  {
     path: '/',
+    beforeEnter: checkAuth,
     component: () => import('layouts/Default.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') },
-      { path: 'users', component: () => import('pages/Users.vue') },
+      { path: 'customers', component: () => import('pages/Customers') },
+      { path: 'bookings', component: () => import('pages/Bookings') },
       { path: 'calendar', component: () => import('pages/Calendar.vue') },
-      { path: 'bookings', component: () => import('pages/Bookings.vue') },
+      { path: 'users', component: () => import('components/Users/Index.vue') },
     ]
   }
 ]

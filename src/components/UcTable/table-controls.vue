@@ -32,6 +32,7 @@ export default {
 
     q-pagination(
       color="black"
+      width=""
       :max="pagesNumber"
       :maxPages="3"
       :boundary-numbers="true"
@@ -39,14 +40,13 @@ export default {
       @input="(value) => setPagination('page', value)"
     )
     q-select.q-mx-md(
-      square
       :value="pagination.rowsPerPage"
       :options="options"
       :dense="true"
       @input="(value) => setPagination('rowsPerPage', value)"
       outlined
     )
-    q-btn(
+    q-btn.square(
       flat
       color="secondary"
       class="no-shadow"
@@ -55,7 +55,7 @@ export default {
       :disable="isFirstPage"
       @click="prevPage"
     )
-    q-btn(
+    q-btn.square(
       flat
       color="secondary"
       class="no-shadow"
@@ -64,11 +64,13 @@ export default {
       :disable="isLastPage"
       @click="nextPage"
     )
+
+    slot
 </template>
 
 <style lang="stylus">
 .table-controls
-  .q-btn
+  .q-btn.square, .q-pagination .q-btn
     width 3em
     padding 7px 16px !important
     font-weight bold
@@ -77,6 +79,7 @@ export default {
   .q-btn--standard
     border none
     background-color $primary !important
+    box-shadow none
   .q-pagination .q-btn
     margin 0 4px
 
