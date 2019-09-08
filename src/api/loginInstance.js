@@ -2,20 +2,19 @@ import axios from 'axios'
 import { stringify } from 'qs'
 import { LocalStorage, Notify } from 'quasar'
 
-// create an axios instance
-const instance = axios.create({
+const loginInstance = axios.create({
   // baseURL: process.env.API_URL ||
-  baseURL: 'https://pre.ugoloc.ucann.ru/api/cabinet/v1.0/', // api base_url
+  baseURL: 'https://pre.ugoloc.ucann.ru/api/', // api base_url
   paramsSerializer: function (params) {
     return stringify(params, { arrayFormat: 'brackets' })
   },
 })
 
-instance.defaults.headers.post['Content-Type'] = 'application/json'
-instance.defaults.headers.get['Accept'] = 'application/json'
+loginInstance.defaults.headers.post['Content-Type'] = 'application/json'
+loginInstance.defaults.headers.get['Accept'] = 'application/json'
 
 // request interceptor
-instance.interceptors.request.use(
+loginInstance.interceptors.request.use(
   conf => {
     // Do something before request is sent
     const token = LocalStorage.getItem('user-token')
@@ -31,7 +30,7 @@ instance.interceptors.request.use(
   })
 
 // response interceptor
-instance.interceptors.response.use(
+loginInstance.interceptors.response.use(
   response => response,
   error => {
     const response = error.response
@@ -69,4 +68,5 @@ instance.interceptors.response.use(
     return Promise.reject(response.data)
   }
 )
-export default instance
+
+export default loginInstance
