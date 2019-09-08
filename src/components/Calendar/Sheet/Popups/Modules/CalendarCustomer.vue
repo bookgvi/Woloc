@@ -3,11 +3,14 @@
     .col-12
       q-select.text-body2.text-weight-bold(
         outlined
+        fill-input
+        hide-selected
+        @filter="filterFn"
         use-input
         label="Пользователь"
-        :options="this.$app.customers.list"
-        option-value="lastName"
-        :option-label="opt => opt === null ? null : opt.lastName + ' ' + opt.firstName"
+        :options="customers"
+        :option-value="opt => opt === null ? null : opt.fullName"
+        :option-label="opt => opt === null ? null : opt.fullName"
         v-model="customer"
         )
     .col-12
@@ -33,7 +36,8 @@ export default {
   name: 'CalendarCustomer',
   data () {
     return {
-      customer: this.$app.customers.list[0]
+      customer: this.$app.customers.forCalendar[0],
+      customers: this.$app.customers.forCalendar
     }
   },
   computed: {
@@ -44,10 +48,17 @@ export default {
   methods: {
     customerChange () {
       this.$emit('customerChange', this.customer)
+    },
+    filterFn (val, update, abort) {
+      if (val.length < 0) {
+        abort()
+        return
+      }
+      update(() => {
+        const needle = val.toLowerCase()
+        this.customers = this.$app.customers.forCalendar.filter(v => v.fullName.toLowerCase().indexOf(needle) > -1)
+      })
     }
-  },
-  created: async function () {
-    this.customers = this.$app.customers.list
   }
 }
 </script>

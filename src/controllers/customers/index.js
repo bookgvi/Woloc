@@ -31,6 +31,13 @@ export default {
         }))
       }
       return arr
+    },
+    forCalendar () {
+      const arr = this.all.map((customer) => {
+        customer.fullName = customer.lastName + ' ' + customer.firstName
+        return customer
+      })
+      return arr
     }
   },
   methods: {
@@ -39,8 +46,7 @@ export default {
       const { data } = await api.customers.getAll(page)
       console.log('customers :: getAll', data)
       if (data) {
-        this.list = data.items
-
+        this.list = data.items.filter(customer => customer.lastName.length > 0)
         this.loading.list = false
       }
 

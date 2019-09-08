@@ -22,7 +22,7 @@
         )
           q-popup-proxy(
           )
-            q-option-group.text-body2(
+            q-option-group.text-body2.q-pa-md(
               v-model="checkedRooms"
               :options="rooms"
               color="green"
