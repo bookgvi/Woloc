@@ -1,10 +1,10 @@
 import api from './instance'
 
 export default {
-  getAll: async (page) => {
+
+  getAll: async () => {
     try {
-      const r = await api.get('studios', {
-      })
+      const r = await api.get('studios')
       return r.data
     } catch (e) {
       console.warn('catch :: studios :: getAll', e)

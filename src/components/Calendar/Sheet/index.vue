@@ -113,7 +113,7 @@ export default {
   components: { FirstColumn, UpdateEventDialog, NewEventDialog },
   data () {
     return {
-      studio: 250,
+      studio: 37,
       range: {
         from: '2019-05-01',
         to: '2020-01-01'
@@ -153,8 +153,8 @@ export default {
   },
   methods: {
     async setRooms () {
-      await this.$app.rooms.getAll()
-      const roomsNames = this.$app.rooms.list
+      await this.$app.studios.getAll()
+      const roomsNames = this.$app.studios.getRoomsByStudio(this.studio)
       this.rooms = roomsNames.map((roomName, index) => {
         const room = {
           name: roomName.name,
@@ -244,7 +244,7 @@ export default {
   },
   watch: {
     '$app.bookings.calendarList' (v) {
-      console.log('watch $app.bookings.calendarList', v)
+      // console.log('watch $app.bookings.calendarList', v)
       this.$nextTick(function () {
         let allEvents = []
         const bookings = v.map((booking) => {
@@ -274,8 +274,9 @@ export default {
           return event
         })
         const setPositionOfEvents = (dt) => {
+          const roomsAmount = this.rooms.length
           let events = []
-          let posArray = [...Array(this.rooms.length)].map(() => Array(24).fill(0))
+          let posArray = [...Array(roomsAmount + 5)].map(() => Array(24).fill(0))
           const findEmptyPlace = (col, from, to) => {
             const isEmptyPlace = (c) => {
               for (let i = +from; i < +to; i++) {
@@ -292,14 +293,14 @@ export default {
             }
             return 0
           }
-          for (let order = 0; order < this.rooms.length; order++) {
+          for (let order = 0; order < roomsAmount; order++) {
             for (let i = 0; i < bookings.length; i++) {
               const e = bookings[i]
               const timeFrom = e.devInfo.time.from
               const timeTo = e.devInfo.time.to
               if (e.date === dt && +timeFrom >= 7) {
                 if (this.setOrder(e.devInfo.room) === order) {
-                  let col = order + 2
+                  let col = roomsAmount
                   if (col !== 0) {
                     col = findEmptyPlace(col, timeFrom, timeTo)
                   }
@@ -338,7 +339,6 @@ export default {
           setPositionOfEvents(formattedCurrentDate)
         }
         this.events = allEvents
-        console.log(this.events)
       })
     },
     selectedDate (v) {
