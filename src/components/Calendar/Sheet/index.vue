@@ -46,8 +46,8 @@
         style="width: 95%; margin-left: 5%"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
-        :interval-start="8"
-        :interval-count="16"
+        :interval-start="7"
+        :interval-count="17"
         v-model="selectedDate"
         view="week"
         locale="ru-ru"
@@ -113,12 +113,11 @@ export default {
   components: { FirstColumn, UpdateEventDialog, NewEventDialog },
   data () {
     return {
-      studio: 100,
+      studio: 250,
       range: {
         from: '2019-05-01',
         to: '2020-01-01'
       },
-      bookings: [],
       rooms: [],
       timelineCoords: {
         top: 0,
@@ -136,10 +135,10 @@ export default {
   },
   created: async function () {
     this.calendarToday()
+    await this.setRooms()
     await this.$app.customers.getAll()
     await this.$app.events.getAll()
     await this.$app.extras.getAll()
-    await this.setRooms()
     // this.getEvents()
   },
   mounted: function () {
@@ -184,7 +183,7 @@ export default {
       const hours = date.formatDate(timestamp, 'HH')
       const minutes = date.formatDate(timestamp, 'mm')
       if (this.$refs.calendar) {
-        this.timelineCoords['top'] = (hours >= 8) ? `${this.$refs.calendar.timeStartPos(hours) + +this.$refs.calendar.timeDurationHeight(1) * minutes}px` : 0
+        this.timelineCoords['top'] = (hours >= 7) ? `${this.$refs.calendar.timeStartPos(hours) + +this.$refs.calendar.timeDurationHeight(1) * minutes}px` : 0
       } else {
         this.timelineCoords['top'] = '0px'
       }
@@ -192,13 +191,13 @@ export default {
       this.timelineCoords['width'] = '100%'
     },
     getDate (timestamp) {
-      if (+this.$moment(timestamp).format('HH') === 0) {
+      if (+this.$moment.parseZone(timestamp).format('HH') === 0) {
         timestamp = date.addToDate(timestamp, { days: -1 })
       }
-      return this.$moment(timestamp).format('YYYY-MM-DD')
+      return this.$moment.parseZone(timestamp).format('YYYY-MM-DD')
     },
-    getTime (timestamp) {
-      const hours = this.$moment(timestamp).format('HH') !== '00' ? this.$moment(timestamp).format('HH:mm') : 24
+    getTime (timestamp, mask = 'HH:mm') {
+      const hours = this.$moment.parseZone(timestamp).format('HH') !== '00' ? this.$moment.parseZone(timestamp).format(mask) : 24
       return hours
     },
     setColor (room) {
@@ -235,7 +234,6 @@ export default {
     },
     calendarNext () {
       this.$refs.calendar.next()
-      console.log(this.$refs.calendar)
     },
     calendarPrev () {
       this.$refs.calendar.prev()
@@ -245,8 +243,8 @@ export default {
     },
   },
   watch: {
-    '$app.bookings.list' (v) {
-      // console.log('watch $app.bookings.list', v)
+    '$app.bookings.calendarList' (v) {
+      console.log('watch $app.bookings.calendarList', v)
       this.$nextTick(function () {
         let allEvents = []
         const bookings = v.map((booking) => {
@@ -255,7 +253,6 @@ export default {
             dtFormat(booking.reservedFrom),
             'minutes'
           )
-          console.log(this.getTime(booking.reservedFrom))
           const event = {
             title: booking.customer.firstName,
             details: `${booking.amount}/${booking.price}`,
@@ -266,8 +263,8 @@ export default {
             icon: this.setIcon(booking.eventType),
             devInfo: {
               time: {
-                from: this.getTime(booking.reservedFrom),
-                to: this.getTime(booking.reservedTo)
+                from: +this.getTime(booking.reservedFrom, 'H'),
+                to: +this.getTime(booking.reservedTo, 'H')
               },
               room: booking.room.name
             },
@@ -298,11 +295,11 @@ export default {
           for (let order = 0; order < this.rooms.length; order++) {
             for (let i = 0; i < bookings.length; i++) {
               const e = bookings[i]
-              if (e.date === dt) {
+              const timeFrom = e.devInfo.time.from
+              const timeTo = e.devInfo.time.to
+              if (e.date === dt && +timeFrom >= 7) {
                 if (this.setOrder(e.devInfo.room) === order) {
-                  const timeFrom = e.devInfo.time.from
-                  const timeTo = e.devInfo.time.to
-                  let col = order
+                  let col = order + 2
                   if (col !== 0) {
                     col = findEmptyPlace(col, timeFrom, timeTo)
                   }
@@ -341,6 +338,7 @@ export default {
           setPositionOfEvents(formattedCurrentDate)
         }
         this.events = allEvents
+        console.log(this.events)
       })
     },
     selectedDate (v) {
