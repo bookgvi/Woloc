@@ -4,7 +4,7 @@ export default {
 
   getAll: async (page) => {
     try {
-      const r = await api.get('customers', {
+      const r = await api.get('cabinet/v1.0/customers', {
         params: { page }
       })
       return r.data

@@ -103,7 +103,7 @@ export default {
       this.modalOpened = false
     },
     async searchUsers () {
-      const response = await this.$app.users.getSearchedUsers({
+      const response = await this.$app.users.getSearchedCustomers({
         search: this.search,
       })
       this.users = response.users
