@@ -32,7 +32,7 @@ export default {
 
     q-pagination(
       color="black"
-      width=""
+      width
       :max="pagesNumber"
       :maxPages="3"
       :boundary-numbers="true"
@@ -68,7 +68,7 @@ export default {
     slot
 </template>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .table-controls
   .q-btn.square, .q-pagination .q-btn
     width 3em

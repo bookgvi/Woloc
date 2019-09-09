@@ -1,12 +1,12 @@
 <script>
 import Menu from '../Menu/CalendarMenu'
-import TableControls from './table-controls'
-import TableRow from './table-row'
+import TableControls from './TableControls'
+import TableRow from './TableRow'
 import pagination from './pagination'
-import RowDialog from './row-dialog'
+import RowDialog from './RowDialog'
 
 export default {
-  name: 'uc-table',
+  name: 'DataTable',
   components: { RowDialog, Menu, TableControls, TableRow },
   mixins: [pagination],
   props: {
@@ -50,9 +50,7 @@ export default {
 <template lang="pug">
 q-page
   .wrapper
-    Menu
-
-    row-dialog(
+    RowDialog(
       readonly
       :row="dialogRow"
       :details="details"
@@ -75,7 +73,7 @@ q-page
           slot(name="table-controls")
 
       template(v-slot:body="props")
-        table-row(
+        TableRow(
           v-bind="props"
           v-slot="props"
           :controlsRowId="controlsRowId"
@@ -85,7 +83,7 @@ q-page
           slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
 </template>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
   .q-table__top
     padding 20px 0
 

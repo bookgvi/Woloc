@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-tabs(
+  q-tabs.nav-tabs(
     shrink
     align="justify"
     animated
@@ -8,7 +8,7 @@
     narrow-indicator
     dense
   )
-    q-route-tab.q-px-sm(
+    q-route-tab.nav-tabs__tab.q-px-sm(
       v-for="(route, index) in routes"
       :key="index"
       :to="route.to"
@@ -39,6 +39,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .nav-tabs
+    &__tab
+      height 80px
 /*  .tabs
     width 100%
     height 78px

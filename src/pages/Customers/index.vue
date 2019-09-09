@@ -1,10 +1,10 @@
 <script>
-import UcTable from '../../components/UcTable'
+import DataTable from '../../components/DataTable'
 import columns from './columns'
 
 export default {
-  name: 'customers-page',
-  components: { UcTable },
+  name: 'CustomersPage',
+  components: { DataTable },
   data () {
     return {
       columns
@@ -18,7 +18,7 @@ export default {
     .wrapper
       Menu
 
-      uc-table(
+      DataTable(
         title="Пользователи"
         :controller="$app.customers"
         :columns="columns"

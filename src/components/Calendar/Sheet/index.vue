@@ -41,7 +41,7 @@
               color="secondary"
              )
     template
-      first-column
+      FirstColumn
       q-calendar.row.col-12(
         style="width: 95%; margin-left: 5%"
         ref="calendar"
@@ -91,8 +91,6 @@
 <script>
 import { date, colors } from 'quasar'
 import icons from 'src/common/eventTypes'
-// import bookings from '../Data/bookings'
-// import rooms from '../../../mocks/rooms'
 import roomsColors from 'src/common/rooms/colors'
 import NewEventDialog from './Popups/NewEventDialog'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
