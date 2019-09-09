@@ -14,7 +14,7 @@ export default {
   },
   getSearchedCustomers: async (payload) => {
     try {
-      const result = await api.post('cabinet/v1.0/customers', payload)
+      const result = await api.post(`${API_URL}/customers`, payload)
       return result
     } catch (e) {
       console.warn('catch :: customers :: getSearchedUsers', e)
