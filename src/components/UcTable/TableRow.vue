@@ -13,9 +13,6 @@ export default {
     controlsAreVisible (row) {
       return this.controlsRowId === row.id
     },
-    log (...arg) {
-      console.log(...arg)
-    }
   }
 }
 </script>
@@ -26,7 +23,7 @@ export default {
       v-for="{name, value, active} of cols"
       :key="name"
       :class="{ [name]: true, active }"
-      @click.native="active && $emit('toggleDialog', row.id)"
+      @click.native="active && $emit('toggleDialogRow', row.id)"
     )
       template(v-if="name === 'room'")
         q-chip(dense square :color="value.color" :title="value.name") {{value.name}}

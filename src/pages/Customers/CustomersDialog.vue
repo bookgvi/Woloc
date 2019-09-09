@@ -54,7 +54,7 @@ export default {
             i.fa-star(v-for="(item,index) in 5" :class="index < row.rating ? 'fas' : 'far' ")
       p.q-mt-md Оставьте комментарий о пользователе
 
-    template(v-slot:actions)
+    template(#actions)
       .col.q-pr-sm
         q-btn.full-width(unelevated color="primary" label="Редактировать")
       .col.q-pl-sm

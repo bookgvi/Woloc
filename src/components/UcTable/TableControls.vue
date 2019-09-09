@@ -27,7 +27,7 @@ export default {
       type="search"
       placeholder="Поиск"
     )
-      template(v-slot:prepend)
+      template(#prepend)
         q-icon(name="search")
 
     q-pagination(

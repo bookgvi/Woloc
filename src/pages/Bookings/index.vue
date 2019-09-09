@@ -28,10 +28,10 @@ export default {
         :columns="columns"
         :details="details"
       )
-        template(v-slot:row-dialog="props")
+        template(#row-dialog="props")
           BookingsDialog(v-bind="props")
 
-        template(v-slot:row-controls="props")
+        template(#row-controls="props")
           q-btn(flat round icon="comment" title="Открыть чат")
           q-btn(flat round icon="delete" title="Удалить")
           q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")

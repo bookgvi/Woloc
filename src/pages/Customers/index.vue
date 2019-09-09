@@ -28,13 +28,13 @@ export default {
         :columns="columns"
         :details="details"
       )
-        template(v-slot:table-controls)
+        template(#table-controls)
           q-btn.q-ml-md(color="primary" label="Добавить пользователя")
 
-        template(v-slot:row-dialog="props")
+        template(#row-dialog="props")
           CustomersDialog(v-bind="props")
 
-        template(v-slot:row-controls="props")
+        template(#row-controls="props")
           q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
           q-btn(flat round icon="phone" title="Позвонить")
           q-btn(flat round icon="email" title="Отправить E-mail")

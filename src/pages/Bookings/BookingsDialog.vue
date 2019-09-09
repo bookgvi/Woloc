@@ -18,7 +18,7 @@ export default {
 
 <template lang="pug">
   RowDialog(v-bind="$props")
-    template(v-slot:actions)
+    template(#actions)
       q-btn(icon="close" outline v-close-popup)
       q-btn(icon="delete" outline)
       q-btn.col-grow(label="Редактировать в календаре" color="primary" unelevated)

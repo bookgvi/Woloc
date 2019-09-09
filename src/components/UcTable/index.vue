@@ -78,20 +78,20 @@ q-page
       :pagination.sync="pagination"
       @request="onRequest"
     )
-      template(v-slot:top-left)
+      template(#top-left)
         .text-h6 {{ title }}
 
-      template(v-slot:top-right="props")
+      template(#top-right="props")
         table-controls(v-bind="props" :setPagination="setPagination")
           slot(name="table-controls")
 
-      template(v-slot:body="props")
+      template(#body="props")
         table-row(
           v-bind="props"
           v-slot="props"
           :controlsRowId="controlsRowId"
           @toggleControls="toggleControlsRow"
-          @toggleDialog="toggleDialogRow"
+          @toggleDialogRow="toggleDialogRow"
         )
           slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
 </template>
