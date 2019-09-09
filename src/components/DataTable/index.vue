@@ -64,6 +64,7 @@ q-page
       :columns="normalizedColumns"
       :pagination.sync="pagination"
       @request="onRequest"
+      :style="{ background: 'none'}"
     )
       template(v-slot:top-left)
         .text-h6 {{ title }}

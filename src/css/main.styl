@@ -1,7 +1,20 @@
 body
   font-weight 500
   color #4A4A4A
-  background url("/statics/maket.jpg") top center no-repeat
+  width: 100vw
+  height: 100vh
+  position: relative;
+  display block
+  &::after
+    content ''
+    background url("/statics/maket.jpg")
+    opacity .5
+    top: 0
+    left: 0
+    bottom: 0
+    right: 0
+    position: absolute;
+    z-index -1
 a
   color #4A4A4A
   text-decoration none
