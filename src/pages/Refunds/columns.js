@@ -3,6 +3,7 @@ import { date } from 'quasar'
 export default [
   {
     name: 'id',
+    field: 'id',
     required: true,
     label: 'Бронь',
     width: 80,
@@ -22,29 +23,28 @@ export default [
     width: 150
   },
   {
-    name: 'date',
+    name: 'reservedDate',
     label: 'Дата',
-    field: 'reservedFrom',
+    field: 'reservedDate',
     format: value => date.formatDate(value, 'D MMM'),
     width: 60
   },
   {
-    name: 'time',
+    name: 'reservedTime',
     label: 'Время',
-    format: (value, { reservedFrom, reservedTo }) => [reservedFrom, reservedTo].map(
-      part => date.formatDate(part, 'H:mm')
-    ).join(' — '),
+    field: 'reservedTime',
+    format: value => date.formatDate(value, 'H:mm'),
     width: 120
   },
   {
-    name: 'expired',
+    name: 'expiredDate',
     label: 'Просрочено',
     field: 'expiredDate',
     format: value => date.formatDate(value, 'D MMM H:mm'),
     width: 120
   },
   {
-    name: 'Price',
+    name: 'price',
     label: 'Сумма, Р.',
     field: 'price',
     width: 120
@@ -57,6 +57,7 @@ export default [
   },
   {
     name: 'hasConfirm',
+    field: 'hasConfirm',
     width: 40
   }
 ]

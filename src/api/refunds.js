@@ -1,23 +1,15 @@
-import api from './instance'
+// import api from './instance'
+import refunds from 'src/mocks/refunds'
 
 export default {
-  getAll: async (page) => {
+  getAll: async () => {
     try {
-      const r = await api.get('bookings', {
-        params: { page, studio: 250 }
-      })
-      return r.data
+      const r = {
+        data: refunds
+      }
+      return r
     } catch (e) {
-      console.warn('catch :: refunds :: getAll', e)
-    }
-  },
-  getForCalendar: async (payload) => {
-    const { studio, dateFrom, dateTo } = payload
-    try {
-      const r = await api.get(`calendar/?studio=${studio}&dateFrom=${dateFrom}&dateTo=${dateTo}`)
-      return r.data
-    } catch (e) {
-      console.warn('catch :: refunds :: getForCalendar', e)
+      console.warn('catch :: extras :: getAll', e)
     }
   }
 }

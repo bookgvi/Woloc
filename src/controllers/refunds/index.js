@@ -17,18 +17,9 @@ export default {
   computed: {
     all () {
       return sortBy(this.list, 'title')
-    },
+    }
   },
   methods: {
-    async getForCalendar (studio, dateFrom, dateTo) {
-      this.loading.list = true
-      const res = await api.refunds.getForCalendar({ studio, dateFrom, dateTo })
-      console.log('refunds :: getForCalendar', res)
-      if (res) {
-        this.list = res.data.items
-        this.loading.list = false
-      }
-    },
     async getAll (page) {
       this.loading.list = true
       const { data } = await api.refunds.getAll(page)
