@@ -1,17 +1,17 @@
 <template lang="pug">
   .bookings
-    CalendarMenu
+    Filters
     BookingsTable
 
 </template>
 
 <script>
-import CalendarMenu from '../Menu/CalendarMenu'
 import BookingsTable from './Table/index'
+import Filters from '../Filters/index'
 
 export default {
   name: 'Calendar',
-  components: { BookingsTable, CalendarMenu }
+  components: { Filters, BookingsTable }
 }
 </script>
 

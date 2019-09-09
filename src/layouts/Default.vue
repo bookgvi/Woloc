@@ -1,7 +1,7 @@
 <template lang="pug">
   q-layout(view="hHh Lpr lFf")
     q-header.bg-white.text-grey
-      .wrapper
+      .wrapper.wrapper--header
         Header
     q-page-container
       router-view
@@ -17,4 +17,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .q-header
+    background none !important
 </style>

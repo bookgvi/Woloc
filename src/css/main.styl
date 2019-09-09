@@ -7,8 +7,6 @@ a
   text-decoration none
 thead tr:first-child th
   font-weight 600
-.color-primary
-  color $primary
 #context-menu
   box-shadow none
 .w-75em
@@ -20,6 +18,9 @@ thead tr:first-child th
   width: 1280px
   margin: 0 auto
   overflow hidden
+  padding 0 20px
+  &--header
+    padding: 0
 
 @media (min-width $breakpoint-lg-min)
   .q-header, .q-footer

@@ -8,7 +8,7 @@
     narrow-indicator
     dense
   )
-    q-route-tab.nav-tabs__tab.q-px-sm(
+    q-route-tab.nav-tabs__tab(
       v-for="(route, index) in routes"
       :key="index"
       :to="route.to"
@@ -42,14 +42,6 @@ export default {
   .nav-tabs
     &__tab
       height 80px
-/*  .tabs
-    width 100%
-    height 78px
-    font-size 14px
-    color #9b9b9b
-    font-family Montserrat
-    font-weight: 500
-    letter-spacing -0.3px
-    line-height 18px
-*/
+      padding-left 9px
+      padding-right 9px
 </style>
