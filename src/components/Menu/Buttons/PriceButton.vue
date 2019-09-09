@@ -4,14 +4,14 @@
     outline
     color="secondary"
     no-caps
-    label="Цели"
+    label="Оплата"
     dense
   )
 </template>
 
 <script>
 export default {
-  name: 'EventsButton',
+  name: 'PriceButton',
 }
 </script>
 

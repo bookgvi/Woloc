@@ -1,5 +1,5 @@
 <script>
-import Menu from '../Menu'
+import Menu from '../Menu/CalendarMenu'
 import TableControls from './table-controls'
 import TableRow from './table-row'
 import pagination from './pagination'

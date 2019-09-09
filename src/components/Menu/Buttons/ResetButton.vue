@@ -4,14 +4,14 @@
     outline
     color="secondary"
     no-caps
-    label="Цели"
+    label="Сбросить все"
     dense
   )
 </template>
 
 <script>
 export default {
-  name: 'EventsButton',
+  name: 'ResetButton',
 }
 </script>
 
