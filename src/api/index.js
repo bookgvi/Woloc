@@ -4,6 +4,7 @@ import customers from './customers'
 import events from './events'
 import extras from './extras'
 import login from './login'
+import studios from './studios'
 
 export default {
   rooms,
@@ -11,5 +12,6 @@ export default {
   customers,
   events,
   extras,
-  login
+  login,
+  studios
 }

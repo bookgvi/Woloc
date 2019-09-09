@@ -2,7 +2,7 @@ import api from '../../api'
 import { sortBy } from 'lodash'
 
 export default {
-  name: 'bookings',
+  name: 'studios',
   data () {
     return {
       loading: {
@@ -10,51 +10,56 @@ export default {
         one: false
       },
       list: [],
-      calendarList: []
+      studio: 371,
+      checkedRooms: []
     }
   },
-  created () {
+  async created () {
+    await this.getAll()
   },
   computed: {
     all () {
-      return sortBy(this.list, 'reservedFrom')
+      return sortBy(this.list, 'name')
     },
     forSelect () {
       let arr = []
+      arr.push({
+        label: 'Любая',
+        value: 0
+      })
       for (let i = 0; i < this.all.length; i++) {
         arr.push(Object.assign({}, {
-          label: this.all[i].title,
-          value: this.all[i].id
+          label: this.all[i].name,
+          value: this.all[i].name
         }))
       }
       return arr
     }
   },
   methods: {
-    async getForCalendar (studio, dateFrom, dateTo) {
+    async getAll () {
       this.loading.list = true
-      const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo })
-      console.log('bookings :: getForCalendar', res)
+      const res = await api.studios.getAll()
+      console.log('studios :: getAll', res)
       if (res) {
-        this.calendarList = res.data.items
+        this.list = res.data.items
         this.loading.list = false
       }
     },
-
-    async getAll (page) {
-      this.loading.list = true
-      const { data } = await api.bookings.getAll(page)
-      console.log('bookings :: getAll', data)
-      if (data) {
-        this.list = data.items
-
-        this.loading.list = false
-      }
-
-      return data
+    getRoomsByStudio (id) {
+      return this.list.find(studio => studio.id === id).rooms || []
+    },
+    getFilteredRoomsByStudio (id) {
+      const rooms = this.list.find(studio => studio.id === id).rooms || []
+      const arr = rooms.filter(item => this.checkedRooms.indexOf(item.id) !== -1)
+      return arr
     },
   },
   watch: {
+    'studio' (v) {
+      this.checkedRooms = []
+      console.log(this.checkedRooms)
+    },
     'loading.list' (v) {
       if (v) {
         this.$q.loading.show()

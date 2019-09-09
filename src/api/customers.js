@@ -11,5 +11,13 @@ export default {
     } catch (e) {
       console.warn('catch :: customers :: getAll', e)
     }
+  },
+  getSearchedCustomers: async (payload) => {
+    try {
+      const result = await api.post('cabinet/v1.0/customers', payload)
+      return result
+    } catch (e) {
+      console.warn('catch :: customers :: getSearchedUsers', e)
+    }
   }
 }

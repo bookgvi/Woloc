@@ -3,7 +3,7 @@
     .col-7.text-body2
       q-option-group(
         v-model="event"
-        :options="events"
+        :options="$app.events.forSelect"
       )
 </template>
 
@@ -15,17 +15,6 @@ export default {
       events: [],
       event: ''
     }
-  },
-  created: async function () {
-    this.events = this.$app.events.list.map((item) => {
-      const event = {
-        value: item.alias,
-        label: item.alias,
-        price: item.price
-      }
-      return event
-    })
-    this.event = this.events[0].value
   },
   computed: {
     eventComp () {
