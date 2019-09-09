@@ -1,7 +1,8 @@
 <script>
 export default {
-  name: 'row-dialog',
+  name: 'RowDialog',
   props: {
+    getTitle: Function,
     row: {
       type: Object,
       default: () => ({}),
@@ -20,6 +21,11 @@ export default {
         : value
     }
   },
+  computed: {
+    title () {
+      return this.getTitle(this.row)
+    }
+  }
 }
 </script>
 
@@ -28,7 +34,7 @@ export default {
     q-card
       q-card-section
         .row
-          .text-h6 Бронь {{ row.id }}
+          .text-h6 {{title}}
           q-space
           q-btn(icon="close" flat round dense v-close-popup)
 
@@ -49,9 +55,7 @@ export default {
           )
 
       q-card-actions.q-pa-md
-        q-btn(icon="close" outline v-close-popup)
-        q-btn(icon="delete" outline)
-        q-btn.col-grow(label="Редактировать в календаре" color="primary" unelevated)
+        slot(name="actions")
 </template>
 
 <style lang="stylus">

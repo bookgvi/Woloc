@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'table-controls',
+  name: 'TableControls',
   props: {
     pagesNumber: Number,
     isFirstPage: Boolean,

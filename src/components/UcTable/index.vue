@@ -1,16 +1,16 @@
 <script>
 import Menu from '../Menu'
-import TableControls from './table-controls'
-import TableRow from './table-row'
+import TableControls from './TableControls'
+import TableRow from './TableRow'
 import pagination from './pagination'
-import RowDialog from './row-dialog'
 
 export default {
-  name: 'uc-table',
-  components: { RowDialog, Menu, TableControls, TableRow },
+  name: 'UcTable',
+  components: { Menu, TableControls, TableRow },
   mixins: [pagination],
   props: {
     title: String,
+    getDialogTitle: Function,
     columns: Array,
     details: Array,
     controller: Object,
@@ -29,7 +29,7 @@ export default {
     },
     toggleDialogRow (id) {
       this.dialogRowId = this.dialogRowId === id ? undefined : id
-    }
+    },
   },
   computed: {
     dialogRow () {
@@ -42,7 +42,7 @@ export default {
         align: 'left',
         style: col.width && `width: ${col.width}px`
       }))
-    }
+    },
   }
 }
 </script>
@@ -52,10 +52,12 @@ q-page
   .wrapper
     Menu
 
-    row-dialog(
+    slot(
+      name="row-dialog"
       readonly
       :row="dialogRow"
       :details="details"
+      :getTitle="getDialogTitle"
       @toggleDialogRow="toggleDialogRow"
     )
 

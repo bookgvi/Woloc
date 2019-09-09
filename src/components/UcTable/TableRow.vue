@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'table-row',
+  name: 'TableRow',
   inheritAttrs: false,
   props: {
     row: Object,
@@ -29,7 +29,7 @@ export default {
       @click.native="active && $emit('toggleDialog', row.id)"
     )
       template(v-if="name === 'room'")
-        q-chip(dense square :color="value.color" :title="value.name") {{value.name}} {{ log(rest) }}
+        q-chip(dense square :color="value.color" :title="value.name") {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'isPaid'")
