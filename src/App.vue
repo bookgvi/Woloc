@@ -12,6 +12,7 @@ import rooms from './controllers/rooms'
 import customers from './controllers/customers'
 import events from './controllers/events'
 import extras from './controllers/extras'
+import login from './controllers/login'
 import refunds from './controllers/refunds'
 
 export default {

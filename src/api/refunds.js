@@ -1,14 +1,23 @@
 import api from './instance'
+
 export default {
-  async getJWT () {
-    const login = await api.post('auth/login', {
-      login: 'artem@ugoloc.ru',
-      password: '123456'
-    })
-    return login.data
+  getAll: async (page) => {
+    try {
+      const r = await api.get('bookings', {
+        params: { page, studio: 250 }
+      })
+      return r.data
+    } catch (e) {
+      console.warn('catch :: refunds :: getAll', e)
+    }
   },
-  async getRooms () {
-    const rooms = await api.get('studios')
-    console.log(rooms)
+  getForCalendar: async (payload) => {
+    const { studio, dateFrom, dateTo } = payload
+    try {
+      const r = await api.get(`calendar/?studio=${studio}&dateFrom=${dateFrom}&dateTo=${dateTo}`)
+      return r.data
+    } catch (e) {
+      console.warn('catch :: refunds :: getForCalendar', e)
+    }
   }
 }

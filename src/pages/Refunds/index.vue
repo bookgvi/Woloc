@@ -7,15 +7,7 @@
         title="Возврат"
         :controller="$app.refunds"
         :columns="columns"
-        :details="[]"
       )
-        template(v-slot:table-controls)
-
-        template(v-slot:row-controls="props")
-          q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
-          q-btn(flat round icon="phone" title="Позвонить")
-          q-btn(flat round icon="email" title="Отправить E-mail")
-          q-btn(flat round icon="comment" title="Открыть чат")
 </template>
 
 <script>
@@ -29,9 +21,6 @@ export default {
     return {
       columns
     }
-  },
-  created () {
-    console.log(this.$api)
   }
 }
 </script>

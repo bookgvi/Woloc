@@ -2,25 +2,24 @@ import { date } from 'quasar'
 
 export default [
   {
-    name: 'booking',
+    name: 'id',
     required: true,
     label: 'Бронь',
-    width: 60,
+    width: 80,
     active: true,
   },
   {
     name: 'customer',
-    required: true,
     label: 'Клиент',
-    field: ({ firstName, lastName } = {}) => `${firstName} ${lastName}`,
-    width: 270,
-    active: true,
+    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`,
+    width: 220,
+    active: false,
   },
   {
     name: 'room',
     label: 'Зал',
     field: 'room',
-    width: 120
+    width: 150
   },
   {
     name: 'date',
