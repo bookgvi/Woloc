@@ -4,8 +4,7 @@ import { LocalStorage, Notify } from 'quasar'
 
 // create an axios instance
 const instance = axios.create({
-  // baseURL: process.env.API_URL ||
-  baseURL: 'https://pre.ugoloc.ucann.ru/api/cabinet/v1.0/', // api base_url
+  baseURL: process.env.API_BASE_URL || '/api/', // api base_url
   paramsSerializer: function (params) {
     return stringify(params, { arrayFormat: 'brackets' })
   },
