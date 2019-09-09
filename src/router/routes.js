@@ -8,7 +8,10 @@ const routes = [
       { path: 'customers', component: () => import('pages/Customers') },
       { path: 'bookings', component: () => import('pages/Bookings') },
       { path: 'calendar', component: () => import('pages/Calendar.vue') },
-      { path: 'users', component: () => import('components/Users/Index.vue') },
+      // { path: 'bookings', component: () => import('pages/Bookings.vue') },
+      { path: 'requests', component: () => import('pages/Requests.vue') },
+      { path: 'refunds', component: () => import('pages/Refunds.vue') },
+      { path: 'users', component: () => import('components/Users/Index.vue') }
     ]
   }
 ]
