@@ -12,7 +12,8 @@ export default {
       list: [],
     }
   },
-  created () {
+  async created () {
+    await this.getAll()
   },
   computed: {
     all () {

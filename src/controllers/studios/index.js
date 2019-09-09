@@ -10,9 +10,12 @@ export default {
         one: false
       },
       list: [],
+      studio: 371,
+      checkedRooms: []
     }
   },
-  created () {
+  async created () {
+    await this.getAll()
   },
   computed: {
     all () {
@@ -44,10 +47,19 @@ export default {
       }
     },
     getRoomsByStudio (id) {
-      return this.list.find(studio => studio.id === id).rooms || {}
-    }
+      return this.list.find(studio => studio.id === id).rooms || []
+    },
+    getFilteredRoomsByStudio (id) {
+      const rooms = this.list.find(studio => studio.id === id).rooms || []
+      const arr = rooms.filter(item => this.checkedRooms.indexOf(item.id) !== -1)
+      return arr
+    },
   },
   watch: {
+    'studio' (v) {
+      this.checkedRooms = []
+      console.log(this.checkedRooms)
+    },
     'loading.list' (v) {
       if (v) {
         this.$q.loading.show()

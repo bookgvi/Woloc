@@ -21,7 +21,7 @@
         td.row.col-12.items-center(
           style="height: 41px"
         )
-          span {{ "07:00-08:00" }}
+          span {{ "08:00-09:00" }}
       tr.text-body1.text-weight-medium(
         style="height: 40px;"
         v-for="(t, index) in times"
@@ -46,7 +46,6 @@ export default {
   data () {
     return {
       times: [
-        '08:00-09:00',
         '09:00-10:00',
         '10:00-11:00',
         '11:00-12:00',
