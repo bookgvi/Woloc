@@ -1,5 +1,5 @@
 <script>
-import UcTable from '../../components/UcTable'
+import UcTable from 'components/UcTable'
 import BookingsDialog from './BookingsDialog'
 import columns from './columns'
 import details from './details'
@@ -21,7 +21,7 @@ export default {
     .wrapper
       Menu
 
-      uc-table(
+      UcTable(
         title="Бронирования"
         :getDialogTitle="(row) => `Бронь ${row.id}`"
         :controller="$app.bookings"

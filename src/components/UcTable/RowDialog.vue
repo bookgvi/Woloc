@@ -34,14 +34,14 @@ export default {
     q-card
       q-card-section
         .row
-          .text-h6 {{title}}
+          .text-h6.text-bold {{title}}
           q-space
           q-btn(icon="close" flat round dense v-close-popup)
 
       q-card-section.scroll(style="max-height: 70vh")
         template(v-for="(group, i) of details")
           .row.q-mt-md(v-if="group.name")
-            .text-h6 {{ group.name }}
+            .text-h6.text-bold {{ group.name }}
 
           q-input(
             v-for="field of group.fields"
@@ -54,7 +54,9 @@ export default {
             :readonly="readonly"
           )
 
-      q-card-actions.q-pa-md
+        slot
+
+      q-card-actions.q-pa-md.q-mt-sm
         slot(name="actions")
 </template>
 
@@ -69,10 +71,11 @@ export default {
     line-height 24px
     padding-top 24px
     padding-bottom 8px
+    font-size 16px
 
 .q-field--standard.q-field--readonly
   .q-field__control:before
-    border-bottom-style solid
+    border-bottom #e5e5e5 solid 1px
 
 .q-card__actions
   button

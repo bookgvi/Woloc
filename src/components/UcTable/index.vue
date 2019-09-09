@@ -43,6 +43,15 @@ export default {
         style: col.width && `width: ${col.width}px`
       }))
     },
+    normalizedDetails () {
+      return this.details.map(section => ({
+        ...section,
+        fields: section.fields.map(field => ({
+          ...field,
+          field: field.field || field.name,
+        }))
+      }))
+    }
   }
 }
 </script>
@@ -56,7 +65,7 @@ q-page
       name="row-dialog"
       readonly
       :row="dialogRow"
-      :details="details"
+      :details="normalizedDetails"
       :getTitle="getDialogTitle"
       @toggleDialogRow="toggleDialogRow"
     )
