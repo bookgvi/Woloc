@@ -29,7 +29,7 @@ export default {
       @click.native="active && $emit('toggleDialog', row.id)"
     )
       template(v-if="name === 'room'")
-        q-chip(dense square :color="value.color" :title="value.name") {{value.name}} {{ log(rest) }}
+        q-chip(dense square :color="value.color" :title="value.name") {{value.name}} {{ log() }}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'isPaid'")
@@ -58,6 +58,9 @@ export default {
             :color="controlsAreVisible(row) ? 'primary' : undefined"
             :disable="row.disabled"
           )
+      template(v-else-if="name === 'confirm'")
+        .inline-block
+          slot
       template(v-else) {{ value }}
 </template>
 

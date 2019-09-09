@@ -8,6 +8,9 @@
         :controller="$app.refunds"
         :columns="columns"
       )
+        template(#row-controls="props")
+          q-btn(flat round icon="block")
+          q-btn(flat round icon="thumb_up")
 </template>
 
 <script>

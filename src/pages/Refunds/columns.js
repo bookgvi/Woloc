@@ -55,4 +55,8 @@ export default [
     field: 'refundStatus',
     width: 120
   },
+  {
+    name: 'confirm',
+    width: 40
+  }
 ]
