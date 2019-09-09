@@ -27,6 +27,7 @@ export default {
       customers: new Vue(customers),
       events: new Vue(events),
       extras: new Vue(extras),
+      login: new Vue(login),
       refunds: new Vue(refunds)
     }
   }
