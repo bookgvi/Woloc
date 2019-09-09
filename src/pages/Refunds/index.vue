@@ -2,13 +2,12 @@
   q-page
     .wrapper
       Menu
-
       uc-table(
         title="Возврат"
         :controller="$app.refunds"
         :columns="columns"
       )
-        template(#row-controls="props")
+        template(#row-controls)
           q-btn(flat round icon="block")
           q-btn(flat round icon="thumb_up")
 </template>

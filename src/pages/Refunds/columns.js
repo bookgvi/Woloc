@@ -56,7 +56,7 @@ export default [
     width: 120
   },
   {
-    name: 'confirm',
+    name: 'hasConfirm',
     width: 40
   }
 ]
