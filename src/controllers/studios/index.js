@@ -23,17 +23,20 @@ export default {
     },
     forSelect () {
       let arr = []
-      arr.push({
-        label: 'Любая',
-        value: 0
-      })
       for (let i = 0; i < this.all.length; i++) {
         arr.push(Object.assign({}, {
           label: this.all[i].name,
-          value: this.all[i].name
+          value: this.all[i].id
         }))
       }
       return arr
+    },
+    selectedStudioLabel () {
+      if (this.list.length !== 0) {
+        return this.all.find(item => item.id === this.studio).name
+      } else {
+        return 'Студия'
+      }
     }
   },
   methods: {

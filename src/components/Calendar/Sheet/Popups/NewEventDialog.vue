@@ -186,6 +186,7 @@ export default {
           'phone': ''
         },
         'studio': {
+          'id': this.studioSlot,
           'name': ''
         },
         'room': {
@@ -205,6 +206,9 @@ export default {
     }
   },
   computed: {
+    studioSlot () {
+      return this.studio
+    },
     fee () {
       const duration = this.helpers.time.to - this.helpers.time.from
       const price = 1200
