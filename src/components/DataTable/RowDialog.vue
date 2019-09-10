@@ -1,34 +1,3 @@
-<script>
-export default {
-  name: 'RowDialog',
-  props: {
-    getTitle: Function,
-    row: {
-      type: Object,
-      default: () => ({}),
-    },
-    details: Array,
-    readonly: Boolean,
-  },
-  methods: {
-    getFieldValue (field) {
-      const value = typeof field.field === 'function'
-        ? field.field(this.row)
-        : this.row[field.field]
-
-      return (typeof field.format === 'function')
-        ? field.format(value, this.row)
-        : value
-    }
-  },
-  computed: {
-    title () {
-      return this.getTitle(this.row)
-    }
-  }
-}
-</script>
-
 <template lang="pug">
   q-dialog(:value="!!row.id" @hide="$emit('toggleDialogRow', row.id)")
     q-card
@@ -60,24 +29,55 @@ export default {
         slot(name="actions")
 </template>
 
+<script>
+export default {
+  name: 'RowDialog',
+  props: {
+    getTitle: Function,
+    row: {
+      type: Object,
+      default: () => ({}),
+    },
+    details: Array,
+    readonly: Boolean,
+  },
+  methods: {
+    getFieldValue (field) {
+      const value = typeof field.field === 'function'
+        ? field.field(this.row)
+        : this.row[field.field]
+
+      return (typeof field.format === 'function')
+        ? field.format(value, this.row)
+        : value
+    }
+  },
+  computed: {
+    title () {
+      return this.getTitle(this.row)
+    }
+  }
+}
+</script>
+
 <style lang="stylus">
-.q-card
-  width 620px
-.q-field--float
-  .q-field__label
-    transform none
-    top 0
-    right 0
-    line-height 24px
-    padding-top 24px
-    padding-bottom 8px
-    font-size 16px
+  .q-card
+    width 620px
+  .q-field--float
+    .q-field__label
+      transform none
+      top 0
+      right 0
+      line-height 24px
+      padding-top 24px
+      padding-bottom 8px
+      font-size 16px
 
-.q-field--standard.q-field--readonly
-  .q-field__control:before
-    border-bottom #e5e5e5 solid 1px
+  .q-field--standard.q-field--readonly
+    .q-field__control:before
+      border-bottom #e5e5e5 solid 1px
 
-.q-card__actions
-  button
-    min-width auto !important
+  .q-card__actions
+    button
+      min-width auto !important
 </style>

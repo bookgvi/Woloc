@@ -1,12 +1,56 @@
+<template lang="pug">
+  .wrapper
+    RowDialog(
+      name="row-dialog"
+      readonly
+      :row="dialogRow"
+      :details="normalizedDetails"
+      :getTitle="getDialogTitle"
+      @toggleDialogRow="toggleDialogRow"
+    )
+
+    q-table.shadow-0.data-table(
+      row-key="id"
+      hide-bottom
+      :data="data"
+      :columns="normalizedColumns"
+      :pagination.sync="pagination"
+      @request="onRequest"
+      :style="{ background: 'none'}"
+    )
+      template(#header-cell="props")
+        q-th.header
+          span {{props.col.label}}
+
+      template(#top="props")
+        .row.full-width
+          .col-2
+            .text-h6 {{ title }}
+          .col-10.flex.justify-end
+            TableControls(v-bind="props" :setPagination="setPagination")
+              slot(name="table-controls")
+
+      template(#body="props")
+        TableRow(
+          v-bind="props"
+          v-slot="props"
+          :controlsRowId="controlsRowId"
+          @toggleControls="toggleControlsRow"
+          @toggleDialogRow="toggleDialogRow"
+        )
+          slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
+</template>
+
 <script>
 import Menu from '../Menu'
 import TableControls from './TableControls'
 import TableRow from './TableRow'
 import pagination from './pagination'
+import RowDialog from './RowDialog'
 
 export default {
-  name: 'UcTable',
-  components: { Menu, TableControls, TableRow },
+  name: 'DataTable',
+  components: { RowDialog, Menu, TableControls, TableRow },
   mixins: [pagination],
   props: {
     title: String,
@@ -56,49 +100,11 @@ export default {
 }
 </script>
 
-<template lang="pug">
-q-page
-  .wrapper
-    Menu
-
-    slot(
-      name="row-dialog"
-      readonly
-      :row="dialogRow"
-      :details="normalizedDetails"
-      :getTitle="getDialogTitle"
-      @toggleDialogRow="toggleDialogRow"
-    )
-
-    q-table(
-      row-key="id"
-      hide-bottom
-      :data="data"
-      :columns="normalizedColumns"
-      :pagination.sync="pagination"
-      @request="onRequest"
-    )
-      template(#top-left)
-        .text-h6 {{ title }}
-
-      template(#top-right="props")
-        table-controls(v-bind="props" :setPagination="setPagination")
-          slot(name="table-controls")
-
-      template(#body="props")
-        table-row(
-          v-bind="props"
-          v-slot="props"
-          :controlsRowId="controlsRowId"
-          @toggleControls="toggleControlsRow"
-          @toggleDialogRow="toggleDialogRow"
-        )
-          slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
-</template>
-
-<style lang="stylus">
-  .q-table__top
-    padding 20px 0
+<style lang="stylus" scoped>
+  .data-table
+    padding-top: 12px
+    .q-table__top
+      padding 20px 0 !important
 
   thead tr:first-child th
     opacity 1

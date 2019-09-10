@@ -34,6 +34,7 @@
             q-card-section
               calendar-room(
                 @roomChange="newBooking.room = $event"
+                :studio="studio"
                 )
         q-expansion-item(
           group="new-event"
@@ -236,7 +237,7 @@ export default {
       return this.newBooking.price
     }
   },
-  props: ['date', 'time']
+  props: ['date', 'time', 'studio']
 }
 </script>
 

@@ -1,5 +1,5 @@
 <script>
-import RowDialog from 'components/UcTable/RowDialog'
+import RowDialog from '../../DataTable/RowDialog'
 
 export default {
   name: 'CustomersDialog',
