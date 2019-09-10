@@ -1,251 +1,333 @@
 {
   "items": [
     {
-      "id": 4097581,
-      "customer": {
-        "firstName": "Антон",
-        "lastName": "Курбанов"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №13 Капотня"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "2019-09-10T10:14:03.984Z",
-      "price": 4800,
-      "refundStatus": ""
+      "amount": "13500.00",
+      "status": 1,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
     {
-      "id": 4097582,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": ""
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
     {
-      "id": 4097583,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Ожидает зачисления",
-      "disabled": true
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
     {
-      "id": 4097584,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Возврат отменен",
-      "disabled": true
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
     {
-      "id": 4097585,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №14"
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    },
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Возврат осуществлен",
-      "disabled": true
+      "amount": "13500.00",
+      "status": 2,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },    {
-      "id": 4097586,
-      "customer": {
-        "firstName": "Антон",
-        "lastName": "Курбанов"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №13 Капотня"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "2019-09-10T10:14:03.984Z",
-      "price": 4800,
-      "refundStatus": ""
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
     {
-      "id": 4097587,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": ""
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
     {
-      "id": 4097588,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Ожидает зачисления",
-      "disabled": true
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
     {
-      "id": 4097589,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
       },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Возврат отменен",
-      "disabled": true
-    },
-    {
-      "id": 40975810,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
-      },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Возврат осуществлен",
-      "disabled": true
-    },    {
-      "id": 40975811,
-      "customer": {
-        "firstName": "Антон",
-        "lastName": "Курбанов"
-      },
-      "room": {
-        "name": "Зал №13 Капотня"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 4800,
-      "refundStatus": ""
-    },
-    {
-      "id": 40975812,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
-      },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": ""
-    },
-    {
-      "id": 40975813,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
-      },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Ожидает зачисления",
-      "disabled": true
-    },
-    {
-      "id": 40975814,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
-      },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Возврат отменен",
-      "disabled": true
-    },
-    {
-      "id": 40975815,
-      "customer": {
-        "firstName": "Джим",
-        "lastName": "Кэмп"
-      },
-      "room": {
-        "name": "Зал №14"
-      },
-      "createdAt": "2019-09-10T09:13:03.984Z",
-      "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "",
-      "expiredDate": "",
-      "price": 800,
-      "refundStatus": "Возврат осуществлен",
-      "disabled": true
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     }
   ]
 }
