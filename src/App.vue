@@ -30,7 +30,7 @@ export default {
       events: new Vue(events),
       extras: new Vue(extras),
       studios: new Vue(studios),
-      login: new Vue(login)
+      login: new Vue(login),
       refunds: new Vue(refunds)
     }
   }

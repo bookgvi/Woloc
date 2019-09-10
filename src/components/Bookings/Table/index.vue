@@ -25,7 +25,7 @@ import BookingsDialog from './BookingsDialog'
 
 export default {
   name: 'BookingsTable',
-  components: { DataTable },
+  components: { DataTable, BookingsDialog },
   data: () => ({
     columns,
     details

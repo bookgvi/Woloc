@@ -1,28 +1,13 @@
 <template lang="pug">
   q-page
-    .wrapper
-      Menu
-      uc-table(
-        title="Возврат"
-        :controller="$app.refunds"
-        :columns="columns"
-      )
-        template(#row-controls)
-          q-btn(flat round icon="block")
-          q-btn(flat round icon="thumb_up")
+    Refunds
 </template>
 
 <script>
-import UcTable from '../../components/UcTable'
-import columns from './columns'
+import Refunds from '../components/Refunds'
 
 export default {
   name: 'refunds',
-  components: { UcTable },
-  data () {
-    return {
-      columns
-    }
-  }
+  components: { Refunds },
 }
 </script>
