@@ -215,7 +215,11 @@ export default {
       return duration * price
     },
     customerSlot () {
-      return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
+      if (this.newBooking.customer.firstName && this.newBooking.customer.phone) {
+        return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
+      } else {
+        return 'Введите имя пользователя'
+      }
     },
     roomSlot () {
       return this.newBooking.room.name
