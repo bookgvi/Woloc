@@ -8,9 +8,6 @@
         :columns="columns"
         :details="[]"
       )
-        template(#row-controls)
-          q-btn(flat round icon="block")
-          q-btn(flat round icon="thumb_up")
 </template>
 
 <script>
