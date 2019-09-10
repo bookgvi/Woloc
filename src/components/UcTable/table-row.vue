@@ -61,7 +61,7 @@ export default {
       template(v-else-if="name === 'refundStatus' && value")
         .inline-block {{ value }}
       template(v-else-if="name === 'refundStatus' && !value")
-        .inline-block(style="width: 200px;")
+        .inline-block(style="width: 250px;")
         slot
       template(v-else-if="name === 'expiredDate'")
         .inline-block(style="color: red;") {{ value }}

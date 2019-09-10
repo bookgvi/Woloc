@@ -23,9 +23,9 @@ export default [
     width: 120
   },
   {
-    name: 'reservedDate',
+    name: 'createdAt',
     label: 'Дата',
-    field: 'reservedDate',
+    field: 'createdAt',
     format: value => date.formatDate(value, 'D MMM'),
     width: 60
   },
@@ -33,7 +33,7 @@ export default [
     name: 'reservedTime',
     label: 'Время',
     field: 'reservedTime',
-    format: (value, { reservedDate, reservedTo }) => [reservedDate, reservedTo].map(
+    format: (value, { createdAt, reservedTo }) => [createdAt, reservedTo].map(
       part => date.formatDate(part, 'H:mm')
     ).join(' — '),
     width: 120

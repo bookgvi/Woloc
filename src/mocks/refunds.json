@@ -9,7 +9,7 @@
       "room": {
         "name": "Зал №13 Капотня"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "",
       "expiredDate": "2019-09-10T10:14:03.984Z",
@@ -25,9 +25,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": ""
@@ -41,9 +41,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Ожидает зачисления"
@@ -57,9 +57,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Возврат отменен"
@@ -73,9 +73,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Возврат осуществлен"
@@ -88,9 +88,9 @@
       "room": {
         "name": "Зал №13 Капотня"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "2019-09-10T10:14:03.984Z",
       "price": 4800,
       "refundStatus": ""
@@ -104,9 +104,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": ""
@@ -120,9 +120,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Ожидает зачисления"
@@ -136,9 +136,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Возврат отменен"
@@ -152,9 +152,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Возврат осуществлен"
@@ -167,9 +167,9 @@
       "room": {
         "name": "Зал №13 Капотня"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 4800,
       "refundStatus": ""
@@ -183,9 +183,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": ""
@@ -199,9 +199,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Ожидает зачисления"
@@ -215,9 +215,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Возврат отменен"
@@ -231,9 +231,9 @@
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "createdAt": "2019-09-10T09:13:03.984Z",
       "reservedTo": "2019-09-10T10:13:03.984Z",
-      "reservedTime": "9:00 - 13.00",
+      "reservedTime": "",
       "expiredDate": "",
       "price": 800,
       "refundStatus": "Возврат осуществлен"
