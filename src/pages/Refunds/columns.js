@@ -7,7 +7,7 @@ export default [
     required: true,
     label: 'Бронь',
     width: 80,
-    active: true,
+    active: false,
   },
   {
     name: 'customer',
