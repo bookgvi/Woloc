@@ -58,11 +58,15 @@ export default {
             :color="controlsAreVisible(row) ? 'primary' : undefined"
             :disable="row.disabled"
           )
-      template(v-else-if="name === 'hasConfirm'")
-        .inline-block
-          slot
+      template(v-else-if="name === 'refundStatus' && value")
+        .inline-block {{ value }}
+      template(v-else-if="name === 'refundStatus' && !value")
+        .inline-block(style="width: 200px;")
+        slot
       template(v-else-if="name === 'expiredDate'")
-        .inline-block(v-model="value" style="color: red;") {{ value }}
+        .inline-block(style="color: red;") {{ value }}
+      template(v-else-if="name === 'id'")
+        .inline-block.color-primary {{ value }}
       template(v-else) {{ value }}
 </template>
 

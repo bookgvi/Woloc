@@ -13,9 +13,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "",
       "expiredDate": "2019-09-10T10:14:03.984Z",
-      "price": "4800",
-      "refundStatus": "",
-      "hasConfirm": ""
+      "price": 4800,
+      "refundStatus": ""
     },
     {
       "id": 4097582,
@@ -30,9 +29,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": ""
     },
     {
       "id": 4097583,
@@ -47,9 +45,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Ожидает зачисления",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Ожидает зачисления"
     },
     {
       "id": 4097584,
@@ -64,9 +61,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Возврат отменен",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Возврат отменен"
     },
     {
       "id": 4097585,
@@ -81,9 +77,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Возврат осуществлен",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Возврат осуществлен"
     },    {
       "id": 4097586,
       "customer": {
@@ -97,9 +92,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "2019-09-10T10:14:03.984Z",
-      "price": "4800",
-      "refundStatus": "",
-      "hasConfirm": ""
+      "price": 4800,
+      "refundStatus": ""
     },
     {
       "id": 4097587,
@@ -114,9 +108,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": ""
     },
     {
       "id": 4097588,
@@ -131,9 +124,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Ожидает зачисления",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Ожидает зачисления"
     },
     {
       "id": 4097589,
@@ -148,9 +140,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Возврат отменен",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Возврат отменен"
     },
     {
       "id": 40975810,
@@ -165,9 +156,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Возврат осуществлен",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Возврат осуществлен"
     },    {
       "id": 40975811,
       "customer": {
@@ -181,9 +171,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "4800",
-      "refundStatus": "",
-      "hasConfirm": ""
+      "price": 4800,
+      "refundStatus": ""
     },
     {
       "id": 40975812,
@@ -198,9 +187,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": ""
     },
     {
       "id": 40975813,
@@ -215,9 +203,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Ожидает зачисления",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Ожидает зачисления"
     },
     {
       "id": 40975814,
@@ -232,9 +219,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Возврат отменен",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Возврат отменен"
     },
     {
       "id": 40975815,
@@ -249,9 +235,8 @@
       "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
       "expiredDate": "",
-      "price": "800",
-      "refundStatus": "Возврат осуществлен",
-      "hasConfirm": ""
+      "price": 800,
+      "refundStatus": "Возврат осуществлен"
     }
   ]
 }

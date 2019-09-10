@@ -13,14 +13,14 @@ export default [
     name: 'customer',
     label: 'Клиент',
     field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`,
-    width: 220,
+    width: 150,
     active: false,
   },
   {
     name: 'room',
     label: 'Зал',
     field: 'room',
-    width: 150
+    width: 120
   },
   {
     name: 'reservedDate',
@@ -56,10 +56,5 @@ export default [
     label: 'Статус возврата',
     field: 'refundStatus',
     width: 120
-  },
-  {
-    name: 'hasConfirm',
-    field: 'hasConfirm',
-    width: 40
   }
 ]
