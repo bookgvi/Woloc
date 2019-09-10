@@ -24,9 +24,9 @@
 
       template(#top="props")
         .row.full-width
-          .col-4
+          .col-2
             .text-h6 {{ title }}
-          .col-8.flex.justify-end
+          .col-10.flex.justify-end
             TableControls(v-bind="props" :setPagination="setPagination")
               slot(name="table-controls")
 
