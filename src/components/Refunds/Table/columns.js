@@ -7,57 +7,52 @@ export default [
     required: true,
     label: 'Бронь',
     width: 80,
-    active: true,
+    active: false,
   },
   {
     name: 'customer',
     label: 'Клиент',
-    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`,
-    width: 220,
+    field: ({ booking: { customer = {} } }) => `${customer.firstName} ${customer.lastName}`,
+    width: 150,
     active: false,
   },
   {
-    name: 'room',
+    name: 'name',
     label: 'Зал',
-    field: 'room',
-    width: 150
+    field: ({ booking: { room = {} } }) => `${room.name}`,
+    width: 120
   },
   {
-    name: 'reservedDate',
+    name: 'reservedFrom',
     label: 'Дата',
-    field: 'reservedDate',
+    field: ({ booking = {} }) => `${booking.reservedFrom}`,
     format: value => date.formatDate(value, 'D MMM'),
     width: 60
   },
   {
     name: 'reservedTime',
     label: 'Время',
-    field: 'reservedTime',
+    field: ({ booking = {} }) => `${booking.reservedFrom}`,
     format: value => date.formatDate(value, 'H:mm'),
-    width: 120
+    width: 120,
   },
   {
-    name: 'expiredDate',
+    name: 'returnedAt',
     label: 'Просрочено',
-    field: 'expiredDate',
-    format: value => date.formatDate(value, 'D MMM H:mm'),
+    field: 'returnedAt',
+    format: value => date.formatDate(value, 'D MMM'),
     width: 120
   },
   {
-    name: 'price',
+    name: 'amount',
     label: 'Сумма, Р.',
-    field: 'price',
+    field: 'amount',
     width: 120
   },
   {
-    name: 'refundStatus',
+    name: 'status',
     label: 'Статус возврата',
-    field: 'refundStatus',
+    field: 'status',
     width: 120
-  },
-  {
-    name: 'hasConfirm',
-    field: 'hasConfirm',
-    width: 40
   }
 ]
