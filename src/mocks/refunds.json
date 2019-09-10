@@ -1,26 +1,333 @@
-[
-  {
-    "id": 593383,
-    "customer": {
-      "id": 767,
-      "email": "pashkov.photo@mail.ru",
-      "firstName": "Максим",
-      "lastName": "Пашков",
-      "phone": "79683335777"
+{
+  "items": [
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 1,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
-    "room": {
-      "id": 519,
-      "name": "Зал Black 55"
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
-    "studio": {
-      "id": 100,
-      "name": "PhotoFilmStudio"
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
     },
-    "reservedDate": "2019-08-14 09:00:00",
-    "reservedTime": "2019-08-14 09:00:00",
-    "expiredDate": "2019-08-14 09:00:00",
-    "price": "13500.00",
-    "refundStatus": "Возврат отменен",
-    "hasConfirm": ""
-  }
-]
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    },
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    },
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 2,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    },    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    },
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    },
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    },
+    {
+      "id": 593384,
+      "booking": {
+        "id": 593384,
+        "reservedFrom": "2019-08-15 09:00:00",
+        "reservedTo": "2019-08-16 00:00:00",
+        "eventType": "photo",
+        "price": "13500.00",
+        "discount": "0.00",
+        "amount": "13500.00",
+        "duration": 593384,
+        "customer": {
+          "id": 767,
+          "email": "pashkov.photo@mail.ru",
+          "firstName": "Максим",
+          "lastName": "Пашков",
+          "phone": "79683335777"
+        },
+        "studio": {
+          "id": 100,
+          "name": "PhotoFilmStudio"
+        },
+        "room": {
+          "id": 519,
+          "name": "Зал Black 55"
+        }
+      },
+      "amount": "13500.00",
+      "status": 0,
+      "createdAt": "2019-08-15 09:00:00",
+      "returnedAt": "2019-08-16 00:00:00",
+      "comment": "Ожидает зачисление"
+    }
+  ]
+}

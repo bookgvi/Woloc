@@ -1,6 +1,5 @@
 // import api from './instance'
 import refunds from 'src/mocks/refunds'
-
 export default {
   getAll: async () => {
     try {

@@ -26,7 +26,7 @@ export default {
       pagination: {
         rowsPerPage: 10,
         rowsNumber: 100,
-      },
+      }
     }
   }
 }
