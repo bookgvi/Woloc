@@ -16,7 +16,7 @@ export default {
   getForCalendar: async (payload) => {
     const { studio, dateFrom, dateTo } = payload
     try {
-      const r = await api.get(`${API_URL}calendar`, {
+      const r = await api.get(`${API_URL}/calendar`, {
         params: { studio, dateFrom, dateTo }
       })
       return r.data

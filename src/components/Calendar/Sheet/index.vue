@@ -340,6 +340,7 @@ export default {
               return event
             })
           }
+          // console.log(widthArray)
           allEvents.push(...events)
         }
         const dayOfWeek = +date.formatDate(this.selectedDate, 'E') - 1
