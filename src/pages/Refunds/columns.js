@@ -33,7 +33,9 @@ export default [
     name: 'reservedTime',
     label: 'Время',
     field: ({ booking = {} }) => `${booking.reservedFrom}`,
-    format: value => date.formatDate(value, 'H:mm'),
+    format: (value, { booking }) => [booking.reservedFrom, booking.reservedTo].map(
+      part => date.formatDate(part, 'H:mm')
+    ).join(' — '),
     width: 120,
   },
   {
