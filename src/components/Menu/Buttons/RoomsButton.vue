@@ -16,8 +16,7 @@
       q-checkbox.text-body2.q-px-md(
         label="Все залы"
         color="black"
-        :options="$app.studios.checkedRooms"
-        :value="roomsIds"
+        v-model="checkedRooms"
       )
 </template>
 
@@ -26,27 +25,30 @@ export default {
   name: 'StudiosButton',
   data () {
     return {
-      roomsIds: []
+      allRooms: true
     }
-  },
-  created () {
-    if (this.$app.studios.list.length === 0) return []
-    const arr = this.$app.studios.getRoomsByStudio(this.studio).map((item) => {
-      return item.id
-    })
-    console.log(arr, this.$app.studios.checkedRooms)
-    this.roomsIds = arr
   },
   computed: {
     roomsAmount () {
       return `Залы ${this.rooms.length}`
     },
-    studio () {
-      return this.$app.studios.studio
+    checkedRooms: {
+      get: function () {
+        if (this.$app.studios.checkedRooms.length === this.rooms.length) {
+          return true
+        } else {
+          return false
+        }
+      },
+      set: function (value) {
+        if (value === true) {
+          this.$app.studios.checkedRooms = this.rooms.map((item) => item.value)
+        }
+      }
     },
     rooms () {
       if (this.$app.studios.list.length === 0) return []
-      const arr = this.$app.studios.getRoomsByStudio(this.studio).map((item) => {
+      const arr = this.$app.studios.getRoomsByStudio(this.$app.studios.studio).map((item) => {
         const room = Object.assign({}, {
           value: item.id,
           label: item.name,
