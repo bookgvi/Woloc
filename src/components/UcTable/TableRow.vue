@@ -55,13 +55,6 @@ export default {
             :color="controlsAreVisible(row) ? 'primary' : undefined"
             :disable="row.disabled"
           )
-      template(v-if="name === 'name'")
-        q-chip(dense square :color="value.color" :title="value.name") {{value}}
-      template(v-else-if="name === 'refundStatus' && value")
-        .inline-block {{ value }}
-      template(v-else-if="name === 'refundStatus' && !value")
-        .inline-block(style="width: 250px;")
-        slot
       template(v-else-if="name === 'returnedAt'")
         .inline-block(style="color: red;") {{ value }}
       template(v-else-if="name === 'id'")
