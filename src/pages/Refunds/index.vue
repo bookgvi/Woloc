@@ -6,6 +6,7 @@
         title="Возврат"
         :controller="$app.refunds"
         :columns="columns"
+        :details="[]"
       )
         template(#row-controls)
           q-btn(flat round icon="block")
@@ -23,6 +24,6 @@ export default {
     return {
       columns
     }
-  }
+  },
 }
 </script>

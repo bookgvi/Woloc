@@ -1,26 +1,197 @@
-[
-  {
-    "id": 593383,
-    "customer": {
-      "id": 767,
-      "email": "pashkov.photo@mail.ru",
-      "firstName": "Максим",
-      "lastName": "Пашков",
-      "phone": "79683335777"
+{
+  "items": [
+    {
+      "id": 409758,
+      "customer": "Антон Курбанов",
+      "room": {
+        "name": "Зал №13 Капотня"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "4800",
+      "refundStatus": "",
+      "hasConfirm": ""
     },
-    "room": {
-      "id": 519,
-      "name": "Зал Black 55"
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "",
+      "hasConfirm": ""
     },
-    "studio": {
-      "id": 100,
-      "name": "PhotoFilmStudio"
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Ожидает зачисления",
+      "hasConfirm": ""
     },
-    "reservedDate": "2019-08-14 09:00:00",
-    "reservedTime": "2019-08-14 09:00:00",
-    "expiredDate": "2019-08-14 09:00:00",
-    "price": "13500.00",
-    "refundStatus": "Возврат отменен",
-    "hasConfirm": ""
-  }
-]
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Возврат отменен",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Возврат осуществлен",
+      "hasConfirm": ""
+    },    {
+      "id": 409758,
+      "customer": "Антон Курбанов",
+      "room": {
+        "name": "Зал №13 Капотня"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "4800",
+      "refundStatus": "",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Ожидает зачисления",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Возврат отменен",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Возврат осуществлен",
+      "hasConfirm": ""
+    },    {
+      "id": 409758,
+      "customer": "Антон Курбанов",
+      "room": {
+        "name": "Зал №13 Капотня"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "4800",
+      "refundStatus": "",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Ожидает зачисления",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Возврат отменен",
+      "hasConfirm": ""
+    },
+    {
+      "id": 409758,
+      "customer": "Джим Кэмп",
+      "room": {
+        "name": "Зал №14"
+      },
+      "reservedDate": "15 окт.",
+      "reservedTime": "9:00 - 13.00",
+      "expiredDate": "15 окт. 12:00",
+      "price": "800",
+      "refundStatus": "Возврат осуществлен",
+      "hasConfirm": ""
+    }
+  ]
+}

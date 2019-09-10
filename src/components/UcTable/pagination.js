@@ -2,6 +2,7 @@ export default {
   methods: {
     async onRequest ({ pagination }) {
       const { page, rowsPerPage } = pagination
+      console.log(await this.controller.getAll({ number: page, size: rowsPerPage }))
       const { items, total } = await this.controller.getAll({ number: page, size: rowsPerPage })
 
       this.data = items

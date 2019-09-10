@@ -1,4 +1,4 @@
-import { date } from 'quasar'
+// import { date } from 'quasar'
 
 export default [
   {
@@ -12,7 +12,7 @@ export default [
   {
     name: 'customer',
     label: 'Клиент',
-    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`,
+    field: 'customer',
     width: 220,
     active: false,
   },
@@ -26,21 +26,18 @@ export default [
     name: 'reservedDate',
     label: 'Дата',
     field: 'reservedDate',
-    format: value => date.formatDate(value, 'D MMM'),
     width: 60
   },
   {
     name: 'reservedTime',
     label: 'Время',
     field: 'reservedTime',
-    format: value => date.formatDate(value, 'H:mm'),
     width: 120
   },
   {
     name: 'expiredDate',
     label: 'Просрочено',
     field: 'expiredDate',
-    format: value => date.formatDate(value, 'D MMM H:mm'),
     width: 120
   },
   {
