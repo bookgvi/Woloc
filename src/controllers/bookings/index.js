@@ -10,14 +10,25 @@ export default {
         one: false
       },
       list: [],
+      calendarList: []
     }
   },
   created () {
   },
   computed: {
     all () {
-      return sortBy(this.list, 'title')
+      return sortBy(this.list, 'reservedFrom')
     },
+    forSelect () {
+      let arr = []
+      for (let i = 0; i < this.all.length; i++) {
+        arr.push(Object.assign({}, {
+          label: this.all[i].title,
+          value: this.all[i].id
+        }))
+      }
+      return arr
+    }
   },
   methods: {
     async getForCalendar (studio, dateFrom, dateTo) {
@@ -25,7 +36,7 @@ export default {
       const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo })
       console.log('bookings :: getForCalendar', res)
       if (res) {
-        this.list = res.data.items
+        this.calendarList = res.data.items
         this.loading.list = false
       }
     },

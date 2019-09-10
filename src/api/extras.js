@@ -2,7 +2,6 @@
 import extras from 'src/mocks/extras'
 
 export default {
-
   getAll: async () => {
     try {
       const r = {

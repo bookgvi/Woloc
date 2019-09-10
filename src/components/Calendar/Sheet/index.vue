@@ -41,7 +41,7 @@
               color="secondary"
              )
     template
-      first-column
+      FirstColumn
       q-calendar.row.col-12(
         style="width: 95%; margin-left: 5%"
         ref="calendar"
@@ -61,6 +61,7 @@
             NewEventDialog(
               :date="date"
               :interval="time"
+              :studio="studio"
             )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
@@ -90,8 +91,6 @@
 <script>
 import { date, colors } from 'quasar'
 import icons from 'src/common/eventTypes'
-// import bookings from '../Data/bookings'
-// import rooms from '../../../mocks/rooms'
 import roomsColors from 'src/common/rooms/colors'
 import NewEventDialog from './Popups/NewEventDialog'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
@@ -113,13 +112,10 @@ export default {
   components: { FirstColumn, UpdateEventDialog, NewEventDialog },
   data () {
     return {
-      studio: 100,
       range: {
         from: '2019-05-01',
         to: '2020-01-01'
       },
-      bookings: [],
-      rooms: [],
       timelineCoords: {
         top: 0,
         left: 0,
@@ -136,11 +132,6 @@ export default {
   },
   created: async function () {
     this.calendarToday()
-    await this.$app.customers.getAll()
-    await this.$app.events.getAll()
-    await this.$app.extras.getAll()
-    await this.setRooms()
-    // this.getEvents()
   },
   mounted: function () {
     this.timelinePos()
@@ -148,22 +139,25 @@ export default {
       this.timelinePos(), 1000 * 60)
   },
   computed: {
+    studio () {
+      return this.$app.studios.studio
+    },
     month () {
       return date.formatDate(this.selectedDate, 'MMMM YYYY')
+    },
+    rooms () {
+      if (this.$app.studios.list.length === 0) return []
+      const arr = this.$app.studios.getFilteredRoomsByStudio(this.studio).map((item, index) => {
+        const room = Object.assign({}, {
+          name: item.name,
+          color: roomsColors[index].color
+        })
+        return room
+      })
+      return arr
     }
   },
   methods: {
-    async setRooms () {
-      await this.$app.rooms.getAll()
-      const roomsNames = this.$app.rooms.list
-      this.rooms = roomsNames.map((roomName, index) => {
-        const room = {
-          name: roomName.name,
-          color: roomsColors[index].color
-        }
-        return room
-      })
-    },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
     },
@@ -179,29 +173,6 @@ export default {
     resetForm () {
       this.$set(this, 'eventForm', formDefault())
     },
-    editEvent (event) {
-      this.resetForm()
-      const form = formDefault()
-      this.contextDay = { ...event }
-      let timestamp
-      if (event.time) {
-        timestamp = event.date + ' ' + event.time
-        let startTime = new Date(timestamp)
-        let endTime = date.addToDate(startTime, { minutes: event.duration })
-        form.dateTimeStart = date.formatDate(startTime) + ' ' + date.formatTime(startTime) // endTime.toString()
-        form.dateTimeEnd = date.formatDate(endTime) + ' ' + date.formatTime(endTime) // endTime.toString()
-      } else {
-        timestamp = event.date
-        form.dateTimeStart = timestamp
-      }
-      form.allDay = !event.time
-      // form.bgcolor = event.bgcolor
-      // form.icon = event.icon
-      // form.title = event.title
-      // form.details = event.details
-      this.eventForm = Object.assign({}, form, event)
-      this.$app.bookings.dialogs.update = true // show dialog
-    },
     timelinePos () {
       const timestamp = new Date()
       const hours = date.formatDate(timestamp, 'HH')
@@ -215,13 +186,13 @@ export default {
       this.timelineCoords['width'] = '100%'
     },
     getDate (timestamp) {
-      if (+this.$moment(timestamp).format('HH') === 0) {
+      if (+this.$moment.parseZone(timestamp).format('HH') === 0) {
         timestamp = date.addToDate(timestamp, { days: -1 })
       }
-      return this.$moment(timestamp).format('YYYY-MM-DD')
+      return this.$moment.parseZone(timestamp).format('YYYY-MM-DD')
     },
-    getTime (timestamp) {
-      const hours = this.$moment(timestamp).format('HH') !== '00' ? this.$moment(timestamp).format('HH:mm') : 24
+    getTime (timestamp, mask = 'HH:mm') {
+      const hours = this.$moment.parseZone(timestamp).format('HH') !== '00' ? this.$moment.parseZone(timestamp).format(mask) : 24
       return hours
     },
     setColor (room) {
@@ -258,7 +229,6 @@ export default {
     },
     calendarNext () {
       this.$refs.calendar.next()
-      console.log(this.$refs.calendar)
     },
     calendarPrev () {
       this.$refs.calendar.prev()
@@ -268,40 +238,43 @@ export default {
     },
   },
   watch: {
-    '$app.bookings.list' (v) {
-      // console.log('watch $app.bookings.list', v)
+    '$app.bookings.calendarList' (v) {
+      // console.log('watch $app.bookings.calendarList', v)
       this.$nextTick(function () {
         let allEvents = []
-        const bookings = v.map((booking) => {
-          const diff = date.getDateDiff(
-            dtFormat(booking.reservedTo),
-            dtFormat(booking.reservedFrom),
-            'minutes'
-          )
-
-          const event = {
-            title: booking.customer.firstName,
-            details: `${booking.amount}/${booking.price}`,
-            date: this.getDate(booking.reservedFrom),
-            time: this.getTime(booking.reservedFrom),
-            duration: diff,
-            bgcolor: this.setColor(booking.room.name),
-            icon: this.setIcon(booking.eventType),
-            devInfo: {
-              time: {
-                from: this.getTime(booking.reservedFrom),
-                to: this.getTime(booking.reservedTo)
+        let bookings = []
+        v.map((booking) => {
+          if (this.$app.studios.checkedRooms.indexOf(booking.room.id) !== -1) {
+            const diff = date.getDateDiff(
+              dtFormat(booking.reservedTo),
+              dtFormat(booking.reservedFrom),
+              'minutes'
+            )
+            const event = {
+              title: booking.customer.firstName,
+              details: `${booking.amount}/${booking.price}`,
+              date: this.getDate(booking.reservedFrom),
+              time: this.getTime(booking.reservedFrom),
+              duration: diff,
+              bgcolor: this.setColor(booking.room.name),
+              icon: this.setIcon(booking.eventType),
+              devInfo: {
+                time: {
+                  from: +this.getTime(booking.reservedFrom, 'H'),
+                  to: +this.getTime(booking.reservedTo, 'H')
+                },
+                room: booking.room.name
               },
-              room: booking.room.name
-            },
-            posx: 0,
-            width: 1
+              posx: 0,
+              width: 1
+            }
+            bookings.push(event)
           }
-          return event
         })
         const setPositionOfEvents = (dt) => {
+          const roomsAmount = this.rooms.length
           let events = []
-          let posArray = [...Array(this.rooms.length)].map(() => Array(24).fill(0))
+          let posArray = [...Array(roomsAmount + 10)].map(() => Array(24).fill(0))
           const findEmptyPlace = (col, from, to) => {
             const isEmptyPlace = (c) => {
               for (let i = +from; i < +to; i++) {
@@ -318,14 +291,14 @@ export default {
             }
             return 0
           }
-          for (let order = 0; order < this.rooms.length; order++) {
+          for (let order = 0; order < roomsAmount; order++) {
             for (let i = 0; i < bookings.length; i++) {
               const e = bookings[i]
-              if (e.date === dt) {
+              const timeFrom = e.devInfo.time.from
+              const timeTo = e.devInfo.time.to
+              if (e.date === dt && +timeFrom >= 8) {
                 if (this.setOrder(e.devInfo.room) === order) {
-                  const timeFrom = e.devInfo.time.from
-                  const timeTo = e.devInfo.time.to
-                  let col = order
+                  let col = posArray.length - 1
                   if (col !== 0) {
                     col = findEmptyPlace(col, timeFrom, timeTo)
                   }
@@ -365,6 +338,12 @@ export default {
         }
         this.events = allEvents
       })
+    },
+    async 'studio' (v) {
+      await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
+    },
+    async '$app.studios.checkedRooms' (v) {
+      await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
     },
     selectedDate (v) {
       // console.log('watch selectedDate', v)

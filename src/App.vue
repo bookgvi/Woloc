@@ -12,6 +12,7 @@ import rooms from './controllers/rooms'
 import customers from './controllers/customers'
 import events from './controllers/events'
 import extras from './controllers/extras'
+import studios from './controllers/studios'
 import login from './controllers/login'
 import refunds from './controllers/refunds'
 
@@ -28,6 +29,7 @@ export default {
       customers: new Vue(customers),
       events: new Vue(events),
       extras: new Vue(extras),
+      studios: new Vue(studios),
       login: new Vue(login),
       refunds: new Vue(refunds)
     }
