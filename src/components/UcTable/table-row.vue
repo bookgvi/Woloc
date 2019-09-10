@@ -61,8 +61,8 @@ export default {
       template(v-else-if="name === 'hasConfirm'")
         .inline-block
           slot
-      template(v-else-if="name === 'expired'")
-        .inline-block статус
+      template(v-else-if="name === 'expiredDate'")
+        .inline-block(v-model="value" style="color: red;") {{ value }}
       template(v-else) {{ value }}
 </template>
 

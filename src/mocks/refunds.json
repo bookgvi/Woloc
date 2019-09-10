@@ -1,194 +1,254 @@
 {
   "items": [
     {
-      "id": 409758,
-      "customer": "Антон Курбанов",
+      "id": 4097581,
+      "customer": {
+        "firstName": "Антон",
+        "lastName": "Курбанов"
+      },
       "room": {
         "name": "Зал №13 Капотня"
       },
-      "reservedDate": "15 окт.",
-      "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
+      "reservedTime": "",
+      "expiredDate": "2019-09-10T10:14:03.984Z",
       "price": "4800",
       "refundStatus": "",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 4097582,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 4097583,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Ожидает зачисления",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 4097584,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Возврат отменен",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 4097585,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Возврат осуществлен",
       "hasConfirm": ""
     },    {
-      "id": 409758,
-      "customer": "Антон Курбанов",
+      "id": 4097586,
+      "customer": {
+        "firstName": "Антон",
+        "lastName": "Курбанов"
+      },
       "room": {
         "name": "Зал №13 Капотня"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "2019-09-10T10:14:03.984Z",
       "price": "4800",
       "refundStatus": "",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 4097587,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 4097588,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Ожидает зачисления",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 4097589,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Возврат отменен",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 40975810,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Возврат осуществлен",
       "hasConfirm": ""
     },    {
-      "id": 409758,
-      "customer": "Антон Курбанов",
+      "id": 40975811,
+      "customer": {
+        "firstName": "Антон",
+        "lastName": "Курбанов"
+      },
       "room": {
         "name": "Зал №13 Капотня"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "4800",
       "refundStatus": "",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 40975812,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 40975813,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Ожидает зачисления",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 40975814,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Возврат отменен",
       "hasConfirm": ""
     },
     {
-      "id": 409758,
-      "customer": "Джим Кэмп",
+      "id": 40975815,
+      "customer": {
+        "firstName": "Джим",
+        "lastName": "Кэмп"
+      },
       "room": {
         "name": "Зал №14"
       },
-      "reservedDate": "15 окт.",
+      "reservedDate": "2019-09-10T09:13:03.984Z",
+      "reservedTo": "2019-09-10T10:13:03.984Z",
       "reservedTime": "9:00 - 13.00",
-      "expiredDate": "15 окт. 12:00",
+      "expiredDate": "",
       "price": "800",
       "refundStatus": "Возврат осуществлен",
       "hasConfirm": ""
