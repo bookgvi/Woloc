@@ -3,7 +3,7 @@
     q-separator
 
     .wrapper
-      .row.items-center.q-py-md.q-gutter-x-sm
+      .row.items-center.q-py-sm.q-gutter-x-sm
         studios-button
         rooms-button
         events-button

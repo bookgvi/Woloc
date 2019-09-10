@@ -1,6 +1,5 @@
 <template lang="pug">
-  q-btn(
-    size="sm"
+  q-btn.btn-filter(
     outline
     no-caps
     color="black"

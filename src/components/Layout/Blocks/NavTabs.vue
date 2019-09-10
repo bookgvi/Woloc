@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-tabs(
+  q-tabs.nav-tabs(
     shrink
     align="justify"
     animated
@@ -8,7 +8,7 @@
     narrow-indicator
     dense
   )
-    q-route-tab.q-px-sm(
+    q-route-tab.nav-tabs__tab(
       v-for="(route, index) in routes"
       :key="index"
       :to="route.to"
@@ -27,7 +27,7 @@ export default {
         { to: '/customers', label: 'Пользователи' },
         { to: '/calendar', label: 'Календарь' },
         { to: '/bookings', label: 'Бронирования' },
-        { to: '/invoices', label: 'Заявки' },
+        { to: '/requests', label: 'Заявки' },
         { to: '/finances', label: 'Финансы' },
         { to: '/refunds', label: 'Возврат' },
         { to: '/documents', label: 'Документы' },
@@ -39,14 +39,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-/*  .tabs
-    width 100%
-    height 78px
-    font-size 14px
-    color #9b9b9b
-    font-family Montserrat
-    font-weight: 500
-    letter-spacing -0.3px
-    line-height 18px
-*/
+  .nav-tabs
+    &__tab
+      height 80px
+      padding-left 9px
+      padding-right 9px
 </style>

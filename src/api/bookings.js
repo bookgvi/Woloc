@@ -1,9 +1,10 @@
 import api from './instance'
 
+const API_URL = process.env.API_CABINET_URL
 export default {
   getAll: async (page) => {
     try {
-      const r = await api.get('bookings', {
+      const r = await api.get(`${API_URL}/bookings`, {
         params: { page, studio: 250 }
       })
       return r.data
@@ -15,7 +16,7 @@ export default {
   getForCalendar: async (payload) => {
     const { studio, dateFrom, dateTo } = payload
     try {
-      const r = await api.get(`calendar`, {
+      const r = await api.get(`${API_URL}calendar`, {
         params: { studio, dateFrom, dateTo }
       })
       return r.data

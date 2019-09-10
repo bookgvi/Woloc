@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import CalendarMenu from '../Menu/CalendarMenu'
+import CalendarMenu from '../Menu'
 import CalendarSheet from './Sheet'
 
 export default {

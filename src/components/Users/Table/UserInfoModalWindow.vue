@@ -51,7 +51,7 @@
         q-card-section
           div(class="flex items-center")
             span(class="text-h6 q-pa-none text-bold section-heading") Рейтинг
-            span(class="q-ml-md color-primary")
+            span(class="q-ml-md text-primary")
               i(v-for="(item,index) in 5" class="fa-star" :class="index < customer.rating ? 'fas' : 'far' ")
           p(class="q-mt-md") Оставьте комментарий о пользователе
 

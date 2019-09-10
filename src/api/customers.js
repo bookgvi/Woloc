@@ -1,10 +1,10 @@
 import api from './instance'
 
+const API_URL = process.env.API_CABINET_URL
 export default {
-
   getAll: async (page) => {
     try {
-      const r = await api.get('customers', {
+      const r = await api.get(`${API_URL}/customers`, {
         params: { page }
       })
       return r.data
@@ -14,7 +14,7 @@ export default {
   },
   getSearchedCustomers: async (search) => {
     try {
-      const r = await api.get('customers', {
+      const r = await api.get(`${API_URL}/customers`, {
         params: { search }
       })
       console.log(r)

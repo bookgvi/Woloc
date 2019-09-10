@@ -2,7 +2,6 @@
 import events from 'src/mocks/events'
 
 export default {
-
   getAll: async () => {
     try {
       const r = {

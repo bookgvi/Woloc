@@ -23,7 +23,8 @@ const routes = [
       { path: 'customers', component: () => import('pages/Customers') },
       { path: 'bookings', component: () => import('pages/Bookings') },
       { path: 'calendar', component: () => import('pages/Calendar.vue') },
-      { path: 'users', component: () => import('components/Users/Index.vue') },
+      { path: 'refunds', component: () => import('pages/Refunds.vue') },
+      { path: 'users', component: () => import('components/Users/Index.vue') }
     ]
   }
 ]
