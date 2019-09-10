@@ -18,6 +18,10 @@
       @request="onRequest"
       :style="{ background: 'none'}"
     )
+      template(#header-cell="props")
+        q-th.header
+          span {{props.col.label}}
+
       template(#top="props")
         .row.full-width
           .col-4
@@ -26,7 +30,7 @@
             TableControls(v-bind="props" :setPagination="setPagination")
               slot(name="table-controls")
 
-      template(v-slot:body="props")
+      template(#body="props")
         TableRow(
           v-bind="props"
           v-slot="props"
@@ -97,8 +101,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-  .data-table .q-table__top
-    padding 20px 0 !important
+  .data-table
+    padding-top: 12px
+    .q-table__top
+      padding 20px 0 !important
 
   thead tr:first-child th
     opacity 1

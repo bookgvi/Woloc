@@ -1,11 +1,9 @@
 <template lang="pug">
-  q-btn(
-    size="sm"
+  q-btn.btn-filter(
     outline
     color="secondary"
     no-caps
     label="Сбросить все"
-    dense
   )
 </template>
 

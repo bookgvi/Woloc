@@ -1,11 +1,12 @@
 <template lang="pug">
   .table-controls.row.q-px-none
     q-input.q-mr-sm(
-      :dense="true"
+      dense
       square
       outlined
       type="search"
       placeholder="Поиск"
+      style="width: 290px"
     )
       template(#prepend)
         q-icon(name="search")
@@ -24,6 +25,7 @@
       :options="options"
       @input="(value) => setPagination('rowsPerPage', value)"
       outlined
+      color="secondary"
       dense
     )
     q-btn-group(outline)

@@ -8,7 +8,7 @@ body
   &::after
     content ''
     background url("/statics/maket.jpg")
-    opacity .5
+    opacity 0
     top 0
     left 0
     bottom 0
@@ -36,9 +36,20 @@ thead tr:first-child th
     padding 0
 
 .data-table
+  tbody tr td
+    height 50px
+  .header
+    background $grey-2
+    text-transform: uppercase
+    color $grey-7
+    font-weight bold
   .q-table__top
     padding-left: 0
     padding-right: 0
+.btn-filter
+  font-size .9rem
+  min-height 1.5em
+  padding: 2px 8px
 
 @media (min-width $breakpoint-lg-min)
   .q-header, .q-footer
