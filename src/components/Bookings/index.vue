@@ -7,7 +7,7 @@
 
 <script>
 import BookingsTable from './Table/index'
-import Filters from '../Filters/index'
+import Filters from '../Menu/index'
 
 export default {
   name: 'Calendar',

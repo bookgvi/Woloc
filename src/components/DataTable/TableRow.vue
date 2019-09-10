@@ -1,22 +1,3 @@
-<script>
-export default {
-  name: 'TableRow',
-  inheritAttrs: false,
-  props: {
-    row: Object,
-    cols: Array,
-    controlsRowId: Number,
-    toggleControls: Function,
-    dialogRowId: Number,
-  },
-  methods: {
-    controlsAreVisible (row) {
-      return this.controlsRowId === row.id
-    },
-  }
-}
-</script>
-
 <template lang="pug">
   q-tr(:class="{ disabled: row.disabled }")
     q-td(
@@ -62,6 +43,25 @@ export default {
         .inline-block статус
       template(v-else) {{ value }}
 </template>
+
+<script>
+export default {
+  name: 'TableRow',
+  inheritAttrs: false,
+  props: {
+    row: Object,
+    cols: Array,
+    controlsRowId: Number,
+    toggleControls: Function,
+    dialogRowId: Number,
+  },
+  methods: {
+    controlsAreVisible (row) {
+      return this.controlsRowId === row.id
+    },
+  }
+}
+</script>
 
 <style lang="stylus">
   tr.disabled

@@ -1,5 +1,44 @@
+<template lang="pug">
+  .wrapper
+    RowDialog(
+      name="row-dialog"
+      readonly
+      :row="dialogRow"
+      :details="normalizedDetails"
+      :getTitle="getDialogTitle"
+      @toggleDialogRow="toggleDialogRow"
+    )
+
+    q-table.shadow-0.data-table(
+      row-key="id"
+      hide-bottom
+      :data="data"
+      :columns="normalizedColumns"
+      :pagination.sync="pagination"
+      @request="onRequest"
+      :style="{ background: 'none'}"
+    )
+      template(#top="props")
+        .row.full-width
+          .col-4
+            .text-h6 {{ title }}
+          .col-8.flex.justify-end
+            TableControls(v-bind="props" :setPagination="setPagination")
+              slot(name="table-controls")
+
+      template(v-slot:body="props")
+        TableRow(
+          v-bind="props"
+          v-slot="props"
+          :controlsRowId="controlsRowId"
+          @toggleControls="toggleControlsRow"
+          @toggleDialogRow="toggleDialogRow"
+        )
+          slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
+</template>
+
 <script>
-import Menu from '../Menu/CalendarMenu'
+import Menu from '../Menu'
 import TableControls from './TableControls'
 import TableRow from './TableRow'
 import pagination from './pagination'
@@ -57,48 +96,9 @@ export default {
 }
 </script>
 
-<template lang="pug">
-q-page
-  .wrapper
-    RowDialog(
-      name="row-dialog"
-      readonly
-      :row="dialogRow"
-      :details="normalizedDetails"
-      :getTitle="getDialogTitle"
-      @toggleDialogRow="toggleDialogRow"
-    )
-
-    q-table(
-      row-key="id"
-      hide-bottom
-      :data="data"
-      :columns="normalizedColumns"
-      :pagination.sync="pagination"
-      @request="onRequest"
-      :style="{ background: 'none'}"
-    )
-      template(#top-left)
-        .text-h6 {{ title }}
-
-      template(#top-right="props")
-        table-controls(v-bind="props" :setPagination="setPagination")
-          slot(name="table-controls")
-
-      template(v-slot:body="props")
-        TableRow(
-          v-bind="props"
-          v-slot="props"
-          :controlsRowId="controlsRowId"
-          @toggleControls="toggleControlsRow"
-          @toggleDialogRow="toggleDialogRow"
-        )
-          slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
-</template>
-
 <style lang="stylus" scoped>
-  .q-table__top
-    padding 20px 0
+  .data-table .q-table__top
+    padding 20px 0 !important
 
   thead tr:first-child th
     opacity 1

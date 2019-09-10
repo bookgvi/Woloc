@@ -1,3 +1,50 @@
+<template lang="pug">
+  .table-controls.row.q-px-none
+    q-input.q-mr-sm(
+      :dense="true"
+      square
+      outlined
+      type="search"
+      placeholder="Поиск"
+    )
+      template(#prepend)
+        q-icon(name="search")
+
+    q-pagination(
+      color="black"
+      width=""
+      :max="pagesNumber"
+      :maxPages="5"
+      :boundary-numbers="true"
+      :value="pagination.page"
+      @input="(value) => setPagination('page', value)"
+    )
+    q-select.q-mx-md(
+      :value="pagination.rowsPerPage"
+      :options="options"
+      @input="(value) => setPagination('rowsPerPage', value)"
+      outlined
+      dense
+    )
+    q-btn-group(outline)
+      q-btn.q-px-sm(
+        outline
+        icon="chevron_left"
+        color="secondary"
+        :disable="isFirstPage"
+        @click="prevPage"
+      )
+      q-separator(vertical inset)
+      q-btn.q-px-sm(
+        outline
+        icon="chevron_right"
+        color="secondary"
+        :disable="isLastPage"
+        @click="nextPage"
+      )
+    slot
+</template>
+
 <script>
 export default {
   name: 'TableControls',
@@ -17,56 +64,6 @@ export default {
   }
 }
 </script>
-
-<template lang="pug">
-  .table-controls.row
-    q-input.q-mr-sm(
-      :dense="true"
-      square
-      outlined
-      type="search"
-      placeholder="Поиск"
-    )
-      template(#prepend)
-        q-icon(name="search")
-
-    q-pagination(
-      color="black"
-      width=""
-      :max="pagesNumber"
-      :maxPages="3"
-      :boundary-numbers="true"
-      :value="pagination.page"
-      @input="(value) => setPagination('page', value)"
-    )
-    q-select.q-mx-md(
-      :value="pagination.rowsPerPage"
-      :options="options"
-      :dense="true"
-      @input="(value) => setPagination('rowsPerPage', value)"
-      outlined
-    )
-    q-btn.square(
-      flat
-      color="secondary"
-      class="no-shadow"
-      icon="chevron_left"
-      :dense="true"
-      :disable="isFirstPage"
-      @click="prevPage"
-    )
-    q-btn.square(
-      flat
-      color="secondary"
-      class="no-shadow"
-      icon="chevron_right"
-      :dense="true"
-      :disable="isLastPage"
-      @click="nextPage"
-    )
-
-    slot
-</template>
 
 <style lang="stylus">
   .table-controls

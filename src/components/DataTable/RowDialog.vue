@@ -1,34 +1,3 @@
-<script>
-export default {
-  name: 'RowDialog',
-  props: {
-    getTitle: Function,
-    row: {
-      type: Object,
-      default: () => ({}),
-    },
-    details: Array,
-    readonly: Boolean,
-  },
-  methods: {
-    getFieldValue (field) {
-      const value = typeof field.field === 'function'
-        ? field.field(this.row)
-        : this.row[field.field]
-
-      return (typeof field.format === 'function')
-        ? field.format(value, this.row)
-        : value
-    }
-  },
-  computed: {
-    title () {
-      return this.getTitle(this.row)
-    }
-  }
-}
-</script>
-
 <template lang="pug">
   q-dialog(:value="!!row.id" @hide="$emit('toggleDialogRow', row.id)")
     q-card
@@ -59,6 +28,37 @@ export default {
       q-card-actions.q-pa-md.q-mt-sm
         slot(name="actions")
 </template>
+
+<script>
+export default {
+  name: 'RowDialog',
+  props: {
+    getTitle: Function,
+    row: {
+      type: Object,
+      default: () => ({}),
+    },
+    details: Array,
+    readonly: Boolean,
+  },
+  methods: {
+    getFieldValue (field) {
+      const value = typeof field.field === 'function'
+        ? field.field(this.row)
+        : this.row[field.field]
+
+      return (typeof field.format === 'function')
+        ? field.format(value, this.row)
+        : value
+    }
+  },
+  computed: {
+    title () {
+      return this.getTitle(this.row)
+    }
+  }
+}
+</script>
 
 <style lang="stylus">
   .q-card
