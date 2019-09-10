@@ -55,6 +55,11 @@ export default {
             :color="controlsAreVisible(row) ? 'primary' : undefined"
             :disable="row.disabled"
           )
+      template(v-else-if="name === 'hasConfirm'")
+        .inline-block
+          slot
+      template(v-else-if="name === 'expired'")
+        .inline-block статус
       template(v-else) {{ value }}
 </template>
 
