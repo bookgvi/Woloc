@@ -1,16 +1,16 @@
 <script>
 import Menu from '../Menu'
-import TableControls from './table-controls'
-import TableRow from './table-row'
+import TableControls from './TableControls'
+import TableRow from './TableRow'
 import pagination from './pagination'
-import RowDialog from './row-dialog'
 
 export default {
-  name: 'uc-table',
-  components: { RowDialog, Menu, TableControls, TableRow },
+  name: 'UcTable',
+  components: { Menu, TableControls, TableRow },
   mixins: [pagination],
   props: {
     title: String,
+    getDialogTitle: Function,
     columns: Array,
     details: Array,
     controller: Object,
@@ -29,7 +29,7 @@ export default {
     },
     toggleDialogRow (id) {
       this.dialogRowId = this.dialogRowId === id ? undefined : id
-    }
+    },
   },
   computed: {
     dialogRow () {
@@ -42,6 +42,15 @@ export default {
         align: 'left',
         style: col.width && `width: ${col.width}px`
       }))
+    },
+    normalizedDetails () {
+      return this.details.map(section => ({
+        ...section,
+        fields: section.fields.map(field => ({
+          ...field,
+          field: field.field || field.name,
+        }))
+      }))
     }
   }
 }
@@ -52,10 +61,12 @@ q-page
   .wrapper
     Menu
 
-    row-dialog(
+    slot(
+      name="row-dialog"
       readonly
       :row="dialogRow"
-      :details="details"
+      :details="normalizedDetails"
+      :getTitle="getDialogTitle"
       @toggleDialogRow="toggleDialogRow"
     )
 
@@ -67,20 +78,20 @@ q-page
       :pagination.sync="pagination"
       @request="onRequest"
     )
-      template(v-slot:top-left)
+      template(#top-left)
         .text-h6 {{ title }}
 
-      template(v-slot:top-right="props")
+      template(#top-right="props")
         table-controls(v-bind="props" :setPagination="setPagination")
           slot(name="table-controls")
 
-      template(v-slot:body="props")
+      template(#body="props")
         table-row(
           v-bind="props"
           v-slot="props"
           :controlsRowId="controlsRowId"
           @toggleControls="toggleControlsRow"
-          @toggleDialog="toggleDialogRow"
+          @toggleDialogRow="toggleDialogRow"
         )
           slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
 </template>
