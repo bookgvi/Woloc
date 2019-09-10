@@ -7,7 +7,7 @@
 import Customers from '../components/Customers'
 
 export default {
-  name: 'bookings-page',
+  name: 'CustomersPage',
   components: { Customers },
 }
 </script>
