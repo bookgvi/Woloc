@@ -8,9 +8,12 @@
         :columns="columns"
         :details="[]"
       )
-        template(#row-controls)
-          q-btn(flat round icon="block")
+        template(v-slot:row-controls="props")
+          q-btn(flat round icon="comment" title="Открыть чат")
+          q-btn(flat round icon="delete" title="Удалить")
+          q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
           q-btn(flat round icon="thumb_up")
+
 </template>
 
 <script>

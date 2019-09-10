@@ -54,5 +54,9 @@ export default [
     label: 'Статус возврата',
     field: 'status',
     width: 120
+  },
+  {
+    name: 'controls',
+    width: 40
   }
 ]
