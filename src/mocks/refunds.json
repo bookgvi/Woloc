@@ -1,0 +1,26 @@
+[
+  {
+    "id": 593383,
+    "customer": {
+      "id": 767,
+      "email": "pashkov.photo@mail.ru",
+      "firstName": "Максим",
+      "lastName": "Пашков",
+      "phone": "79683335777"
+    },
+    "room": {
+      "id": 519,
+      "name": "Зал Black 55"
+    },
+    "studio": {
+      "id": 100,
+      "name": "PhotoFilmStudio"
+    },
+    "reservedDate": "2019-08-14 09:00:00",
+    "reservedTime": "2019-08-14 09:00:00",
+    "expiredDate": "2019-08-14 09:00:00",
+    "price": "13500.00",
+    "refundStatus": "Возврат отменен",
+    "hasConfirm": ""
+  }
+]
