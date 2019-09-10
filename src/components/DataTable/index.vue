@@ -1,4 +1,5 @@
 <script>
+<<<<<<< HEAD:src/components/DataTable/index.vue
 import Menu from '../Menu/CalendarMenu'
 import TableControls from './TableControls'
 import TableRow from './TableRow'
@@ -8,9 +9,20 @@ import RowDialog from './RowDialog'
 export default {
   name: 'DataTable',
   components: { RowDialog, Menu, TableControls, TableRow },
+=======
+import Menu from '../Menu'
+import TableControls from './TableControls'
+import TableRow from './TableRow'
+import pagination from './pagination'
+
+export default {
+  name: 'UcTable',
+  components: { Menu, TableControls, TableRow },
+>>>>>>> f2b09383ba763a579ade89b0706a97a9736ff1fd:src/components/UcTable/index.vue
   mixins: [pagination],
   props: {
     title: String,
+    getDialogTitle: Function,
     columns: Array,
     details: Array,
     controller: Object,
@@ -29,7 +41,7 @@ export default {
     },
     toggleDialogRow (id) {
       this.dialogRowId = this.dialogRowId === id ? undefined : id
-    }
+    },
   },
   computed: {
     dialogRow () {
@@ -42,6 +54,15 @@ export default {
         align: 'left',
         style: col.width && `width: ${col.width}px`
       }))
+    },
+    normalizedDetails () {
+      return this.details.map(section => ({
+        ...section,
+        fields: section.fields.map(field => ({
+          ...field,
+          field: field.field || field.name,
+        }))
+      }))
     }
   }
 }
@@ -50,10 +71,18 @@ export default {
 <template lang="pug">
 q-page
   .wrapper
+<<<<<<< HEAD:src/components/DataTable/index.vue
     RowDialog(
+=======
+    Menu
+
+    slot(
+      name="row-dialog"
+>>>>>>> f2b09383ba763a579ade89b0706a97a9736ff1fd:src/components/UcTable/index.vue
       readonly
       :row="dialogRow"
-      :details="details"
+      :details="normalizedDetails"
+      :getTitle="getDialogTitle"
       @toggleDialogRow="toggleDialogRow"
     )
 
@@ -66,20 +95,25 @@ q-page
       @request="onRequest"
       :style="{ background: 'none'}"
     )
-      template(v-slot:top-left)
+      template(#top-left)
         .text-h6 {{ title }}
 
-      template(v-slot:top-right="props")
+      template(#top-right="props")
         table-controls(v-bind="props" :setPagination="setPagination")
           slot(name="table-controls")
 
+<<<<<<< HEAD:src/components/DataTable/index.vue
       template(v-slot:body="props")
         TableRow(
+=======
+      template(#body="props")
+        table-row(
+>>>>>>> f2b09383ba763a579ade89b0706a97a9736ff1fd:src/components/UcTable/index.vue
           v-bind="props"
           v-slot="props"
           :controlsRowId="controlsRowId"
           @toggleControls="toggleControlsRow"
-          @toggleDialog="toggleDialogRow"
+          @toggleDialogRow="toggleDialogRow"
         )
           slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
 </template>

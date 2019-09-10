@@ -27,7 +27,7 @@ export default {
         { to: '/customers', label: 'Пользователи' },
         { to: '/calendar', label: 'Календарь' },
         { to: '/bookings', label: 'Бронирования' },
-        { to: '/invoices', label: 'Заявки' },
+        { to: '/requests', label: 'Заявки' },
         { to: '/finances', label: 'Финансы' },
         { to: '/refunds', label: 'Возврат' },
         { to: '/documents', label: 'Документы' },

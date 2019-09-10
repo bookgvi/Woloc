@@ -1,6 +1,6 @@
 <script>
 export default {
-  name: 'table-controls',
+  name: 'TableControls',
   props: {
     pagesNumber: Number,
     isFirstPage: Boolean,
@@ -27,12 +27,12 @@ export default {
       type="search"
       placeholder="Поиск"
     )
-      template(v-slot:prepend)
+      template(#prepend)
         q-icon(name="search")
 
     q-pagination(
       color="black"
-      width
+      width=""
       :max="pagesNumber"
       :maxPages="3"
       :boundary-numbers="true"
@@ -68,29 +68,29 @@ export default {
     slot
 </template>
 
-<style lang="stylus" scoped>
-.table-controls
-  .q-btn.square, .q-pagination .q-btn
-    width 3em
-    padding 7px 16px !important
-    font-weight bold
-  .q-btn--flat
-    border $grey-12 solid 1px
-  .q-btn--standard
-    border none
-    background-color $primary !important
-    box-shadow none
-  .q-pagination .q-btn
-    margin 0 4px
-
-  .q-select
-    .q-field__native
+<style lang="stylus">
+  .table-controls
+    .q-btn.square, .q-pagination .q-btn
+      width 3em
+      padding 7px 16px !important
       font-weight bold
+    .q-btn--flat
+      border $grey-12 solid 1px
+    .q-btn--standard
+      border none
+      background-color $primary !important
+      box-shadow none
+    .q-pagination .q-btn
+      margin 0 4px
 
-  .q-field__control
-    input
-      font-weight bold
+    .q-select
+      .q-field__native
+        font-weight bold
 
-  .q-field__control:before
-    border-color $grey-12
+    .q-field__control
+      input
+        font-weight bold
+
+    .q-field__control:before
+      border-color $grey-12
 </style>

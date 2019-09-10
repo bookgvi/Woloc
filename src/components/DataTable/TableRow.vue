@@ -13,9 +13,6 @@ export default {
     controlsAreVisible (row) {
       return this.controlsRowId === row.id
     },
-    log (...arg) {
-      console.log(...arg)
-    }
   }
 }
 </script>
@@ -26,10 +23,10 @@ export default {
       v-for="{name, value, active} of cols"
       :key="name"
       :class="{ [name]: true, active }"
-      @click.native="active && $emit('toggleDialog', row.id)"
+      @click.native="active && $emit('toggleDialogRow', row.id)"
     )
       template(v-if="name === 'room'")
-        q-chip(dense square :color="value.color" :title="value.name") {{value.name}} {{ log(value) }}
+        q-chip(dense square :color="value.color" :title="value.name") {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'isPaid'")
@@ -58,36 +55,41 @@ export default {
             :color="controlsAreVisible(row) ? 'primary' : undefined"
             :disable="row.disabled"
           )
+      template(v-else-if="name === 'hasConfirm'")
+        .inline-block
+          slot
+      template(v-else-if="name === 'expired'")
+        .inline-block статус
       template(v-else) {{ value }}
 </template>
 
-<style lang="stylus" scoped>
-tr.disabled
-  opacity: .2
-.q-table tbody tr
-  .active
-    cursor: pointer
-  .room .q-chip
-    width 100px
-    div
-      width 100%
+<style lang="stylus">
+  tr.disabled
+    opacity: .2
+  .q-table tbody tr
+    .active
+      cursor: pointer
+    .room .q-chip
+      width 100px
+      div
+        width 100%
+        overflow hidden
+        text-overflow ellipsis
+    .eventType
+      font-size 1.6em
+    .comment
+      max-width 100px
       overflow hidden
       text-overflow ellipsis
-  .eventType
-    font-size 1.6em
-  .comment
-    max-width 100px
-    overflow hidden
-    text-overflow ellipsis
-  .rating
-    color $primary
-    letter-spacing 5px
-  .controls
-    position relative
-    .buttons
-      padding-top 4px
-      height 100%
-      top 0
-      right 0
-      font-size 1.8em
+    .rating
+      color $primary
+      letter-spacing 5px
+    .controls
+      position relative
+      .buttons
+        padding-top 4px
+        height 100%
+        top 0
+        right 0
+        font-size 1.8em
 </style>
