@@ -25,7 +25,6 @@ export default {
   name: 'StudiosButton',
   data () {
     return {
-      allRooms: true
     }
   },
   computed: {

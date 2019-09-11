@@ -16,6 +16,7 @@ export default {
   },
   async created () {
     await this.getAll()
+    this.checkedRooms = this.getRoomsByStudio(this.studio).map(room => room.id)
   },
   computed: {
     all () {
@@ -60,7 +61,7 @@ export default {
   },
   watch: {
     'studio' (v) {
-      this.checkedRooms = []
+      this.checkedRooms = this.getRoomsByStudio(v).map(room => room.id)
       console.log(this.checkedRooms)
     },
     'loading.list' (v) {

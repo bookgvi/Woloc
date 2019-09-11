@@ -235,7 +235,6 @@ export default {
       return this.newBooking.eventType
     },
     extrasSlot () {
-      console.log(this.helpers.extras)
       return this.helpers.extras.length
     },
     membersSlot () {
