@@ -42,8 +42,11 @@ export default {
       set: function (value) {
         if (value === true) {
           this.$app.studios.checkedRooms = this.rooms.map((item) => item.value)
+<<<<<<< HEAD
         } else {
           this.$app.studios.checkedRooms = []
+=======
+>>>>>>> 96c69f38ada4bb15c2f8f743ef313344346e037b
         }
       }
     },
