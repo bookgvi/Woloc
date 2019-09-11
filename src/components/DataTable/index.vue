@@ -1,6 +1,6 @@
 <template lang="pug">
   .wrapper
-    RowDialog(
+    slot(
       name="row-dialog"
       readonly
       :row="dialogRow"
@@ -22,13 +22,12 @@
         q-th.header
           span {{props.col.label}}
 
-      template(#top="props")
-        .row.full-width
-          .col-2
-            .text-h6 {{ title }}
-          .col-10.flex.justify-end
-            TableControls(v-bind="props" :setPagination="setPagination")
-              slot(name="table-controls")
+      template(#top-left)
+        .text-h6 {{ title }}
+
+      template(#top-right="props")
+        TableControls(v-bind="props" :setPagination="setPagination")
+          slot(name="table-controls")
 
       template(#body="props")
         TableRow(

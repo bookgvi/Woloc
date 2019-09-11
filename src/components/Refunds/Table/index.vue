@@ -3,7 +3,9 @@
   DataTable(
     title="Возврат"
     :controller="$app.refunds"
+    :getDialogTitle="() => 'Возврат'"
     :columns="columns"
+    :details="details"
   )
     template(#row-controls)
       q-btn(flat round icon="block")
@@ -12,8 +14,17 @@
 </template>
 
 <script>
+import columns from './columns'
+import details from './details'
+import DataTable from 'components/DataTable'
+
 export default {
-  name: 'index'
+  name: 'RefundsTable',
+  components: { DataTable },
+  data: () => ({
+    columns,
+    details
+  })
 }
 </script>
 
