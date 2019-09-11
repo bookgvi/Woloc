@@ -12,12 +12,15 @@ export default {
       console.warn('catch :: customers :: getAll', e)
     }
   },
-  getSearchedCustomers: async (payload) => {
+  getSearchedCustomers: async (search) => {
     try {
-      const result = await api.post(`${API_URL}/customers`, payload)
-      return result
+      const r = await api.get(`${API_URL}/customers`, {
+        params: { search }
+      })
+      console.log(r)
+      return r.data
     } catch (e) {
-      console.warn('catch :: customers :: getSearchedUsers', e)
+      console.warn('catch :: customers :: getSearchedCustomers', e)
     }
   }
 }

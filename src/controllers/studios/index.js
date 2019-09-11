@@ -14,8 +14,9 @@ export default {
       checkedRooms: []
     }
   },
-  created () {
-    this.getAll()
+  async created () {
+    await this.getAll()
+    this.checkedRooms = this.getRoomsByStudio(this.studio).map(room => room.id)
   },
   computed: {
     all () {
@@ -23,17 +24,20 @@ export default {
     },
     forSelect () {
       let arr = []
-      arr.push({
-        label: 'Любая',
-        value: 0
-      })
       for (let i = 0; i < this.all.length; i++) {
         arr.push(Object.assign({}, {
           label: this.all[i].name,
-          value: this.all[i].name
+          value: this.all[i].id
         }))
       }
       return arr
+    },
+    selectedStudioLabel () {
+      if (this.list.length !== 0) {
+        return this.all.find(item => item.id === this.studio).name
+      } else {
+        return 'Студия'
+      }
     }
   },
   methods: {
@@ -57,15 +61,16 @@ export default {
   },
   watch: {
     studio (v) {
-      this.checkedRooms = []
-      console.log('checkedRoom', this.checkedRooms)
+      if (v) {
+        this.checkedRooms = this.getRoomsByStudio(v).map(i => i.id)
+        console.log('watch studio checkedRoom', this.checkedRooms)
+      }
     },
     list (v) {
       if (this.studio) {
-        const checkedRooms = this.getRoomsByStudio(this.studio).map(i => i.id)
-        this.checkedRooms = checkedRooms
+        this.checkedRooms = this.getRoomsByStudio(this.studio).map(i => i.id)
+        console.log('watch list checkedRoom', this.checkedRooms)
       }
-      console.log('checkedRoom', this.checkedRooms)
     },
     'loading.list' (v) {
       if (v) {

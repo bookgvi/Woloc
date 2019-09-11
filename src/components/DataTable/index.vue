@@ -26,7 +26,7 @@
         .text-h6 {{ title }}
 
       template(#top-right="props")
-        table-controls(v-bind="props" :setPagination="setPagination")
+        TableControls(v-bind="props" :setPagination="setPagination")
           slot(name="table-controls")
 
       template(#body="props")
