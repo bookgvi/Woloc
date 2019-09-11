@@ -5,27 +5,25 @@ export default [
     label: 'id',
     field: 'number',
     required: true,
-    width: 1300,
     active: false
   },
   {
     name: 'docName',
     label: 'Название',
     field: 'docName',
-    width: 13
+    style: 'width: 10px',
+    align: 'right'
   },
   {
     name: 'date',
     label: 'дата',
-    format: value => date.formatDate(value, 'DD MMM'),
-    width: 13
+    format: value => date.formatDate(value, 'DD MMM')
   },
   {
     name: 'time',
     label: 'время',
     field: ({ date }) => `${date}`,
-    format: value => date.formatDate(value, 'H:mm'),
-    width: 13
+    format: value => date.formatDate(value, 'H:mm')
   },
   {
     name: 'download'
