@@ -1,24 +1,17 @@
 <template lang="pug">
-  .wrapper
-    TableTitle
-    DataTable(
-      title="Возврат"
-      :controller="$app.refunds"
-      :columns="columns"
-    )
-      template(#row-controls)
-        q-btn(flat round icon="block")
-        q-btn(flat round icon="thumb_up")
+  .refunds
+    Menu
+    RefundsTable
 </template>
 
 <script>
-import TableTitle from './Table/TableTitle'
-// import Menu from '../Menu'
+import RefundsTable from './Table/index'
+import Menu from '../Menu'
 export default {
   name: 'RefundsIndex',
   components: {
-    TableTitle,
-    // Menu
+    Menu,
+    RefundsTable,
   }
 }
 </script>
