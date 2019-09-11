@@ -95,7 +95,19 @@ export default {
       this.discount = -this.discount
     },
   },
-  props: ['extras', 'fee']
+  props: ['extras', 'fee'],
+  watch: {
+    'fee' (v) {
+      console.log(v)
+      this.event = Object.assign({
+        name: v.name,
+        value: v.value
+      })
+    },
+    'extras' (v) {
+      console.log(v)
+    }
+  }
 }
 </script>
 
