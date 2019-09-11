@@ -1,17 +1,17 @@
 <template lang="pug">
-  q-page
+  .refunds
     Menu
-    TableTitle
+    RefundsTable
 </template>
 
 <script>
-import TableTitle from './Table/TableTitle'
+import RefundsTable from './Table/index'
 import Menu from '../Menu'
 export default {
-  name: 'Refunds',
+  name: 'RefundsIndex',
   components: {
-    TableTitle,
-    Menu
+    Menu,
+    RefundsTable,
   }
 }
 </script>

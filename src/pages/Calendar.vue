@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import Calendar from '../components/Calendar/index'
+import Calendar from '../components/Calendar'
 
 export default {
   name: 'PageCalendar',

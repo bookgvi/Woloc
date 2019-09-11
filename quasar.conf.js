@@ -68,12 +68,15 @@ module.exports = function (ctx) {
       scopeHoisting: true,
       vueRouterMode: 'history',
       env: {
-        API_URL: ctx.dev
-          // dev API
-          ? JSON.stringify('https://localhost/api')
-          // prod API
-          : JSON.stringify('https://dev.ugoloc.ucann.ru/api'),
-        API_TIMEOUT: 30000
+        // API_BASE_URL: ctx.dev
+        //   // dev API
+        //   ? JSON.stringify('https://pre.ugoloc.ucann.ru/api')
+        //   // prod API
+        //   : JSON.stringify('https://dev.ugoloc.ucann.ru/api'),
+        API_BASE_URL: JSON.stringify('https://pre.ugoloc.ucann.ru/api'),
+        API_TIMEOUT: 30000,
+        API_AUTH_URL: JSON.stringify('/auth'),
+        API_CABINET_URL: JSON.stringify('/cabinet/v1.0'),
       },
       // vueCompiler: true,
       gzip: true,

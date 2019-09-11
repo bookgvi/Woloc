@@ -1,6 +1,6 @@
 import find from 'lodash/find'
 import columns from './columns'
-import eventTypes from '../../common/eventTypes'
+import eventTypes from '../../../common/eventTypes'
 
 export default [
   {
@@ -42,14 +42,4 @@ export default [
       },
     ]
   },
-  {
-    name: 'Комментарий',
-    fields: [
-      {
-        ...find(columns, { name: 'comment' }),
-        label: undefined,
-        inputType: 'textarea'
-      },
-    ]
-  }
 ]

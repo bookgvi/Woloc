@@ -3,61 +3,29 @@
     q-separator
 
     .wrapper
-      .menu.row.items-center.q-py-md.q-gutter-x-sm
-        q-btn(
-          size="sm"
-          outline
-          no-caps
-          color="black"
-          label="Kap's Studios м. Бауманская"
-          dense
-        )
-        q-btn(
-          size="sm"
-          outline
-          color="secondary"
-          no-caps
-          label="Залы 6"
-          dense
-        )
-        q-btn(
-          size="sm"
-          outline
-          color="secondary"
-          no-caps
-          label="Цели"
-          dense
-        )
-        q-btn(
-          size="sm"
-          outline
-          color="secondary"
-          no-caps
-          label="Оплата"
-          dense
-        )
+      .row.items-center.q-py-sm.q-gutter-x-sm
+        studios-button
+        rooms-button
+        events-button
+        price-button
         q-space
-        q-btn(
-          size="sm"
-          outline
-          color="secondary"
-          no-caps
-          label="Сбросить все"
-          dense
-        )
+        reset-button
     q-separator
 </template>
 
 <script>
+import StudiosButton from './Buttons/StudiosButton'
+import RoomsButton from './Buttons/RoomsButton'
+import EventsButton from './Buttons/EventsButton'
+import PriceButton from './Buttons/PriceButton'
+import ResetButton from './Buttons/ResetButton'
 
 export default {
-  name: 'CalendarMenu'
+  name: 'CalendarMenu',
+  components: { StudiosButton, RoomsButton, EventsButton, PriceButton, ResetButton }
 }
 </script>
 
 <style scoped lang="stylus">
-  .menu
-    .q-btn
-      font-size 12px !important
 
 </style>

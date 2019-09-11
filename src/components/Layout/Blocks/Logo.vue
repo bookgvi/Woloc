@@ -1,6 +1,6 @@
 <template lang="pug">
-  .q-pl-none
-    img.logo(src="~assets/ugoloc-logo.svg")
+  .logo
+    img(src="~assets/ugoloc-logo.svg")
 
 </template>
 
@@ -11,9 +11,6 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-  /*.logo
-    color white
-    width 90px
-    padding-left 20px*/
-
+  .logo
+    padding: 12px 15px
 </style>

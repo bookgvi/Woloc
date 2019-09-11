@@ -5,6 +5,7 @@ import events from './events'
 import extras from './extras'
 import refunds from './refunds'
 import login from './login'
+import studios from './studios'
 
 export default {
   rooms,
@@ -13,5 +14,6 @@ export default {
   events,
   extras,
   login,
+  studios,
   refunds
 }
