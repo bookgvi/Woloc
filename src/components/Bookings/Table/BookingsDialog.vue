@@ -38,6 +38,7 @@ export default {
       readonly
       :label="`${name}, р.`"
       :value="value"
+      :key="name"
     )
 
     .row.q-mt-md
