@@ -1,5 +1,5 @@
 <script>
-import RowDialog from '../../DataTable/RowDialog'
+import RowDialog from 'components/DataTable/RowDialog'
 
 export default {
   name: 'CustomersDialog',
@@ -36,10 +36,10 @@ export default {
         .text-h6.text-bold Бронирования
     q-card-section.q-px-none
       .row.modal-row
-        span 5 марта 2019
+        span 5 марта 2019 &nbsp;
         span 2 ч. &#8226; 2500 р.
       .row.modal-row
-        span 27 апреля 2019
+        span 27 апреля 2019 &nbsp;
         span 4 ч. &#8226; 1200 р.
       .row.modal-row
         a.flex.full-width(href="#" @click.prevent)
@@ -50,11 +50,11 @@ export default {
     q-card-section.q-px-none
       .row
         .text-h6.text-bold Рейтинг
-          .q-ml-md.color-primary.inline-block.text-body1
+          .q-ml-md.text-primary.inline-block.text-body1
             i.fa-star(v-for="(item,index) in 5" :class="index < row.rating ? 'fas' : 'far' ")
       p.q-mt-md Оставьте комментарий о пользователе
 
-    template(#actions)
+    template(v-slot:actions)
       .col.q-pr-sm
         q-btn.full-width(unelevated color="primary" label="Редактировать")
       .col.q-pl-sm

@@ -42,14 +42,4 @@ export default [
       },
     ]
   },
-  {
-    name: 'Комментарий',
-    fields: [
-      {
-        ...find(columns, { name: 'comment' }),
-        label: undefined,
-        inputType: 'textarea'
-      },
-    ]
-  }
 ]
