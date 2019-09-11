@@ -2,6 +2,7 @@
   DataTable(
     :columns="columns"
     :details="details"
+    :controller="$app.documents"
   )
 </template>
 

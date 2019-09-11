@@ -79,6 +79,12 @@ export default {
       return this.dialogRowId && this.data.find(({ id }) => id === this.dialogRowId)
     },
     normalizedColumns () {
+      console.log(this.columns.map(col => ({
+        ...col,
+        field: col.field || col.name,
+        align: 'left',
+        style: col.width && `width: ${col.width}px`
+      })))
       return this.columns.map(col => ({
         ...col,
         field: col.field || col.name,

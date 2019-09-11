@@ -1,10 +1,10 @@
 // import api from './instance'
-import refunds from 'src/mocks/refunds'
+import documents from 'src/mocks/documents'
 export default {
   getAll: async () => {
     try {
       const r = {
-        data: refunds
+        data: documents
       }
       return r
     } catch (e) {

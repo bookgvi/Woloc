@@ -22,8 +22,8 @@ export default {
   methods: {
     async getAll (page) {
       this.loading.list = true
-      const { data } = await api.refunds.getAll(page)
-      console.log('refunds :: getAll', data)
+      const { data } = await api.documents.getAll(page)
+      console.log('documents :: getAll', data)
       if (data) {
         this.list = data.items
         this.loading.list = false

@@ -46,7 +46,10 @@
       template(v-else-if="name === 'returnedAt'")
         .inline-block(style="color: red;") {{ value }}
       template(v-else-if="name === 'id'")
-        .inline-block.color-primary {{ value }}
+        .inline-block(style="color: #81AEB6") {{ value }}
+
+      template(v-else-if="name === 'docName'")
+        .inline-block(style="color: #81AEB6;") {{ value }}
       template(v-else) {{ value }}
 </template>
 

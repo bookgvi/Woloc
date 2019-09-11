@@ -1,23 +1,30 @@
+import { date } from 'quasar'
 export default [
   {
-    name: 'id',
+    name: 'number',
     label: 'id',
-    field: 'id',
-    require
+    field: 'number',
+    required: true,
+    width: 1300,
+    active: false
   },
   {
     name: 'docName',
     label: 'Название',
     field: 'docName',
+    width: 13
   },
   {
-    name: 'reservedFrom',
+    name: 'date',
     label: 'дата',
-    field: 'reservedFrom'
+    format: value => date.formatDate(value, 'DD MMM'),
+    width: 13
   },
   {
-    name: 'reservedFrom',
+    name: 'time',
     label: 'время',
-    field: 'reservedFrom'
+    field: ({ date }) => `${date}`,
+    format: value => date.formatDate(value, 'H:mm'),
+    width: 13
   }
 ]
