@@ -14,8 +14,8 @@ export default {
       checkedRooms: []
     }
   },
-  async created () {
-    await this.getAll()
+  created () {
+    this.getAll()
   },
   computed: {
     all () {
@@ -56,9 +56,16 @@ export default {
     },
   },
   watch: {
-    'studio' (v) {
+    studio (v) {
       this.checkedRooms = []
-      console.log(this.checkedRooms)
+      console.log('checkedRoom', this.checkedRooms)
+    },
+    list (v) {
+      if (this.studio) {
+        const checkedRooms = this.getRoomsByStudio(this.studio).map(i => i.id)
+        this.checkedRooms = checkedRooms
+      }
+      console.log('checkedRoom', this.checkedRooms)
     },
     'loading.list' (v) {
       if (v) {

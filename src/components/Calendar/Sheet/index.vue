@@ -340,7 +340,7 @@ export default {
       })
     },
     async 'studio' (v) {
-      await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
+      // await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
     },
     async '$app.studios.checkedRooms' (v) {
       await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
