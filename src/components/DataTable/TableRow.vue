@@ -37,7 +37,7 @@
             :disable="row.disabled"
           )
       template(v-else-if="name === 'name'")
-        q-chip(dense square :color="value.color || grey" :title="value.name") {{value}}
+        q-chip(dense square :color="value.color || 'grey-3'" :title="value.name") {{value}}
       template(v-else-if="name === 'refundStatus' && value")
         .inline-block {{ value }}
       template(v-else-if="name === 'refundStatus' && !value")
