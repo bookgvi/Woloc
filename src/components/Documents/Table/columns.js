@@ -26,5 +26,8 @@ export default [
     field: ({ date }) => `${date}`,
     format: value => date.formatDate(value, 'H:mm'),
     width: 13
+  },
+  {
+    name: 'download'
   }
 ]

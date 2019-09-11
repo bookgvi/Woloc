@@ -50,6 +50,8 @@
 
       template(v-else-if="name === 'docName'")
         .inline-block(style="color: #81AEB6;") {{ value }}
+      template(v-else-if="name === 'download'")
+        slot
       template(v-else) {{ value }}
 </template>
 

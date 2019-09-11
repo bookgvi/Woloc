@@ -4,6 +4,8 @@
     :details="details"
     :controller="$app.documents"
   )
+    template(#row-controls)
+      q-btn(flat icon-right="get_app" title="Скачать")
 </template>
 
 <script>
