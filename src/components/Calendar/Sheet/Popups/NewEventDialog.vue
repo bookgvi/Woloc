@@ -119,7 +119,7 @@
             q-card-section
               calendar-price(
                 @priceChange="newBooking.price = $event"
-                :extras="helpers.extras"
+                :extras="extras"
                 :fee="fee"
               )
         q-expansion-item(
@@ -211,8 +211,17 @@ export default {
     },
     fee () {
       const duration = this.helpers.time.to - this.helpers.time.from
-      const price = 1200
-      return duration * price
+      const price = 1200 - this.newBooking.eventType.length * 10
+      return {
+        name: `${this.newBooking.eventType} ${duration} ч. • ${price}`,
+        value: duration * price
+      }
+    },
+    extras () {
+      return this.helpers.extras.map(item => Object.assign({
+        name: item,
+        value: 400 - item.length * 10
+      }))
     },
     customerSlot () {
       if (this.newBooking.customer.firstName && this.newBooking.customer.phone) {
@@ -241,7 +250,7 @@ export default {
       return this.helpers.members.length
     },
     priceSlot () {
-      return this.newBooking.price
+      return `${this.newBooking.price} р.`
     }
   },
   props: ['date', 'time', 'studio']
