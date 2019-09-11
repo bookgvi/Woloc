@@ -49,6 +49,7 @@ export default {
       }
       return position
     })
+    console.log(events)
     const extras = this.fee
     this.positions = events.concat(extras)
   },

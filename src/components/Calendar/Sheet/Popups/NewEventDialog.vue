@@ -186,6 +186,7 @@ export default {
           'phone': ''
         },
         'studio': {
+          'id': this.studioSlot,
           'name': ''
         },
         'room': {
@@ -205,13 +206,20 @@ export default {
     }
   },
   computed: {
+    studioSlot () {
+      return this.studio
+    },
     fee () {
       const duration = this.helpers.time.to - this.helpers.time.from
       const price = 1200
       return duration * price
     },
     customerSlot () {
-      return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
+      if (this.newBooking.customer.firstName && this.newBooking.customer.phone) {
+        return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
+      } else {
+        return 'Введите имя пользователя'
+      }
     },
     roomSlot () {
       return this.newBooking.room.name
@@ -227,7 +235,6 @@ export default {
       return this.newBooking.eventType
     },
     extrasSlot () {
-      console.log(this.helpers.extras)
       return this.helpers.extras.length
     },
     membersSlot () {

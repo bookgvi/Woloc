@@ -2,7 +2,7 @@
   .wrapper
     .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
-        h6.wrap-md.text-weight-bold Kap's Studios м. Бауманская, {{ month }}
+        h6.wrap-md.text-weight-bold {{ $app.studios.selectedStudioLabel }} {{ month }}
       q-space
       .justify-end.items-center
         .row.justify-end.q-px-none.q-gutter-sm
@@ -218,8 +218,8 @@ export default {
       if (timeStartPos) {
         s = Object.assign({}, s, {
           'top': timeStartPos(event.time) + 'px',
-          'width': `${100 / event.max}%`,
-          'left': `${100 / event.max * (event.posx)}%`
+          'width': `${100 / event.countInRow}%`,
+          'left': `${100 / event.countInRow * (event.posx)}%`
         })
       }
       if (timeDurationHeight) {
@@ -266,7 +266,7 @@ export default {
                 room: booking.room.name
               },
               posx: 0,
-              width: 1
+              countInRow: 1
             }
             bookings.push(event)
           }
@@ -311,7 +311,7 @@ export default {
               }
             }
           }
-          let widthArray = Array(24).fill(1)
+          let widthArray = Array(24).fill(0)
           for (let i = 0; i < widthArray.length; i++) {
             for (let j = posArray.length - 1; j >= 0; j--) {
               if (posArray[j][i] !== 0) {
@@ -319,14 +319,28 @@ export default {
               }
             }
           }
-          events = events.map((event) => {
-            let max = 0
-            for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
-              max = (max < widthArray[i]) ? widthArray[i] : max
-            }
-            event.max = max
-            return event
-          })
+          let isNormalizedWidth = false
+          while (isNormalizedWidth === false) {
+            events = events.map((event) => {
+              let maxCountInRow = 0
+              for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+                maxCountInRow = (maxCountInRow < widthArray[i]) ? widthArray[i] : maxCountInRow
+              }
+              event.countInRow = (event.countInRow < maxCountInRow) ? maxCountInRow : event.countInRow
+              return event
+            })
+            isNormalizedWidth = true
+            events = events.map((event) => {
+              for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+                if (widthArray[i] < event.countInRow) {
+                  widthArray[i] = event.countInRow
+                  isNormalizedWidth = false
+                }
+              }
+              return event
+            })
+          }
+          // console.log(widthArray)
           allEvents.push(...events)
         }
         const dayOfWeek = +date.formatDate(this.selectedDate, 'E') - 1
@@ -340,7 +354,7 @@ export default {
       })
     },
     async 'studio' (v) {
-      await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
+      // await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
     },
     async '$app.studios.checkedRooms' (v) {
       await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)

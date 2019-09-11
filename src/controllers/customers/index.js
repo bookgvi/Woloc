@@ -10,6 +10,7 @@ export default {
         one: false
       },
       list: [],
+      searched: []
     }
   },
   async created () {
@@ -32,13 +33,6 @@ export default {
         }))
       }
       return arr
-    },
-    forCalendar () {
-      const arr = this.all.map((customer) => {
-        customer.fullName = customer.lastName + ' ' + customer.firstName
-        return customer
-      })
-      return arr
     }
   },
   methods: {
@@ -50,9 +44,18 @@ export default {
         this.list = data.items.filter(customer => customer.lastName.length > 0)
         this.loading.list = false
       }
-
       return data
     },
+    async forCalendar (search) {
+      this.loading.list = true
+      const { data } = await api.customers.getSearchedCustomers(search)
+      console.log('customers :: getSearchedCustomers', data)
+      if (data) {
+        this.searched = data.items
+        this.loading.list = false
+      }
+      return data
+    }
   },
   watch: {
     'loading.list' (v) {
