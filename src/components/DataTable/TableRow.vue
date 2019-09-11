@@ -1,9 +1,9 @@
 <template lang="pug">
-  q-tr(:class="{ disabled: row.disabled }")
+  q-tr(:class="{ disabled }")
     q-td(
-      v-for="{name, value, active} of cols"
       :key="name"
-      :class="{ [name]: true, active }"
+      v-for="{name, value, active} of cols"
+      v-bind="getColProps(name)"
       @click.native="active && $emit('toggleDialogRow', row.id)"
     )
       template(v-if="name === 'room'")
@@ -34,19 +34,10 @@
             icon="more_vert"
             @click="$emit('toggleControls', row.id)"
             :color="controlsAreVisible(row) ? 'primary' : undefined"
-            :disable="row.disabled"
+            :disable="disabled"
           )
-      template(v-else-if="name === 'name'")
-        q-chip(dense square :color="value.color || 'grey-3'" :title="value.name") {{value}}
-      template(v-else-if="name === 'refundStatus' && value")
-        .inline-block {{ value }}
-      template(v-else-if="name === 'refundStatus' && !value")
-        .inline-block(style="width: 250px;")
-        slot
-      template(v-else-if="name === 'returnedAt'")
-        .inline-block(style="color: red;") {{ value }}
-      template(v-else-if="name === 'id'")
-        .inline-block.color-primary {{ value }}
+      template(v-else-if="name === 'status'")
+        .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
       template(v-else) {{ value }}
 </template>
 
@@ -57,14 +48,33 @@ export default {
   props: {
     row: Object,
     cols: Array,
+    colsMap: Object,
     controlsRowId: Number,
     toggleControls: Function,
     dialogRowId: Number,
+    disabled: Boolean,
   },
   methods: {
     controlsAreVisible (row) {
       return this.controlsRowId === row.id
     },
+    getColProps (name) {
+      const { active, classes, __tdClass, style } = this.colsMap[name]
+      const classNames = [name]
+      if (active) classNames.push('active')
+      if (classes) classNames.push(classes)
+      if (__tdClass) classNames.push(__tdClass)
+
+      console.log(classNames)
+
+      return {
+        class: classNames,
+        style,
+      }
+    }
+  },
+  created () {
+    // console.log(this.colsMap)
   }
 }
 </script>
