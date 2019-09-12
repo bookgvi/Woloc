@@ -4,8 +4,8 @@
     :details="details"
     :controller="$app.documents"
   )
-    template(#row-controls)
-      q-btn(flat icon-right="get_app" title="Скачать")
+    template(#row-controls="props")
+      q-btn(flat icon-right="get_app" title="Скачать" @click="handle(props.row.file)")
 </template>
 
 <script>
@@ -18,7 +18,12 @@ export default {
   data: () => ({
     columns,
     details
-  })
+  }),
+  methods: {
+    handle (url) {
+      console.log('Downloading... ', url)
+    }
+  }
 }
 </script>
 
