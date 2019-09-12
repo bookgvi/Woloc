@@ -38,6 +38,8 @@
           )
       template(v-else-if="name === 'status'")
         .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
+      template(v-else-if="name === 'file'")
+          slot
       template(v-else) {{ value }}
 </template>
 
