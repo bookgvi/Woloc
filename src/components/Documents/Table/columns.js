@@ -1,35 +1,37 @@
 import { date } from 'quasar'
+
 export default [
   {
-    name: 'number',
+    name: 'id',
     label: 'id',
-    field: 'number',
+    field: 'id',
     required: true,
     width: 50,
     active: false
   },
   {
-    name: 'docName',
+    name: 'name',
     label: 'Название',
-    field: 'docName',
+    field: 'name',
     width: 550,
     align: 'left',
     classes: 'text-primary'
   },
   {
-    name: 'date',
+    name: 'updatedAt',
     label: 'дата',
     width: 50,
-    format: value => date.formatDate(value, 'DD MMM')
+    field: 'updatedAt',
+    format: value => date.formatDate(value, 'D MMM')
   },
   {
     name: 'time',
     label: 'время',
-    field: ({ date }) => `${date}`,
+    field: 'updatedAt',
     format: value => date.formatDate(value, 'H:mm')
   },
   {
-    name: 'download',
+    name: 'file',
     align: 'right'
   }
 ]
