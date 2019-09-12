@@ -32,12 +32,16 @@
       template(#body="props")
         TableRow(
           v-bind="props"
-          v-slot="props"
           :controlsRowId="controlsRowId"
+          :disabled="isRowDisabled && isRowDisabled(props.row)"
           @toggleControls="toggleControlsRow"
           @toggleDialogRow="toggleDialogRow"
         )
-          slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
+          slot(
+            name="row-controls"
+            :row="props.row"
+            :toggleDialogRow="toggleDialogRow"
+          )
 </template>
 
 <script>
@@ -58,6 +62,7 @@ export default {
     details: Array,
     controller: Object,
     activeColumns: Array,
+    isRowDisabled: Function,
   },
   data () {
     return {
@@ -82,7 +87,7 @@ export default {
       return this.columns.map(col => ({
         ...col,
         field: col.field || col.name,
-        align: 'left',
+        align: col.align || 'left',
         style: col.width && `width: ${col.width}px`
       }))
     },
