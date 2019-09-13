@@ -1,12 +1,11 @@
-// import api from './instance'
-import refunds from 'src/mocks/refunds'
+import api from './instance'
+
+const API_URL = process.env.API_CABINET_URL
 export default {
-  getAll: async () => {
+  getAll: async (page) => {
     try {
-      const r = {
-        data: refunds
-      }
-      return r
+      const r = await api.get(`${API_URL}/refunds`, { page })
+      return r.data
     } catch (e) {
       console.warn('catch :: extras :: getAll', e)
     }
