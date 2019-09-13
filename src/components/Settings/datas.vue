@@ -20,6 +20,7 @@
 
 <script>
 export default {
+  name: 'datas',
   data: () => ({
     name: 'Kap\'s Studios м. Бауманская',
     phone: '+7 909 333 00 06',

@@ -5,11 +5,16 @@
     .row.justify-center
       .col-6
         datas
+        specifications
 </template>
 
 <script>
 import datas from './datas'
+import specifications from './specifications'
 export default {
-  components: { datas }
+  components: {
+    datas,
+    specifications
+  }
 }
 </script>
