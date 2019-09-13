@@ -6,15 +6,18 @@
       .col-6
         datas
         specifications
+        images
 </template>
 
 <script>
 import datas from './datas'
 import specifications from './specifications'
+import images from './images'
 export default {
   components: {
     datas,
-    specifications
+    specifications,
+    images
   }
 }
 </script>
