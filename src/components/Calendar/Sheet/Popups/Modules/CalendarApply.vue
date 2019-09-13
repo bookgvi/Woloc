@@ -24,9 +24,10 @@ export default {
       //
     },
     saveBooking () {
-      //
+      this.applyBooking()
     }
-  }
+  },
+  props: ['applyBooking']
 }
 </script>
 

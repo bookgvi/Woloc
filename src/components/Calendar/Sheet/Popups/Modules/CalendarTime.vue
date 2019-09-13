@@ -34,6 +34,11 @@ export default {
       },
     }
   },
+  created () {
+    if (this.startTime) {
+      this.range.min = this.startTime.split(':')[0] || 8
+    }
+  },
   computed: {
     duration () {
       const foo = this.range.max - this.range.min
@@ -52,7 +57,8 @@ export default {
         to: this.range.max
       })
     }
-  }
+  },
+  props: ['startTime']
 }
 </script>
 

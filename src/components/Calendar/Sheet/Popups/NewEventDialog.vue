@@ -49,6 +49,7 @@
             q-card-section
               calendar-date(
                 @dateChange="helpers.date = $event"
+                :date="this.date"
               )
         q-expansion-item(
           group="new-event"
@@ -63,6 +64,7 @@
             q-card-section
               calendar-time(
                 @timeChange="helpers.time = $event"
+                :startTime="this.time"
               )
         q-expansion-item(
           group="new-event"
@@ -90,7 +92,7 @@
           q-card
             q-card-section
               calendar-extras(
-                @extrasChange="helpers.extras = $event"
+                @extrasChange="newBooking.extras = $event"
               )
         q-expansion-item(
           group="new-event"
@@ -104,7 +106,7 @@
           q-card
             q-card-section
               calendar-members(
-                @membersChange="helpers.members = $event"
+                @membersChange="newBooking.members = $event"
               )
         q-expansion-item(
           group="new-event"
@@ -138,7 +140,9 @@
           q-card
             q-card-section
               calendar-delete
-        calendar-apply
+        calendar-apply(
+          :applyBooking="applyBooking"
+        )
 
 </template>
 
@@ -172,25 +176,28 @@ export default {
   data () {
     return {
       newBooking: {
-        'reservedFrom': '',
-        'reservedTo': '',
-        'eventType': '',
-        'price': '',
-        'discount': '0.00',
-        'amount': '',
-        'duration': 0,
-        'customer': {
-          'email': '',
-          'firstName': '',
-          'lastName': '',
-          'phone': ''
+        reservedFrom: '',
+        reservedTo: '',
+        eventType: '',
+        price: '',
+        discount: 0,
+        amount: '',
+        duration: 0,
+        extras: [],
+        members: [],
+        customer: {
+          email: '',
+          firstName: '',
+          lastName: '',
+          phone: ''
         },
-        'studio': {
-          'id': this.studioSlot,
-          'name': ''
+        studio: {
+          id: '',
+          name: ''
         },
-        'room': {
-          'name': ''
+        room: {
+          id: '',
+          name: ''
         }
       },
       helpers: {
@@ -198,17 +205,11 @@ export default {
         time: {
           from: 0,
           to: 0
-        },
-        extras: [],
-        members: [],
-        prices: []
+        }
       }
     }
   },
   computed: {
-    studioSlot () {
-      return this.studio
-    },
     fee () {
       const duration = this.helpers.time.to - this.helpers.time.from
       const price = 1200 - this.newBooking.eventType.length * 10
@@ -218,7 +219,7 @@ export default {
       }
     },
     extras () {
-      return this.helpers.extras.map(item => Object.assign({
+      return this.newBooking.extras.map(item => Object.assign({
         name: item,
         value: 400 - item.length * 10
       }))
@@ -244,13 +245,30 @@ export default {
       return this.newBooking.eventType
     },
     extrasSlot () {
-      return this.helpers.extras.length
+      return this.newBooking.extras.length
     },
     membersSlot () {
-      return this.helpers.members.length
+      return this.newBooking.members.length
     },
     priceSlot () {
       return `${this.newBooking.price} р.`
+    },
+    reservedTime () {
+      // const timeOffset = '+03:00'
+      const bookingDate = date.extractDate(date.formatDate(this.helpers.date, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+      const from = date.addToDate(bookingDate, { hours: this.helpers.time.from })
+      const to = (this.helpers.time.to !== 0 && this.helpers.time.to !== 24)
+        ? date.addToDate(bookingDate, { hours: this.helpers.time.to })
+        : date.addToDate(bookingDate, { days: 1 })
+      return { from, to }
+    }
+  },
+  methods: {
+    applyBooking () {
+      this.newBooking.reservedFrom = this.reservedTime.from
+      this.newBooking.reservedTo = this.reservedTime.to
+      this.newBooking.studio.id = this.$app.studios.studio
+      console.log(this.newBooking)
     }
   },
   props: ['date', 'time', 'studio']

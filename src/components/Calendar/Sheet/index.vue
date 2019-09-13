@@ -60,7 +60,7 @@
           .fit.flex.justify-center.items-center
             NewEventDialog(
               :date="date"
-              :interval="time"
+              :time="time"
               :studio="studio"
             )
         template(#day-header="{ date }")
@@ -79,7 +79,9 @@
             :key="index"
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
-            // UpdateEventDialog
+            UpdateEventDialog(
+              :booking="$app.bookings.calendarList[0]"
+            )
             .row.col-12.justify-start.q-px-xs
               q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
               .row.col-12

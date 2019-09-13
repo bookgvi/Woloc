@@ -43,6 +43,11 @@ export default {
       }
     }
   },
+  created () {
+    if (this.startCustomer) {
+      this.customer = Object.assign(this.startCustomer)
+    }
+  },
   computed: {
     customerComp () {
       return this.customerChange()
@@ -62,7 +67,8 @@ export default {
         this.$app.customers.forCalendar(needle)
       })
     }
-  }
+  },
+  props: ['startCustomer']
 }
 </script>
 

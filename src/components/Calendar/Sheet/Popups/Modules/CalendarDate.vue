@@ -1,6 +1,6 @@
 <template lang="pug">
   q-date.fit(
-    v-model="date"
+    v-model="selectedDate"
     minimal
     mask="YYYY-MM-DD"
   ) {{ dateComp }}
@@ -11,19 +11,20 @@ export default {
   name: 'CalendarDate',
   data () {
     return {
-      date: ''
+      selectedDate: this.date
     }
   },
   computed: {
     dateComp () {
       return this.dateChange()
-    }
+    },
   },
   methods: {
     dateChange () {
-      this.$emit('dateChange', this.date)
+      this.$emit('dateChange', this.selectedDate)
     }
-  }
+  },
+  props: ['date']
 }
 </script>
 
