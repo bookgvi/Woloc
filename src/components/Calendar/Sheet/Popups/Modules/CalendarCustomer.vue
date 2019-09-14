@@ -46,6 +46,7 @@ export default {
   created () {
     if (this.startCustomer) {
       this.customer = Object.assign(this.startCustomer)
+      console.log(888, this.customer)
     }
   },
   computed: {

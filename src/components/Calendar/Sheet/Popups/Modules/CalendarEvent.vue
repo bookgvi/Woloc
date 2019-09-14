@@ -16,6 +16,11 @@ export default {
       event: ''
     }
   },
+  created () {
+    if (this.startEvent) {
+      this.event = this.startEvent
+    }
+  },
   computed: {
     eventComp () {
       return this.eventChange()
@@ -25,7 +30,8 @@ export default {
     eventChange () {
       this.$emit('eventChange', this.event)
     }
-  }
+  },
+  props: ['startEvent']
 }
 </script>
 

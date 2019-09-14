@@ -19,7 +19,7 @@
           q-card
             q-card-section
               calendar-customer(
-                :customer="newBooking.customer"
+                :startCustomer="newBooking.customer"
                 @customerChange="newBooking.customer = $event"
               )
         q-expansion-item(
@@ -35,8 +35,8 @@
             q-card-section
               calendar-room(
                 @roomChange="newBooking.room = $event"
-                :studio="booking"
-                :room="newBooking.room.name"
+                :studio="booking.studio.id"
+                :startRoom="newBooking.room.name"
               )
         q-expansion-item(
           group="new-event"
@@ -51,7 +51,7 @@
             q-card-section
               calendar-date(
                 @dateChange="helpers.date = $event"
-                :date="this.booking"
+                :date="this.helpers.date"
               )
         q-expansion-item(
           group="new-event"
@@ -66,7 +66,8 @@
             q-card-section
               calendar-time(
                 @timeChange="helpers.time = $event"
-                :startTime="this.booking"
+                :startTime="this.helpers.time.from"
+                :endTime="this.helpers.time.to"
               )
         q-expansion-item(
           group="new-event"
@@ -81,6 +82,7 @@
             q-card-section
               calendar-event(
                 @eventChange="newBooking.eventType = $event"
+                :startEvent="this.newBooking.eventType"
               )
         q-expansion-item(
           group="new-event"
@@ -95,6 +97,7 @@
             q-card-section
               calendar-extras(
                 @extrasChange="newBooking.extras = $event"
+                :startExtras="this.newBooking.extras"
               )
         q-expansion-item(
           group="new-event"
@@ -109,6 +112,7 @@
             q-card-section
               calendar-members(
                 @membersChange="newBooking.members = $event"
+                :startMembers="this.newBooking.members"
               )
         q-expansion-item(
           group="new-event"
@@ -189,8 +193,7 @@ export default {
         members: [],
         customer: {
           email: '',
-          firstName: '',
-          lastName: '',
+          fullName: '',
           phone: ''
         },
         studio: {
@@ -212,7 +215,20 @@ export default {
     }
   },
   created () {
-    this.newBooking = Object.assign(this.booking, { extras: [], members: [] })
+    this.newBooking = Object.assign(this.newBooking, this.booking)
+    const hDate = date.formatDate(this.booking.reservedFrom, 'YYYY-MM-DD')
+    const hFrom = date.formatDate(this.booking.reservedFrom, 'h')
+    let hTo = date.formatDate(this.booking.reservedTo, 'h')
+    if (hTo === 0) {
+      hTo = 24
+    }
+    this.helpers = Object.assign({
+      date: hDate,
+      time: {
+        from: hFrom,
+        to: hTo
+      }
+    })
   },
   computed: {
     fee () {
@@ -273,6 +289,7 @@ export default {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
       this.newBooking.studio.id = this.$app.studios.studio
+      console.log(this.newBooking)
     }
   },
   props: ['booking']

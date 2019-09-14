@@ -34,6 +34,11 @@ export default {
       newMember: ''
     }
   },
+  created () {
+    if (this.startMembers) {
+      // this.members = this.startMembers.slice()
+    }
+  },
   computed: {
     membersComp () {
       return this.membersChange()
@@ -47,7 +52,8 @@ export default {
     membersChange () {
       this.$emit('membersChange', this.members)
     }
-  }
+  },
+  props: ['startMembers']
 }
 </script>
 

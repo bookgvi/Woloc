@@ -17,7 +17,7 @@ export default {
   },
   created () {
     if (this.startRoom) {
-      this.room = Object.assign(this.startRoom)
+      this.room = this.startRoom
     }
   },
   computed: {
@@ -26,7 +26,6 @@ export default {
     },
     rooms () {
       if (this.$app.studios.list.length === 0) return []
-      console.log(this.$app.studios.all)
       const arr = this.$app.studios.getRoomsByStudio(this.studio).map((item, index) => {
         const room = Object.assign({}, {
           value: item.name,
@@ -43,7 +42,7 @@ export default {
       this.$emit('roomChange', { name: this.room })
     }
   },
-  props: ['studio, startRoom']
+  props: ['studio', 'startRoom']
 }
 </script>
 

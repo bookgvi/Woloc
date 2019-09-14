@@ -38,6 +38,9 @@ export default {
     if (this.startTime) {
       this.range.min = this.startTime.split(':')[0] || 8
     }
+    if (this.endTime) {
+      this.range.max = this.endTime.split(':')[0] || 24
+    }
   },
   computed: {
     duration () {
@@ -58,7 +61,7 @@ export default {
       })
     }
   },
-  props: ['startTime']
+  props: ['startTime', 'endTime']
 }
 </script>
 

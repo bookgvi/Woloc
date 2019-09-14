@@ -16,6 +16,11 @@ export default {
       checkedExtras: []
     }
   },
+  created () {
+    if (this.startExtras) {
+      this.checkedExtras = this.startExtras.slice()
+    }
+  },
   computed: {
     extrasComp () {
       return this.extrasChange()
@@ -25,7 +30,8 @@ export default {
     extrasChange () {
       this.$emit('extrasChange', this.checkedExtras)
     }
-  }
+  },
+  props: ['startExtras']
 }
 </script>
 
