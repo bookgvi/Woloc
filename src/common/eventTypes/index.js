@@ -1,14 +1,14 @@
 export default {
   photo: {
-    name: 'Фотосъемка',
+    name: 'photo',
     icon: 'camera_alt',
   },
   video: {
-    name: 'Видеосъемка',
+    name: 'video',
     icon: 'videocam'
   },
   event: {
-    name: 'Событие',
+    name: 'event',
     icon: 'fas fa-calendar-day'
   }
 }

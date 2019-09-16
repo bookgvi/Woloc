@@ -35,7 +35,7 @@
             q-card-section
               calendar-room(
                 @roomChange="newBooking.room = $event"
-                :studio="booking.studio.id"
+                :studio="newBooking.studio.id"
                 :startRoom="newBooking.room.name"
               )
         q-expansion-item(
@@ -216,9 +216,9 @@ export default {
   },
   created () {
     this.newBooking = Object.assign(this.newBooking, this.booking)
-    const hDate = date.formatDate(this.booking.reservedFrom, 'YYYY-MM-DD')
-    const hFrom = date.formatDate(this.booking.reservedFrom, 'h')
-    let hTo = date.formatDate(this.booking.reservedTo, 'h')
+    const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
+    const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('k')
+    let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
     if (hTo === 0) {
       hTo = 24
     }
@@ -229,6 +229,7 @@ export default {
         to: hTo
       }
     })
+    console.log(this.newBooking.id, this.newBooking, this.helpers)
   },
   computed: {
     fee () {
@@ -289,6 +290,7 @@ export default {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
       this.newBooking.studio.id = this.$app.studios.studio
+      this.newBooking.studio.name = this.$app.studios.selectedStudioLabel
       console.log(this.newBooking)
     }
   },

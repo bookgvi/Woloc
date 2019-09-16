@@ -12,7 +12,7 @@ export default {
   name: 'CalendarRoom',
   data () {
     return {
-      room: ''
+      room: null
     }
   },
   created () {
@@ -24,10 +24,15 @@ export default {
     roomComp () {
       return this.roomChange()
     },
+    selectedRoom () {
+      if (!this.room) return {}
+      return this.$app.studios.getRoomsByStudio(this.studio).find(item => item.name === this.room)
+    },
     rooms () {
       if (this.$app.studios.list.length === 0) return []
       const arr = this.$app.studios.getRoomsByStudio(this.studio).map((item, index) => {
         const room = Object.assign({}, {
+          id: item.id,
           value: item.name,
           label: item.name,
           color: roomsColors[index].color
@@ -39,7 +44,7 @@ export default {
   },
   methods: {
     roomChange () {
-      this.$emit('roomChange', { name: this.room })
+      this.$emit('roomChange', this.selectedRoom)
     }
   },
   props: ['studio', 'startRoom']

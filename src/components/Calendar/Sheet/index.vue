@@ -80,7 +80,8 @@
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
             update-event-dialog(
-              :booking="$app.bookings.calendarList[0]"
+              :booking="findBooking(index)"
+              @click="click(index)"
             )
             .row.col-12.justify-start.q-px-xs
               q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
@@ -160,6 +161,10 @@ export default {
     }
   },
   methods: {
+    findBooking (index) {
+      return this.$app.bookings.calendarList.find(item =>
+        item.id === this.events[index].id)
+    },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
     },
@@ -202,6 +207,7 @@ export default {
       return color
     },
     setIcon (action) {
+      if (!icons[action]) return 'camera_alt'
       const icon = icons[action].icon
       return icon
     },
@@ -241,7 +247,7 @@ export default {
   },
   watch: {
     '$app.bookings.calendarList' (v) {
-      // console.log('watch $app.bookings.calendarList', v)
+      console.log('watch $app.bookings.calendarList', v)
       this.$nextTick(function () {
         let allEvents = []
         let bookings = []
@@ -253,6 +259,7 @@ export default {
               'minutes'
             )
             const event = {
+              id: booking.id,
               title: booking.customer.firstName,
               details: `${booking.amount}/${booking.price}`,
               date: this.getDate(booking.reservedFrom),

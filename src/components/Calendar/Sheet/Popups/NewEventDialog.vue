@@ -176,6 +176,7 @@ export default {
   data () {
     return {
       newBooking: {
+        id: 8983249234,
         reservedFrom: '',
         reservedTo: '',
         eventType: '',
@@ -269,7 +270,9 @@ export default {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
       this.newBooking.studio.id = this.$app.studios.studio
-      console.log(this.newBooking)
+      this.newBooking.studio.name = this.$app.studios.selectedStudioLabel
+      this.$app.bookings.calendarList.push(this.newBooking)
+      console.log(888, this.$app.bookings.calendarList)
     }
   },
   props: ['date', 'time', 'studio']

@@ -48,6 +48,10 @@ export default {
       if (res) {
         this.list = res.data.items
         this.loading.list = false
+        this.list.map(item => {
+          item.reservedFrom = this.$moment(item.reservedFrom).format()
+          item.reservedTo = this.$moment(item.reservedTo).format()
+        })
       }
     },
     getRoomsByStudio (id) {

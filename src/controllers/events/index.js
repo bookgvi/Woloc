@@ -23,8 +23,8 @@ export default {
       let arr = []
       for (let i = 0; i < this.all.length; i++) {
         arr.push(Object.assign({}, {
-          label: this.all[i].alias,
-          value: this.all[i].alias,
+          label: this.all[i].name,
+          value: this.all[i].name,
           price: this.all[i].price,
         }))
       }
