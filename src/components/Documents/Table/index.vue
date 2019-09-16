@@ -1,31 +1,29 @@
 <template lang="pug">
-
   DataTable(
-    title="Возврат"
-    :controller="$app.refunds"
-    :getDialogTitle="() => 'Возврат'"
     :columns="columns"
     :details="details"
-    :isRowDisabled="({ status }) => !status"
+    :controller="$app.documents"
   )
-    template(#row-controls)
-      q-btn(flat round icon="block")
-      q-btn(flat round icon="thumb_up")
-
+    template(#row-controls="props")
+      q-btn(flat icon-right="get_app" title="Скачать" @click="handle(props.row.file)")
 </template>
 
 <script>
 import columns from './columns'
 import details from './details'
 import DataTable from 'components/DataTable'
-
 export default {
-  name: 'RefundsTable',
+  name: 'DocumentsTable',
   components: { DataTable },
   data: () => ({
     columns,
     details
-  })
+  }),
+  methods: {
+    handle (url) {
+      console.log('Downloading... ', url)
+    }
+  }
 }
 </script>
 
