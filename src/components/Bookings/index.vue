@@ -11,10 +11,10 @@
 </template>
 
 <script>
-import BookingsTable from './Table'
+import StudioFilter from 'components/Filters/StudioFilter'
 import FiltersList from 'components/Filters/FiltersList'
 import RoomsFilter from 'components/Filters/RoomsFilter'
-import StudioFilter from '../Filters/StudioFilter'
+import BookingsTable from './Table'
 
 export default {
   name: 'Calendar',

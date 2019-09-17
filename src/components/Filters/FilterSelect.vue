@@ -11,7 +11,7 @@
       q-option-group.text-body2.q-pa-md(
         color="green"
         :type="type"
-        :options="options"
+        :options="listOptions"
         :value="value"
         @input="$emit('change', $event)"
       )
@@ -23,6 +23,7 @@ export default {
   props: {
     title: String,
     models: Array,
+    options: Array,
     type: {
       type: String,
       default: 'checkbox'
@@ -34,14 +35,14 @@ export default {
     },
   },
   computed: {
-    options () {
-      return this.models.map(({ id, name }) => ({
+    listOptions () {
+      return this.options || this.models.map(({ id, name }) => ({
         value: id,
         label: name,
       }))
     },
     disabled () {
-      return !this.options.length
+      return !this.listOptions.length
     }
   }
 }
