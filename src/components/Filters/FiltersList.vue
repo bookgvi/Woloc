@@ -8,8 +8,7 @@
           :onChange="onChange"
         )
         q-space
-        q-btn(
-          size="sm"
+        q-btn.q-py-none.q-px-sm(
           outline
           no-caps
           label="Сбросить все"

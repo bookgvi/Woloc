@@ -6,10 +6,9 @@
     :label="title"
     :disabled="disabled"
   )
-    q-popup-proxy(
-    )
+    q-popup-proxy
       q-option-group.text-body2.q-pa-md(
-        color="green"
+        color="black"
         :type="type"
         :options="listOptions"
         :value="value"

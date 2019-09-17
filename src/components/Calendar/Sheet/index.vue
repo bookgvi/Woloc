@@ -90,7 +90,7 @@
 
 <script>
 import { date, colors } from 'quasar'
-import icons from 'src/common/eventTypes'
+import { EVENT_TYPES } from 'src/common/constants'
 import roomsColors from 'src/common/rooms/colors'
 import NewEventDialog from './Popups/NewEventDialog'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
@@ -106,6 +106,8 @@ const formDefault = () => ({
   icon: '',
   bgcolor: '#0000FF'
 })
+
+const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
@@ -204,10 +206,14 @@ export default {
       return hours
     },
     getColor ({ room: { id } }) {
-      return roomsColors[id % roomsColors.length].color
+      if (!(id in usedColors)) {
+        usedColors[id] = roomsColors[Object.keys(usedColors).length]
+      }
+
+      return usedColors[id].color
     },
     setIcon (action) {
-      const icon = icons[action].icon
+      const icon = EVENT_TYPES[action].icon
       return icon
     },
     setOrder (room) {

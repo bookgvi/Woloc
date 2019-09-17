@@ -3,16 +3,16 @@
     :title="buttonTitle"
     :options="options"
     :value="value"
-    @change="event => onChange('rating', event)"
+    @change="event => onChange('statuses', event)"
   )
 </template>
 
 <script>
-import range from 'lodash/range'
 import FilterSelect from './FilterSelect'
+import { BOOKING_STATUSES } from 'src/common/constants'
 
 export default {
-  name: 'rating-filter',
+  name: 'status-filter',
   components: { FilterSelect },
   props: {
     values: {
@@ -21,14 +21,14 @@ export default {
     onChange: Function
   },
   data: () => ({
-    options: range(1, 6).map(i => `${i}`).map(value => ({ value, label: value }))
+    options: Object.values(BOOKING_STATUSES)
   }),
   computed: {
     value () {
-      return this.values.rating || []
+      return this.values.statuses || []
     },
     buttonTitle () {
-      return `Рейтинг ${this.value.join(',')}`
+      return `Статус ${this.value.length || ''}`
     },
   }
 }
