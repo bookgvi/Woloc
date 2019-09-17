@@ -3,7 +3,7 @@
     title="Пользователи"
     :getDialogTitle="() => 'Личные данные'"
     :loadData="$app.customers.getAll"
-    :filter="$app.filters.values.customers"
+    :filter="$app.filters.getValues('customers')"
     :columns="columns"
     :details="details"
   )

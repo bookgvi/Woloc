@@ -3,7 +3,7 @@
     title="Бронирования"
     :getDialogTitle="(row) => `Бронь ${row.id}`"
     :loadData="$app.bookings.getAll"
-    :filter="$app.filters.values.bookings"
+    :filter="$app.filters.getValues('bookings')"
     :columns="columns"
     :details="details"
   )
