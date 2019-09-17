@@ -45,7 +45,6 @@
 </template>
 
 <script>
-import Menu from '../Menu'
 import TableControls from './TableControls'
 import TableRow from './TableRow'
 import connected from './connectedMixin'
@@ -53,7 +52,7 @@ import RowDialog from './RowDialog'
 
 export default {
   name: 'DataTable',
-  components: { RowDialog, Menu, TableControls, TableRow },
+  components: { RowDialog, TableControls, TableRow },
   mixins: [connected],
   props: {
     title: String,

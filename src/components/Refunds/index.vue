@@ -11,7 +11,6 @@
 
 <script>
 import RefundsTable from './Table/index'
-import Menu from '../Menu'
 import StudioFilter from '../Filters/StudioFilter'
 import RoomsFilter from '../Filters/RoomsFilter'
 import FiltersList from '../Filters/FiltersList'
@@ -21,7 +20,6 @@ export default {
     FiltersList,
     RoomsFilter,
     StudioFilter,
-    Menu,
     RefundsTable,
   }
 }
