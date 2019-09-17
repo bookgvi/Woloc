@@ -4,6 +4,7 @@
       name="bookings"
       v-slot:default="props"
     )
+      studio-filter(v-bind="props")
       rooms-filter(v-bind="props")
     bookings-table
 
@@ -13,10 +14,11 @@
 import BookingsTable from './Table'
 import FiltersList from 'components/Filters/FiltersList'
 import RoomsFilter from 'components/Filters/RoomsFilter'
+import StudioFilter from '../Filters/StudioFilter'
 
 export default {
   name: 'Calendar',
-  components: { RoomsFilter, FiltersList, BookingsTable }
+  components: { StudioFilter, RoomsFilter, FiltersList, BookingsTable }
 }
 </script>
 

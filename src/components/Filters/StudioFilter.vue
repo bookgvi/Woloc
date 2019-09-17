@@ -1,9 +1,10 @@
 <template lang="pug">
   filter-select(
+    type="radio"
     :title="buttonTitle"
     :models="models"
     :value="value"
-    @change="event => onChange('rooms', event)"
+    @change="event => onChange('studio', event)"
   )
 </template>
 
@@ -11,7 +12,7 @@
 import FilterSelect from './FilterSelect'
 
 export default {
-  name: 'rooms-filter',
+  name: 'studio-filter',
   components: { FilterSelect },
   props: {
     values: {
@@ -21,17 +22,16 @@ export default {
   },
   computed: {
     value () {
-      return this.values.rooms || []
-    },
-    buttonTitle () {
-      return `Залы ${this.value.length || ''}`
+      return this.values.studio
     },
     models () {
-      const studios = this.$app.studios.list
-      const studio = studios.find(({ id }) => id === this.values.studio)
+      return this.$app.studios.list
+    },
+    buttonTitle () {
+      const studio = this.models.find(({ id }) => id === this.value)
 
-      return studio ? studio.rooms : []
-    }
+      return studio ? studio.name : 'Студия'
+    },
   }
 }
 </script>

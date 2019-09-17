@@ -1,19 +1,19 @@
 <template lang="pug">
   q-btn.q-py-none.q-px-sm(
     outline
-    color="secondary"
     no-caps
-    :label="title"
     dense
+    :label="title"
+    :disabled="disabled"
   )
     q-popup-proxy(
     )
       q-option-group.text-body2.q-pa-md(
         color="green"
-        type="checkbox"
-        @input="$emit('change', $event)"
+        :type="type"
         :options="options"
         :value="value"
+        @input="$emit('change', $event)"
       )
 </template>
 
@@ -22,11 +22,27 @@ export default {
   name: 'filter-select',
   props: {
     title: String,
-    options: Array,
+    models: Array,
+    type: {
+      type: String,
+      default: 'checkbox'
+    },
     value: {
-      type: Array,
-      default: () => [],
+      validator (prop) {
+        return prop === null || prop instanceof Array || typeof prop === 'number'
+      },
     },
   },
+  computed: {
+    options () {
+      return this.models.map(({ id, name }) => ({
+        value: id,
+        label: name,
+      }))
+    },
+    disabled () {
+      return !this.options.length
+    }
+  }
 }
 </script>
