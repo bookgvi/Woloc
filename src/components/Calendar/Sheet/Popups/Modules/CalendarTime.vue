@@ -36,10 +36,10 @@ export default {
   },
   created () {
     if (this.startTime) {
-      this.range.min = this.startTime || 8
+      this.range.min = this.startTime
     }
     if (this.endTime) {
-      this.range.max = this.endTime || 24
+      this.range.max = this.endTime
     }
   },
   computed: {

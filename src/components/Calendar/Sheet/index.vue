@@ -60,7 +60,7 @@
           .fit.flex.justify-center.items-center
             new-event-dialog(
               :date="date"
-              :time="time"
+              :time="formatTimeToHours(time)"
               :studio="studio"
             )
         template(#day-header="{ date }")
@@ -77,11 +77,11 @@
             :value="e"
             v-if="e.date === date"
             :key="index"
+            @click="click(findBooking(index))"
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
             update-event-dialog(
               :booking="findBooking(index)"
-              @click="click(index)"
             )
             .row.col-12.justify-start.q-px-xs
               q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
@@ -161,9 +161,14 @@ export default {
     }
   },
   methods: {
+    click (index) {
+      console.log(666, index)
+    },
+    formatTimeToHours (time) {
+      return +time.split(':')[0]
+    },
     findBooking (index) {
-      return this.$app.bookings.calendarList.find(item =>
-        item.id === this.events[index].id)
+      return this.$app.bookings.calendarGetObjById(this.events[index].id)
     },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
@@ -249,6 +254,7 @@ export default {
     '$app.bookings.calendarList' (v) {
       console.log('watch $app.bookings.calendarList', v)
       this.$nextTick(function () {
+        this.events = []
         let allEvents = []
         let bookings = []
         v.map((booking) => {
@@ -278,6 +284,7 @@ export default {
               countInRow: 1
             }
             bookings.push(event)
+            console.log(event.id, event)
           }
         })
         const setPositionOfEvents = (dt) => {

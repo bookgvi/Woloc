@@ -49,7 +49,7 @@
             q-card-section
               calendar-date(
                 @dateChange="helpers.date = $event"
-                :date="this.date"
+                :date="date"
               )
         q-expansion-item(
           group="new-event"
@@ -64,7 +64,7 @@
             q-card-section
               calendar-time(
                 @timeChange="helpers.time = $event"
-                :startTime="this.time"
+                :startTime="time"
               )
         q-expansion-item(
           group="new-event"
@@ -246,7 +246,6 @@ export default {
       return this.newBooking.eventType
     },
     extrasSlot () {
-      console.log(this.newBooking.extras.length)
       return this.newBooking.extras.length
     },
     membersSlot () {
@@ -256,7 +255,6 @@ export default {
       return `${this.newBooking.price} р.`
     },
     reservedTime () {
-      // const timeOffset = '+03:00'
       const bookingDate = date.extractDate(date.formatDate(this.helpers.date, 'YYYY-MM-DD'), 'YYYY-MM-DD')
       const from = date.addToDate(bookingDate, { hours: this.helpers.time.from })
       const to = (this.helpers.time.to !== 0 && this.helpers.time.to !== 24)
@@ -272,7 +270,6 @@ export default {
       this.newBooking.studio.id = this.$app.studios.studio
       this.newBooking.studio.name = this.$app.studios.selectedStudioLabel
       this.$app.bookings.calendarList.push(this.newBooking)
-      console.log(888, this.$app.bookings.calendarList)
     }
   },
   props: ['date', 'time', 'studio']

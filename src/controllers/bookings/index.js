@@ -10,7 +10,8 @@ export default {
         one: false
       },
       list: [],
-      calendarList: []
+      calendarList: [],
+      calendarOneDayOneRoom: []
     }
   },
   created () {
@@ -28,19 +29,29 @@ export default {
         }))
       }
       return arr
+    },
+    calendarGetFreeTimeForRoom () {
+      // this.calendarOneDayOneRoom
     }
   },
   methods: {
-    async getForCalendar (studio, dateFrom, dateTo) {
+    async getForCalendar (studio, dateFrom, dateTo, rooms = []) {
       this.loading.list = true
-      const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo })
+      const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo, rooms })
       console.log('bookings :: getForCalendar', res)
       if (res) {
         this.calendarList = res.data.items
         this.loading.list = false
       }
     },
-
+    setCalendarOneDayOneRoom (selectedDate, roomName) {
+      this.calendarOneDayOneRoom = this.calendarList.filter((item) => {
+        if (item.room.name === roomName &&
+          this.$moment.parseZone(item.reservedFrom).format('YYYY-MM-DD') === selectedDate) {
+          return true
+        }
+      })
+    },
     async getAll (page) {
       this.loading.list = true
       const { data } = await api.bookings.getAll(page)
@@ -52,6 +63,13 @@ export default {
       }
 
       return data
+    },
+    calendarGetObjById (id) {
+      return this.calendarList.find(item => item.id === id) || {}
+    },
+    calendarGetIndexById (id) {
+      console.log(id, this.list)
+      return this.calendarList.findIndex(item => item.id === id)
     },
   },
   watch: {

@@ -51,7 +51,7 @@
             q-card-section
               calendar-date(
                 @dateChange="helpers.date = $event"
-                :date="this.helpers.date"
+                :date="helpers.date"
               )
         q-expansion-item(
           group="new-event"
@@ -66,8 +66,8 @@
             q-card-section
               calendar-time(
                 @timeChange="helpers.time = $event"
-                :startTime="this.helpers.time.from"
-                :endTime="this.helpers.time.to"
+                :startTime="helpers.time.from"
+                :endTime="helpers.time.to"
               )
         q-expansion-item(
           group="new-event"
@@ -82,7 +82,7 @@
             q-card-section
               calendar-event(
                 @eventChange="newBooking.eventType = $event"
-                :startEvent="this.newBooking.eventType"
+                :startEvent="newBooking.eventType"
               )
         q-expansion-item(
           group="new-event"
@@ -97,7 +97,7 @@
             q-card-section
               calendar-extras(
                 @extrasChange="newBooking.extras = $event"
-                :startExtras="this.newBooking.extras"
+                :startExtras="newBooking.extras"
               )
         q-expansion-item(
           group="new-event"
@@ -112,7 +112,7 @@
             q-card-section
               calendar-members(
                 @membersChange="newBooking.members = $event"
-                :startMembers="this.newBooking.members"
+                :startMembers="newBooking.members"
               )
         q-expansion-item(
           group="new-event"
@@ -229,7 +229,6 @@ export default {
         to: hTo
       }
     })
-    console.log(this.newBooking.id, this.newBooking, this.helpers)
   },
   computed: {
     fee () {
@@ -291,7 +290,10 @@ export default {
       this.newBooking.reservedTo = this.reservedTime.to
       this.newBooking.studio.id = this.$app.studios.studio
       this.newBooking.studio.name = this.$app.studios.selectedStudioLabel
-      console.log(this.newBooking)
+      const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
+      console.log(9, this.newBooking.id, index)
+      this.$app.bookings.calendarList[index] =
+        Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
     }
   },
   props: ['booking']

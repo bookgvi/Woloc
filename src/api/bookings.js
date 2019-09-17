@@ -12,16 +12,15 @@ export default {
       console.warn('catch :: bookings :: getAll', e)
     }
   },
-
   getForCalendar: async (payload) => {
-    const { studio, dateFrom, dateTo } = payload
+    const { studio, dateFrom, dateTo, rooms = [] } = payload
     try {
       const r = await api.get(`${API_URL}/calendar`, {
-        params: { studio, dateFrom, dateTo }
+        params: { studio, dateFrom, dateTo, rooms }
       })
       return r.data
     } catch (e) {
       console.warn('catch :: bookings :: getForCalendar', e)
     }
-  }
+  },
 }
