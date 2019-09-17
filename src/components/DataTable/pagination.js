@@ -4,7 +4,6 @@ export default {
       const { page, rowsPerPage } = pagination
       const { items, total } = await this.controller.getAll({ number: page, size: rowsPerPage })
       this.data = items
-
       Object.assign(this.pagination, pagination, { rowsNumber: total })
     },
     setPagination (prop, value) {
