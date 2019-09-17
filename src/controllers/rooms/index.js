@@ -39,10 +39,17 @@ export default {
       const res = await api.rooms.getAll()
       console.log('rooms :: getAll', res)
       if (res) {
-        console.log(res)
         this.list = res.data
         this.loading.list = false
       }
+    },
+    getAvailable (filter) {
+      const studio = this.$app.studios.getFiltered(filter)
+
+      return studio ? studio.rooms : []
+    },
+    getFiltered (filter) {
+      return this.getAvailable(filter).filter(({ id }) => (filter.rooms || []).includes(id))
     },
   },
   watch: {

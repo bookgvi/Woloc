@@ -2,7 +2,7 @@
   DataTable(
     :columns="columns"
     :details="details"
-    :controller="$app.documents"
+    :loadData="$app.documents.getAll"
   )
     template(#row-controls="props")
       q-btn(flat icon-right="get_app" title="Скачать" @click="handle(props.row.file)")

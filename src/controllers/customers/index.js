@@ -36,9 +36,9 @@ export default {
     }
   },
   methods: {
-    async getAll (page) {
+    async getAll (page, filter) {
       this.loading.list = true
-      const { data } = await api.customers.getAll(page)
+      const { data } = await api.customers.getAll(page, filter)
       console.log('customers :: getAll', data)
       if (data) {
         this.list = data.items.filter(customer => customer.lastName.length > 0)

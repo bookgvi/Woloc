@@ -37,7 +37,6 @@ export default {
       const res = await api.extras.getAll()
       console.log('extras :: getAll', res)
       if (res) {
-        console.log(res)
         this.list = res.data
         this.loading.list = false
       }
