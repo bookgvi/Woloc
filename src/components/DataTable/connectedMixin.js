@@ -1,6 +1,6 @@
 export default {
   props: {
-    getData: Function,
+    loadData: Function,
     filter: Object
   },
   watch: {
@@ -11,7 +11,7 @@ export default {
   methods: {
     async onRequest (pagination, filter) {
       const { page, rowsPerPage } = pagination
-      const { items, total } = await this.getData({ number: page, size: rowsPerPage }, filter)
+      const { items, total } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       this.data = items
 
       Object.assign(this.pagination, pagination, { rowsNumber: total })

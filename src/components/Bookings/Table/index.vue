@@ -2,7 +2,7 @@
   data-table(
     title="Бронирования"
     :getDialogTitle="(row) => `Бронь ${row.id}`"
-    :getData="$app.bookings.getAll"
+    :loadData="$app.bookings.getAll"
     :filter="$app.filters.values.bookings"
     :columns="columns"
     :details="details"

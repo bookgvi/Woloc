@@ -2,7 +2,7 @@
   DataTable(
     title="Пользователи"
     :getDialogTitle="() => 'Личные данные'"
-    :getData="$app.customers.getAll"
+    :loadData="$app.customers.getAll"
     :filter="$app.filters.values.customers"
     :columns="columns"
     :details="details"
