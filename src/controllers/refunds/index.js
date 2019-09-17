@@ -20,9 +20,9 @@ export default {
     }
   },
   methods: {
-    async getAll (page) {
+    async getAll (page, filter) {
       this.loading.list = true
-      const { data } = await api.refunds.getAll(page)
+      const { data } = await api.refunds.getAll(page, filter)
       console.log('refunds :: getAll', data)
       if (data) {
         this.list = data.items

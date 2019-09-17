@@ -66,12 +66,13 @@ export default {
       if (active) classNames.push('active')
       if (classes) classNames.push(classes)
       if (__tdClass) classNames.push(__tdClass)
+
       return {
         class: classNames,
         style
       }
     }
-  }
+  },
 }
 </script>
 

@@ -2,7 +2,7 @@
   .wrapper
     .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
-        h6.wrap-md.text-weight-bold {{ $app.studios.selectedStudioLabel }} {{ month }}
+        h6.wrap-md.text-weight-bold {{ selectedStudioLabel }} {{ month }}
       q-space
       .justify-end.items-center
         .row.justify-end.q-px-none.q-gutter-sm
@@ -110,6 +110,10 @@ const formDefault = () => ({
 export default {
   name: 'CalendarSheet',
   components: { FirstColumn, UpdateEventDialog, NewEventDialog },
+  props: {
+    filter: Object,
+    bookings: Array
+  },
   data () {
     return {
       range: {
@@ -139,6 +143,11 @@ export default {
       this.timelinePos(), 1000 * 60)
   },
   computed: {
+    selectedStudioLabel () {
+      const studio = this.$app.studios.getFiltered(this.filter)
+
+      return studio ? studio.name : ''
+    },
     studio () {
       return this.$app.studios.studio
     },
@@ -146,20 +155,19 @@ export default {
       return date.formatDate(this.selectedDate, 'MMMM YYYY')
     },
     rooms () {
-      if (this.$app.studios.list.length === 0) return []
-      const arr = this.$app.studios.getFilteredRoomsByStudio(this.studio).map((item, index) => {
-        const room = Object.assign({}, {
-          name: item.name,
-          color: roomsColors[index].color
-        })
-        return room
-      })
-      return arr
+      return this.$app.rooms.getFiltered(this.filter)
     }
   },
   methods: {
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
+    },
+    async loadData () {
+      await this.$app.bookings.getForCalendar({
+        ...this.filter,
+        dateFrom: this.range.from,
+        dateTo: this.range.to
+      })
     },
     async placeEvents () {
       const day = +date.formatDate(this.selectedDate, 'E') - 1
@@ -168,7 +176,7 @@ export default {
         from: date.formatDate(start, 'YYYY-MM-DD'),
         to: date.formatDate(date.addToDate(start, { days: 6 }), 'YYYY-MM-DD')
       })
-      await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
+      await this.loadData()
     },
     resetForm () {
       this.$set(this, 'eventForm', formDefault())
@@ -195,9 +203,8 @@ export default {
       const hours = this.$moment.parseZone(timestamp).format('HH') !== '00' ? this.$moment.parseZone(timestamp).format(mask) : 24
       return hours
     },
-    setColor (room) {
-      const color = this.rooms.find(item => item.name === room).color
-      return color
+    getColor ({ room: { id } }) {
+      return roomsColors[id % roomsColors.length].color
     },
     setIcon (action) {
       const icon = icons[action].icon
@@ -238,38 +245,36 @@ export default {
     },
   },
   watch: {
-    '$app.bookings.calendarList' (v) {
-      // console.log('watch $app.bookings.calendarList', v)
+    bookings (v) {
+      // console.log('watch bookings', v)
       this.$nextTick(function () {
         let allEvents = []
         let bookings = []
         v.map((booking) => {
-          if (this.$app.studios.checkedRooms.indexOf(booking.room.id) !== -1) {
-            const diff = date.getDateDiff(
-              dtFormat(booking.reservedTo),
-              dtFormat(booking.reservedFrom),
-              'minutes'
-            )
-            const event = {
-              title: booking.customer.firstName,
-              details: `${booking.amount}/${booking.price}`,
-              date: this.getDate(booking.reservedFrom),
-              time: this.getTime(booking.reservedFrom),
-              duration: diff,
-              bgcolor: this.setColor(booking.room.name),
-              icon: this.setIcon(booking.eventType),
-              devInfo: {
-                time: {
-                  from: +this.getTime(booking.reservedFrom, 'H'),
-                  to: +this.getTime(booking.reservedTo, 'H')
-                },
-                room: booking.room.name
+          const diff = date.getDateDiff(
+            dtFormat(booking.reservedTo),
+            dtFormat(booking.reservedFrom),
+            'minutes'
+          )
+          const event = {
+            title: booking.customer.firstName,
+            details: `${booking.amount}/${booking.price}`,
+            date: this.getDate(booking.reservedFrom),
+            time: this.getTime(booking.reservedFrom),
+            duration: diff,
+            bgcolor: this.getColor(booking),
+            icon: this.setIcon(booking.eventType),
+            devInfo: {
+              time: {
+                from: +this.getTime(booking.reservedFrom, 'H'),
+                to: +this.getTime(booking.reservedTo, 'H')
               },
-              posx: 0,
-              countInRow: 1
-            }
-            bookings.push(event)
+              room: booking.room.name
+            },
+            posx: 0,
+            countInRow: 1
           }
+          bookings.push(event)
         })
         const setPositionOfEvents = (dt) => {
           const roomsAmount = this.rooms.length
@@ -353,14 +358,10 @@ export default {
         this.events = allEvents
       })
     },
-    async 'studio' (v) {
-      // await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
-    },
-    async '$app.studios.checkedRooms' (v) {
-      await this.$app.bookings.getForCalendar(this.studio, this.range.from, this.range.to)
+    async filter (v) {
+      await this.loadData()
     },
     selectedDate (v) {
-      // console.log('watch selectedDate', v)
       this.placeEvents()
     }
   }
