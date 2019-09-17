@@ -11,17 +11,20 @@
         datas
         specifications
         images
+        addressBlock
 </template>
 
 <script>
 import datas from './datas'
 import specifications from './specifications'
 import images from './images'
+import addressBlock from './address'
 export default {
   components: {
     datas,
     specifications,
-    images
+    images,
+    addressBlock
   }
 }
 </script>
