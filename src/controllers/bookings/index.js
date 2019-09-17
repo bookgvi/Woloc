@@ -41,9 +41,9 @@ export default {
       }
     },
 
-    async getAll (page) {
+    async getAll (page, filter) {
       this.loading.list = true
-      const { data } = await api.bookings.getAll(page)
+      const { data } = await api.bookings.getAll(page, filter)
       console.log('bookings :: getAll', data)
       if (data) {
         this.list = data.items

@@ -1,13 +1,14 @@
 <template lang="pug">
-  DataTable(
+  data-table(
     title="Бронирования"
     :getDialogTitle="(row) => `Бронь ${row.id}`"
-    :controller="$app.bookings"
+    :getData="$app.bookings.getAll"
+    :filter="$app.filters.values.bookings"
     :columns="columns"
     :details="details"
   )
     template(#row-dialog="props")
-      BookingsDialog(v-bind="props")
+      bookings-dialog(v-bind="props")
 
     template(#row-controls="props")
       q-btn(flat round icon="comment" title="Открыть чат")
@@ -24,7 +25,7 @@ import DataTable from '../../DataTable'
 import BookingsDialog from './BookingsDialog'
 
 export default {
-  name: 'BookingsTable',
+  name: 'bookings-table',
   components: { DataTable, BookingsDialog },
   data: () => ({
     columns,
@@ -33,6 +34,3 @@ export default {
 
 }
 </script>
-
-<style scoped>
-</style>

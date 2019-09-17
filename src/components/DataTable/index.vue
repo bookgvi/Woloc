@@ -48,19 +48,18 @@
 import Menu from '../Menu'
 import TableControls from './TableControls'
 import TableRow from './TableRow'
-import pagination from './pagination'
+import connected from './connectedMixin'
 import RowDialog from './RowDialog'
 
 export default {
   name: 'DataTable',
   components: { RowDialog, Menu, TableControls, TableRow },
-  mixins: [pagination],
+  mixins: [connected],
   props: {
     title: String,
     getDialogTitle: Function,
     columns: Array,
     details: Array,
-    controller: Object,
     activeColumns: Array,
     isRowDisabled: Function,
   },

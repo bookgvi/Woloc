@@ -3,6 +3,9 @@ export default {
   data () {
     return {
       values: {
+        bookings: {
+          studio: 37
+        }
       }
     }
   },
