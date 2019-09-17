@@ -58,7 +58,7 @@ export default {
         lat: '37.718857',
         long: '55.786516'
       },
-      locationURL: 'https://static-maps.yandex.ru/1.x/?ll=' + this.coord.lat + ',' + this.coord.long + '&size=450,450&z=16&l=map&pt=' + this.coord.lat + ',' + this.coord.long + ',pmwtm1~' + this.coord.lat + ',' + this.coord.long + ',pmwtm',
+      locationURL: '',
       options: {
         token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
         yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
@@ -107,9 +107,8 @@ export default {
         .then(resp => {
           this.coord.lat = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
           this.coord.long = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
-          console.log(this.coord)
+          this.locationURL = `https://static-maps.yandex.ru/1.x/?ll=${this.coord.lat},${this.coord.long}&size=450,450&z=16&l=map&pt=${this.coord.lat},${this.coord.long},pmwtm1~${this.coord.lat},${this.coord.long},pmwtm`
         })
-      this.locationURL = `https://static-maps.yandex.ru/1.x/?ll=${this.coord.lat},${this.coord.long}&size=450,450&z=16&l=map&pt=${this.coord.lat},${this.coord.long},pmwtm1~${this.coord.lat},${this.coord.long},pmwtm`
     },
     emptyFilter (val, update) {
       update(() => {})
