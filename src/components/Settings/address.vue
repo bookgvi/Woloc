@@ -6,7 +6,7 @@
         q-select(
           v-model="fullAddress"
           :options="fullAddressArr"
-          @focus.native="handleFocus($event)"
+          @input.native="getFullAddress($event)"
           @filter="emptyFilter"
           use-input
           fill-input
@@ -18,6 +18,7 @@
             q-item
               q-item-section.text-grey No results
     .row.q-pb-lg
+      q-btn(label="Показать на карте" @click="showOnMap")
       q-img(:src="locationURL")
 </template>
 
@@ -33,7 +34,7 @@ export default {
         lat: '37.718857',
         long: '55.786516'
       },
-      locationURL: '',
+      locationURL: `https://geocode-maps.yandex.ru/1.x/?apikey=${this.options.yAPI}&format=json&geocode=${this.fullAddress}`,
       options: {
         token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
         yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
@@ -41,9 +42,6 @@ export default {
     }
   },
   methods: {
-    handleFocus (e) {
-      e.addEventListener('keyUp', this.getFullAddress)
-    },
     async getFullAddress (e) {
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
         count: 5,
@@ -57,6 +55,8 @@ export default {
           return `${item.value}`
         })
       })
+    },
+    async showOnMap () {
       await axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${this.options.yAPI}&format=json&geocode=${this.fullAddress}`)
         .then(resp => {
           this.coord.lat = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
