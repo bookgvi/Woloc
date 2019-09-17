@@ -2,6 +2,19 @@
   .address-class
     h6.q-mb-md Адрес
     .row.q-pb-lg
+      .col
+        q-select(
+          v-model="fullAddress"
+          :options=
+          @input.native="getFullAddress($event)"
+          @filter="emptyFilter"
+          use-input
+          fill-input
+          hide-selected
+          outlined
+          dense
+        )
+    .row.q-pb-lg
       .col.q-pr-sm
         span Country
         q-input(outlined, dense, disable, label="Россия")
@@ -50,6 +63,8 @@ export default {
   // name: 'ComponentName',
   data () {
     return {
+      fullAddress: '',
+      fullAddr: '',
       city: 'Москва',
       cityArr: [],
       address: 'ул Ткацкая, д 1',
@@ -94,6 +109,26 @@ export default {
           city: this.city
         }],
         restrict_value: true
+      }, {
+        headers: {
+          Authorization: `Token ${this.options.token}`
+        }
+      }).then(resp => {
+        this.addressArr = resp.data.suggestions.map(item => {
+          return `${item.value}`
+        })
+      })
+      await axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${this.options.yAPI}&format=json&geocode=${this.city},${this.address}`)
+        .then(resp => {
+          this.coord.lat = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
+          this.coord.long = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
+          this.locationURL = `https://static-maps.yandex.ru/1.x/?ll=${this.coord.lat},${this.coord.long}&size=450,450&z=16&l=map&pt=${this.coord.lat},${this.coord.long},pmwtm1~${this.coord.lat},${this.coord.long},pmwtm`
+        })
+    },
+    async getFullAddress (e) {
+      await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
+        count: 5,
+        query: e.target.value,
       }, {
         headers: {
           Authorization: `Token ${this.options.token}`
