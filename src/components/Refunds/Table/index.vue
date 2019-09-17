@@ -2,7 +2,7 @@
 
   DataTable(
     title="Возврат"
-    :controller="$app.refunds"
+    :getData="$app.refunds.getAll"
     :getDialogTitle="() => 'Возврат'"
     :columns="columns"
     :details="details"
