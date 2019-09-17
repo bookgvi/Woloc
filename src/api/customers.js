@@ -17,7 +17,7 @@ export default {
       const r = await api.get(`${API_URL}/customers`, {
         params: { search }
       })
-      console.log(r)
+
       return r.data
     } catch (e) {
       console.warn('catch :: customers :: getSearchedCustomers', e)

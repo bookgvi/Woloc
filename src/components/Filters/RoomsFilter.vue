@@ -27,10 +27,7 @@ export default {
       return `Залы ${this.value.length || ''}`
     },
     models () {
-      const studios = this.$app.studios.list
-      const studio = studios.find(({ id }) => id === this.values.studio)
-
-      return studio ? studio.rooms : []
+      return this.$app.rooms.getAvailable(this.values)
     }
   }
 }

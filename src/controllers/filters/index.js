@@ -5,6 +5,9 @@ export default {
       values: {
         bookings: {
           studio: 37
+        },
+        calendar: {
+          studio: 37
         }
       }
     }

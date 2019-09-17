@@ -28,7 +28,7 @@ export default {
       return this.$app.studios.list
     },
     buttonTitle () {
-      const studio = this.models.find(({ id }) => id === this.value)
+      const studio = this.$app.studios.getFiltered(this.values)
 
       return studio ? studio.name : 'Студия'
     },

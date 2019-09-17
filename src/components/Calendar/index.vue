@@ -1,16 +1,26 @@
 <template lang="pug">
   .calendar
-    CalendarMenu
-    CalendarSheet
+    filters-list(
+      name="calendar"
+      v-slot:default="props"
+    )
+      studio-filter(v-bind="props")
+      rooms-filter(v-bind="props")
+    CalendarSheet(
+      :filter="$app.filters.values.calendar"
+      :bookings="$app.bookings.calendarList"
+    )
 </template>
 
 <script>
-import CalendarMenu from '../Menu'
 import CalendarSheet from './Sheet'
+import FiltersList from '../Filters/FiltersList'
+import StudioFilter from '../Filters/StudioFilter'
+import RoomsFilter from '../Filters/RoomsFilter'
 
 export default {
   name: 'Calendar',
-  components: { CalendarMenu, CalendarSheet }
+  components: { FiltersList, RoomsFilter, StudioFilter, CalendarSheet }
 }
 </script>
 

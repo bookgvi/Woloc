@@ -5,7 +5,6 @@ export default {
   },
   watch: {
     filter (filter) {
-      console.log('watch', filter)
       this.onRequest(this.pagination, filter)
     }
   },

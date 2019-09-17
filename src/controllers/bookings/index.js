@@ -31,9 +31,9 @@ export default {
     }
   },
   methods: {
-    async getForCalendar (studio, dateFrom, dateTo) {
+    async getForCalendar (filter) {
       this.loading.list = true
-      const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo })
+      const res = await api.bookings.getForCalendar(filter)
       console.log('bookings :: getForCalendar', res)
       if (res) {
         this.calendarList = res.data.items
