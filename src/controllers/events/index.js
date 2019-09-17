@@ -37,7 +37,6 @@ export default {
       const res = await api.events.getAll()
       console.log('events :: getAll', res)
       if (res) {
-        console.log(res)
         this.list = res.data
         this.loading.list = false
       }

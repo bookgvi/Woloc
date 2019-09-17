@@ -10,13 +10,10 @@ export default {
         one: false
       },
       list: [],
-      studio: 371,
-      checkedRooms: []
     }
   },
   async created () {
     await this.getAll()
-    this.checkedRooms = this.getRoomsByStudio(this.studio).map(room => room.id)
   },
   computed: {
     all () {
@@ -31,13 +28,6 @@ export default {
         }))
       }
       return arr
-    },
-    selectedStudioLabel () {
-      if (this.list.length !== 0) {
-        return this.all.find(item => item.id === this.studio).name
-      } else {
-        return 'Студия'
-      }
     }
   },
   methods: {
@@ -54,28 +44,11 @@ export default {
         })
       }
     },
-    getRoomsByStudio (id) {
-      return this.list.find(studio => studio.id === id).rooms || []
-    },
-    getFilteredRoomsByStudio (id) {
-      const rooms = this.list.find(studio => studio.id === id).rooms || []
-      const arr = rooms.filter(item => this.checkedRooms.indexOf(item.id) !== -1)
-      return arr
+    getFiltered (filter) {
+      return this.list.find(({ id }) => id === filter.studio)
     },
   },
   watch: {
-    studio (v) {
-      if (v) {
-        this.checkedRooms = this.getRoomsByStudio(v).map(i => i.id)
-        console.log('watch studio checkedRoom', this.checkedRooms)
-      }
-    },
-    list (v) {
-      if (this.studio) {
-        this.checkedRooms = this.getRoomsByStudio(this.studio).map(i => i.id)
-        console.log('watch list checkedRoom', this.checkedRooms)
-      }
-    },
     'loading.list' (v) {
       if (v) {
         this.$q.loading.show()

@@ -34,7 +34,7 @@
             q-card-section
               calendar-room(
                 @roomChange="newBooking.room = $event"
-                :studio="studio"
+                :filter="filter"
                 )
         q-expansion-item(
           group="new-event"
@@ -211,6 +211,10 @@ export default {
     }
   },
   computed: {
+    selectedStudioLabel () {
+      const studio = this.$app.studios.getFiltered(this.filter)
+      return studio ? studio.name : ''
+    },
     fee () {
       const duration = this.helpers.time.to - this.helpers.time.from
       const price = 1200 - this.newBooking.eventType.length * 10
@@ -265,14 +269,15 @@ export default {
   },
   methods: {
     applyBooking () {
+      console.log(this.newBooking, this.filter)
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
-      this.newBooking.studio.id = this.$app.studios.studio
-      this.newBooking.studio.name = this.$app.studios.selectedStudioLabel
+      this.newBooking.studio.id = this.filter.studio
+      this.newBooking.studio.name = this.selectedStudioLabel
       this.$app.bookings.calendarList.push(this.newBooking)
     }
   },
-  props: ['date', 'time', 'studio']
+  props: ['date', 'time', 'filter']
 }
 </script>
 

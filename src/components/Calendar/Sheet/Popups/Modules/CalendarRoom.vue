@@ -26,11 +26,11 @@ export default {
     },
     selectedRoom () {
       if (!this.room) return {}
-      return this.$app.studios.getRoomsByStudio(this.studio).find(item => item.name === this.room)
+      return this.$app.rooms.getAvailable(this.filter).find(item => item.name === this.room)
     },
     rooms () {
-      if (this.$app.studios.list.length === 0) return []
-      const arr = this.$app.studios.getRoomsByStudio(this.studio).map((item, index) => {
+      if (this.$app.rooms.getAvailable(this.filter).length === 0) return []
+      const arr = this.$app.rooms.getAvailable(this.filter).map((item, index) => {
         const room = Object.assign({}, {
           id: item.id,
           value: item.name,
@@ -47,7 +47,7 @@ export default {
       this.$emit('roomChange', this.selectedRoom)
     }
   },
-  props: ['studio', 'startRoom']
+  props: ['filter', 'startRoom']
 }
 </script>
 

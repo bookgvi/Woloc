@@ -35,7 +35,7 @@
             q-card-section
               calendar-room(
                 @roomChange="newBooking.room = $event"
-                :studio="newBooking.studio.id"
+                :filter="filter"
                 :startRoom="newBooking.room.name"
               )
         q-expansion-item(
@@ -286,17 +286,18 @@ export default {
   },
   methods: {
     applyBooking () {
+      console.log(this.newBooking, this.filter)
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
-      this.newBooking.studio.id = this.$app.studios.studio
-      this.newBooking.studio.name = this.$app.studios.selectedStudioLabel
+      this.newBooking.studio.id = this.filter.studio
+      this.newBooking.studio.name = this.selectedStudioLabel
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
       console.log(9, this.newBooking.id, index)
       this.$app.bookings.calendarList[index] =
         Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
     }
   },
-  props: ['booking']
+  props: ['booking', 'filter']
 }
 </script>
 
