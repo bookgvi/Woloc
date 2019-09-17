@@ -67,7 +67,7 @@ export default {
       if (classes) classNames.push(classes)
       if (__tdClass) classNames.push(__tdClass)
 
-      console.log(classNames)
+      // console.log(classNames)
 
       return {
         class: classNames,
