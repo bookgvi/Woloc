@@ -17,10 +17,12 @@ import CalendarSheet from './Sheet'
 import FiltersList from '../Filters/FiltersList'
 import StudioFilter from '../Filters/StudioFilter'
 import RoomsFilter from '../Filters/RoomsFilter'
+import EventFilter from '../Filters/EventFilter'
+import PriceFilter from '../Filters/PriceFilter'
 
 export default {
   name: 'Calendar',
-  components: { FiltersList, RoomsFilter, StudioFilter, CalendarSheet }
+  components: { FiltersList, RoomsFilter, StudioFilter, EventFilter, PriceFilter, CalendarSheet }
 }
 </script>
 
