@@ -23,7 +23,7 @@ export default {
       return this.extrasChange()
     },
     options () {
-      return sortBy(this.$app.extras.list, 'name').map(({ name, price }) => ({
+      return sortBy(this.$app.extras.list, ['name']).map(({ name, price }) => ({
         label: name,
         value: name,
         price: price,

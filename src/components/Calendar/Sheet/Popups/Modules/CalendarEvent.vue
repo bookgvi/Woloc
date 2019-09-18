@@ -23,7 +23,7 @@ export default {
       return this.eventChange()
     },
     options () {
-      return sortBy(this.$app.events.list, 'name').map(({ alias, price }) => ({
+      return sortBy(this.$app.events.list, ['name']).map(({ alias, price }) => ({
         label: alias,
         value: alias,
         price,
