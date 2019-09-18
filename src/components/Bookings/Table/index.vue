@@ -1,11 +1,12 @@
 <template lang="pug">
   data-table(
     title="Бронирования"
-    :getDialogTitle="(row) => `Бронь ${row.id}`"
+    :getDialogTitle="({ id }) => `Бронь ${id}`"
     :loadData="$app.bookings.getAll"
-    :filter="$app.filters.values.bookings"
+    :filter="$app.filters.getValues('bookings')"
     :columns="columns"
     :details="details"
+    :isRowDisabled="({ status }) => status === disabledStatus"
   )
     template(#row-dialog="props")
       bookings-dialog(v-bind="props")
@@ -21,15 +22,17 @@
 <script>
 import columns from './columns'
 import details from './details'
-import DataTable from '../../DataTable'
+import DataTable from 'components/DataTable'
 import BookingsDialog from './BookingsDialog'
+import { BOOKING_STATUSES } from 'src/common/constants'
 
 export default {
   name: 'bookings-table',
   components: { DataTable, BookingsDialog },
   data: () => ({
     columns,
-    details
+    details,
+    disabledStatus: BOOKING_STATUSES.CANCELED
   })
 
 }
