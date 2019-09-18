@@ -2,12 +2,16 @@
 
   DataTable(
     title="Финансы"
-    :controller="$app.finances"
+    :loadData="$app.finances.getAll"
     :getDialogTitle="() => 'Финансы'"
     :columns="columns"
     :details="details"
     :isRowDisabled="({ status }) => !status"
   )
+    template(#row-controls)
+      q-btn(flat round icon="block")
+      q-btn(flat round icon="thumb_up")
+
 </template>
 
 <script>

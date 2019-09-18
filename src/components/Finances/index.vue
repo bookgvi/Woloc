@@ -1,7 +1,7 @@
 <template lang="pug">
   .finances
     filters-list(
-      name="finance"
+      name="finances"
       v-slot:default="props"
     )
       studio-filter(v-bind="props")
@@ -10,17 +10,17 @@
 </template>
 
 <script>
-import StudioFilter from 'components/Filters/StudioFilter'
-import FiltersList from 'components/Filters/FiltersList'
-import RoomsFilter from 'components/Filters/RoomsFilter'
 import FinancesTable from './Table/index'
+import StudioFilter from '../Filters/StudioFilter'
+import RoomsFilter from '../Filters/RoomsFilter'
+import FiltersList from '../Filters/FiltersList'
 export default {
   name: 'RefundsIndex',
   components: {
-    StudioFilter,
-    RoomsFilter,
     FiltersList,
-    FinancesTable
+    RoomsFilter,
+    StudioFilter,
+    FinancesTable,
   }
 }
 </script>
