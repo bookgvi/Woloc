@@ -87,7 +87,8 @@ export default {
     // TODO: get color from API
     getRoomStyle ({ id }) {
       if (!(id in usedColors)) {
-        usedColors[id] = roomsColors[Object.keys(usedColors).length]
+        const i = Object.keys(usedColors).length
+        usedColors[id] = roomsColors[i < roomsColors.length ? i : 0]
       }
 
       return {

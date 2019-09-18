@@ -7,12 +7,21 @@
     :disabled="disabled"
   )
     q-popup-proxy(ref="QPopupProxy")
-      q-option-group.text-body2.q-pa-md(
+      slot
+
+      q-option-group.text-body2.q-px-md.q-pt-md(
         color="black"
         :type="type"
         :options="listOptions"
         v-model="currentValue"
       )
+      .text-body2.q-px-md
+        q-checkbox(
+          v-if="selectAllLabel"
+          :label="selectAllLabel"
+          :value="selectAllState"
+          @input="toggleSelectAll"
+        )
       q-btn-group.q-pa-md(outline)
         q-btn.q-mr-md(
           label="Отменить"
@@ -44,6 +53,7 @@ export default {
   },
   props: {
     title: String,
+    selectAllLabel: String,
     models: Array,
     options: Array,
     type: {
@@ -65,6 +75,14 @@ export default {
     },
     disabled () {
       return !this.listOptions.length
+    },
+    selectAllState () {
+      const { length } = this.currentValue
+
+      if (!length) return false
+      if (length === this.listOptions.length) return true
+
+      return null
     }
   },
   methods: {
@@ -82,6 +100,11 @@ export default {
       this.currentValue = this.value
       this.hidePopup()
     },
+    toggleSelectAll (selected) {
+      this.currentValue = selected
+        ? this.listOptions.map(({ value }) => value)
+        : []
+    }
   }
 }
 </script>
