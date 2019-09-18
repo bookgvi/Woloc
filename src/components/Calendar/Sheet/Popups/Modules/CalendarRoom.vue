@@ -20,16 +20,11 @@ export default {
       return this.roomChange()
     },
     rooms () {
-      if (this.$app.studios.list.length === 0) return []
-      const arr = this.$app.studios.getRoomsByStudio(this.studio).map((item, index) => {
-        const room = Object.assign({}, {
-          value: item.name,
-          label: item.name,
-          color: roomsColors[index].color
-        })
-        return room
-      })
-      return arr
+      return this.studio.rooms.map(({ name }, index) => ({
+        value: name,
+        label: name,
+        color: roomsColors[index].color
+      }))
     }
   },
   methods: {

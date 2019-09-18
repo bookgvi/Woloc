@@ -20,15 +20,21 @@ export default {
     },
     onChange: Function,
   },
+  async created () {
+    await this.controller.getAll()
+  },
   computed: {
+    controller () {
+      return this.$app.studios
+    },
     value () {
       return this.values.studio
     },
     models () {
-      return this.$app.studios.list
+      return this.controller.list
     },
     buttonTitle () {
-      const studio = this.$app.studios.getFiltered(this.values)
+      const studio = this.controller.getFiltered(this.values)
 
       return studio ? studio.name : 'Студия'
     },

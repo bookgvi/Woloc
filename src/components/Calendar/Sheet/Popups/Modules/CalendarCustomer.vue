@@ -59,7 +59,7 @@ export default {
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.$app.customers.forCalendar(needle)
+        this.$app.customers.getForCalendar(needle)
       })
     }
   }
