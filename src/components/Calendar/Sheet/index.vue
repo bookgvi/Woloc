@@ -151,12 +151,10 @@ export default {
   },
   computed: {
     selectedStudioLabel () {
-      const studio = this.$app.studios.getFiltered(this.filter)
-
-      return studio ? studio.name : ''
+      return this.studio ? this.studio.name : ''
     },
     studio () {
-      return this.$app.studios.studio
+      return this.$app.studios.getFiltered(this.filter)
     },
     month () {
       return date.formatDate(this.selectedDate, 'MMMM YYYY')
