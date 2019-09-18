@@ -7,7 +7,7 @@
       studio-filter(v-bind="props")
       rooms-filter(v-bind="props")
     CalendarSheet(
-      :filter="$app.filters.values.calendar"
+      :filter="$app.filters.getValues('calendar')"
       :bookings="$app.bookings.calendarList"
     )
 </template>

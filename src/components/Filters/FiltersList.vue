@@ -8,13 +8,13 @@
           :onChange="onChange"
         )
         q-space
-        q-btn(
-          size="sm"
+        q-btn.q-py-none.q-px-sm(
           outline
-          color="secondary"
           no-caps
           label="Сбросить все"
           dense
+          :disable="isNotFiltered"
+          @click="onReset"
         )
     q-separator
 </template>
@@ -27,12 +27,18 @@ export default {
   },
   computed: {
     values () {
-      return this.$app.filters.values[this.name] || {}
+      return this.$app.filters.getValues(this.name)
+    },
+    isNotFiltered () {
+      return !Object.values(this.values).length
     }
   },
   methods: {
     onChange (name, value) {
       this.$app.filters.setValue(this.name, name, value)
+    },
+    onReset () {
+      this.$app.filters.reset(this.name)
     }
   }
 }

@@ -1,5 +1,5 @@
 import { date } from 'quasar'
-import eventTypes from 'src/common/eventTypes'
+import { EVENT_TYPES } from 'src/common/constants'
 
 export default [
   {
@@ -24,7 +24,7 @@ export default [
     name: 'eventType',
     label: 'Цель',
     field: 'eventType',
-    format: (value) => value && eventTypes[value],
+    format: (value) => value && EVENT_TYPES[value],
     width: 50,
   },
   {
@@ -35,6 +35,7 @@ export default [
   },
   {
     name: 'isPaid',
+    field: 'status',
     width: 10,
   },
   {
