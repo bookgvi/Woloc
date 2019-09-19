@@ -64,8 +64,6 @@ export default {
       },
     }
   },
-  created: async function () {
-  },
   computed: {
     priceComp () {
       return this.priceChange()
@@ -95,19 +93,7 @@ export default {
       this.discount = -this.discount
     },
   },
-  props: ['extras', 'fee'],
-  watch: {
-    'fee' (v) {
-      console.log(v)
-      this.event = Object.assign({
-        name: v.name,
-        value: v.value
-      })
-    },
-    'extras' (v) {
-      console.log(v)
-    }
-  }
+  props: ['extras', 'fee']
 }
 </script>
 

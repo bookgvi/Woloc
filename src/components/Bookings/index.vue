@@ -1,17 +1,26 @@
 <template lang="pug">
   .bookings
-    Filters
-    BookingsTable
+    filters-list(
+      name="bookings"
+      v-slot:default="props"
+    )
+      studio-filter(v-bind="props")
+      rooms-filter(v-bind="props")
+      status-filter(v-bind="props")
+    bookings-table
 
 </template>
 
 <script>
-import BookingsTable from './Table/index'
-import Filters from '../Menu/index'
+import StudioFilter from 'components/Filters/StudioFilter'
+import FiltersList from 'components/Filters/FiltersList'
+import RoomsFilter from 'components/Filters/RoomsFilter'
+import BookingsTable from './Table'
+import StatusFilter from '../Filters/StatusFilter'
 
 export default {
   name: 'Calendar',
-  components: { Filters, BookingsTable }
+  components: { StatusFilter, StudioFilter, RoomsFilter, FiltersList, BookingsTable }
 }
 </script>
 

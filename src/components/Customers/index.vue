@@ -1,16 +1,20 @@
 <template lang="pug">
   .customers
-    Menu
-    CustomersTable
-
+    filters-list(
+      name="customers"
+      v-slot:default="props"
+    )
+      rating-filter(v-bind="props")
+    customers-table
 </template>
 
 <script>
-import Menu from '../Menu'
-import CustomersTable from './Table/index'
+import FiltersList from 'components/Filters/FiltersList'
+import RatingFilter from 'components/Filters/RatingFilter'
+import CustomersTable from './Table'
 
 export default {
   name: 'CustomersPage',
-  components: { CustomersTable, Menu },
+  components: { RatingFilter, CustomersTable, FiltersList },
 }
 </script>

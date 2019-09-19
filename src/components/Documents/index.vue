@@ -1,17 +1,29 @@
 <template lang="pug">
   .documents
-    Menu
+    filters-list(
+      name="documents"
+      v-slot:default="props"
+    )
+      q-btn.q-py-none.q-px-sm(
+        outline
+        dense
+        no-caps
+        label="Дата и время"
+      )
     DocumentsTable
 </template>
 
 <script>
 import DocumentsTable from './Table/index.vue'
-import Menu from '../Menu/index'
-
+import StudioFilter from '../Filters/StudioFilter'
+import RoomsFilter from '../Filters/RoomsFilter'
+import FiltersList from '../Filters/FiltersList'
 export default {
   components: {
-    Menu,
-    DocumentsTable
+    DocumentsTable,
+    StudioFilter,
+    RoomsFilter,
+    FiltersList
   }
 }
 </script>
