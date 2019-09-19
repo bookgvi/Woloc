@@ -12,27 +12,43 @@ export default {
   name: 'CalendarRoom',
   data () {
     return {
-      room: ''
+      room: '11'
     }
   },
   computed: {
     roomComp () {
       return this.roomChange()
     },
+    selectedRoom () {
+      if (!this.room || !this.filter) return {}
+      return this.$app.rooms.getAvailable(this.filter).find(item => item.name === this.room)
+    },
     rooms () {
-      return this.studio.rooms.map(({ name }, index) => ({
-        value: name,
-        label: name,
-        color: roomsColors[index].color
-      }))
+      if (this.filter && this.$app.rooms.getAvailable(this.filter).length > 0) {
+        const arr = this.$app.rooms.getAvailable(this.filter).map((item, index) => {
+          const room = Object.assign({}, {
+            id: item.id,
+            value: item.name,
+            label: item.name,
+            color: roomsColors[index].color
+          })
+          return room
+        })
+        return arr
+      } else return []
     }
   },
   methods: {
     roomChange () {
-      this.$emit('roomChange', { name: this.room })
+      this.$emit('roomChange', this.selectedRoom)
     }
   },
-  props: ['studio']
+  props: ['filter', 'startRoom'],
+  watch: {
+    'startRoom' (v) {
+      this.room = v
+    }
+  }
 }
 </script>
 

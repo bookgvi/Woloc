@@ -1,17 +1,19 @@
-[
-  {
-    "name": "photo",
-    "alias": "Фотосъемка",
-    "price": 1200
-  },
-  {
-    "name": "video",
-    "alias": "Видео",
-    "price": 1400
-  },
-  {
-    "name": "event",
-    "alias": "Мероприятие",
-    "price": 1200
-  }
-]
+{
+  "items": [
+    {
+      "name": "photo",
+      "alias": "Фотосъемка",
+      "price": 1200
+    },
+    {
+      "name": "video",
+      "alias": "Видеосъемка",
+      "price": 1400
+    },
+    {
+      "name": "event",
+      "alias": "Событие",
+      "price": 1200
+    }
+  ]
+}

@@ -16,20 +16,19 @@ export default {
       this.loading.list = true
 
       const { name } = this.$options
-
       const { data } = await api[name].getAll(page, filter)
 
       console.log(`${name} :: getAll}`, data)
 
       if (data) {
         this.list = data.items
-
         this.loading.list = false
       }
 
       return data
     },
   },
+
   watch: {
     'loading.list' (v) {
       if (v) {

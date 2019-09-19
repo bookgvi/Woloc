@@ -57,11 +57,8 @@
         column-header-before
         )
         template.row(#interval="{ time, date }")
-          .fit.flex.justify-center.items-center
-            NewEventDialog(
-              :date="date"
-              :interval="time"
-              :studio="studio"
+          .row.fit.q-pa-none(
+            @click="setNewBooking(date, time)"
             )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
@@ -77,15 +74,25 @@
             :value="e"
             v-if="e.date === date"
             :key="index"
+            @click="findBooking(index)"
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
-            // UpdateEventDialog
             .row.col-12.justify-start.q-px-xs
               q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
               .row.col-12
                 span.text-body2.ellipsis {{ e.title }}
               .row.col-12
                 span.text-body2.ellipsis {{ e.details }}
+      update-event-dialog(
+        :filter="filter"
+        :booking="selectedBooking"
+      )
+      new-event-dialog(
+        :date="newBooking.date"
+        :time="newBooking.time"
+        :studio="newBooking.studio"
+        :filter="newBooking.filter"
+      )
  </template>
 
 <script>
@@ -133,7 +140,10 @@ export default {
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: ''
+      date: '',
+      dialog: false,
+      selectedBooking: {},
+      newBooking: {}
     }
   },
   created: async function () {
@@ -159,6 +169,22 @@ export default {
     }
   },
   methods: {
+    formatTimeToHours (time) {
+      return +time.split(':')[0]
+    },
+    setNewBooking (date, time) {
+      this.newBooking = Object.assign({}, {
+        date: date,
+        time: this.formatTimeToHours(time),
+        studio: this.studio,
+        filter: this.filter
+      })
+      this.$app.dialogs.calendarNew = true
+    },
+    async findBooking (index) {
+      this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      this.$app.dialogs.calendarUpdate = true
+    },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
     },
@@ -250,118 +276,123 @@ export default {
     },
   },
   watch: {
-    bookings (v) {
-      // console.log('watch bookings', v)
-      this.$nextTick(function () {
+    bookings: {
+      handler (v) {
+        // console.log('watch bookings', v)
+        this.events = []
         let allEvents = []
         let bookings = []
-        v.map((booking) => {
-          const diff = date.getDateDiff(
-            dtFormat(booking.reservedTo),
-            dtFormat(booking.reservedFrom),
-            'minutes'
-          )
-          const event = {
-            title: booking.customer.firstName,
-            details: `${booking.amount}/${booking.price}`,
-            date: this.getDate(booking.reservedFrom),
-            time: this.getTime(booking.reservedFrom),
-            duration: diff,
-            bgcolor: this.getColor(booking),
-            icon: this.setIcon(booking.eventType),
-            devInfo: {
-              time: {
-                from: +this.getTime(booking.reservedFrom, 'H'),
-                to: +this.getTime(booking.reservedTo, 'H')
+        this.$nextTick(function () {
+          v.map((booking) => {
+            const diff = date.getDateDiff(
+              dtFormat(booking.reservedTo),
+              dtFormat(booking.reservedFrom),
+              'minutes'
+            )
+            const event = {
+              id: booking.id,
+              title: booking.customer.firstName,
+              details: `${booking.amount}/${booking.price}`,
+              date: this.getDate(booking.reservedFrom),
+              time: this.getTime(booking.reservedFrom),
+              duration: diff,
+              bgcolor: this.getColor(booking),
+              icon: this.setIcon(booking.eventType),
+              devInfo: {
+                time: {
+                  from: +this.getTime(booking.reservedFrom, 'H'),
+                  to: +this.getTime(booking.reservedTo, 'H')
+                },
+                room: booking.room.name
               },
-              room: booking.room.name
-            },
-            posx: 0,
-            countInRow: 1
+              posx: 0,
+              countInRow: 1
+            }
+            bookings.push(event)
+          })
+          const setPositionOfEvents = (dt) => {
+            const roomsAmount = this.rooms.length
+            let events = []
+            let posArray = [...Array(roomsAmount + 10)].map(() => Array(24).fill(0))
+            const findEmptyPlace = (col, from, to) => {
+              const isEmptyPlace = (c) => {
+                for (let i = +from; i < +to; i++) {
+                  if (posArray[c][i] !== 0) {
+                    return false
+                  }
+                }
+                return true
+              }
+              for (let c = col; c >= 0; c--) {
+                if (isEmptyPlace(c) === false) {
+                  return c + 1
+                }
+              }
+              return 0
+            }
+            for (let order = 0; order < roomsAmount; order++) {
+              for (let i = 0; i < bookings.length; i++) {
+                const e = bookings[i]
+                const timeFrom = e.devInfo.time.from
+                const timeTo = e.devInfo.time.to
+                if (e.date === dt && +timeFrom >= 8) {
+                  if (this.setOrder(e.devInfo.room) === order) {
+                    let col = posArray.length - 1
+                    if (col !== 0) {
+                      col = findEmptyPlace(col, timeFrom, timeTo)
+                    }
+                    for (let time = timeFrom; time < timeTo; time++) {
+                      posArray[col][time] = 1
+                    }
+                    e.posx = col
+                    events.push(e)
+                  }
+                }
+              }
+            }
+            let widthArray = Array(24).fill(0)
+            for (let i = 0; i < widthArray.length; i++) {
+              for (let j = posArray.length - 1; j >= 0; j--) {
+                if (posArray[j][i] !== 0) {
+                  widthArray[i] = (widthArray[i] < (j + 1) ? j + 1 : widthArray[i])
+                }
+              }
+            }
+            let isNormalizedWidth = false
+            while (isNormalizedWidth === false) {
+              events = events.map((event) => {
+                let maxCountInRow = 0
+                for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+                  maxCountInRow = (maxCountInRow < widthArray[i]) ? widthArray[i] : maxCountInRow
+                }
+                event.countInRow = (event.countInRow < maxCountInRow) ? maxCountInRow : event.countInRow
+                return event
+              })
+              isNormalizedWidth = true
+              events = events.map((event) => {
+                for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+                  if (widthArray[i] < event.countInRow) {
+                    widthArray[i] = event.countInRow
+                    isNormalizedWidth = false
+                  }
+                }
+                return event
+              })
+            }
+            // console.log(widthArray)
+            allEvents.push(...events)
           }
-          bookings.push(event)
+          const dayOfWeek = +date.formatDate(this.selectedDate, 'E') - 1
+          const startDate = date.subtractFromDate(this.selectedDate, { days: dayOfWeek })
+          for (let i = 0; i < 7; i++) {
+            const currentDate = date.addToDate(startDate, { days: i })
+            const formattedCurrentDate = date.formatDate(currentDate, 'YYYY-MM-DD')
+            setPositionOfEvents(formattedCurrentDate)
+          }
+          this.events = allEvents
         })
-        const setPositionOfEvents = (dt) => {
-          const roomsAmount = this.rooms.length
-          let events = []
-          let posArray = [...Array(roomsAmount + 10)].map(() => Array(24).fill(0))
-          const findEmptyPlace = (col, from, to) => {
-            const isEmptyPlace = (c) => {
-              for (let i = +from; i < +to; i++) {
-                if (posArray[c][i] !== 0) {
-                  return false
-                }
-              }
-              return true
-            }
-            for (let c = col; c >= 0; c--) {
-              if (isEmptyPlace(c) === false) {
-                return c + 1
-              }
-            }
-            return 0
-          }
-          for (let order = 0; order < roomsAmount; order++) {
-            for (let i = 0; i < bookings.length; i++) {
-              const e = bookings[i]
-              const timeFrom = e.devInfo.time.from
-              const timeTo = e.devInfo.time.to
-              if (e.date === dt && +timeFrom >= 8) {
-                if (this.setOrder(e.devInfo.room) === order) {
-                  let col = posArray.length - 1
-                  if (col !== 0) {
-                    col = findEmptyPlace(col, timeFrom, timeTo)
-                  }
-                  for (let time = timeFrom; time < timeTo; time++) {
-                    posArray[col][time] = 1
-                  }
-                  e.posx = col
-                  events.push(e)
-                }
-              }
-            }
-          }
-          let widthArray = Array(24).fill(0)
-          for (let i = 0; i < widthArray.length; i++) {
-            for (let j = posArray.length - 1; j >= 0; j--) {
-              if (posArray[j][i] !== 0) {
-                widthArray[i] = (widthArray[i] < (j + 1) ? j + 1 : widthArray[i])
-              }
-            }
-          }
-          let isNormalizedWidth = false
-          while (isNormalizedWidth === false) {
-            events = events.map((event) => {
-              let maxCountInRow = 0
-              for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
-                maxCountInRow = (maxCountInRow < widthArray[i]) ? widthArray[i] : maxCountInRow
-              }
-              event.countInRow = (event.countInRow < maxCountInRow) ? maxCountInRow : event.countInRow
-              return event
-            })
-            isNormalizedWidth = true
-            events = events.map((event) => {
-              for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
-                if (widthArray[i] < event.countInRow) {
-                  widthArray[i] = event.countInRow
-                  isNormalizedWidth = false
-                }
-              }
-              return event
-            })
-          }
-          // console.log(widthArray)
-          allEvents.push(...events)
-        }
-        const dayOfWeek = +date.formatDate(this.selectedDate, 'E') - 1
-        const startDate = date.subtractFromDate(this.selectedDate, { days: dayOfWeek })
-        for (let i = 0; i < 7; i++) {
-          const currentDate = date.addToDate(startDate, { days: i })
-          const formattedCurrentDate = date.formatDate(currentDate, 'YYYY-MM-DD')
-          setPositionOfEvents(formattedCurrentDate)
-        }
-        this.events = allEvents
-      })
+      },
+      deep: true
     },
     async filter (v) {
       await this.loadData()
