@@ -1,570 +1,310 @@
 <template lang="pug">
-  q-popup-proxy
-    q-card.row.justify-center.items-center(
-      style="width: 320px;"
+  q-dialog(
+    v-model="$app.dialogs.calendarUpdate"
+    persistent
+  )
+    q-card.q-py-md(
+      style="width: 330px"
     )
-      pre {{}}
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="!cardsBottom.user"
-        @click="sectionToggle('user')"
+      q-list.text-body2.text-black.text-weight-bold(
+        dense
       )
-        .col-4
-          .text.text_bald(
-            style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
-          ) {{ $app.bookings.calendarList[0].customer.firstName }}
-        .col-7
-          .text.text_gray {{ $app.bookings.calendarList[0].customer.phone }}
-        .col-1
-          q-icon(
-            name="keyboard_arrow_down"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-else
-        @click="sectionToggle('$app.bookings.calendarList[0].customer')"
-      )
-       .col-11
-         .text.text_bald(
-         ) {{ $app.bookings.calendarList[0].customer.name }}
-       .col-1
-         q-icon(
-           name="keyboard_arrow_up"
-         )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.user"
-      )
-        q-input.col-12.row.text.text_small(
-          v-model="$app.bookings.calendarList[0].customer.phone"
-          readonly
+        q-expansion-item(
+          group="new-event"
+          dense
+          default-opened
         )
-        q-input.col-12.row.text.text_small(
-          v-model="$app.bookings.calendarList[0].customer.email"
-          readonly
-        )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.room"
-        @click="sectionToggle('room')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Зал
-          .text.text_gray {{ room.name }}
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.room"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.room"
-      )
-          q-option-group.col-12.justify-left.items-center(
-            v-model="room.name"
-            :options="rooms"
-            keep-color
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.date"
-        @click="sectionToggle('date')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Дата
-          .text.text_gray {{ $app.bookings.calendarList[0].reservedFrom }}
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.date"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.date"
-      )
-        q-date(
-          v-model="booking.date"
-          minimal
-          mask="YYYY-MM-DD"
-        )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.time"
-        @click="sectionToggle('time')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Время
-          .text.text_gray {{ booking.time.from }}-{{ booking.time.to }}
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.time"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-start.items-center(
-        v-if="cardsBottom.time"
-      )
-        .text.text_small Интервал, {{ booking.time.to - booking.time.from }} часа
-        .row
-          .col-6
-            q-input(
-              v-model="range.min"
-            )
-          .col-6
-            q-input(
-              v-model="range.max"
-            )
-        .col-12.row.text.text_extrasmall Зеленым отмечено свободное время.
-        q-range(
-          v-model="range"
-          :min="0"
-          :max="24"
-          color="green"
-        )
-      q-card-section.col-12.row.justify-center.items-center(
-        v-if="cardsTop.action"
-        @click="sectionToggle('action')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Цель
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.action"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.action"
-      )
-        .col-7.row.justify-left.items-center
-          q-option-group(
-            v-model="booking.action"
-            :options="actions"
-          )
-        .col-5.flex.justify-left.items-center
-          q-list
-            q-item(
-              v-for="(action, index) in actions"
-              :key="index"
-            )
-              .text.text_gray {{ action.value.price }} р.
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.extras"
-        @click="sectionToggle('extras')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Доп. услуги {{ booking.extras.length }}
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.extras"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.extras"
-      )
-        .col-12.flex.justify-left.items-center
-          q-option-group(
-            v-model="booking.extras"
-            :options="extras"
-            color="green"
-            type="checkbox"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.members"
-        @click="sectionToggle('members')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Участники {{ booking.members.length }}
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.members"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.members"
-      )
-        template
-          .col-12.row.justify-left.items-center
-            q-list
-              q-item(
-                v-for="(member, index) in booking.members"
-                :key="index"
+          template(v-slot:header).row.items-center
+            .col-4.q-py-sm
+              span {{ "Клиент" }}
+            .col-7.q-py-sm
+              span.text-grey {{ customerSlot }}
+          q-card
+            q-card-section
+              calendar-customer(
+                :startCustomer="newBooking.customer"
+                @customerChange="newBooking.customer = $event"
               )
-                .text.text_small {{ member }}
-          .col-11.row.justify-left.items-center
-            q-input(
-              v-model="newMember"
-             )
-          .col-1.row.justify-left.items-center
-            q-btn.q-mt-sm(
-              @click="addNewMember"
-              color="#B5B5B5"
-              text-color="$primary"
-              icon="add"
-              dense
-            )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.price"
-        @click="sectionToggle('price')"
-      )
-        .col-11.row.justify-left.items-center
-          .text.text_bald Оплата
-          .text.text_gray {{ booking.prepayment }} • {{ price }} р.
-        .col-1.row.justify-left.items-center
-          q-icon(
-            v-if="!cardsBottom.price"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.price"
-      )
-        template
-          .col-12.row.justify-around.items-center(
-            v-for="(item, index) in items"
-            :key="index"
-          )
-            template
-              .col-9.row.justify-left.items-center
-                .text.text_small {{ item.label }}
-              .col-3.row.justify-left.items-center
-                .text.text_gray {{ item.value }}
-              q-separator(
-                dark
-              )
-          .col-12.row.justify-left.items-center
-            .text Скидка/надбавка, р.
-            .row
-              .col-3
-                q-btn.q-mt-sm(
-                  @click="changeSign"
-                  color="#FFFFFF"
-                  text-color="black"
-                  label="+/-"
-                )
-              .col-9
-                q-input(
-                  square
-                  filled
-                  v-model="booking.discount"
-                )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.comment"
-        @click="sectionToggle('comment')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Коммент
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.comment"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.comment"
-      )
-        .col-12.row.justify-left.items-center
-          q-input.col-12(
-            v-model="$app.bookings.calendarList[0].customer_comment"
-            readonly
-            type="textarea"
-          )
-        .col-12.row.justify-left.items-center
-          .text Админ
-        .col-12.row.justify-left.items-center
-          q-input.col-12(
-            v-model="booking.manager_comment"
-            filled
-            type="textarea"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsTop.delete"
-        @click="sectionToggle('delete')"
-      )
-        .col-11.flex.justify-left.items-center
-          .text.text_bald Удалить бронирование
-        .col-1
-          q-icon(
-            v-if="!cardsBottom.delete"
-            name="keyboard_arrow_down"
-          )
-          q-icon(
-            v-else
-            name="keyboard_arrow_up"
-          )
-      q-card-section.col-12.row.justify-around.items-center(
-        v-if="cardsBottom.delete"
-      )
-        q-btn.q-mt-sm(
-          @click="changeSign"
-          color="#FFFFFF"
-          text-color="red"
-          no-caps
-          label="Удалить"
-          full-width
+        q-expansion-item(
+          group="new-event"
+          dense
         )
-      q-card-section.col-12.row.justify-around.items-center(
-      )
-        .row
-          .col-6
-            q-btn.q-mt-sm(
-              @click="cancelBooking"
-              color="positive"
-              label="Отменить"
-              dense
-            )
-          .col-6
-            q-btn.q-mt-sm(
-              @click="saveBooking"
-              color="positive"
-              label="Сохранить"
-              dense
-            )
+          template(v-slot:header)
+            .col-4.q-py-sm
+              span {{ "Зал" }}
+            .col-7.q-py-sm
+              span.text-grey {{ roomSlot }}
+          q-card
+            q-card-section
+              calendar-room(
+                @roomChange="newBooking.room = $event"
+                :filter="filter"
+                :startRoom="newBooking.room.name"
+              )
+        q-expansion-item(
+          group="new-event"
+          dense
+        )
+          template(v-slot:header)
+            .col-4.q-py-sm
+              span {{ "Дата" }}
+            .col-7.q-py-sm
+              span.text-grey {{ dateSlot }}
+          q-card
+            q-card-section
+              calendar-date(
+                @dateChange="helpers.date = $event"
+                :date="helpers.date"
+              )
+        q-expansion-item(
+          group="new-event"
+          dense
+        )
+          template(v-slot:header)
+            .col-4.q-py-sm
+              span {{ "Время" }}
+            .col-7.q-py-sm
+              span.text-grey {{ timeSlot }}
+          q-card
+            q-card-section
+              calendar-time(
+                @timeChange="helpers.time = $event"
+                :startTime="helpers.time.from"
+                :endTime="helpers.time.to"
+              )
+        q-expansion-item(
+          group="new-event"
+          dense
+        )
+          template(v-slot:header)
+            .col-4.q-py-sm
+              span {{ "Цель" }}
+            .col-7.q-py-sm
+              span.text-grey {{ eventSlot }}
+          q-card
+            q-card-section
+              calendar-event(
+                @eventChange="newBooking.eventType = $event"
+                :startEvent="newBooking.eventType"
+              )
+        q-expansion-item(
+          group="new-event"
+          dense
+        )
+          template(v-slot:header)
+            .col-4.q-py-sm
+              span {{ "Доп. услуги" }}
+            .col-7.q-py-sm
+              span.text-grey {{ extrasSlot }}
+          q-card
+            q-card-section
+              calendar-extras(
+                @extrasChange="newBooking.extras = $event"
+                :startExtras="newBooking.extras"
+              )
+        q-expansion-item(
+          group="new-event"
+          dense
+        )
+          template(v-slot:header)
+            .col-4.q-py-sm
+              span {{ "Оплата" }}
+            .col-7.q-py-sm
+              span.text-grey {{priceSlot }}
+          q-card
+            q-card-section
+              calendar-price(
+                @priceChange="newBooking.price = $event"
+                :extras="extras"
+                :fee="fee"
+              )
+        q-expansion-item(
+          group="new-event"
+          dense
+          label="Коммент"
+        )
+          q-card
+            q-card-section
+              calendar-comment
+        q-expansion-item(
+          group="new-event"
+          dense
+          label="Удалить бронирование"
+        )
+          q-card
+            q-card-section
+              calendar-delete
+        calendar-apply(
+          :applyBooking="applyBooking"
+        )
+
 </template>
 
 <script>
+import { date } from 'quasar'
+import CalendarCustomer from './Modules/CalendarCustomer'
+import CalendarRoom from './Modules/CalendarRoom'
+import CalendarDate from './Modules/CalendarDate'
+import CalendarTime from './Modules/CalendarTime'
+import CalendarEvent from './Modules/CalendarEvent'
+import CalendarExtras from './Modules/CalendarExtras'
+import CalendarMembers from './Modules/CalendarMembers'
+import CalendarPrice from './Modules/CalendarPrice'
+import CalendarComment from './Modules/CalendarComment'
+import CalendarDelete from './Modules/CalendarDelete'
+import CalendarApply from './Modules/CalendarApply'
+import { EVENT_TYPES } from 'src/common/constants'
+
 export default {
   name: 'UpdateEventDialog',
+  components: { CalendarDelete,
+    CalendarComment,
+    CalendarPrice,
+    CalendarMembers,
+    CalendarExtras,
+    CalendarEvent,
+    CalendarTime,
+    CalendarDate,
+    CalendarRoom,
+    CalendarCustomer,
+    CalendarApply
+  },
   data () {
     return {
-      cardsTop: {
-        user: true,
-        room: true,
-        date: true,
-        time: true,
-        action: true,
-        extras: true,
-        members: true,
-        price: true,
-        comment: true,
-        delete: true
-      },
-      cardsBottom: {
-        user: false,
-        room: false,
-        date: false,
-        time: false,
-        action: false,
-        extras: false,
-        members: false,
-        price: false,
-        comment: false,
-        delete: false
-      },
-      newMember: '',
-      rooms: [
-        {
-          label: 'Зал 11',
-          value: 'Зал 11',
-          color: 'purple'
+      newBooking: {
+        reservedFrom: '',
+        reservedTo: '',
+        eventType: '',
+        price: '',
+        discount: 0,
+        amount: '',
+        duration: 0,
+        extras: [],
+        members: [],
+        customer: {
+          email: '',
+          fullName: '',
+          phone: ''
         },
-        {
-          label: 'Зал 12',
-          value: 'Зал 12',
-          color: 'pink'
+        studio: {
+          id: '',
+          name: ''
         },
-        {
-          label: 'Зал 13',
-          value: 'Зал 13',
-          color: 'yellow'
-        },
-        {
-          label: 'Зал 14',
-          value: 'Зал 14',
-          color: 'green'
-        },
-        {
-          label: 'Зал 15',
-          value: 'Зал 15',
-          color: 'blue'
+        room: {
+          id: '',
+          name: ''
         }
-      ],
-      range: {
-        min: 9,
-        max: 13
       },
-      actions: [
-        {
-          label: 'Фотосъемка',
-          value: {
-            name: 'Фотосъемка',
-            price: 1200
-          }
-        },
-        {
-          label: 'Видео',
-          value: {
-            name: 'Видео',
-            price: 1400
-          }
-        },
-        {
-          label: 'Мероприятие',
-          value: {
-            name: 'Мероприятие',
-            price: 1200
-          }
-        },
-      ],
-      extras: [
-        {
-          label: 'Покраска циклорамы',
-          value: {
-            name: 'Покраска циклорамы',
-            price: 500
-          }
-        },
-        {
-          label: 'Набор ванны водой',
-          value: {
-            name: 'Набор ванны водой',
-            price: 300
-          }
-        },
-        {
-          label: 'Бумажный фон',
-          value: {
-            name: 'Бумажный фон',
-            price: 400
-          }
-        },
-        {
-          label: 'Доп. штатив',
-          value: {
-            name: 'Доп. штатив',
-            price: 350
-          }
+      helpers: {
+        date: '',
+        time: {
+          from: 0,
+          to: 0
         }
-      ]
+      }
     }
   },
   computed: {
-    duration () {
-      return this.booking.time.to - this.booking.time.from
+    fee () {
+      const duration = this.helpers.time.to - this.helpers.time.from
+      let price = 1000
+      if (this.newBooking.eventType) {
+        price = EVENT_TYPES[this.newBooking.eventType].price
+      }
+      return {
+        name: `${this.newBooking.eventType} ${duration} ч. • ${price} р.`,
+        value: duration * price
+      }
     },
-    prepaymentPercents () {
-      return +Number(this.booking.prepayment / this.price * 100).toFixed()
+    extras () {
+      return this.newBooking.extras.map(item => Object.assign({
+        name: item,
+        value: 400 - item.length * 10
+      }))
     },
-    items () {
-      let array = []
-      let sum = 0
-      const action = {
-        label: `${this.duration} ч. • ${this.booking.action.price} р.`,
-        value: this.duration * this.booking.action.price
+    customerSlot () {
+      if (this.newBooking.customer.firstName && this.newBooking.customer.phone) {
+        return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
+      } else {
+        return 'Введите имя пользователя'
       }
-      array.push(action)
-      sum += +action.value
-      this.booking.extras.forEach((extra) => {
-        const bookExtra = {
-          label: `${extra.name}, р.`,
-          value: +extra.price
-        }
-        array.push(bookExtra)
-        sum += +bookExtra.value
-      })
-      const promo = {
-        label: `Промокод (${this.booking.promo.name})`,
-        value: this.booking.promo.value
-      }
-      array.push(promo)
-      sum += promo.value
-      const prepayment = {
-        label: `Предоплата ${this.prepaymentPercents}%, р.`,
-        value: this.booking.prepayment
-      }
-      array.push(prepayment)
-      const total = {
-        label: 'Итого',
-        value: sum
-      }
-      array.push(total)
-      return array
     },
-    price () {
-      let price = this.booking.action.price * this.duration -
-        this.booking.promo.value
-      this.booking.extras.forEach((extra) => {
-        price += +extra.price
-      })
-      return price
+    roomSlot () {
+      if (this.newBooking.room) {
+        return this.newBooking.room.name
+      } else {
+        return 'Выберите зал'
+      }
+    },
+    dateSlot () {
+      const formatDate = date.formatDate(this.helpers.date, 'D MMMM YYYY')
+      return formatDate
+    },
+    timeSlot () {
+      return `${this.helpers.time.from}:00-${this.helpers.time.to}:00`
+    },
+    eventSlot () {
+      if (this.newBooking.eventType) {
+        return this.newBooking.eventType
+      } else {
+        return 'Выберите цель'
+      }
+    },
+    extrasSlot () {
+      return this.newBooking.extras.length
+    },
+    membersSlot () {
+      return this.newBooking.members.length
+    },
+    priceSlot () {
+      return `${this.newBooking.price} р.`
+    },
+    reservedTime () {
+      // const timeOffset = '+03:00'
+      const bookingDate = date.extractDate(date.formatDate(this.helpers.date, 'YYYY-MM-DD'), 'YYYY-MM-DD')
+      const from = date.addToDate(bookingDate, { hours: this.helpers.time.from })
+      const to = (this.helpers.time.to !== 0 && this.helpers.time.to !== 24)
+        ? date.addToDate(bookingDate, { hours: this.helpers.time.to })
+        : date.addToDate(bookingDate, { days: 1 })
+      return { from, to }
     }
   },
   methods: {
-    sectionToggle (section) {
-      for (const key in this.cardsBottom) {
-        if (key === section) {
-          this.cardsBottom[key] = !this.cardsBottom[key]
-        } else {
-          this.cardsBottom[key] = false
+    applyBooking () {
+      this.newBooking.reservedFrom = this.reservedTime.from
+      this.newBooking.reservedTo = this.reservedTime.to
+      this.newBooking.studio.id = this.filter.studio
+      this.newBooking.studio.name = this.selectedStudioLabel
+      const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
+      console.log(9, this.newBooking.id, index)
+      this.$app.bookings.calendarList[index] =
+        Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
+    }
+  },
+  props: ['booking', 'filter'],
+  watch: {
+    'booking' (v) {
+      this.$nextTick(function () {
+        this.newBooking = Object.assign(this.newBooking, v)
+        const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
+        const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('k')
+        let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
+        if (hTo === 0) {
+          hTo = 24
         }
-      }
-    },
-    changeSign () {
-      console.log(this.booking.discount)
-      this.booking.discount = -this.booking.discount
-    },
-    cancelBooking () {
-      //
-    },
-    saveBooking () {
-      //
-    },
-    addNewMember () {
-      this.booking.members.push(this.newMember)
+        this.helpers = Object.assign({
+          date: hDate,
+          time: {
+            from: hFrom,
+            to: hTo
+          }
+        })
+      })
     }
   }
-
 }
 </script>
 
-<style scoped lang="stylus">
-  .update_dialog
-    position fixed
-    top 50px
-    left 50px
-  .text
-    padding 0px
-    font-family Montserrat
-    margin-right 15px
-  .text_bald
-    color #4A4A4A
-    font-size 16px
-    font-weight 700
-    line-height 19px
-  .text_small
-    color #4A4A4A
-    font-size 14px
-    font-weight 500
-    line-height 24px
-  .text_extrasmall
-    color #4A4A4A
-    font-size 13px
-    font-weight 500
-    line-height 24px
-  .text_gray
-    color #B5B5B5
-    font-size 14px
-    font-weight bold
-    line-height 18px
+<style scoped>
 
 </style>

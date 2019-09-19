@@ -35,6 +35,12 @@ export default {
       this.$emit('extrasChange', this.checkedExtras)
     }
   },
+  props: ['startExtras'],
+  watch: {
+    'startEvent' (v) {
+      this.checkedExtras = this.startExtras.slice()
+    }
+  }
 }
 </script>
 
