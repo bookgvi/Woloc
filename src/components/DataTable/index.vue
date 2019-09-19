@@ -23,7 +23,8 @@
           span {{props.col.label}}
 
       template(#top-left)
-        .text-h6 {{ title }}
+        .text-h6.inline-block {{ title }}
+        slot(name="title_advance")
 
       template(#top-right="props")
         TableControls(v-bind="props" :setPagination="setPagination")

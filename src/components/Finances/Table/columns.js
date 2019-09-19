@@ -2,59 +2,44 @@ import { date } from 'quasar'
 
 export default [
   {
-    name: 'id',
-    label: 'Бронь',
-    width: 70,
-    classes: 'text-primary',
-    align: 'right',
+    name: 'description',
+    label: 'Описание',
+    /* eslint-disable */
+    field: ({ organization_transactions = {} }) => organization_transactions.description,
+    /* eslint-enable */
+    align: 'left',
+    width: 200
   },
   {
-    name: 'customer',
-    label: 'Клиент',
-    field: ({ booking: { customer = {} } }) => `${customer.firstName} ${customer.lastName}`,
-    width: 150,
+    name: 'booking_id',
+    label: 'ID брони',
+    field: ({ bookings = {} }) => bookings.id,
   },
   {
-    name: 'room',
-    label: 'Зал',
-    field: ({ booking: { room = {} } }) => room,
-    width: 120
-  },
-  {
-    name: 'reservedFrom',
-    label: 'Дата',
-    field: ({ booking = {} }) => `${booking.reservedFrom}`,
+    name: 'created_date',
+    label: 'дата',
+    field: 'created_at',
     format: value => date.formatDate(value, 'D MMM'),
-    width: 60
   },
   {
-    name: 'reservedTime',
-    label: 'Время',
-    field: ({ booking = {} }) => `${booking.reservedFrom}`,
-    format: (value, { booking }) => [booking.reservedFrom, booking.reservedTo].map(
-      part => date.formatDate(part, 'H:mm')
-    ).join(' — '),
-    width: 120,
-  },
-  {
-    name: 'returnedAt',
-    label: 'Просрочено',
-    classes: 'text-red',
-    format: value => date.formatDate(value, 'D MMM'),
-    width: 120
+    name: 'created_time',
+    label: 'вермя',
+    field: 'created_at',
+    format: value => date.formatDate(value, 'H:mm'),
   },
   {
     name: 'amount',
     label: 'Сумма, Р.',
-    width: 120
+    fieled: 'amount'
   },
   {
-    name: 'status',
-    label: 'Статус возврата',
-    width: 250
+    name: 'commisions',
+    label: 'Комииссия, Р.',
+    field: 'commisions'
   },
   {
-    name: 'controls',
-    width: 40
+    name: 'balance',
+    label: 'остаток',
+    field: 'balance'
   }
 ]

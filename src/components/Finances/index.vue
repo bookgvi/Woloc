@@ -4,8 +4,24 @@
       name="finances"
       v-slot:default="props"
     )
-      studio-filter(v-bind="props")
-      rooms-filter(v-bind="props")
+      q-btn.q-py-none.q-px-sm(
+        outline
+        dense
+        no-caps
+        label="Kap's Studios м. Бауманская"
+      )
+      q-btn.q-py-none.q-px-sm(
+        outline
+        dense
+        no-caps
+        label="Дата и время"
+      )
+      q-btn.q-py-none.q-px-sm(
+        outline
+        dense
+        no-caps
+        label="Тип записи"
+      )
     FinancesTable
 </template>
 

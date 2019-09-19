@@ -6,11 +6,10 @@
     :getDialogTitle="() => 'Финансы'"
     :columns="columns"
     :details="details"
-    :isRowDisabled="({ status }) => !status"
   )
-    template(#row-controls)
-      q-btn(flat round icon="block")
-      q-btn(flat round icon="thumb_up")
+    template(#title_advance)
+      .text-h6.inline-block.q-px-xl 27 456 р.
+      q-btn.bg-primary(no-caps text-color='white' label="Вывести на счет")
 
 </template>
 
