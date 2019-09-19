@@ -1,17 +1,244 @@
 {
   "items": [
     {
-      "id": 1,
-      "bookings": {
-        "id": 208734
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
       },
-      "organization_transactions": {
-        "id": 26,
-        "description": "Предоплата брони через Единый кошелек"
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
       },
-      "amount": "1500",
-      "balance": "10000",
-      "created_at": "2016-06-29 09:13:33"
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
+    },
+    {
+      "account": {
+        "id": 123,
+        "num": 123456,
+        "amount": 123456
+      },
+      "transactions": {
+        "id": 1,
+        "bookings": {
+          "id": 2208734
+        },
+        "purpose": "Предоплата",
+        "descriptions": "брони через Единый кошелек",
+        "transfer": "-",
+        "amount": "225",
+        "balance": 10000,
+        "created_at": "2019-03-27 21:05:10",
+        "commissions": 150
+      }
     }
   ]
 }

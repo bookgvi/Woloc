@@ -13,6 +13,9 @@ export default {
       const { page, rowsPerPage } = pagination
       const { items, total } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       this.data = items
+      if (items[0].account) {
+        this.account.amount = items[0].account.amount
+      }
 
       Object.assign(this.pagination, pagination, { rowsNumber: total })
     },

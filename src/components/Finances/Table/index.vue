@@ -1,5 +1,4 @@
 <template lang="pug">
-
   DataTable(
     title="Финансы"
     :loadData="$app.finances.getAll"
@@ -7,9 +6,10 @@
     :columns="columns"
     :details="details"
   )
-    template(#title_advance)
-      .text-h6.inline-block.q-px-xl 27 456 р.
-      q-btn.bg-primary(no-caps text-color='white' label="Вывести на счет")
+    template(#title-append="props")
+      .text-h6.inline-block.q-pl-md {{ props.amount }} ₽.
+    template(#table-controls-prepend="props")
+      q-btn.bg-primary.q-mr-xl(no-caps text-color='white' label="Вывести на счет")
 
 </template>
 

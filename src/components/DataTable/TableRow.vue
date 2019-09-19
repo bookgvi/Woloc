@@ -44,6 +44,10 @@
         .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
       template(v-else-if="name === 'link'")
         slot
+      template(v-if="name === 'purpose'")
+        q-chip(
+          :title="value.name"
+        ) {{ value }}
       template(v-else) {{ value }}
 </template>
 
