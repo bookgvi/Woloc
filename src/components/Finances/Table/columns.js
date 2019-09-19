@@ -4,46 +4,46 @@ export default [
   {
     name: 'purpose',
     label: 'Описание',
-    field: ({ transactions = {} }) => transactions.purpose,
+    field: 'purpose',
     align: 'left',
     width: 10
   },
   {
     name: 'descriptions',
-    field: ({ transactions = {} }) => transactions.descriptions,
+    field: 'purposeDescription',
     align: 'left',
     width: 250
   },
   {
     name: 'booking_id',
     label: 'ID брони',
-    field: ({ transactions: { bookings = {} } }) => bookings.id,
+    field: ({ booking = {} }) => booking.id,
   },
   {
-    name: 'created_date',
+    name: 'createdAtDay',
     label: 'дата',
-    field: ({ transactions = {} }) => transactions.created_at,
+    field: 'createdAt',
     format: value => date.formatDate(value, 'D MMM'),
   },
   {
-    name: 'created_time',
+    name: 'createdAtTime',
     label: 'вермя',
-    field: ({ transactions = {} }) => transactions.created_at,
+    field: 'createdAt',
     format: value => date.formatDate(value, 'H:mm'),
   },
   {
     name: 'amount',
     label: 'Сумма, ₽',
-    field: ({ transactions = {} }) => transactions.amount,
+    field: 'amount',
   },
   {
-    name: 'commisions',
+    name: 'commission',
     label: 'Комииссия, ₽.',
-    field: ({ transactions = {} }) => transactions.commissions,
+    field: 'commission',
   },
   {
     name: 'balance',
     label: 'остаток',
-    field: ({ transactions = {} }) => transactions.balance,
+    field: 'balance',
   }
 ]
