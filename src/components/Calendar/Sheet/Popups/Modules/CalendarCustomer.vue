@@ -5,6 +5,7 @@
         outlined
         fill-input
         hide-selected
+        stack-label
         @filter="filterFn"
         use-input
         label="Пользователь"
@@ -16,6 +17,7 @@
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
+        stack-label
         readonly
         mask="#(###)###-##-##"
         label="Телефон"
@@ -24,6 +26,7 @@
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
+        stack-label
         readonly
         label="Эл. почта"
         v-model="customer.email"
@@ -61,6 +64,12 @@ export default {
         const needle = val.toLowerCase()
         this.$app.customers.getForCalendar(needle)
       })
+    }
+  },
+  props: ['startCustomer'],
+  watch: {
+    'startCustomer' (v) {
+      this.customer = Object.assign(this.startCustomer)
     }
   }
 }

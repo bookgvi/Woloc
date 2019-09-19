@@ -18,6 +18,7 @@ import refunds from './controllers/refunds'
 import finances from './controllers/finances'
 import documents from './controllers/documents'
 import filters from './controllers/filters'
+import dialogs from './controllers/dialogs'
 
 export default {
   name: 'App',
@@ -25,7 +26,7 @@ export default {
     Vue.prototype.$app = this
   },
   data () {
-    return [bookings, users, rooms, customers, events, extras, studios, login, refunds, documents, filters, finances].reduce(
+    return [bookings, users, rooms, customers, events, extras, studios, login, refunds, documents, filters, dialogs, finances].reduce(
       (acc, component) => ({ ...acc, [component.name]: new Vue(component) }),
       {}
     )

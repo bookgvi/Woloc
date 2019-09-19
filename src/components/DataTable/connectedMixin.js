@@ -11,10 +11,12 @@ export default {
   methods: {
     async onRequest (pagination, filter) {
       const { page, rowsPerPage } = pagination
-      const { items, total } = await this.loadData({ number: page, size: rowsPerPage }, filter)
+      let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       this.data = items
-      if (items[0].account) {
-        this.account.amount = items[0].account.amount
+      if (data) {
+        this.account.amount = data.account.amount
+        items = data.transactions.items
+        total = data.transactions.total
       }
 
       Object.assign(this.pagination, pagination, { rowsNumber: total })

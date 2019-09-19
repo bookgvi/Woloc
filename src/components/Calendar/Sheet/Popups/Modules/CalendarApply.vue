@@ -21,12 +21,16 @@ export default {
   name: 'CalendarApply',
   methods: {
     cancelBooking () {
-      //
+      this.$app.dialogs.calendarUpdate = false
+      this.$app.dialogs.calendarNew = false
     },
     saveBooking () {
-      //
+      this.applyBooking()
+      this.$app.dialogs.calendarUpdate = false
+      this.$app.dialogs.calendarNew = false
     }
-  }
+  },
+  props: ['applyBooking']
 }
 </script>
 
