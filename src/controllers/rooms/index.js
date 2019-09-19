@@ -6,7 +6,6 @@ export default {
   methods: {
     getAvailable (filter) {
       const studio = this.$app.studios.getFiltered(filter)
-
       return studio ? studio.rooms : []
     },
     getFiltered (filter) {

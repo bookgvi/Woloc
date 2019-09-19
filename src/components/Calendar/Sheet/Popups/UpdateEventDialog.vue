@@ -153,6 +153,7 @@ import CalendarPrice from './Modules/CalendarPrice'
 import CalendarComment from './Modules/CalendarComment'
 import CalendarDelete from './Modules/CalendarDelete'
 import CalendarApply from './Modules/CalendarApply'
+import { EVENT_TYPES } from 'src/common/constants'
 
 export default {
   name: 'UpdateEventDialog',
@@ -206,7 +207,10 @@ export default {
   computed: {
     fee () {
       const duration = this.helpers.time.to - this.helpers.time.from
-      const price = 1200 - this.newBooking.eventType.length * 10
+      let price = 1000
+      if (this.newBooking.eventType) {
+        price = EVENT_TYPES[this.newBooking.eventType].price
+      }
       return {
         name: `${this.newBooking.eventType} ${duration} ч. • ${price} р.`,
         value: duration * price
@@ -267,7 +271,6 @@ export default {
   },
   methods: {
     applyBooking () {
-      console.log(8, this.newBooking, this.filter)
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
       this.newBooking.studio.id = this.filter.studio

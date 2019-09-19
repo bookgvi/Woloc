@@ -20,7 +20,7 @@ export default {
       return this.roomChange()
     },
     selectedRoom () {
-      if (!this.room) return {}
+      if (!this.room || !this.filter) return {}
       return this.$app.rooms.getAvailable(this.filter).find(item => item.name === this.room)
     },
     rooms () {

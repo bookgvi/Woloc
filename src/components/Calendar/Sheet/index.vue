@@ -179,7 +179,6 @@ export default {
         studio: this.studio,
         filter: this.filter
       })
-      console.log(this.newBooking)
       this.$app.dialogs.calendarNew = true
     },
     async findBooking (index) {
