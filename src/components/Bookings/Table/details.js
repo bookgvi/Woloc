@@ -1,6 +1,6 @@
 import find from 'lodash/find'
 import columns from './columns'
-import eventTypes from '../../../common/eventTypes'
+import { EVENT_TYPES } from 'src/common/constants'
 
 export default [
   {
@@ -14,7 +14,7 @@ export default [
       find(columns, { name: 'time' }),
       {
         ...find(columns, { name: 'eventType' }),
-        format: (value) => value && eventTypes[value].name
+        format: (value) => value && EVENT_TYPES[value].name
       },
       {
         ...find(columns, { name: 'guestsCount' }),

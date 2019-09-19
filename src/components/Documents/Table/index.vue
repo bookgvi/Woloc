@@ -1,11 +1,15 @@
 <template lang="pug">
-  DataTable(
-    :columns="columns"
-    :details="details"
-    :loadData="$app.documents.getAll"
-  )
-    template(#row-controls="props")
-      q-btn(flat icon-right="get_app" title="Скачать" @click="handle(props.row.file)")
+  .table_document
+    DataTable(
+      title="Документы"
+      :columns="columns"
+      :details="details"
+      :getDialogTitle="() => 'Документы'"
+      :loadData="$app.documents.getAll"
+    )
+      template(#row-controls="props")
+        a(:href="props.row.link" title="Скачать")
+          q-icon(name="get_app" style="font-size: 2em")
 </template>
 
 <script>
@@ -17,13 +21,10 @@ export default {
   components: { DataTable },
   data: () => ({
     columns,
-    details
+    details,
+    link: '',
+    alert: false
   }),
-  methods: {
-    handle (url) {
-      console.log('Downloading... ', url)
-    }
-  }
 }
 </script>
 

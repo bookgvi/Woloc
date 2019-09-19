@@ -4,7 +4,7 @@
     :title="buttonTitle"
     :models="models"
     :value="value"
-    @change="event => onChange('studio', event)"
+    @change="onInputChange"
   )
 </template>
 
@@ -18,20 +18,32 @@ export default {
     values: {
       type: Object,
     },
-    onChange: Function
+    onChange: Function,
+  },
+  async created () {
+    await this.controller.getAll()
   },
   computed: {
+    controller () {
+      return this.$app.studios
+    },
     value () {
       return this.values.studio
     },
     models () {
-      return this.$app.studios.list
+      return this.controller.list
     },
     buttonTitle () {
-      const studio = this.$app.studios.getFiltered(this.values)
+      const studio = this.controller.getFiltered(this.values)
 
       return studio ? studio.name : 'Студия'
     },
+  },
+  methods: {
+    onInputChange (event) {
+      this.onChange('studio', event)
+      this.onChange('rooms', [])
+    }
   }
 }
 </script>

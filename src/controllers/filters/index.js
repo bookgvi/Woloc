@@ -1,18 +1,34 @@
+const defaultValues = {
+  bookings: {
+    studio: 37
+  },
+  calendar: {
+    studio: 37
+  }
+}
+
 export default {
   name: 'filters',
   data () {
     return {
-      values: {
-        bookings: {
-          studio: 37
-        },
-        calendar: {
-          studio: 37
-        }
-      }
+      values: defaultValues
     }
   },
+  created () {
+    this.readFromSession()
+  },
   methods: {
+    readFromSession () {
+      const { filters } = sessionStorage
+
+      if (filters) this.values = JSON.parse(filters)
+    },
+    saveToSession () {
+      sessionStorage.filters = JSON.stringify(this.values)
+    },
+    getValues (page) {
+      return this.values[page] || {}
+    },
     setValue (page, name, value) {
       const { values } = this
 
@@ -23,6 +39,16 @@ export default {
           [name]: value
         }
       }
+      this.saveToSession()
+    },
+    reset (page) {
+      const { values } = this
+
+      this.values = {
+        ...values,
+        [page]: defaultValues[page]
+      }
+      this.saveToSession()
     }
   }
 }
