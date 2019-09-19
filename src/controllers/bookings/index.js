@@ -19,6 +19,21 @@ export default {
         this.loading.list = false
       }
     },
+
+    async getOne (id) {
+      this.loading.one = true
+
+      const { data } = await api.bookings.getOne({ id: id })
+
+      console.log(`bookings :: getOne`, data)
+
+      if (data) {
+        this.loading.one = false
+
+        return data
+      }
+    },
+
     calendarGetObjById (id) {
       return this.calendarList.find(item => item.id === id) || {}
     },

@@ -46,11 +46,6 @@ export default {
       }
     }
   },
-  created () {
-    if (this.startCustomer) {
-      this.customer = Object.assign(this.startCustomer)
-    }
-  },
   computed: {
     customerComp () {
       return this.customerChange()
@@ -71,7 +66,12 @@ export default {
       })
     }
   },
-  props: ['startCustomer']
+  props: ['startCustomer'],
+  watch: {
+    'startCustomer' (v) {
+      this.customer = Object.assign(this.startCustomer)
+    }
+  }
 }
 </script>
 

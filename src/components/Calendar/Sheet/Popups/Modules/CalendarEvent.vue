@@ -15,12 +15,7 @@ export default {
   data () {
     return {
       events: [],
-      event: ''
-    }
-  },
-  created () {
-    if (this.startEvent) {
-      this.event = this.startEvent
+      event: 'photo'
     }
   },
   computed: {
@@ -28,9 +23,9 @@ export default {
       return this.eventChange()
     },
     options () {
-      return sortBy(this.$app.events.list, ['name']).map(({ alias, price }) => ({
-        label: alias,
-        value: alias,
+      return sortBy(this.$app.events.list, ['name']).map(({ name, price }) => ({
+        label: name,
+        value: name,
         price,
       }))
     }
@@ -40,7 +35,12 @@ export default {
       this.$emit('eventChange', this.event)
     }
   },
-  props: ['startEvent']
+  props: ['startEvent'],
+  watch: {
+    'startEvent' (v) {
+      this.event = this.startEvent
+    }
+  }
 }
 </script>
 

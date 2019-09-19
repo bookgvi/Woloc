@@ -29,17 +29,9 @@ export default {
   data () {
     return {
       range: {
-        min: 8,
-        max: 24
+        min: this.startTime || 8,
+        max: this.endTime || 24
       },
-    }
-  },
-  created () {
-    if (this.startTime) {
-      this.range.min = this.startTime
-    }
-    if (this.endTime) {
-      this.range.max = this.endTime
     }
   },
   computed: {
@@ -61,7 +53,15 @@ export default {
       })
     }
   },
-  props: ['startTime', 'endTime']
+  props: ['startTime', 'endTime'],
+  watch: {
+    'startTime' (v) {
+      this.range.min = this.startTime
+    },
+    'endTime' (v) {
+      this.range.max = this.endTime
+    },
+  }
 }
 </script>
 

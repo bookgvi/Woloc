@@ -57,12 +57,8 @@
         column-header-before
         )
         template.row(#interval="{ time, date }")
-          .fit.flex.justify-center.items-center
-            new-event-dialog(
-              :date="date"
-              :time="formatTimeToHours(time)"
-              :studio="studio"
-              :filter="filter"
+          .row.fit.q-pa-none(
+            @click="setNewBooking(date, time)"
             )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
@@ -78,19 +74,25 @@
             :value="e"
             v-if="e.date === date"
             :key="index"
-            @click="click(index)"
+            @click="findBooking(index)"
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
-            update-event-dialog(
-              :filter="filter"
-              :booking="findBooking(index)"
-            )
             .row.col-12.justify-start.q-px-xs
               q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
               .row.col-12
                 span.text-body2.ellipsis {{ e.title }}
               .row.col-12
                 span.text-body2.ellipsis {{ e.details }}
+      update-event-dialog(
+        :filter="filter"
+        :booking="selectedBooking"
+      )
+      new-event-dialog(
+        :date="newBooking.date"
+        :time="newBooking.time"
+        :studio="newBooking.studio"
+        :filter="newBooking.filter"
+      )
  </template>
 
 <script>
@@ -138,7 +140,10 @@ export default {
       addEvent: false,
       selectedDate: '',
       dateDialog: false,
-      date: ''
+      date: '',
+      dialog: false,
+      selectedBooking: {},
+      newBooking: {}
     }
   },
   created: async function () {
@@ -164,14 +169,22 @@ export default {
     }
   },
   methods: {
-    click (index) {
-      console.log(666, index)
-    },
     formatTimeToHours (time) {
       return +time.split(':')[0]
     },
-    findBooking (index) {
-      return this.$app.bookings.calendarGetObjById(this.events[index].id)
+    setNewBooking (date, time) {
+      this.newBooking = Object.assign({}, {
+        date: date,
+        time: this.formatTimeToHours(time),
+        studio: this.studio,
+        filter: this.filter
+      })
+      console.log(this.newBooking)
+      this.$app.dialogs.calendarNew = true
+    },
+    async findBooking (index) {
+      this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      this.$app.dialogs.calendarUpdate = true
     },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')

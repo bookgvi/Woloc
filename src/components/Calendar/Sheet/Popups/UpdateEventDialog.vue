@@ -1,5 +1,8 @@
 <template lang="pug">
-  q-popup-proxy
+  q-dialog(
+    v-model="$app.dialogs.calendarUpdate"
+    persistent
+  )
     q-card.q-py-md(
       style="width: 330px"
     )
@@ -105,21 +108,6 @@
         )
           template(v-slot:header)
             .col-4.q-py-sm
-              span {{ "Участники" }}
-            .col-7.q-py-sm
-              span.text-grey {{ membersSlot }}
-          q-card
-            q-card-section
-              calendar-members(
-                @membersChange="newBooking.members = $event"
-                :startMembers="newBooking.members"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-        )
-          template(v-slot:header)
-            .col-4.q-py-sm
               span {{ "Оплата" }}
             .col-7.q-py-sm
               span.text-grey {{priceSlot }}
@@ -165,6 +153,7 @@ import CalendarPrice from './Modules/CalendarPrice'
 import CalendarComment from './Modules/CalendarComment'
 import CalendarDelete from './Modules/CalendarDelete'
 import CalendarApply from './Modules/CalendarApply'
+
 export default {
   name: 'UpdateEventDialog',
   components: { CalendarDelete,
@@ -214,22 +203,6 @@ export default {
       }
     }
   },
-  created () {
-    this.newBooking = Object.assign(this.newBooking, this.booking)
-    const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
-    const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('k')
-    let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
-    if (hTo === 0) {
-      hTo = 24
-    }
-    this.helpers = Object.assign({
-      date: hDate,
-      time: {
-        from: hFrom,
-        to: hTo
-      }
-    })
-  },
   computed: {
     fee () {
       const duration = this.helpers.time.to - this.helpers.time.from
@@ -253,7 +226,11 @@ export default {
       }
     },
     roomSlot () {
-      return this.newBooking.room.name
+      if (this.newBooking.room) {
+        return this.newBooking.room.name
+      } else {
+        return 'Выберите зал'
+      }
     },
     dateSlot () {
       const formatDate = date.formatDate(this.helpers.date, 'D MMMM YYYY')
@@ -263,7 +240,11 @@ export default {
       return `${this.helpers.time.from}:00-${this.helpers.time.to}:00`
     },
     eventSlot () {
-      return this.newBooking.eventType
+      if (this.newBooking.eventType) {
+        return this.newBooking.eventType
+      } else {
+        return 'Выберите цель'
+      }
     },
     extrasSlot () {
       return this.newBooking.extras.length
@@ -286,7 +267,7 @@ export default {
   },
   methods: {
     applyBooking () {
-      console.log(this.newBooking, this.filter)
+      console.log(8, this.newBooking, this.filter)
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
       this.newBooking.studio.id = this.filter.studio
@@ -297,7 +278,27 @@ export default {
         Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
     }
   },
-  props: ['booking', 'filter']
+  props: ['booking', 'filter'],
+  watch: {
+    'booking' (v) {
+      this.$nextTick(function () {
+        this.newBooking = Object.assign(this.newBooking, v)
+        const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
+        const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('k')
+        let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
+        if (hTo === 0) {
+          hTo = 24
+        }
+        this.helpers = Object.assign({
+          date: hDate,
+          time: {
+            from: hFrom,
+            to: hTo
+          }
+        })
+      })
+    }
+  }
 }
 </script>
 

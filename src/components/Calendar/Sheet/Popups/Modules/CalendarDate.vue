@@ -11,7 +11,7 @@ export default {
   name: 'CalendarDate',
   data () {
     return {
-      selectedDate: this.date
+      selectedDate: this.date || ''
     }
   },
   computed: {
@@ -24,7 +24,13 @@ export default {
       this.$emit('dateChange', this.selectedDate)
     }
   },
-  props: ['date']
+  props: ['date'],
+  watch: {
+    'date' (v) {
+      console.log(v)
+      this.selectedDate = v
+    }
+  }
 }
 </script>
 

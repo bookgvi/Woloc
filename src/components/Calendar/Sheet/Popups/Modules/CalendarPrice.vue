@@ -64,8 +64,6 @@ export default {
       },
     }
   },
-  created: async function () {
-  },
   computed: {
     priceComp () {
       return this.priceChange()

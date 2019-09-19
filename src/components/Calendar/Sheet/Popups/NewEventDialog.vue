@@ -1,5 +1,8 @@
 <template lang="pug">
-  q-popup-proxy
+  q-dialog(
+    v-model="$app.dialogs.calendarNew"
+    persistent
+  )
     q-card.q-py-md(
       style="width: 330px"
       )
@@ -100,20 +103,6 @@
         )
           template(v-slot:header)
             .col-4.q-py-sm
-              span {{ "Участники" }}
-            .col-7.q-py-sm
-              span.text-grey {{ membersSlot }}
-          q-card
-            q-card-section
-              calendar-members(
-                @membersChange="newBooking.members = $event"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-        )
-          template(v-slot:header)
-            .col-4.q-py-sm
               span {{ "Оплата" }}
             .col-7.q-py-sm
               span.text-grey {{priceSlot }}
@@ -159,6 +148,7 @@ import CalendarPrice from './Modules/CalendarPrice'
 import CalendarComment from './Modules/CalendarComment'
 import CalendarDelete from './Modules/CalendarDelete'
 import CalendarApply from './Modules/CalendarApply'
+
 export default {
   name: 'NewEventDialog',
   components: { CalendarDelete,
@@ -237,7 +227,11 @@ export default {
       }
     },
     roomSlot () {
-      return this.newBooking.room.name
+      if (this.newBooking.room) {
+        return this.newBooking.room.name
+      } else {
+        return 'Выберите зал'
+      }
     },
     dateSlot () {
       const formatDate = date.formatDate(this.helpers.date, 'D MMMM YYYY')
@@ -247,7 +241,11 @@ export default {
       return `${this.helpers.time.from}:00-${this.helpers.time.to}:00`
     },
     eventSlot () {
-      return this.newBooking.eventType
+      if (this.newBooking.eventType) {
+        return this.newBooking.eventType
+      } else {
+        return 'Выберите цель'
+      }
     },
     extrasSlot () {
       return this.newBooking.extras.length
