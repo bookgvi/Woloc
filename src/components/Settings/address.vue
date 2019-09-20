@@ -35,6 +35,24 @@
           :coords="coord"
           marker-id="1"
         )
+    .row.q-pb-lg
+      .col
+        span Инструкция пешком
+        q-input.q-pt-sm(
+          type="textarea"
+          v-model="instWalk"
+          outlined
+          rows="4"
+        )
+    .row.q-pb-lg
+      .col
+        span Инструкция на машине
+        q-input.q-pt-sm(
+          type="textarea"
+          v-model="instAuto"
+          outlined
+          rows="4"
+        )
 </template>
 
 <script>
@@ -54,7 +72,9 @@ export default {
         yaMap: {
           yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
         }
-      }
+      },
+      instWalk: 'Выйдя из метро идите вдоль торговых рядов вдоль и железной дороги. Перейдя железнодорожные пути пройдите через шлагбаум на территорию бывшего завода Станколит ...',
+      instAuto: ''
     }
   },
   async mounted () {
