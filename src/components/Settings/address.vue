@@ -2,11 +2,12 @@
   .address-class
     h6.q-mb-md Адрес
     .row.q-pb-lg
-      .col
+      .col-8.q-pr-sm
         q-select(
           v-model="fullAddress"
           :options="fullAddressArr"
           @input.native="getFullAddress($event)"
+          @keyup.native.enter="showOnMap"
           @filter="emptyFilter"
           use-input
           fill-input
@@ -17,8 +18,9 @@
           template(v-slot:no-option)
             q-item
               q-item-section.text-grey No results
+      .col-4.q-pl-sm
+        q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
-      q-btn(label="Показать на карте" @click="showOnMap")
       q-img(:src="locationURL")
 </template>
 
@@ -34,12 +36,15 @@ export default {
         lat: '37.718857',
         long: '55.786516'
       },
-      locationURL: `https://geocode-maps.yandex.ru/1.x/?apikey=${this.options.yAPI}&format=json&geocode=${this.fullAddress}`,
+      locationURL: `https://geocode-maps.yandex.ru/1.x/`,
       options: {
         token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
         yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
       }
     }
+  },
+  async mounted () {
+    await this.showOnMap()
   },
   methods: {
     async getFullAddress (e) {
@@ -57,12 +62,17 @@ export default {
       })
     },
     async showOnMap () {
-      await axios.get(`https://geocode-maps.yandex.ru/1.x/?apikey=${this.options.yAPI}&format=json&geocode=${this.fullAddress}`)
-        .then(resp => {
-          this.coord.lat = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
-          this.coord.long = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
-          this.locationURL = `https://static-maps.yandex.ru/1.x/?ll=${this.coord.lat},${this.coord.long}&size=450,450&z=16&l=map&pt=${this.coord.lat},${this.coord.long},pmwtm1~${this.coord.lat},${this.coord.long},pmwtm`
-        })
+      await axios.get(`https://geocode-maps.yandex.ru/1.x`, {
+        params: {
+          apikey: this.options.yAPI,
+          format: 'json',
+          geocode: this.fullAddress
+        }
+      }).then(resp => {
+        this.coord.lat = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
+        this.coord.long = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
+        this.locationURL = `https://static-maps.yandex.ru/1.x/?ll=${this.coord.lat},${this.coord.long}&size=450,450&z=16&l=map&pt=${this.coord.lat},${this.coord.long},pmwtm1~${this.coord.lat},${this.coord.long},pmwtm`
+      })
     },
     emptyFilter (val, update) {
       update(() => {})
