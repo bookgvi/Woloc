@@ -11,7 +11,6 @@ export default {
   methods: {
     async onRequest (pagination, filter) {
       const { page, rowsPerPage } = pagination
-      console.log('qqq', await this.loadData({ number: page, size: rowsPerPage }, filter))
       let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       if (data) {
         this.account.amount = data.account.amount

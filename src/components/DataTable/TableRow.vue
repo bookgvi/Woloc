@@ -45,7 +45,7 @@
       template(v-else-if="name === 'link'")
         slot
       template(v-else-if="name === 'purpose'")
-        q-chip() {{ value }}
+        q-chip {{ value }}
       template(v-else) {{ value }}
 </template>
 
