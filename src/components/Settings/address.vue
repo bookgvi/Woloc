@@ -21,30 +21,44 @@
       .col-4.q-pl-sm
         q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
-      q-img(:src="locationURL")
+      yandexMap(
+        :settings="options.yaMap"
+        map-type="map"
+        zoom=17
+        :coords="coord"
+        :controls="yControls"
+        style="width: 640px; height: 480px"
+        @click="setAddress"
+      )
+        ymapMarker(
+          :coords="coord"
+          marker-id="1"
+        )
 </template>
 
 <script>
 import axios from 'axios'
+import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 export default {
-  // name: 'ComponentName',
+  components: { yandexMap, ymapMarker },
   data () {
     return {
       fullAddress: 'г Москва, ул Ткацкая, д 1',
       fullAddressArr: [],
-      coord: {
-        lat: '37.718857',
-        long: '55.786516'
-      },
+      coord: [55.786516, 37.718857],
+      dadataBaseURL: 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address',
       locationURL: `https://geocode-maps.yandex.ru/1.x/`,
+      yControls: [],
       options: {
         token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
-        yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
+        yaMap: {
+          yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
+        }
       }
     }
   },
   async mounted () {
-    await this.showOnMap()
+    // await this.showOnMap()
   },
   methods: {
     async getFullAddress (e) {
@@ -62,17 +76,29 @@ export default {
       })
     },
     async showOnMap () {
-      await axios.get(`https://geocode-maps.yandex.ru/1.x`, {
+      await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
-          apikey: this.options.yAPI,
+          apikey: this.options.yaMap.yAPI,
           format: 'json',
           geocode: this.fullAddress
         }
       }).then(resp => {
-        this.coord.lat = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
-        this.coord.long = resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
-        this.locationURL = `https://static-maps.yandex.ru/1.x/?ll=${this.coord.lat},${this.coord.long}&size=450,450&z=16&l=map&pt=${this.coord.lat},${this.coord.long},pmwtm1~${this.coord.lat},${this.coord.long},pmwtm`
+        this.coord.splice(1, 1, +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0])
+        this.coord.splice(0, 1, +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1])
+        console.log(this.coord)
       })
+    },
+    async setAddress (e) {
+      this.coord = e.get('coords')
+      console.log(this.coord[0], this.coord[1])
+      await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
+        lat: this.coord[0],
+        lon: this.coord[1]
+      }, {
+        headers: {
+          Authorization: `Token ${this.options.token}`
+        }
+      }).then(resp => { this.fullAddress = resp.data.suggestions[0].value })
     },
     emptyFilter (val, update) {
       update(() => {})
