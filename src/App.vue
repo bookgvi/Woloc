@@ -15,6 +15,10 @@ import extras from './controllers/extras'
 import studios from './controllers/studios'
 import login from './controllers/login'
 import refunds from './controllers/refunds'
+import finances from './controllers/finances'
+import documents from './controllers/documents'
+import filters from './controllers/filters'
+import dialogs from './controllers/dialogs'
 
 export default {
   name: 'App',
@@ -22,20 +26,10 @@ export default {
     Vue.prototype.$app = this
   },
   data () {
-    return {
-      bookings: new Vue(bookings),
-      users: new Vue(users),
-      rooms: new Vue(rooms),
-      customers: new Vue(customers),
-      events: new Vue(events),
-      extras: new Vue(extras),
-      studios: new Vue(studios),
-      login: new Vue(login),
-      refunds: new Vue(refunds)
-    }
+    return [bookings, users, rooms, customers, events, extras, studios, login, refunds, documents, filters, dialogs, finances].reduce(
+      (acc, component) => ({ ...acc, [component.name]: new Vue(component) }),
+      {}
+    )
   }
 }
 </script>
-
-<style>
-</style>

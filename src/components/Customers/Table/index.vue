@@ -1,8 +1,9 @@
 <template lang="pug">
   DataTable(
-    title="Пользователи"
+    title="Клиенты"
     :getDialogTitle="() => 'Личные данные'"
-    :controller="$app.customers"
+    :loadData="$app.customers.getAll"
+    :filter="$app.filters.getValues('customers')"
     :columns="columns"
     :details="details"
   )
