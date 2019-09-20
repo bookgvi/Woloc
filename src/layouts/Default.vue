@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-layout(view="hHh Lpr lFf")
+  q-layout(view="hHh LPr lFf")
     q-header.bg-white.text-grey
       .wrapper.wrapper--header
         Header

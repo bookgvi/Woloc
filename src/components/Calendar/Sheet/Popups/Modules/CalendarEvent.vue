@@ -3,27 +3,42 @@
     .col-7.text-body2
       q-option-group(
         v-model="event"
-        :options="$app.events.forSelect"
+        :options="options"
       )
 </template>
 
 <script>
+import sortBy from 'lodash/sortBy'
+
 export default {
   name: 'CalendarEvent',
   data () {
     return {
       events: [],
-      event: ''
+      event: 'photo'
     }
   },
   computed: {
     eventComp () {
       return this.eventChange()
+    },
+    options () {
+      return sortBy(this.$app.events.list, ['name']).map(({ name, price }) => ({
+        label: name,
+        value: name,
+        price,
+      }))
     }
   },
   methods: {
     eventChange () {
       this.$emit('eventChange', this.event)
+    }
+  },
+  props: ['startEvent'],
+  watch: {
+    'startEvent' (v) {
+      this.event = this.startEvent
     }
   }
 }

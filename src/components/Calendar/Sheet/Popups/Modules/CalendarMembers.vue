@@ -47,7 +47,8 @@ export default {
     membersChange () {
       this.$emit('membersChange', this.members)
     }
-  }
+  },
+  props: ['startMembers']
 }
 </script>
 

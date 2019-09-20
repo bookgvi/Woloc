@@ -1,17 +1,21 @@
 <template lang="pug">
-  q-tr(:class="{ disabled: row.disabled }")
+  q-tr(:class="{ disabled }")
     q-td(
-      v-for="{name, value, active} of cols"
       :key="name"
-      :class="{ [name]: true, active }"
+      v-for="{name, value, active} of cols"
+      v-bind="getColProps(name)"
       @click.native="active && $emit('toggleDialogRow', row.id)"
     )
       template(v-if="name === 'room'")
-        q-chip(dense square :color="value.color" :title="value.name") {{value.name}}
+        q-chip(
+          dense
+          :style="getRoomStyle(value)"
+          :title="value.name"
+        ) {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'isPaid'")
-        q-icon(size="sm" name="check" color="green" v-if="value")
+        q-icon(size="sm" name="check" color="green" v-if="value === paidStatus")
       template(v-else-if="['comment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
@@ -34,38 +38,64 @@
             icon="more_vert"
             @click="$emit('toggleControls', row.id)"
             :color="controlsAreVisible(row) ? 'primary' : undefined"
-            :disable="row.disabled"
+            :disable="disabled"
           )
-      template(v-else-if="name === 'name'")
-        q-chip(dense square :color="value.color || 'grey-3'" :title="value.name") {{value}}
-      template(v-else-if="name === 'refundStatus' && value")
-        .inline-block {{ value }}
-      template(v-else-if="name === 'refundStatus' && !value")
-        .inline-block(style="width: 250px;")
+      template(v-else-if="name === 'status'")
+        .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
+      template(v-else-if="name === 'link'")
         slot
-      template(v-else-if="name === 'returnedAt'")
-        .inline-block(style="color: red;") {{ value }}
-      template(v-else-if="name === 'id'")
-        .inline-block.color-primary {{ value }}
       template(v-else) {{ value }}
 </template>
 
 <script>
+import { BOOKING_STATUSES } from 'src/common/constants'
+import roomsColors from 'src/common/rooms/colors'
+
+const usedColors = {}
+
 export default {
   name: 'TableRow',
   inheritAttrs: false,
   props: {
     row: Object,
     cols: Array,
+    colsMap: Object,
     controlsRowId: Number,
     toggleControls: Function,
     dialogRowId: Number,
+    disabled: Boolean,
   },
+  data: () => ({
+    paidStatus: BOOKING_STATUSES.PAID,
+  }),
   methods: {
     controlsAreVisible (row) {
       return this.controlsRowId === row.id
     },
-  }
+    getColProps (name) {
+      const { active, classes, __tdClass, style } = this.colsMap[name]
+      const classNames = [`${name}-col`]
+      if (active) classNames.push('active')
+      if (classes) classNames.push(classes)
+      if (__tdClass) classNames.push(__tdClass)
+
+      return {
+        class: classNames,
+        style
+      }
+    },
+    // TODO: get color from API
+    getRoomStyle ({ id }) {
+      if (!(id in usedColors)) {
+        const i = Object.keys(usedColors).length
+        usedColors[id] = roomsColors[i < roomsColors.length ? i : 0]
+      }
+
+      return {
+        backgroundColor: usedColors[id].color,
+      }
+    },
+  },
 }
 </script>
 
@@ -75,22 +105,24 @@ export default {
   .q-table tbody tr
     .active
       cursor: pointer
-    .room .q-chip
+    .room-col .q-chip
       width 100px
-      div
+      border-radius 3px
+      .q-chip__content
+        opacity .4
         width 100%
         overflow hidden
         text-overflow ellipsis
-    .eventType
+    .eventType-col
       font-size 1.6em
-    .comment
+    .comment-col
       max-width 100px
       overflow hidden
       text-overflow ellipsis
-    .rating
+    .rating-col
       color $primary
       letter-spacing 5px
-    .controls
+    .controls-col
       position relative
       .buttons
         padding-top 4px

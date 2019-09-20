@@ -2,22 +2,25 @@ import api from './instance'
 
 const API_URL = process.env.API_CABINET_URL
 export default {
-  getAll: async (page) => {
+  getAll: async (page, filter) => {
     try {
       const r = await api.get(`${API_URL}/customers`, {
-        params: { page }
+        params: { page, ...filter }
       })
       return r.data
     } catch (e) {
       console.warn('catch :: customers :: getAll', e)
     }
   },
-  getSearchedCustomers: async (payload) => {
+  getSearchedCustomers: async (search) => {
     try {
-      const result = await api.post(`${API_URL}/customers`, payload)
-      return result
+      const r = await api.get(`${API_URL}/customers`, {
+        params: { search }
+      })
+
+      return r.data
     } catch (e) {
-      console.warn('catch :: customers :: getSearchedUsers', e)
+      console.warn('catch :: customers :: getSearchedCustomers', e)
     }
   }
 }

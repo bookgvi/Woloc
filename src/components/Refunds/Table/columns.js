@@ -3,23 +3,21 @@ import { date } from 'quasar'
 export default [
   {
     name: 'id',
-    field: 'id',
-    required: true,
     label: 'Бронь',
-    width: 80,
-    active: false,
+    width: 70,
+    classes: 'text-primary',
+    align: 'right',
   },
   {
     name: 'customer',
     label: 'Клиент',
     field: ({ booking: { customer = {} } }) => `${customer.firstName} ${customer.lastName}`,
     width: 150,
-    active: false,
   },
   {
-    name: 'name',
+    name: 'room',
     label: 'Зал',
-    field: ({ booking: { room = {} } }) => `${room.name}`,
+    field: ({ booking: { room = {} } }) => room,
     width: 120
   },
   {
@@ -41,21 +39,19 @@ export default [
   {
     name: 'returnedAt',
     label: 'Просрочено',
-    field: 'returnedAt',
+    classes: 'text-red',
     format: value => date.formatDate(value, 'D MMM'),
     width: 120
   },
   {
     name: 'amount',
     label: 'Сумма, Р.',
-    field: 'amount',
     width: 120
   },
   {
     name: 'status',
     label: 'Статус возврата',
-    field: 'status',
-    width: 120
+    width: 250
   },
   {
     name: 'controls',

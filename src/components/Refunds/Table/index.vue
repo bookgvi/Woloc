@@ -2,10 +2,11 @@
 
   DataTable(
     title="Возврат"
-    :controller="$app.refunds"
+    :loadData="$app.refunds.getAll"
     :getDialogTitle="() => 'Возврат'"
     :columns="columns"
     :details="details"
+    :isRowDisabled="({ status }) => !status"
   )
     template(#row-controls)
       q-btn(flat round icon="block")

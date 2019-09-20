@@ -5,17 +5,19 @@
         outlined
         fill-input
         hide-selected
+        stack-label
         @filter="filterFn"
         use-input
         label="Пользователь"
-        :options="customers"
-        :option-value="opt => opt === null ? null : opt.fullName"
-        :option-label="opt => opt === null ? null : opt.fullName"
+        :options="$app.customers.searched"
+        :option-value="opt => opt === null ? '' : opt.fullName"
+        :option-label="opt => opt === null ? '' : opt.fullName"
         v-model="customer"
         )
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
+        stack-label
         readonly
         mask="#(###)###-##-##"
         label="Телефон"
@@ -24,6 +26,7 @@
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
+        stack-label
         readonly
         label="Эл. почта"
         v-model="customer.email"
@@ -36,8 +39,11 @@ export default {
   name: 'CalendarCustomer',
   data () {
     return {
-      customer: this.$app.customers.forCalendar[0],
-      customers: this.$app.customers.forCalendar
+      customer: {
+        fullName: '',
+        phone: '',
+        email: ''
+      }
     }
   },
   computed: {
@@ -50,14 +56,20 @@ export default {
       this.$emit('customerChange', this.customer)
     },
     filterFn (val, update, abort) {
-      if (val.length < 0) {
+      if (val.length < 1) {
         abort()
         return
       }
       update(() => {
         const needle = val.toLowerCase()
-        this.customers = this.$app.customers.forCalendar.filter(v => v.fullName.toLowerCase().indexOf(needle) > -1)
+        this.$app.customers.getForCalendar(needle)
       })
+    }
+  },
+  props: ['startCustomer'],
+  watch: {
+    'startCustomer' (v) {
+      this.customer = Object.assign(this.startCustomer)
     }
   }
 }

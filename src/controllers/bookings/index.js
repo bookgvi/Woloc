@@ -1,39 +1,18 @@
-import api from '../../api'
-import { sortBy } from 'lodash'
+import api from 'src/api'
+import crudMixin from '../crudMixin'
 
 export default {
   name: 'bookings',
   data () {
     return {
-      loading: {
-        list: false,
-        one: false
-      },
-      list: [],
       calendarList: []
     }
   },
-  created () {
-  },
-  computed: {
-    all () {
-      return sortBy(this.list, 'reservedFrom')
-    },
-    forSelect () {
-      let arr = []
-      for (let i = 0; i < this.all.length; i++) {
-        arr.push(Object.assign({}, {
-          label: this.all[i].title,
-          value: this.all[i].id
-        }))
-      }
-      return arr
-    }
-  },
+  mixins: [crudMixin],
   methods: {
-    async getForCalendar (studio, dateFrom, dateTo) {
+    async getForCalendar (filter) {
       this.loading.list = true
-      const res = await api.bookings.getForCalendar({ studio, dateFrom, dateTo })
+      const res = await api.bookings.getForCalendar(filter)
       console.log('bookings :: getForCalendar', res)
       if (res) {
         this.calendarList = res.data.items
@@ -41,35 +20,27 @@ export default {
       }
     },
 
-    async getAll (page) {
-      this.loading.list = true
-      const { data } = await api.bookings.getAll(page)
-      console.log('bookings :: getAll', data)
+    async getOne (id) {
+      this.loading.one = true
+
+      const { data } = await api.bookings.getOne({ id: id })
+
+      console.log(`bookings :: getOne`, data)
+
       if (data) {
-        this.list = data.items
+        this.loading.one = false
 
-        this.loading.list = false
+        return data
       }
+    },
 
-      return data
+    calendarGetObjById (id) {
+      return this.calendarList.find(item => item.id === id) || {}
+    },
+    calendarGetIndexById (id) {
+      console.log(id, this.list)
+      return this.calendarList.findIndex(item => item.id === id)
     },
   },
-  watch: {
-    'loading.list' (v) {
-      if (v) {
-        this.$q.loading.show()
-      } else {
-        this.$q.loading.hide()
-      }
-    },
-    'loading.one' (v) {
-      if (v) {
-        this.$q.loading.show()
-      } else if (this.loading.list) {
-        this.$q.loading.show()
-      } else {
-        this.$q.loading.hide()
-      }
-    }
-  }
+
 }

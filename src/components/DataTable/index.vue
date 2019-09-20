@@ -32,32 +32,35 @@
       template(#body="props")
         TableRow(
           v-bind="props"
-          v-slot="props"
           :controlsRowId="controlsRowId"
+          :disabled="isRowDisabled && isRowDisabled(props.row)"
           @toggleControls="toggleControlsRow"
           @toggleDialogRow="toggleDialogRow"
         )
-          slot(name="row-controls" :row="props.row" :toggleDialogRow="toggleDialogRow")
+          slot(
+            name="row-controls"
+            :row="props.row"
+            :toggleDialogRow="toggleDialogRow"
+          )
 </template>
 
 <script>
-import Menu from '../Menu'
 import TableControls from './TableControls'
 import TableRow from './TableRow'
-import pagination from './pagination'
+import connected from './connectedMixin'
 import RowDialog from './RowDialog'
 
 export default {
   name: 'DataTable',
-  components: { RowDialog, Menu, TableControls, TableRow },
-  mixins: [pagination],
+  components: { RowDialog, TableControls, TableRow },
+  mixins: [connected],
   props: {
     title: String,
     getDialogTitle: Function,
     columns: Array,
     details: Array,
-    controller: Object,
     activeColumns: Array,
+    isRowDisabled: Function,
   },
   data () {
     return {
@@ -82,7 +85,7 @@ export default {
       return this.columns.map(col => ({
         ...col,
         field: col.field || col.name,
-        align: 'left',
+        align: col.align || 'left',
         style: col.width && `width: ${col.width}px`
       }))
     },
