@@ -24,13 +24,14 @@
       yandexMap(
         :settings="options.yaMap"
         map-type="map"
-        zoom=17
+        zoom=18
         :coords="coord"
         :controls="yControls"
         style="width: 640px; height: 480px"
         @click="setAddress"
       )
         ymapMarker(
+          v-if="isMarker"
           :coords="coord"
           marker-id="1"
         )
@@ -46,8 +47,7 @@ export default {
       fullAddress: 'г Москва, ул Ткацкая, д 1',
       fullAddressArr: [],
       coord: [55.786516, 37.718857],
-      dadataBaseURL: 'https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address',
-      locationURL: `https://geocode-maps.yandex.ru/1.x/`,
+      isMarker: true,
       yControls: [],
       options: {
         token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
@@ -74,6 +74,7 @@ export default {
           return `${item.value}`
         })
       })
+        .catch(err => { console.error('Catched...', err) })
     },
     async showOnMap () {
       await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
@@ -85,12 +86,12 @@ export default {
       }).then(resp => {
         this.coord.splice(1, 1, +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0])
         this.coord.splice(0, 1, +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1])
-        console.log(this.coord)
       })
+        .catch(err => { console.error('Catched...', err) })
     },
     async setAddress (e) {
+      this.isMarker = false
       this.coord = e.get('coords')
-      console.log(this.coord[0], this.coord[1])
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
         lat: this.coord[0],
         lon: this.coord[1]
@@ -99,6 +100,8 @@ export default {
           Authorization: `Token ${this.options.token}`
         }
       }).then(resp => { this.fullAddress = resp.data.suggestions[0].value })
+        .catch(err => { console.error('Catched...', err) })
+      this.isMarker = true
     },
     emptyFilter (val, update) {
       update(() => {})
