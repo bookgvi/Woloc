@@ -23,11 +23,13 @@
           span {{props.col.label}}
 
       template(#top-left)
-        .text-h6 {{ title }}
+        .text-h6.inline-block {{ title }}
+        slot(name="title-append" v-bind="account")
 
       template(#top-right="props")
+        slot(name="table-controls-prepend")
         TableControls(v-bind="props" :setPagination="setPagination")
-          slot(name="table-controls")
+            slot(name="table-controls-append")
 
       template(#body="props")
         TableRow(
@@ -65,6 +67,7 @@ export default {
   data () {
     return {
       data: [],
+      account: { amount: 0 },
       controlsRowId: undefined,
       dialogRowId: undefined,
     }

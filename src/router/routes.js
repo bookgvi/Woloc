@@ -25,6 +25,7 @@ const routes = [
       { path: 'calendar', component: () => import('pages/Calendar.vue') },
       { path: 'refunds', component: () => import('pages/Refunds.vue') },
       { path: 'documents', component: () => import('pages/Documents.vue') },
+      { path: 'finances', component: () => import('pages/Finances.vue') },
       { path: 'settings', component: () => import('pages/Settings.vue') }
     ]
   }
