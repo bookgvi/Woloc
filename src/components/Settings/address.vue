@@ -27,7 +27,7 @@
         zoom=18
         :coords="coord"
         :controls="yControls"
-        style="width: 640px; height: 480px"
+        style="width: 100%; height: 480px"
         @click="setAddress"
       )
         ymapMarker(
@@ -82,6 +82,7 @@ export default {
   },
   methods: {
     async getFullAddress (e) {
+      this.fullAddress = e.target.value
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
         count: 5,
         query: e.target.value,
