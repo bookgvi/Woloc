@@ -77,6 +77,7 @@ export default {
         .catch(err => { console.error('Catched...', err) })
     },
     async showOnMap () {
+      this.isMarker = false
       await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
           apikey: this.options.yaMap.yAPI,
@@ -88,6 +89,7 @@ export default {
         this.coord.splice(0, 1, +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1])
       })
         .catch(err => { console.error('Catched...', err) })
+      this.isMarker = true
     },
     async setAddress (e) {
       this.isMarker = false
