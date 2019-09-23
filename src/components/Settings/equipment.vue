@@ -11,17 +11,7 @@
           q-expansion-item.text-subtitle1(label="Моноблоки" default-opened)
             .col.q-pl-md
               .row.q-pb-md
-                q-checkbox(v-model="isBowens" label="Bowens" dense)
-              .row.q-pb-md
-                q-checkbox(v-model="isBroncolor" label="Broncolor" dense)
-              .row.q-pb-md
-                q-checkbox(v-model="isEinstein" label="Einstein" dense)
-              .row.q-pb-md
-                q-checkbox(v-model="isHensel" label="Hensel" dense)
-              .row.q-pb-md
-                q-checkbox(v-model="isElinchrom" label="Elinchrom" dense)
-              .row.q-pb-md
-                q-checkbox(v-model="isProfoto" label="Profoto" dense)
+                q-option-group(v-model="group" :options="monoblocks" type="checkbox")
       .row.q-pb-sm
         .col
           q-separator
@@ -36,12 +26,33 @@
 export default {
   name: 'datas',
   data: () => ({
-    isBowens: true,
-    isBroncolor: true,
-    isEinstein: true,
-    isHensel: true,
-    isElinchrom: false,
-    isProfoto: false
+    group: ['isBowens', 'isBroncolor', 'isEinstein', 'isHensel'],
+    monoblocks: [
+      {
+        label: 'Bowens',
+        value: 'isBowens'
+      },
+      {
+        label: 'Broncolor',
+        value: 'isBroncolor'
+      },
+      {
+        label: 'Einstein',
+        value: 'isEinstein'
+      },
+      {
+        label: 'Hensel',
+        value: 'isHensel'
+      },
+      {
+        label: 'Elinchrom',
+        value: 'isElinchrom'
+      },
+      {
+        label: 'Profoto',
+        value: 'isProfoto'
+      }
+    ]
   })
 }
 </script>
