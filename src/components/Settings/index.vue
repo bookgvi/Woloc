@@ -15,7 +15,7 @@
         services
         equipment
         rooms
-        .row.q-pt-lg.justify-center
+        .row.q-py-lg.justify-center
           q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps)
           q-btn(label="Сохранить и создать зал" no-caps)
 </template>

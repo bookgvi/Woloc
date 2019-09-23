@@ -1,12 +1,12 @@
 <template lang="pug">
   .rooms
     h6.q-mb-md Залы
-    .col.q-pl-md
-      draggable(:list="arr" @start="drag=true" @end="drag=false")
-        q-field(v-for="item in arr" :key="item.id" dense)
-          template(v-slot="append")
-            span.q-py-sm.text-grey-7 {{ item.id }}.  {{ item.name }}
-        q-separator
+    .col
+      draggable(:list="arr")
+        q-list(v-for="item in arr" :key="item.id")
+          q-item
+            q-item-section {{ item.id }}.  {{ item.name }}
+            q-icon(name="drag_handle")
 </template>
 
 <script>
@@ -26,10 +26,14 @@ export default {
 }
 </script>
 
-<style>
-  .handle {
-    float: left;
-    padding-top: 8px;
-    padding-bottom: 8px;
+<style scoped>
+  .q-list:hover {
+    border-top: 1px solid silver;
+    border-bottom: 1px solid silver;
+    background-color: rgba(0, 0, 0, 0.08);
+  }
+  .q-icon {
+    font-size: 1.5em;
+    cursor: pointer;
   }
 </style>
