@@ -13,6 +13,7 @@
         images
         addressBlock
         services
+        equipment
 </template>
 
 <script>
@@ -21,13 +22,15 @@ import specifications from './specifications'
 import images from './images'
 import addressBlock from './address'
 import services from './services'
+import equipment from './equipment'
 export default {
   components: {
     datas,
     specifications,
     images,
     addressBlock,
-    services
+    services,
+    equipment
   }
 }
 </script>
