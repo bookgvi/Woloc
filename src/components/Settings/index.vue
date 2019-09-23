@@ -14,6 +14,10 @@
         addressBlock
         services
         equipment
+        rooms
+        .row.q-pt-lg.justify-center
+          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps)
+          q-btn(label="Сохранить и создать зал" no-caps)
 </template>
 
 <script>
@@ -23,6 +27,7 @@ import images from './images'
 import addressBlock from './address'
 import services from './services'
 import equipment from './equipment'
+import rooms from './rooms'
 export default {
   components: {
     datas,
@@ -30,7 +35,8 @@ export default {
     images,
     addressBlock,
     services,
-    equipment
+    equipment,
+    rooms
   }
 }
 </script>
