@@ -1,17 +1,15 @@
 <template lang="pug">
   q-card.column.q-py-md
-    profit-chart.q-pa-sm(style="width: 33%;")
-    profit-chart.q-pa-sm(style="width: 33%;")
-    profit-chart.q-pa-sm(style="width: 33%;")
+    profit-card.q-pa-sm
 
 </template>
 
 <script>
-import ProfitChart from './Modules/ProfitChart'
+import ProfitCard from './Cards/ProfitCard'
 
 export default {
   name: 'Dashboard',
-  components: { ProfitChart }
+  components: { ProfitCard }
 }
 </script>
 
