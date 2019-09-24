@@ -33,12 +33,14 @@ export default [
   {
     name: 'amount',
     label: 'Сумма, ₽',
-    field: 'amount',
+    field: ({ amount } = {}) => `${amount}₽`,
+    align: 'right'
   },
   {
     name: 'commission',
     label: 'Комииссия, ₽.',
-    field: 'commission',
+    field: ({ commission } = {}) => `${commission}₽`,
+    align: 'right',
     width: 10
   },
   {
