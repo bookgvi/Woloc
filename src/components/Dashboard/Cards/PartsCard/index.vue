@@ -1,11 +1,15 @@
 <template lang="pug">
   q-card
+    q-card-section
+      span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доля в бронированиях "}}
+      span.row.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
     chart(
       :options ="options"
     )
     nav-bar(
       :startPeriod="period"
       @periodChange="period = $event"
+      @dateChange="date = $event"
     )
     options(
       :options ="options"
@@ -22,55 +26,55 @@ const rawData = {
   week: [
     {
       room: 'Зал 11',
-      total: '4600'
+      total: 4600
     },
     {
       room: 'Зал 12',
-      total: '3600'
+      total: 3600
     },
     {
       room: 'Зал 13',
-      total: '2700'
+      total: 2700
     },
     {
       room: 'Зал 14',
-      total: '5800'
+      total: 5800
     }
   ],
   month: [
     {
       room: 'Зал 11',
-      total: '46000'
+      total: 46000
     },
     {
       room: 'Зал 12',
-      total: '57000'
+      total: 57000
     },
     {
       room: 'Зал 13',
-      total: '69000'
+      total: 69000
     },
     {
       room: 'Зал 14',
-      total: '36000'
+      total: 36000
     }
   ],
   quarter: [
     {
       room: 'Зал 11',
-      total: '148000'
+      total: 148000
     },
     {
       room: 'Зал 12',
-      total: '127000'
+      total: 127000
     },
     {
       room: 'Зал 13',
-      total: '157000'
+      total: 157000
     },
     {
       room: 'Зал 14',
-      total: '181000'
+      total: 181000
     }
   ]
 }
@@ -79,7 +83,11 @@ export default {
   name: 'ProfitCard',
   data () {
     return {
-      period: 'month'
+      period: 'month',
+      date: {
+        from: '',
+        to: ''
+      }
     }
   },
   components: {
@@ -89,8 +97,10 @@ export default {
   },
   computed: {
     options () {
-      console.log(this.period)
-      const sum = rawData[this.period].reduce((acc, cv) => +acc + +cv.total || 0)
+      let sum = 0
+      rawData[this.period].forEach((item) => {
+        sum += item.total
+      })
       return rawData[this.period].map((item, index) => {
         const point = {
           name: item.room,
@@ -100,8 +110,12 @@ export default {
         }
         return point
       })
+    },
+    dateFormatForLabel () {
+      if (this.date.from === '') return '23-29 сентября, 2019'
+      return `${this.$moment(this.date.from).format('D MMMM, YYYY')} — ${this.$moment(this.date.to).format('D MMMM, YYYY')}`
     }
-  }
+  },
 }
 </script>
 
