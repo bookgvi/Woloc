@@ -3,16 +3,15 @@ import { date } from 'quasar'
 export default [
   {
     name: 'purpose',
-    label: 'Описание',
     field: 'purpose',
+    label: 'Описание',
     align: 'left',
-    width: 10
+    width: 1
   },
   {
-    name: 'descriptions',
-    field: 'purposeDescription',
-    align: 'left',
-    width: 250
+    name: 'purposeComment',
+    field: 'comment',
+    align: 'center'
   },
   {
     name: 'booking_id',
@@ -40,6 +39,7 @@ export default [
     name: 'commission',
     label: 'Комииссия, ₽.',
     field: 'commission',
+    width: 10
   },
   {
     name: 'balance',
