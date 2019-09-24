@@ -11,8 +11,12 @@
         :key="index"
       )
         q-item-section(avatar)
-          q-icon(:color="point.color" name="fas fa-circle")
+          q-icon(
+            :color="point.color"
+            name="fas fa-circle"
+            )
         q-item-section
+          span {{ point.color }}
           span {{ point.name }}
         q-item-section
           span {{ point.percent }}
@@ -42,12 +46,6 @@ export default {
       }
       return this.options.slice()
     },
-  },
-  methods: {
-    getColor (point) {
-      console.log(point.color)
-      return point.color
-    }
   },
   props: {
     options: Array,

@@ -3,7 +3,10 @@
     chart(
       :options ="options"
     )
-    nav-bar
+    nav-bar(
+      :startPeriod="period"
+      @periodChange="period = $event"
+    )
     options(
       :options ="options"
     )
@@ -72,10 +75,13 @@ const rawData = {
   ]
 }
 
-let period = 'month'
-
 export default {
   name: 'ProfitCard',
+  data () {
+    return {
+      period: 'month'
+    }
+  },
   components: {
     Chart,
     NavBar,
@@ -83,8 +89,9 @@ export default {
   },
   computed: {
     options () {
-      const sum = rawData[period].reduce((acc, cv) => +acc + +cv.total || 0)
-      return rawData[period].map((item, index) => {
+      console.log(this.period)
+      const sum = rawData[this.period].reduce((acc, cv) => +acc + +cv.total || 0)
+      return rawData[this.period].map((item, index) => {
         const point = {
           name: item.room,
           total: item.total,
