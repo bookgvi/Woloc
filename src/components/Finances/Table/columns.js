@@ -38,8 +38,8 @@ export default [
   },
   {
     name: 'commission',
-    label: 'Комииссия, ₽.',
-    field: ({ commission } = {}) => `${commission}₽`,
+    label: 'Комиссия, ₽.',
+    field: 'commission',
     align: 'right',
     width: 10
   },
