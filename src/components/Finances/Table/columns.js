@@ -3,15 +3,14 @@ import { date } from 'quasar'
 export default [
   {
     name: 'purpose',
-    field: 'purpose',
+    field: ({ purpose } = {}) => purpose.name,
     label: 'Описание',
-    align: 'left',
-    width: 1
+    align: 'right',
   },
   {
     name: 'purposeComment',
     field: 'comment',
-    align: 'center'
+    align: 'left'
   },
   {
     name: 'booking_id',
@@ -33,19 +32,36 @@ export default [
   {
     name: 'amount',
     label: 'Сумма, ₽',
-    field: ({ amount } = {}) => `${amount}₽`,
+    field: ({ amount, purpose } = {}) => {
+      if (purpose.id === 8 || purpose.id === 11) {
+        amount = '—'
+      } else {
+        amount = `${amount} ₽`
+      }
+      return amount
+    },
     align: 'right'
   },
   {
     name: 'commission',
     label: 'Комиссия, ₽.',
-    field: 'commission',
+    field: ({ commission, amount, purpose } = {}) => {
+      if (purpose.id === 8 || purpose.id === 11) {
+        commission = -amount
+        commission = `${commission.toFixed(2)} ₽`
+      }
+      if (!commission) {
+        commission = '—'
+      }
+      return commission
+    },
     align: 'right',
     width: 10
   },
   {
     name: 'balance',
-    label: 'остаток',
-    field: 'balance',
+    label: 'остаток, ₽',
+    field: ({ balance } = {}) => `${balance} ₽`,
+    align: 'right'
   }
 ]
