@@ -10,4 +10,7 @@ export default {
       } else return {}
     },
   },
+  created () {
+    this.getAll()
+  },
 }
