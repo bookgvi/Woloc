@@ -16,7 +16,6 @@
             name="fas fa-circle"
             )
         q-item-section
-          span {{ point.color }}
           span {{ point.name }}
         q-item-section
           span {{ point.percent }}

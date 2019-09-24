@@ -1,11 +1,15 @@
 <template lang="pug">
   q-card
+    q-card-section
+      span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доля в бронированиях "}}
+      span.row.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
     chart(
       :options ="options"
     )
     nav-bar(
       :startPeriod="period"
       @periodChange="period = $event"
+      @dateChange="date = $event"
     )
     options(
       :options ="options"
@@ -79,7 +83,11 @@ export default {
   name: 'ProfitCard',
   data () {
     return {
-      period: 'month'
+      period: 'month',
+      date: {
+        from: '',
+        to: ''
+      }
     }
   },
   components: {
@@ -89,7 +97,6 @@ export default {
   },
   computed: {
     options () {
-      console.log(this.period)
       const sum = rawData[this.period].reduce((acc, cv) => +acc + +cv.total || 0)
       return rawData[this.period].map((item, index) => {
         const point = {
@@ -100,8 +107,12 @@ export default {
         }
         return point
       })
+    },
+    dateFormatForLabel () {
+      if (this.date.from === '') return '23-29 сентября, 2019'
+      return `${this.$moment(this.date.from).format('D MMMM, YYYY')} — ${this.$moment(this.date.to).format('D MMMM, YYYY')}`
     }
-  }
+  },
 }
 </script>
 
