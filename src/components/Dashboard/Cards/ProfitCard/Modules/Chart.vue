@@ -1,7 +1,9 @@
 <template lang="pug">
   q-card-section
+    span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доход "}}
     chart(
       :options="options"
+      style="width: 100%"
     )
 
 </template>
@@ -11,20 +13,13 @@ import ECharts from 'vue-echarts'
 import 'echarts'
 
 export default {
-  name: 'ProfitChart',
+  name: 'Chart',
   components: {
     'chart': ECharts
   },
   data () {
     return {
       options: {
-        title: {
-          text: 'Доход',
-          textStyle: {
-            color: 'black',
-            fontWeight: 'bold'
-          }
-        },
         xAxis: {
           type: 'time',
         },
