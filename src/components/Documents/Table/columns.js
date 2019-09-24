@@ -31,7 +31,8 @@ export default [
     format: value => date.formatDate(value, 'H:mm')
   },
   {
-    name: 'file',
-    align: 'right'
+    name: 'link',
+    align: 'right',
+    field: 'link'
   }
 ]
