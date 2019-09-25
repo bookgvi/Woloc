@@ -6,11 +6,13 @@ export default [
     field: ({ purpose } = {}) => purpose.name,
     label: 'Описание',
     align: 'right',
+    width: 250
   },
   {
     name: 'purposeComment',
     field: 'comment',
-    align: 'left'
+    align: 'left',
+    width: 250
   },
   {
     name: 'booking_id',

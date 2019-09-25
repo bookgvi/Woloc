@@ -45,10 +45,10 @@
       template(v-else-if="name === 'link'")
         slot
       template(v-else-if="name === 'purpose'")
-        q-chip.q-pa-lg {{ value.split(' ').splice(0, 3).join(' ') }} <br> {{ value.split(' ').splice(3).join(' ') }}
+        q-chip(style="height: 80%;")
+          div.q-my-sm(style="width: 100%;  white-space: normal;") {{ value }}
       template(v-else-if="name === 'purposeComment'")
-        .block {{ value.split(' ').splice(0, 3).join(' ') }}
-        .block {{ value.split(' ').splice(3).join(' ') }}
+        div.q-py-sm(style="width: 100%; white-space: normal;") {{ value }}
       template(v-else) {{ value }}
 </template>
 
