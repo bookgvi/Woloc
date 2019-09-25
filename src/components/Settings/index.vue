@@ -37,11 +37,10 @@ export default {
     addressBlock,
     services,
     equipment,
-    rooms,
-    studios
+    rooms
   },
   async created () {
-    const { data } = await this.$app.studios.getSingle(371)
+    const { data } = await studios.getSingle(371)
     console.log(data)
   }
 }
