@@ -28,6 +28,7 @@ import addressBlock from './address'
 import services from './services'
 import equipment from './equipment'
 import rooms from './rooms'
+import studios from '../../api/studios'
 export default {
   components: {
     datas,
@@ -36,7 +37,12 @@ export default {
     addressBlock,
     services,
     equipment,
-    rooms
+    rooms,
+    studios
+  },
+  async created () {
+    const { data } = await this.$app.studios.getSingle(371)
+    console.log(data)
   }
 }
 </script>

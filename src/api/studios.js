@@ -9,5 +9,14 @@ export default {
     } catch (e) {
       console.warn('catch :: studios :: getAll', e)
     }
+  },
+  getSingle: async (id) => {
+    try {
+      const r = await api.get(`${API_URL}/studios/${id}`)
+      return r.data
+    } catch (e) {
+      console.warn('catch :: studios :: getSingleStudio', e)
+    }
   }
+
 }
