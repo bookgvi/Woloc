@@ -4,12 +4,7 @@
       name="finances"
       v-slot:default="props"
     )
-      q-btn.q-py-none.q-px-sm(
-        outline
-        dense
-        no-caps
-        label="Kap's Studios м. Бауманская"
-      )
+      studio-filter(v-bind="props")
       q-btn.q-py-none.q-px-sm(
         outline
         dense

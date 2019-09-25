@@ -45,7 +45,10 @@
       template(v-else-if="name === 'link'")
         slot
       template(v-else-if="name === 'purpose'")
-        q-chip {{ value }}
+        q-chip(style="height: 80%;")
+          div.q-my-sm(style="width: 100%;  white-space: normal;") {{ value }}
+      template(v-else-if="name === 'purposeComment'")
+        div.q-py-sm(style="width: 100%; white-space: normal;") {{ value }}
       template(v-else) {{ value }}
 </template>
 

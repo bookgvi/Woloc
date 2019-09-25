@@ -13,6 +13,9 @@ import sortBy from 'lodash/sortBy'
 
 export default {
   name: 'CalendarExtras',
+  created () {
+    this.checkedExtras = this.startExtras.map(item => item.name)
+  },
   data () {
     return {
       checkedExtras: []
@@ -21,6 +24,11 @@ export default {
   computed: {
     extrasComp () {
       return this.extrasChange()
+    },
+    chExtras () {
+      return this.checkedExtras.map(item => {
+        return Object.assign({ name: item, price: 400 })
+      })
     },
     options () {
       return sortBy(this.$app.extras.list, ['name']).map(({ name, price }) => ({
@@ -32,15 +40,10 @@ export default {
   },
   methods: {
     extrasChange () {
-      this.$emit('extrasChange', this.checkedExtras)
+      this.$emit('extrasChange', this.chExtras)
     }
   },
   props: ['startExtras'],
-  watch: {
-    'startEvent' (v) {
-      this.checkedExtras = this.startExtras.slice()
-    }
-  }
 }
 </script>
 
