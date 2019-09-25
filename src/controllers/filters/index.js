@@ -3,7 +3,8 @@ const defaultValues = {
     studio: 37
   },
   calendar: {
-    studio: 37
+    studio: 37,
+    rooms: [143, 144, 206, 207, 208]
   }
 }
 
