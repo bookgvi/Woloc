@@ -46,7 +46,6 @@ export default {
             type: 'line',
             color: roomsColors[index].color
           })
-          console.log(chartOptions.series[index])
           chartOptions.series[index].data = item
         })
       }

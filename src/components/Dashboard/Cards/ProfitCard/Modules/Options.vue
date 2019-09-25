@@ -13,7 +13,7 @@ export default {
   name: 'ProfitOptions',
   data () {
     return {
-      checkedOptions: []
+      checkedOptions: [0, 1, 2, 3]
     }
   },
   computed: {

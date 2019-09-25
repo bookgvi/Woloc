@@ -12,7 +12,7 @@
       )
         q-item-section(avatar)
           q-icon(
-            :color="colors[index].color"
+            :style="{color: point.color}"
             name="far fa-circle"
             )
         q-item-section
@@ -26,13 +26,11 @@
 
 <script>
 
-import roomsColors from 'src/common/rooms/colors'
 export default {
   name: 'ProfitOptions',
   data () {
     return {
       checkedOptions: [],
-      colors: roomsColors
     }
   },
   computed: {

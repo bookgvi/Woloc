@@ -57,7 +57,7 @@ export default {
   },
   data () {
     return {
-      period: 'year',
+      period: 'week',
       date: {
         from: '',
         to: ''
