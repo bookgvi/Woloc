@@ -1,7 +1,7 @@
 <template lang="pug">
   .wrapper.row.q-py-md
-    profit-card.q-ma-sm.col-4
-    parts-card.q-ma-sm.col-4
+    profit-card.q-ma-sm.col-6
+    parts-card.q-ma-sm.col
 
 </template>
 

@@ -1,9 +1,8 @@
 <template lang="pug">
   q-card-section
-    span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доход "}}
     chart(
-      :options="options"
-      style="width: 100%"
+      :options="chartOptions"
+      style="width: 100%; height=100%;"
     )
 
 </template>
@@ -19,28 +18,35 @@ export default {
   },
   data () {
     return {
-      options: {
+    }
+  },
+  computed: {
+    chartData () {
+      if (!this.options) return [100]
+      return this.options
+    },
+    chartOptions () {
+      const chartOptions = {
         xAxis: {
-          type: 'time',
+          type: 'category',
         },
         yAxis: {
           type: 'value'
         },
         series: [{
-          data: [
-            ['2019-09-21', 3900],
-            ['2019-09-22', 5600],
-            ['2019-09-23', 3200],
-            ['2019-09-24', 2600],
-            ['2019-09-25', 4300],
-            ['2019-09-26', 6200],
-            ['2019-09-27', 1500]
-          ],
+          data: [100],
           type: 'line'
         }]
       }
+      if (this.chartData) {
+        chartOptions.series[0].data = this.chartData
+      }
+      return chartOptions
     }
   },
+  props: {
+    options: Array,
+  }
 }
 </script>
 
