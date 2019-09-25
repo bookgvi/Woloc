@@ -10,6 +10,7 @@
 <script>
 import ECharts from 'vue-echarts'
 import 'echarts'
+import roomsColors from 'src/common/rooms/colors'
 
 export default {
   name: 'Chart',
@@ -39,7 +40,15 @@ export default {
         }]
       }
       if (this.chartData) {
-        chartOptions.series[0].data = this.chartData
+        this.chartData.forEach((item, index) => {
+          chartOptions.series[index] = Object.assign({
+            data: item,
+            type: 'line',
+            color: roomsColors[index].color
+          })
+          console.log(chartOptions.series[index])
+          chartOptions.series[index].data = item
+        })
       }
       return chartOptions
     }

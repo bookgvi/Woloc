@@ -4,7 +4,7 @@
       v-model="checkedOptions"
       :options="options"
       type="checkbox"
-    )
+    ) {{ checkedComp }}
 
 </template>
 
@@ -17,21 +17,29 @@ export default {
     }
   },
   computed: {
+    checkedComp () {
+      return this.checkedChange()
+    },
     options () {
       let arr = []
-      this.$app.studios.list.forEach(item => {
+      this.$app.studios.list.forEach((item, index) => {
         const total = {
           label: `${item.name} - Предоплата`,
-          value: `${item.name} - Предоплата`
+          value: index * 2
         }
         const prepayment = {
           label: `${item.name} - Бронирования`,
-          value: `${item.name} - Бронирования`
+          value: index * 2 + 1
         }
         arr.push(total)
         arr.push(prepayment)
       })
       return arr
+    }
+  },
+  methods: {
+    checkedChange () {
+      this.$emit('checkedChange', this.checkedOptions)
     }
   }
 }

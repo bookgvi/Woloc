@@ -35,10 +35,10 @@ export default {
       this.$emit('extrasChange', this.checkedExtras)
     }
   },
-  props: ['startExtras'],
+  // props: ['startExtras'],
   watch: {
     'startEvent' (v) {
-      this.checkedExtras = this.startExtras.slice()
+      // this.checkedExtras = this.startExtras.slice()
     }
   }
 }
