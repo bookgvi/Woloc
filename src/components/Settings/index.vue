@@ -8,13 +8,13 @@
     q-separator
     .row.justify-center
       .col-6
-        datas
-        specifications
-        images
-        addressBlock
-        services
-        equipment
-        rooms
+        datas(:datas="singleStudio")
+        specifications(:datas="singleStudio")
+        images(:datas="singleStudio")
+        addressBlock(:datas="singleStudio")
+        services(:datas="singleStudio")
+        equipment(:datas="singleStudio")
+        rooms(:datas="singleStudio")
         .row.q-py-lg.justify-center
           q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps)
           q-btn(label="Сохранить и создать зал" no-caps)
@@ -39,9 +39,12 @@ export default {
     equipment,
     rooms
   },
+  data: () => ({
+    singleStudio: {}
+  }),
   async created () {
-    const { data } = await studios.getSingle(371)
-    console.log(data)
+    this.singleStudio = await studios.getSingle(371).then(resp => resp.data)
+    console.log(this.singleStudio)
   }
 }
 </script>

@@ -9,6 +9,9 @@
 <script>
 export default {
   name: 'datas',
+  props: {
+    datas: Object
+  },
   data: () => ({
     group: ['isDressing', 'isWifi', 'isShower', 'isSnack', 'isLeasing'],
     services: [

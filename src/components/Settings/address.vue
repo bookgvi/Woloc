@@ -59,12 +59,17 @@
 import axios from 'axios'
 import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 export default {
+  props: {
+    datas: Object
+  },
   components: { yandexMap, ymapMarker },
   data () {
     return {
-      fullAddress: 'г Москва, ул Ткацкая, д 1',
+      fullAddress1: 'Москва, Ткацкая, д. 1',
+      fullAddress: this.datas.address,
       fullAddressArr: [],
-      coord: [55.786516, 37.718857],
+      coord1: [55.768522000000000, 37.680490000000000],
+      coord: [this.data.lat, this.data.lon],
       isMarker: true,
       yControls: [],
       options: {
@@ -78,7 +83,8 @@ export default {
     }
   },
   async mounted () {
-    // await this.showOnMap()
+    console.log('qq', this.datas.address)
+    console.log('qq', this.datas.lat)
   },
   methods: {
     async getFullAddress (e) {
