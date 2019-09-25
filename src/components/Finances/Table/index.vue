@@ -8,7 +8,7 @@
     :details="details"
   )
     template(#title-append="props")
-      .text-h6.inline-block.q-pl-md {{ props.amount }} ₽.
+      .text-h6.inline-block.q-pl-md {{ props.amount }} ₽
     template(#table-controls-prepend="props")
       q-btn.bg-primary.q-mr-xl(no-caps text-color='white' label="Вывести на счет")
 
