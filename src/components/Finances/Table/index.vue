@@ -3,6 +3,7 @@
     title="Финансы"
     :loadData="$app.finances.getAll"
     :getDialogTitle="() => 'Финансы'"
+    :filter="$app.filters.getValues('finances')"
     :columns="columns"
     :details="details"
   )
