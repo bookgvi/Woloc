@@ -46,11 +46,11 @@ export default [
   },
   {
     name: 'commission',
-    label: 'Комиссия, ₽.',
+    label: 'Комиссия, ₽',
     field: ({ commission, amount, purpose } = {}) => {
       if (purpose.id === 8 || purpose.id === 11) {
-        commission = -amount
-        commission = `${commission.toFixed(2)} ₽`
+        commission = amount
+        commission = `${commission} ₽`
       }
       if (!commission) {
         commission = '—'
@@ -58,12 +58,13 @@ export default [
       return commission
     },
     align: 'right',
-    width: 10
+    width: 9
   },
   {
     name: 'balance',
     label: 'остаток, ₽',
     field: ({ balance } = {}) => `${balance} ₽`,
-    align: 'right'
+    align: 'right',
+    width: 25
   }
 ]
