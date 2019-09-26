@@ -14,7 +14,6 @@
         datas(:datas="singleStudio")
         specifications(:datas="singleStudio")
         images(:datas="singleStudio")
-        div(v-if="singleStudio")
         addressBlock(:datas="singleStudio")
         services(:datas="singleStudio")
         equipment(:datas="singleStudio")
@@ -69,7 +68,6 @@ export default {
   },
   async mounted () {
     this.singleStudioM()
-    console.log('qq', this.tmp)
   }
 }
 </script>

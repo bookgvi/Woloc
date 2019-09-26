@@ -1,9 +1,14 @@
 <template lang="pug">
-  .datas
+  .datas(vi-f="this.datas.services")
     h6.q-mb-md Удобства и услуги
     .col.q-pl-md
-      .row.q-pb-md
-        q-option-group(v-model="group" :options="services" type="checkbox")
+      .row.q-pb-md(v-for="(item, index) in datas.services")
+        q-checkbox(
+          v-model="datas.services[index].alias"
+          :key="index"
+          :label="datas.services[index].name"
+          dense
+          )
 </template>
 
 <script>
@@ -12,38 +17,10 @@ export default {
   props: {
     datas: Object
   },
-  data: () => ({
-    group: ['isDressing', 'isWifi', 'isShower', 'isSnack', 'isLeasing'],
-    services: [
-      {
-        label: 'Отдельная гримерная',
-        value: 'isDressing'
-      },
-      {
-        label: 'Wi-Fi',
-        value: 'isWifi'
-      },
-      {
-        label: 'Душ',
-        value: 'isShower'
-      },
-      {
-        label: 'Снэк-автомат',
-        value: 'isSnack'
-      },
-      {
-        label: 'Организация мероприятий',
-        value: 'isParty'
-      },
-      {
-        label: 'Прокат оборудования',
-        value: 'isLeasing'
-      },
-      {
-        label: 'Бесплатная парковка',
-        value: 'isParking'
-      }
-    ]
-  })
+  data () {
+    return {
+      groupTmp: this.datas.services
+    }
+  }
 }
 </script>
