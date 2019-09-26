@@ -1,16 +1,20 @@
 <template lang="pug">
-  .wrapper
-    q-separator
-    .row.items-between.q-py-sm.q-gutter-x-sm
-      q-btn.col-3.q-btn--no-uppercase.q-px-none(label="Kap's Studios м. Бауманская" outlined dense flat)
+  .settings
+    filters-list(
+      name="settings"
+      v-slot:default="props"
+    )
+      studio-filter(v-bind="props")
       q-space
       q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary")
     q-separator
     .row.justify-center
       .col-6
+        div(v-show="false") {{ studioID }}
         datas(:datas="singleStudio")
         specifications(:datas="singleStudio")
         images(:datas="singleStudio")
+        div(v-if="singleStudio")
         addressBlock(:datas="singleStudio")
         services(:datas="singleStudio")
         equipment(:datas="singleStudio")
@@ -29,6 +33,9 @@ import services from './services'
 import equipment from './equipment'
 import rooms from './rooms'
 import studios from '../../api/studios'
+import StudioFilter from '../Filters/StudioFilter'
+import FiltersList from '../Filters/FiltersList'
+
 export default {
   components: {
     datas,
@@ -37,14 +44,32 @@ export default {
     addressBlock,
     services,
     equipment,
-    rooms
+    rooms,
+    StudioFilter,
+    FiltersList
   },
-  data: () => ({
-    singleStudio: {}
-  }),
-  async created () {
-    this.singleStudio = await studios.getSingle(371).then(resp => resp.data)
-    console.log(this.singleStudio)
+  data () {
+    return {
+      tmp: this.$app.filters.getValues('settings').studio,
+      singleStudio: {}
+    }
+  },
+  computed: {
+    studioID () {
+      this.singleStudioM()
+      return this.$app.filters.getValues('settings').studio
+    }
+  },
+  methods: {
+    async singleStudioM () {
+      const { studio } = this.$app.filters.getValues('settings')
+      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
+      console.log('qqq', this.singleStudio)
+    }
+  },
+  async mounted () {
+    this.singleStudioM()
+    console.log('qq', this.tmp)
   }
 }
 </script>

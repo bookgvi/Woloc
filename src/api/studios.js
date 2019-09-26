@@ -10,7 +10,7 @@ export default {
       console.warn('catch :: studios :: getAll', e)
     }
   },
-  getSingle: async (id) => {
+  getOne: async (id) => {
     try {
       const r = await api.get(`${API_URL}/studios/${id}`)
       return r.data

@@ -4,7 +4,8 @@
     .row.q-pb-lg
       .col-8.q-pr-sm
         q-select(
-          v-model="fullAddress"
+          v-if="datas.address"
+          :value="datas.address"
           :options="fullAddressArr"
           @input.native="getFullAddress($event)"
           @keyup.native.enter="showOnMap"
@@ -22,23 +23,24 @@
         q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
       yandexMap(
+        v-if="datas.lat"
         :settings="options.yaMap"
         map-type="map"
         zoom=18
-        :coords="coord"
+        :coords="[datas.lat, datas.lon]"
         :controls="yControls"
         style="width: 100%; height: 480px"
         @click="setAddress"
       )
         ymapMarker(
           v-if="isMarker"
-          :coords="coord"
+          :coords="[datas.lat, datas.lon]"
           marker-id="1"
         )
     .row.q-pb-lg
       .col
         span Инструкция пешком
-        q-input.q-pt-sm(
+        q-input.q-pt-sm(change
           type="textarea"
           v-model="instWalk"
           outlined
@@ -65,11 +67,7 @@ export default {
   components: { yandexMap, ymapMarker },
   data () {
     return {
-      fullAddress1: 'Москва, Ткацкая, д. 1',
-      fullAddress: this.datas.address,
       fullAddressArr: [],
-      coord1: [55.768522000000000, 37.680490000000000],
-      coord: [this.data.lat, this.data.lon],
       isMarker: true,
       yControls: [],
       options: {
@@ -82,13 +80,9 @@ export default {
       instAuto: ''
     }
   },
-  async mounted () {
-    console.log('qq', this.datas.address)
-    console.log('qq', this.datas.lat)
-  },
   methods: {
     async getFullAddress (e) {
-      this.fullAddress = e.target.value
+      this.datas.address = e.target.value
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
         count: 5,
         query: e.target.value,
@@ -109,26 +103,27 @@ export default {
         params: {
           apikey: this.options.yaMap.yAPI,
           format: 'json',
-          geocode: this.fullAddress
+          geocode: this.datas.address
         }
       }).then(resp => {
-        this.coord.splice(1, 1, +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0])
-        this.coord.splice(0, 1, +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1])
+        this.datas.lon = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
+        this.datas.lat = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
       })
         .catch(err => { console.error('Catched...', err) })
       this.isMarker = true
     },
     async setAddress (e) {
       this.isMarker = false
-      this.coord = e.get('coords')
+      this.datas.lon = e.get('coords')[1]
+      this.datas.lat = e.get('coords')[0]
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
-        lat: this.coord[0],
-        lon: this.coord[1]
+        lat: this.datas.lat,
+        lon: this.datas.lon
       }, {
         headers: {
           Authorization: `Token ${this.options.token}`
         }
-      }).then(resp => { this.fullAddress = resp.data.suggestions[0].value })
+      }).then(resp => { this.datas.address = resp.data.suggestions[0].value })
         .catch(err => { console.error('Catched...', err) })
       this.isMarker = true
     },

@@ -2,6 +2,9 @@ const defaultValues = {
   bookings: {
     studio: 37
   },
+  settings: {
+    studio: 37
+  },
   calendar: {
     studio: 37,
     rooms: [143, 144, 206, 207, 208]
