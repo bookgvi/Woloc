@@ -2,10 +2,9 @@
   .datas(vi-f="this.datas.services")
     h6.q-mb-md Удобства и услуги
     .col.q-pl-md
-      .row.q-pb-md(v-for="(item, index) in datas.services")
+      .row.q-pb-md(v-for="(item, index) in datas.services" :key="index")
         q-checkbox(
           v-model="datas.services[index].alias"
-          :key="index"
           :label="datas.services[index].name"
           dense
           )
