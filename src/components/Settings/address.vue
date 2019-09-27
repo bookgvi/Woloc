@@ -29,14 +29,15 @@
         zoom=18
         :coords="[datas.lat, datas.lon]"
         :controls="yControls"
+        :placemarks="[datas.lat, datas.lon]"
         style="width: 100%; height: 480px"
         @click="setAddress"
       )
-        ymapMarker(
-          v-if="isMarker"
-          :coords="[datas.lat, datas.lon]"
-          marker-id="1"
-        )
+       ymap-marker(
+        marker-id="1"
+        :coords="[datas.lat, datas.lon]"
+        :balloon="{header: 'First'}"
+      )
     .row.q-pb-lg
       .col
         span Инструкция пешком
@@ -68,7 +69,6 @@ export default {
   data () {
     return {
       fullAddressArr: [],
-      isMarker: true,
       yControls: [],
       options: {
         token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
@@ -98,7 +98,6 @@ export default {
         .catch(err => { console.error('Catched...', err) })
     },
     async showOnMap () {
-      this.isMarker = false
       await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
           apikey: this.options.yaMap.yAPI,
@@ -110,10 +109,8 @@ export default {
         this.datas.lat = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
       })
         .catch(err => { console.error('Catched...', err) })
-      this.isMarker = true
     },
     async setAddress (e) {
-      this.isMarker = false
       this.datas.lon = e.get('coords')[1]
       this.datas.lat = e.get('coords')[0]
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
@@ -125,7 +122,6 @@ export default {
         }
       }).then(resp => { this.datas.address = resp.data.suggestions[0].value })
         .catch(err => { console.error('Catched...', err) })
-      this.isMarker = true
     },
     emptyFilter (val, update) {
       update(() => {})

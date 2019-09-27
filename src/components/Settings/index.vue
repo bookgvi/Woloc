@@ -1,6 +1,6 @@
 <template lang="pug">
   .settings
-    q-page-sticky.bg-white(expand position="top" style="z-index: 10000;")
+    q-page-sticky.bg-white(expand position="top" style="z-index: 1000;")
       q-toolbar
         q-toolbar-title
           filters-list(
@@ -74,8 +74,7 @@ export default {
     },
     async updateStudio () {
       const { studio } = this.$app.filters.getValues('settings')
-      const status = await studios.updateStudio(studio, this.singleStudio)
-      console.log('status', status)
+      await studios.updateStudio(studio, this.singleStudio)
     }
   },
   async mounted () {
