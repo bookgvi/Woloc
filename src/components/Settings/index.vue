@@ -69,7 +69,8 @@ export default {
       console.log('qqq', this.singleStudio)
     },
     async updateStudio () {
-      const status = await studios.updateStudio(this.id, this.singleStudio)
+      const { studio } = this.$app.filters.getValues('settings')
+      const status = await studios.updateStudio(studio, this.singleStudio)
       console.log('status', status)
     }
   },
