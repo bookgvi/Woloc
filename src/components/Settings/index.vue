@@ -1,13 +1,16 @@
 <template lang="pug">
   .settings
-    filters-list(
-      name="settings"
-      v-slot:default="props"
-    )
-      studio-filter(v-bind="props")
-      q-space
-      q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary")
-    q-separator
+    q-page-sticky.bg-white(expand position="top" style="z-index: 10000;")
+      q-toolbar
+        q-toolbar-title
+          filters-list(
+            name="settings"
+            v-slot:default="props"
+          )
+            studio-filter(v-bind="props")
+            q-space
+            q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary")
+          q-separator
     .row.justify-center
       .col-6
         div(v-show="false") {{ studioID }}
