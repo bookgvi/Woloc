@@ -2,11 +2,12 @@
   .rooms
     h6.q-mb-md Залы
     .col
-      draggable(:list="arr")
-        q-list(v-for="item in arr" :key="item.id")
+      draggable(:list="rooms")
+        q-list(v-for="item in rooms" :key="item.id")
           q-item
-            q-item-section {{ item.id }}.  {{ item.name }}
+            q-item-section {{ item.name }}
             q-icon(name="drag_handle")
+          q-separator
 </template>
 
 <script>
@@ -14,15 +15,9 @@ import draggable from 'vuedraggable'
 export default {
   name: 'datas',
   components: { draggable },
-  data: () => ({
-    arr: [
-      { name: 'Зал №11', id: 1 },
-      { name: 'Зал №13', id: 2 },
-      { name: 'Зал №15', id: 3 },
-      { name: 'Зал №12', id: 4 },
-      { name: 'Зал №14', id: 5 },
-    ]
-  })
+  props: {
+    rooms: Array
+  }
 }
 </script>
 

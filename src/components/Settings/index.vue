@@ -20,7 +20,7 @@
         addressBlock(:datas="singleStudio")
         services(:datas="singleStudio")
         equipment(:datas="singleStudio")
-        rooms(:datas="singleStudio")
+        rooms(:rooms="rooms")
         .row.q-py-lg.justify-center
           q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="updateStudio")
           q-btn(label="Сохранить и создать зал" no-caps)
@@ -53,7 +53,8 @@ export default {
   data () {
     return {
       id: this.$app.filters.getValues('settings').studio,
-      singleStudio: {}
+      singleStudio: {},
+      rooms: []
     }
   },
   computed: {
@@ -65,6 +66,9 @@ export default {
   methods: {
     async singleStudioM () {
       const { studio } = this.$app.filters.getValues('settings')
+      const { items } = await studios.getAll().then(resp => resp.data)
+      const [{ rooms }] = items.filter(item => item.id === studio)
+      this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
       console.log('qqq', this.singleStudio)
     },
