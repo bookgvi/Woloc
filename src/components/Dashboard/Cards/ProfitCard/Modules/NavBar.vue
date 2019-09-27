@@ -2,7 +2,7 @@
   q-card-section.row
     q-btn.q-mr-xs(
       label="Неделя"
-      size="xs"
+      size="md"
       no-caps
       outline
       @click="setPeriod"
@@ -11,14 +11,14 @@
     q-btn.q-mr-xs(
       outline
       label="Месяц"
-      size="xs"
+      size="md"
       no-caps
       @click="setPeriod"
       color="secondary"
     )
     q-btn.q-mr-xs(
       outline
-      size="xs"
+      size="md"
       label="Год"
       no-caps
       @click="setPeriod"
@@ -28,7 +28,7 @@
     q-btn-group(outline)
       q-btn.q-px-sm.q-mx-none(
         @click="periodPrev"
-        size="xs"
+        size="md"
         outline
         icon="chevron_left"
         color="secondary"
@@ -36,7 +36,7 @@
       q-separator(vertical, inset)
       q-btn.q-px-sm.q-mx-none(
         @click="periodNext"
-        size="xs"
+        size="md"
         outline
         icon="chevron_right"
         color="secondary"
