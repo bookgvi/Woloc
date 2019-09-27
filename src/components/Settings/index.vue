@@ -22,7 +22,7 @@
         equipment(:datas="singleStudio")
         rooms(:datas="singleStudio")
         .row.q-py-lg.justify-center
-          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps)
+          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="updateStudio")
           q-btn(label="Сохранить и создать зал" no-caps)
 </template>
 
@@ -52,7 +52,7 @@ export default {
   },
   data () {
     return {
-      tmp: this.$app.filters.getValues('settings').studio,
+      id: this.$app.filters.getValues('settings').studio,
       singleStudio: {}
     }
   },
@@ -67,6 +67,10 @@ export default {
       const { studio } = this.$app.filters.getValues('settings')
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
       console.log('qqq', this.singleStudio)
+    },
+    async updateStudio () {
+      const status = await studios.updateStudio(this.id, this.singleStudio)
+      console.log('status', status)
     }
   },
   async mounted () {

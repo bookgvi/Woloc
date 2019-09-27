@@ -5,7 +5,7 @@
       .col-8.q-pr-sm
         q-select(
           v-if="datas.address"
-          :value="datas.address"
+          v-model="datas.address"
           :options="fullAddressArr"
           @input.native="getFullAddress($event)"
           @keyup.native.enter="showOnMap"

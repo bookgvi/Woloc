@@ -17,6 +17,13 @@ export default {
     } catch (e) {
       console.warn('catch :: studios :: getSingleStudio', e)
     }
+  },
+  updateStudio: async (id, updateInfo) => {
+    try {
+      const status = await api.put(`${API_URL}/studios/${id}`, updateInfo)
+      return status.data
+    } catch (err) {
+      console.warn('catch :: studios :: UpdateStudio', err)
+    }
   }
-
 }
