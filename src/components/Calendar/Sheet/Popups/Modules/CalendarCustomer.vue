@@ -40,6 +40,7 @@ export default {
   data () {
     return {
       customer: {
+        firstName: '',
         fullName: '',
         phone: '',
         email: ''
@@ -66,10 +67,25 @@ export default {
       })
     }
   },
-  props: ['startCustomer'],
+  props: {
+    startCustomer: {
+      type: Object,
+      default: function () {
+        return {
+          firstName: '',
+          fullName: '',
+          phone: '',
+          email: ''
+        }
+      }
+    }
+  },
   watch: {
-    'startCustomer' (v) {
-      this.customer = Object.assign(this.startCustomer)
+    'startCustomer': {
+      handler (v) {
+        this.customer = Object.assign(v)
+      },
+      immediate: true
     }
   }
 }

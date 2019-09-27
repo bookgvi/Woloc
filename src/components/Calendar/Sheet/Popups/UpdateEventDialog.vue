@@ -39,7 +39,7 @@
               calendar-room(
                 @roomChange="newBooking.room = $event"
                 :filter="filter"
-                :startRoom="newBooking.room.name"
+                :startRoom="room.name"
               )
         q-expansion-item(
           group="new-event"
@@ -99,8 +99,8 @@
           q-card
             q-card-section
               calendar-extras(
-                @extrasChange="newBooking.extras = $event"
-                :startExtras="newBooking.extras"
+                @extrasChange="helpers.checkedExtras = $event.slice()"
+                :startExtras="helpers.checkedExtras.slice()"
               )
         q-expansion-item(
           group="new-event"
@@ -125,7 +125,12 @@
         )
           q-card
             q-card-section
-              calendar-comment
+              calendar-comment(
+                @customerCommentChange="newBooking.customerComment = $event"
+                :startCustomerComment="newBooking.customerComment"
+                @managerCommentChange="newBooking.customerComment = $event"
+                :startManagerComment="newBooking.customerComment"
+              )
         q-expansion-item(
           group="new-event"
           dense
@@ -171,37 +176,15 @@ export default {
   },
   data () {
     return {
-      newBooking: {
-        reservedFrom: '',
-        reservedTo: '',
-        eventType: '',
-        price: '',
-        discount: 0,
-        amount: '',
-        duration: 0,
-        extras: [],
-        members: [],
-        customer: {
-          email: '',
-          fullName: '',
-          phone: ''
-        },
-        studio: {
-          id: '',
-          name: ''
-        },
-        room: {
-          id: '',
-          name: ''
-        }
-      },
+      newBooking: {},
       helpers: {
         date: '',
+        checkedExtras: [],
         time: {
           from: 0,
           to: 0
         }
-      }
+      },
     }
   },
   computed: {
@@ -213,17 +196,38 @@ export default {
       }
       return {
         name: `${this.newBooking.eventType} ${duration} ч. • ${price} р.`,
-        value: duration * price
+        price: duration * price
+      }
+    },
+    room () {
+      if (!this.newBooking.room) {
+        return {}
+      } else {
+        return this.newBooking.room
+      }
+    },
+    extrasNames () {
+      if (!this.newBooking.extras) {
+        return []
+      } else {
+        console.log(this.newBooking.extras.map(item => item.name))
+        return this.newBooking.extras.map(item => item.name)
       }
     },
     extras () {
-      return this.newBooking.extras.map(item => Object.assign({
-        name: item.name,
-        value: item.price
-      }))
+      if (!this.helpers.checkedExtras) {
+        return []
+      } else {
+        return this.helpers.checkedExtras.map(item => {
+          return {
+            name: item,
+            price: this.$app.extras.list.find(extra => extra.name === item).price
+          }
+        })
+      }
     },
     customerSlot () {
-      if (this.newBooking.customer.firstName && this.newBooking.customer.phone) {
+      if (this.newBooking.customer && this.newBooking.customer.firstName && this.newBooking.customer.phone) {
         return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
       } else {
         return 'Введите имя пользователя'
@@ -251,7 +255,8 @@ export default {
       }
     },
     extrasSlot () {
-      return this.newBooking.extras.length
+      if (!this.helpers.checkedExtras) return 0
+      return this.helpers.checkedExtras.length
     },
     membersSlot () {
       return this.newBooking.members.length
@@ -260,7 +265,6 @@ export default {
       return `${this.newBooking.price} р.`
     },
     reservedTime () {
-      // const timeOffset = '+03:00'
       const bookingDate = date.extractDate(date.formatDate(this.helpers.date, 'YYYY-MM-DD'), 'YYYY-MM-DD')
       const from = date.addToDate(bookingDate, { hours: this.helpers.time.from })
       const to = (this.helpers.time.to !== 0 && this.helpers.time.to !== 24)
@@ -273,7 +277,6 @@ export default {
     applyBooking () {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
-      this.newBooking.studio.id = this.filter.studio
       this.newBooking.studio.name = this.selectedStudioLabel
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
       console.log(9, this.newBooking.id, index)
@@ -285,20 +288,26 @@ export default {
   watch: {
     'booking' (v) {
       this.$nextTick(function () {
-        this.newBooking = Object.assign(this.newBooking, v)
+        this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('k')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
         if (hTo === 0) {
           hTo = 24
         }
-        this.helpers = Object.assign({
+        let checkedExtras = []
+        if (this.newBooking.extras) {
+          checkedExtras = this.newBooking.extras.map(item => item.name)
+        }
+        this.helpers = Object.assign(this.helpers, {
           date: hDate,
           time: {
             from: hFrom,
             to: hTo
-          }
+          },
+          checkedExtras: Object.assign([], checkedExtras)
         })
+        console.log(545, this.helpers, checkedExtras)
       })
     }
   }
