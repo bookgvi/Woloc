@@ -29,7 +29,6 @@
         zoom=18
         :coords="[datas.lat, datas.lon]"
         :controls="yControls"
-        :placemarks="[datas.lat, datas.lon]"
         style="width: 100%; height: 480px"
         @click="setAddress"
       )

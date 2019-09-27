@@ -8,9 +8,6 @@
             v-slot:default="props"
           )
             studio-filter(v-bind="props")
-            q-space
-            q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary")
-          q-separator
     .row.justify-center
       .col-6
         div(v-show="false") {{ studioID }}
@@ -21,9 +18,10 @@
         services(:datas="singleStudio")
         equipment(:datas="singleStudio")
         rooms(:rooms="rooms")
-        .row.q-py-lg.justify-center
-          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="updateStudio")
-          q-btn(label="Сохранить и создать зал" no-caps)
+    .row.q-py-lg.justify-center
+      q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="updateStudio")
+      q-btn.q-mr-sm(label="Сохранить и создать зал" no-caps disable)
+      q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" disable)
 </template>
 
 <script>
