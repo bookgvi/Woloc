@@ -19,12 +19,13 @@ const routes = [
     beforeEnter: checkAuth,
     component: () => import('layouts/Default.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
+      { path: '', component: () => import('pages/Dashboard.vue') },
       { path: 'customers', component: () => import('pages/Customers') },
       { path: 'bookings', component: () => import('pages/Bookings') },
       { path: 'calendar', component: () => import('pages/Calendar.vue') },
       { path: 'refunds', component: () => import('pages/Refunds.vue') },
       { path: 'documents', component: () => import('pages/Documents.vue') },
+      { path: 'finances', component: () => import('pages/Finances.vue') },
       { path: 'settings', component: () => import('pages/Settings.vue') }
     ]
   }

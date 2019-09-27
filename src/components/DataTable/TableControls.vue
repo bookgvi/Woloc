@@ -34,7 +34,7 @@
         icon="chevron_left"
         color="secondary"
         :disable="isFirstPage"
-        @click="prevPage"
+        @click="hPrevPage(pagination)"
       )
       q-separator(vertical inset)
       q-btn.q-px-sm(
@@ -42,7 +42,7 @@
         icon="chevron_right"
         color="secondary"
         :disable="isLastPage"
-        @click="nextPage"
+        @click="hNextPage(pagination)"
       )
     slot
 </template>
@@ -62,6 +62,14 @@ export default {
   data () {
     return {
       options: [10, 50, 100, 250],
+    }
+  },
+  methods: {
+    hNextPage (val) {
+      this.setPagination('page', val.page + 1)
+    },
+    hPrevPage (val) {
+      this.setPagination('page', val.page - 1)
     }
   }
 }

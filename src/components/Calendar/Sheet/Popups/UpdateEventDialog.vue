@@ -218,8 +218,8 @@ export default {
     },
     extras () {
       return this.newBooking.extras.map(item => Object.assign({
-        name: item,
-        value: 400 - item.length * 10
+        name: item.name,
+        value: item.price
       }))
     },
     customerSlot () {
