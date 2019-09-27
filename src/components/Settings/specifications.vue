@@ -18,13 +18,6 @@
         q-input(v-model="datas.yardage" outlined dense)
     .row.q-pb-lg
       p Насколько недель вперед возможна бронь.
-    .row.q-pb-lg
-      .col.q-pr-sm
-        span Car
-        q-input(v-model="datas.car = '-'" outlined dense)
-      .col.q-pr-sm
-        span Foot
-        q-input(v-model="datas.foot = '-'" outlined dense)
 </template>
 
 <script>

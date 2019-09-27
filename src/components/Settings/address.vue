@@ -42,7 +42,7 @@
         span Инструкция пешком
         q-input.q-pt-sm(change
           type="textarea"
-          v-model="instWalk"
+          v-model="datas.foot"
           outlined
           rows="4"
         )
@@ -51,7 +51,7 @@
         span Инструкция на машине
         q-input.q-pt-sm(
           type="textarea"
-          v-model="instAuto"
+          v-model="datas.car"
           outlined
           rows="4"
         )
