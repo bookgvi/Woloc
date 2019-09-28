@@ -19,7 +19,7 @@ export default {
     }
   },
   created () {
-    this.checkedExtras = Object.assign(this.checkedExtras, this.startExtras)
+    this.checkedExtras = Object.assign([], this.startExtras)
   },
   computed: {
     extrasComp () {
@@ -47,7 +47,7 @@ export default {
   },
   watch: {
     'startExtras' (v) {
-      this.checkedExtras = Object.assign(this.checkedExtras, v)
+      // this.checkedExtras = Object.assign(this.checkedExtras, v)
       console.log(65778, this.checkedExtras, this.startExtras)
     }
   }
