@@ -87,12 +87,6 @@
         :filter="filter"
         :booking="selectedBooking"
       )
-      new-event-dialog(
-        :date="newBooking.date"
-        :time="newBooking.time"
-        :studio="newBooking.studio"
-        :filter="newBooking.filter"
-      )
  </template>
 
 <script>
@@ -173,13 +167,22 @@ export default {
       return +time.split(':')[0]
     },
     setNewBooking (date, time) {
-      this.newBooking = Object.assign({}, {
-        date: date,
-        time: this.formatTimeToHours(time),
+      console.log(555, this.filter)
+      this.selectedBooking = Object.assign({}, {
+        id: 8983249234,
+        customer: {},
+        customerComment: '',
+        managerComment: '',
+        price: 0,
+        reservedFrom: this.$moment(`${date}T${time}`),
+        reservedTo: this.$moment(`${date}T00:00`),
+        room: this.filter.rooms[0] || '',
+        eventType: '',
         studio: this.studio,
         filter: this.filter
       })
-      this.$app.dialogs.calendarNew = true
+      console.log(1111, this.selectedBooking)
+      this.$app.dialogs.calendarUpdate = true
     },
     async findBooking (index) {
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)

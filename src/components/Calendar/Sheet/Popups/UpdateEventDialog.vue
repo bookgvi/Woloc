@@ -206,14 +206,6 @@ export default {
         return this.newBooking.room
       }
     },
-    extrasNames () {
-      if (!this.newBooking.extras) {
-        return []
-      } else {
-        console.log(this.newBooking.extras.map(item => item.name))
-        return this.newBooking.extras.map(item => item.name)
-      }
-    },
     extras () {
       if (!this.helpers.checkedExtras) {
         return []
@@ -274,14 +266,34 @@ export default {
     }
   },
   methods: {
-    applyBooking () {
+    setParamsForPost () {
+      return {
+        roomId: this.newBooking.room.id,
+        consumerId: this.newBooking.customer.id,
+        reserveFrom: this.$moment(this.newBooking.reservedFrom).utcOffset('+03:00').format('YYYY-MM-DDThh:mm:ssZ'),
+        reserveTo: this.$moment(this.newBooking.reservedTo).utcOffset('+03:00').format('YYYY-MM-DDThh:mm:ssZ'),
+        // userComment: this.newBooking.customerComment || '',
+        priceType: this.newBooking.eventType,
+        extras: [],
+        seats: 1,
+        // description: this.newBooking.managerComment || ''
+      }
+    },
+    async applyBooking () {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
+      this.newBooking.studio.id = this.filter.studio
       this.newBooking.studio.name = this.selectedStudioLabel
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
+      if (index === -1) {
+        const payload = this.setParamsForPost()
+        console.log(54, payload)
+        await this.$app.bookings.addNew(payload)
+      } else {
+        this.$app.bookings.calendarList[index] =
+          Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
+      }
       console.log(9, this.newBooking.id, index)
-      this.$app.bookings.calendarList[index] =
-        Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
     }
   },
   props: ['booking', 'filter'],
@@ -307,7 +319,7 @@ export default {
           },
           checkedExtras: Object.assign([], checkedExtras)
         })
-        console.log(545, this.helpers, checkedExtras)
+        console.log(545, this.helpers, this.newBooking)
       })
     }
   }

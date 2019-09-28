@@ -5,7 +5,8 @@ export default {
   name: 'bookings',
   data () {
     return {
-      calendarList: []
+      calendarList: [],
+      idOfJustAdded: 0,
     }
   },
   mixins: [crudMixin],
@@ -17,6 +18,26 @@ export default {
       if (res) {
         this.calendarList = res.data.items
         this.loading.list = false
+      }
+    },
+
+    async addNew (payload) {
+      this.loading.one = true
+      const res = await api.bookings.addNew(payload)
+      console.log('bookings :: addNew', res)
+      if (res) {
+        this.idOfJustAdded = res.id
+        this.loading.one = false
+      }
+    },
+
+    async deleteOne (id) {
+      this.loading.one = true
+      const res = await api.bookings.deleteOne({ id: id })
+      console.log('bookings :: deleteOne', res)
+      if (res) {
+        this.remove(id)
+        this.loading.one = false
       }
     },
 
