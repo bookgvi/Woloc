@@ -93,7 +93,6 @@
 import { date, colors } from 'quasar'
 import { EVENT_TYPES } from 'src/common/constants'
 import roomsColors from 'src/common/rooms/colors'
-import NewEventDialog from './Popups/NewEventDialog'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
 import { dtFormat } from '../../../utils/helpers'
@@ -112,7 +111,7 @@ const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
-  components: { FirstColumn, UpdateEventDialog, NewEventDialog },
+  components: { FirstColumn, UpdateEventDialog },
   props: {
     filter: Object,
     bookings: Array
@@ -171,8 +170,8 @@ export default {
       this.selectedBooking = Object.assign({}, {
         id: 8983249234,
         customer: {},
-        customerComment: '',
-        managerComment: '',
+        customerComment: 'test',
+        managerComment: 'test',
         price: 0,
         reservedFrom: this.$moment(`${date}T${time}`),
         reservedTo: this.$moment(`${date}T00:00`),

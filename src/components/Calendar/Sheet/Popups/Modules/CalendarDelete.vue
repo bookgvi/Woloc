@@ -7,7 +7,7 @@
       no-caps
       label="Удалить"
       full-width
-    ) {{ idComp }}
+    )
 </template>
 
 <script>
@@ -18,18 +18,10 @@ export default {
       id: 0
     }
   },
-  computed: {
-    idComp () {
-      return this.idChange()
-    },
-  },
   methods: {
     async deleteBooking () {
       await this.$app.bookings.deleteOne({ id: this.id })
     },
-    idChange () {
-      this.$emit('idChange', this.id)
-    }
   },
   props: ['startId'],
   watch: {

@@ -15,11 +15,8 @@ export default {
   name: 'CalendarExtras',
   data () {
     return {
-      checkedExtras: this.startExtras
+      checkedExtras: Object.assign([], this.startExtras)
     }
-  },
-  created () {
-    this.checkedExtras = Object.assign([], this.startExtras)
   },
   computed: {
     extrasComp () {
@@ -46,9 +43,13 @@ export default {
     }
   },
   watch: {
-    'startExtras' (v) {
-      // this.checkedExtras = Object.assign(this.checkedExtras, v)
-      console.log(65778, this.checkedExtras, this.startExtras)
+    'startExtras': {
+      handler (v) {
+        // this.checkedExtras = []
+        this.checkedExtras = Object.assign(this.checkedExtras, v)
+        console.log(65778, this.checkedExtras, this.startExtras)
+      },
+      immediate: true
     }
   }
 }

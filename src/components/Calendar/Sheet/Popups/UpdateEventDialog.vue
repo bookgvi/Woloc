@@ -99,8 +99,8 @@
           q-card
             q-card-section
               calendar-extras(
-                @extrasChange="helpers.checkedExtras = $event.slice()"
-                :startExtras="helpers.checkedExtras.slice()"
+                @extrasChange="helpers.checkedExtras = Object.assign([], $event)"
+                :startExtras="Object.assign([], helpers.checkedExtras)"
               )
         q-expansion-item(
           group="new-event"
@@ -139,7 +139,7 @@
           q-card
             q-card-section
               calendar-delete(
-
+                :startId="newBooking.id"
               )
         calendar-apply(
           :applyBooking="applyBooking"
@@ -278,7 +278,7 @@ export default {
         priceType: this.newBooking.eventType,
         extras: [],
         seats: 1,
-        // description: this.newBooking.managerComment || ''
+        description: this.newBooking.managerComment || ''
       }
     },
     async applyBooking () {
