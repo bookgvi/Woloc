@@ -138,7 +138,9 @@
         )
           q-card
             q-card-section
-              calendar-delete
+              calendar-delete(
+
+              )
         calendar-apply(
           :applyBooking="applyBooking"
         )
