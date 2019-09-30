@@ -44,10 +44,10 @@ export default {
   },
   props: ['startCustomerComment, startManagerComment'],
   watch: {
-    'startCustomerComment' (v) {
+    startCustomerComment (v) {
       this.customerComment = Object.assign(v)
     },
-    'startManagerComment' (v) {
+    startManagerComment (v) {
       this.managerComment = Object.assign(v)
     }
   }

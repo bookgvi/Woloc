@@ -43,7 +43,6 @@ instance.interceptors.response.use(
           window.location.href = `/login`
           break
         default:
-          console.log(666, response.data.errors)
           if (response.data && response.data.errors) {
             if (Array.isArray(response.data.errors)) {
               response.data.errors.forEach(err => {

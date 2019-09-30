@@ -91,7 +91,6 @@ export default {
           }
           break
       }
-      console.log(arr)
       return arr
     },
     options () {

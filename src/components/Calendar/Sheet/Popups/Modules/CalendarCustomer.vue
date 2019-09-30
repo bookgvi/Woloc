@@ -70,7 +70,7 @@ export default {
   props: {
     startCustomer: {
       type: Object,
-      default: function () {
+      default: _ => {
         return {
           firstName: '',
           fullName: '',
@@ -81,7 +81,7 @@ export default {
     }
   },
   watch: {
-    'startCustomer': {
+    startCustomer: {
       handler (v) {
         this.customer = Object.assign(v)
       },

@@ -129,7 +129,7 @@ export default {
   },
   props: ['startPeriod'],
   watch: {
-    'startPeriod' (v) {
+    startPeriod (v) {
       this.period = v
     },
   }

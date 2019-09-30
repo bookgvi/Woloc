@@ -99,8 +99,8 @@
           q-card
             q-card-section
               calendar-extras(
-                @extrasChange="helpers.checkedExtras = Object.assign([], $event)"
-                :startExtras="Object.assign([], helpers.checkedExtras)"
+                @extrasChange="helpers.checkedExtras = [...$event]"
+                :startExtras="[...helpers.checkedExtras]"
               )
         q-expansion-item(
           group="new-event"
@@ -265,8 +265,6 @@ export default {
       const bookingDate = this.$moment(this.helpers.date)
       const from = this.$moment(bookingDate).hour(this.helpers.time.from).format('YYYY-MM-DDTHH:mm:ss+03:00')
       const to = this.$moment(bookingDate).hour(this.helpers.time.to).format('YYYY-MM-DDTHH:mm:ss+03:00')
-      console.log(bookingDate)
-      console.log(656, { g: this.helpers.time.from, k: this.helpers.time.to }, { from, to })
       return { from, to }
     }
   },
@@ -293,7 +291,6 @@ export default {
         })
         return null
       }
-      console.log(this.newBooking.eventType)
       if (!this.newBooking.eventType) {
         Notify.create({
           message: `Выберите цель бронирования`,
@@ -314,7 +311,7 @@ export default {
         seats: 1,
         description: this.newBooking.managerComment || ''
       }
-      console.log('post', params)
+      // console.log('post', params)
       return params
     },
     async applyBooking () {
@@ -331,12 +328,12 @@ export default {
           Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
         this.$app.dialogs.calendarUpdate = false
       }
-      console.log(9, this.newBooking.id, index)
+      // console.log(9, this.newBooking.id, index)
     }
   },
   props: ['booking', 'filter'],
   watch: {
-    'booking' (v) {
+    booking (v) {
       this.$nextTick(function () {
         this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
@@ -355,7 +352,7 @@ export default {
             from: hFrom,
             to: hTo
           },
-          checkedExtras: Object.assign([], checkedExtras)
+          checkedExtras: [...checkedExtras]
         })
       })
     }

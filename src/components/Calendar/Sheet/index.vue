@@ -167,7 +167,6 @@ export default {
       return +time.split(':')[0]
     },
     setNewBooking (date, time) {
-      console.log(555, this.filter)
       this.selectedBooking = Object.assign({}, {
         id: 8983249234,
         customer: {},
@@ -181,7 +180,7 @@ export default {
         studio: this.studio,
         filter: this.filter
       })
-      console.log(1111, this.selectedBooking)
+      // console.log(1111, this.selectedBooking)
       this.$app.dialogs.calendarUpdate = true
     },
     async findBooking (index) {
@@ -278,9 +277,7 @@ export default {
       this.selectedDate = date.formatDate(Date.now(), 'YYYY-MM-DD')
     },
     async changeBookingsList () {
-      this.$app.dialogs.calendarUpdate = false
-      console.log('load-load')
-      await this.loadData()
+      await this.placeEvents()
     }
   },
   watch: {

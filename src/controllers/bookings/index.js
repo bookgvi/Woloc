@@ -58,7 +58,6 @@ export default {
       return this.calendarList.find(item => item.id === id) || {}
     },
     calendarGetIndexById (id) {
-      console.log(id, this.list)
       return this.calendarList.findIndex(item => item.id === id)
     },
   },

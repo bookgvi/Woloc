@@ -1,22 +1,46 @@
 <template lang="pug">
   .row.q-py-none.justify-center
     q-btn.q-mt-sm(
-      @click="deleteBooking"
       color="#FFFFFF"
       text-color="red"
       no-caps
       label="Удалить"
       full-width
+      @click="dialog = !dialog"
     )
+      q-dialog(
+        persistent
+        v-model="dialog"
+      )
+        q-card
+          q-card-section.col-12.flex.justify-center.items-center
+            span Вы уверены, что хотите удалить бронирование?
+          q-card-actions.col-12.flex.justify-center.items-center
+            q-btn(
+              color="black"
+              label="Отмена"
+              flat
+              v-close-popup
+            )
+            q-btn(
+              @click="deleteBooking"
+              color="negative"
+              label="Удалить"
+              v-close-popup
+            )
 </template>
 
 <script>
 export default {
   name: 'CalendarDelete',
+  data () {
+    return {
+      dialog: false
+    }
+  },
   methods: {
     async deleteBooking () {
-      console.log(this.id)
-      await this.$app.bookings.deleteOne(+this.id)
+      await this.$app.bookings.deleteOne(this.id)
       this.$app.dialogs.calendarUpdate = false
       this.$emit('changeBookingsList')
     },

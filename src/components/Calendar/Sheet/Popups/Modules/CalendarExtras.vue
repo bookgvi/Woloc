@@ -20,7 +20,6 @@ export default {
   },
   computed: {
     extrasComp () {
-      console.log(this.checkedExtras)
       return this.extrasChange()
     },
     options () {
@@ -32,7 +31,7 @@ export default {
   },
   methods: {
     extrasChange () {
-      this.$emit('extrasChange', this.checkedExtras.slice())
+      this.$emit('extrasChange', [...this.checkedExtras])
     }
   },
   props: {
@@ -43,14 +42,15 @@ export default {
       }
     }
   },
-  watch: {
-    'startExtras': {
+/*  watch: {
+    startExtras: {
       handler (v) {
+        console.log(this.checkedExtras)
         this.checkedExtras = Object.assign(this.checkedExtras, v)
       },
       immediate: true
     }
-  }
+  } */
 }
 </script>
 
