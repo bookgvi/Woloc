@@ -22,7 +22,7 @@
         q-tab-panel.q-pa-none(name="Локация")
           location(:singleStudio="singleStudio" :rooms="rooms" @updateStudio="updateStudio")
         q-tab-panel.q-pa-none(name="Залы")
-          room(:rooms="rooms" :singleStudio="singleStudio")
+          room(:rooms="rooms" :singleStudio="singleStudio" :allStudiosName="allStudiosName")
 </template>
 
 <script>
@@ -44,6 +44,7 @@ export default {
       id: this.$app.filters.getValues('settings').studio,
       currentTab: 'Локация',
       tabs: ['Локация', 'Залы'],
+      allStudiosName: [],
       singleStudio: {},
       rooms: []
     }
@@ -58,6 +59,7 @@ export default {
     async singleStudioM () {
       const { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
+      this.allStudiosName = items.map(item => item.name)
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
