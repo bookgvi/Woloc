@@ -28,7 +28,7 @@ export default {
         { to: '/calendar', label: 'Календарь' },
         { to: '/bookings', label: 'Бронирования' },
         { to: '/finances', label: 'Финансы' },
-        { to: '/refunds', label: 'Возврат' },
+        { to: '/refunds', label: 'Возвраты' },
         { to: '/documents', label: 'Документы' },
         { to: '/settings', label: 'Настройки' },
       ]
