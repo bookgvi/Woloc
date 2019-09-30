@@ -150,7 +150,8 @@
 </template>
 
 <script>
-import { date } from 'quasar'
+import { date, Notify } from 'quasar'
+import { required } from 'vuelidate/lib/validators'
 import CalendarCustomer from './Modules/CalendarCustomer'
 import CalendarRoom from './Modules/CalendarRoom'
 import CalendarDate from './Modules/CalendarDate'
@@ -274,6 +275,34 @@ export default {
       this.$emit('changeBookingsList')
     },
     setParamsForPost () {
+      if (!this.newBooking.customer || !this.newBooking.customer.id) {
+        Notify.create({
+          message: `Выберите клиента`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      if (!this.newBooking.room) {
+        Notify.create({
+          message: `Выберите зал`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      console.log(this.newBooking.eventType)
+      if (!this.newBooking.eventType) {
+        Notify.create({
+          message: `Выберите цель бронирования`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
       const params = {
         roomId: this.newBooking.room.id,
         consumerId: this.newBooking.customer.id,
@@ -294,10 +323,13 @@ export default {
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
       if (index === -1) {
         const payload = this.setParamsForPost()
-        await this.$app.bookings.addNew(payload)
+        if (payload) {
+          await this.$app.bookings.addNew(payload)
+        }
       } else {
         this.$app.bookings.calendarList[index] =
           Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
+        this.$app.dialogs.calendarUpdate = false
       }
       console.log(9, this.newBooking.id, index)
     }
@@ -326,6 +358,13 @@ export default {
           checkedExtras: Object.assign([], checkedExtras)
         })
       })
+    }
+  },
+  validations: {
+    newBooking: {
+      customer: { required },
+      eventType: { required },
+      room: { required }
     }
   }
 }

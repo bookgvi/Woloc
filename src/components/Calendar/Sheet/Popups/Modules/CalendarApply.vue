@@ -25,7 +25,6 @@ export default {
     },
     async saveBooking () {
       await this.applyBooking()
-      this.$app.dialogs.calendarUpdate = false
       this.$emit('changeBookingsList')
     }
   },

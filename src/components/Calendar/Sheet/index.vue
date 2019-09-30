@@ -278,6 +278,7 @@ export default {
       this.selectedDate = date.formatDate(Date.now(), 'YYYY-MM-DD')
     },
     async changeBookingsList () {
+      this.$app.dialogs.calendarUpdate = false
       console.log('load-load')
       await this.loadData()
     }
@@ -296,9 +297,13 @@ export default {
               dtFormat(booking.reservedFrom),
               'minutes'
             )
+            let title = ''
+            if (booking.customer && booking.customer.firstName) {
+              title = booking.customer.firstName
+            }
             const event = {
               id: booking.id,
-              title: booking.customer.firstName,
+              title: title,
               details: `${booking.amount}/${booking.price}`,
               date: this.getDate(booking.reservedFrom),
               time: this.getTime(booking.reservedFrom),
