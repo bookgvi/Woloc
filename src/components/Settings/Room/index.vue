@@ -1,5 +1,6 @@
 <template lang="pug">
-  .text-h5 Rooms
+  .room
+    .text-h5 Rooms
 </template>
 
 <script>

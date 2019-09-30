@@ -1,33 +1,33 @@
 <template lang="pug">
   .settings
     .wrapper
-      q-separator
-      .row.q-py-sm
-        q-btn(
-          v-for="(item, index) in tags"
-          :key="index"
-          :label="item"
-          @click="currentTag=item"
-          dense
-          no-caps
-        )
       .row
-        q-separator
-    .row
-      .inline-block(
-        :is="currentTag"
-      )
+        q-tabs(
+          v-model="currentTab"
+        )
+          q-tab(
+            v-for="(tab, index) in tabs"
+            :key="index"
+            :label="tab"
+            :name="tab"
+            no-caps
+          )
+    q-tab-panels(v-model="currentTab")
+      q-tab-panel.q-pa-none(name="Локация")
+        location
+      q-tab-panel(name="Залы")
+        room
 </template>
 
 <script>
 import location from './Location'
 import room from './Room'
 export default {
-  name: 'settings',
+  name: 'setting',
   components: { location, room },
   data: () => ({
-    currentTag: 'location',
-    tags: [location, room]
+    currentTab: 'Локация',
+    tabs: ['Локация', 'Залы']
   })
 }
 </script>

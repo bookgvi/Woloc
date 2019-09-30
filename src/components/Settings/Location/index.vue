@@ -1,5 +1,5 @@
 <template lang="pug">
-  .wrapper
+  .location
     filters-list(
       name="settings"
       v-slot:default="props"
