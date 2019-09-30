@@ -84,9 +84,10 @@
               .row.col-12
                 span.text-body2.ellipsis {{ e.details }}
       update-event-dialog(
+        :dialogState="dialogState"
         :filter="filter"
         :booking="selectedBooking"
-        @changeBookingsList="changeBookingsList"
+        @setQueryState="setQueryState($event)"
       )
  </template>
 
@@ -133,9 +134,8 @@ export default {
       events: [],
       addEvent: false,
       selectedDate: '',
-      dateDialog: false,
       date: '',
-      dialog: false,
+      dialogState: false,
       selectedBooking: {},
       newBooking: {}
     }
@@ -181,11 +181,11 @@ export default {
         filter: this.filter
       })
       // console.log(1111, this.selectedBooking)
-      this.$app.dialogs.calendarUpdate = true
+      this.dialogState = true
     },
     async findBooking (index) {
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
-      this.$app.dialogs.calendarUpdate = true
+      this.dialogState = true
     },
     dayHeader (dt) {
       return date.formatDate(dt, 'ddd D')
@@ -276,8 +276,12 @@ export default {
     calendarToday () {
       this.selectedDate = date.formatDate(Date.now(), 'YYYY-MM-DD')
     },
-    async changeBookingsList () {
-      await this.placeEvents()
+    async setQueryState (state = true) {
+      // console.log(999, state)
+      if (state === true) {
+        await this.placeEvents()
+      }
+      this.dialogState = false
     }
   },
   watch: {

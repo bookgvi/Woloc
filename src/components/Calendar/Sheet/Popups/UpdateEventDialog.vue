@@ -1,6 +1,6 @@
 <template lang="pug">
   q-dialog(
-    v-model="$app.dialogs.calendarUpdate"
+    v-model="dialogState"
     persistent
   )
     q-card.q-py-md(
@@ -140,11 +140,11 @@
             q-card-section
               calendar-delete(
                 :id="newBooking.id"
-                @changeBookingsList="changeBookingsList"
+                @setQueryState="setQueryState($event)"
               )
         calendar-apply(
           :applyBooking="applyBooking"
-          @changeBookingsList="changeBookingsList"
+          @setQueryState="setQueryState($event)"
         )
 
 </template>
@@ -269,8 +269,8 @@ export default {
     }
   },
   methods: {
-    changeBookingsList () {
-      this.$emit('changeBookingsList')
+    setQueryState (state) {
+      this.$emit('setQueryState', state)
     },
     setParamsForPost () {
       if (!this.newBooking.customer || !this.newBooking.customer.id) {
@@ -322,16 +322,19 @@ export default {
         const payload = this.setParamsForPost()
         if (payload) {
           await this.$app.bookings.addNew(payload)
+          if (this.$app.bookings.idOfJustAdded !== 0) {
+            this.$emit('setQueryState', true)
+          }
         }
       } else {
         this.$app.bookings.calendarList[index] =
           Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
-        this.$app.dialogs.calendarUpdate = false
+        this.$emit('setQueryState', false)
       }
       // console.log(9, this.newBooking.id, index)
     }
   },
-  props: ['booking', 'filter'],
+  props: ['booking', 'filter', 'dialogState'],
   watch: {
     booking (v) {
       this.$nextTick(function () {

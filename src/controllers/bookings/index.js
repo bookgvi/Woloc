@@ -23,12 +23,13 @@ export default {
 
     async addNew (payload) {
       this.loading.one = true
+      this.idOfJustAdded = 0
       const res = await api.bookings.addNew(payload)
       console.log('bookings :: addNew', res)
       if (res) {
         this.idOfJustAdded = res.id
-        this.loading.one = false
       }
+      this.loading.one = false
     },
 
     async deleteOne (id) {

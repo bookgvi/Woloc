@@ -41,8 +41,7 @@ export default {
   methods: {
     async deleteBooking () {
       await this.$app.bookings.deleteOne(this.id)
-      this.$app.dialogs.calendarUpdate = false
-      this.$emit('changeBookingsList')
+      this.$emit('setQueryState', true)
     },
   },
   props: ['id']
