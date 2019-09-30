@@ -9,7 +9,7 @@
             flat
           ) Зал {{ room.name }}
       .col-6
-        roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName")
+        roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom.name")
       .col-3
 </template>
 
