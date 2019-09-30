@@ -1,6 +1,6 @@
 <template lang="pug">
-  .settings
-    .wrapper
+  .wrapper
+    .navTabs
       .row
         q-tabs(
           v-model="currentTab"
@@ -12,22 +12,64 @@
             :name="tab"
             no-caps
           )
-    q-tab-panels(v-model="currentTab")
-      q-tab-panel.q-pa-none(name="Локация")
-        location
-      q-tab-panel(name="Залы")
-        room
+        filters-list(
+          name="settings"
+          v-slot:default="props"
+        )
+          studio-filter(v-bind="props")
+      div(v-show="false") {{ studioID }}
+      q-tab-panels(v-model="currentTab")
+        q-tab-panel.q-pa-none(name="Локация")
+          location(:singleStudio="singleStudio" :rooms="rooms" @updateStudio="updateStudio")
+        q-tab-panel.q-pa-none(name="Залы")
+          room(:rooms="rooms" :singleStudio="singleStudio")
 </template>
 
 <script>
+import StudioFilter from '../Filters/StudioFilter'
+import FiltersList from '../Filters/FiltersList'
 import location from './Location'
 import room from './Room'
+import studios from '../../api/studios'
 export default {
   name: 'setting',
-  components: { location, room },
-  data: () => ({
-    currentTab: 'Локация',
-    tabs: ['Локация', 'Залы']
-  })
+  components: {
+    StudioFilter,
+    FiltersList,
+    location,
+    room
+  },
+  data () {
+    return {
+      id: this.$app.filters.getValues('settings').studio,
+      currentTab: 'Локация',
+      tabs: ['Локация', 'Залы'],
+      singleStudio: {},
+      rooms: []
+    }
+  },
+  computed: {
+    studioID () {
+      this.singleStudioM()
+      return this.$app.filters.getValues('settings').studio
+    }
+  },
+  methods: {
+    async singleStudioM () {
+      const { studio } = this.$app.filters.getValues('settings')
+      const { items } = await studios.getAll().then(resp => resp.data)
+      const [{ rooms }] = items.filter(item => item.id === studio)
+      this.rooms = rooms
+      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
+      console.log('settings', this.singleStudio)
+    },
+    async updateStudio () {
+      const { studio } = this.$app.filters.getValues('settings')
+      await studios.updateStudio(studio, this.singleStudio)
+    }
+  },
+  async mounted () {
+    this.singleStudioM()
+  }
 }
 </script>
