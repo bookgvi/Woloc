@@ -23,9 +23,10 @@ export default {
     cancelBooking () {
       this.$app.dialogs.calendarUpdate = false
     },
-    saveBooking () {
-      this.applyBooking()
+    async saveBooking () {
+      await this.applyBooking()
       this.$app.dialogs.calendarUpdate = false
+      this.$emit('changeBookingsList')
     }
   },
   props: ['applyBooking']

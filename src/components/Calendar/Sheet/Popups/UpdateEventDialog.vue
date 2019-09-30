@@ -139,10 +139,12 @@
           q-card
             q-card-section
               calendar-delete(
-                :startId="newBooking.id"
+                :id="newBooking.id"
+                @changeBookingsList="changeBookingsList"
               )
         calendar-apply(
           :applyBooking="applyBooking"
+          @changeBookingsList="changeBookingsList"
         )
 
 </template>
@@ -259,37 +261,39 @@ export default {
       return `${this.newBooking.price} р.`
     },
     reservedTime () {
-      const bookingDate = date.extractDate(date.formatDate(this.helpers.date, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-      const from = date.addToDate(bookingDate, { hours: this.helpers.time.from })
-      const to = (this.helpers.time.to !== 0 && this.helpers.time.to !== 24)
-        ? date.addToDate(bookingDate, { hours: this.helpers.time.to })
-        : date.addToDate(bookingDate, { days: 1 })
+      const bookingDate = this.$moment(this.helpers.date)
+      const from = this.$moment(bookingDate).hour(this.helpers.time.from).format('YYYY-MM-DDTHH:mm:ss+03:00')
+      const to = this.$moment(bookingDate).hour(this.helpers.time.to).format('YYYY-MM-DDTHH:mm:ss+03:00')
+      console.log(bookingDate)
+      console.log(656, { g: this.helpers.time.from, k: this.helpers.time.to }, { from, to })
       return { from, to }
     }
   },
   methods: {
+    changeBookingsList () {
+      this.$emit('changeBookingsList')
+    },
     setParamsForPost () {
-      return {
+      const params = {
         roomId: this.newBooking.room.id,
         consumerId: this.newBooking.customer.id,
-        reserveFrom: this.$moment(this.newBooking.reservedFrom).utcOffset('+03:00').format('YYYY-MM-DDThh:mm:ssZ'),
-        reserveTo: this.$moment(this.newBooking.reservedTo).utcOffset('+03:00').format('YYYY-MM-DDThh:mm:ssZ'),
+        reserveFrom: this.newBooking.reservedFrom,
+        reserveTo: this.newBooking.reservedTo,
         // userComment: this.newBooking.customerComment || '',
         priceType: this.newBooking.eventType,
         extras: [],
         seats: 1,
         description: this.newBooking.managerComment || ''
       }
+      console.log('post', params)
+      return params
     },
     async applyBooking () {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
-      this.newBooking.studio.id = this.filter.studio
-      this.newBooking.studio.name = this.selectedStudioLabel
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
       if (index === -1) {
         const payload = this.setParamsForPost()
-        console.log(54, payload)
         await this.$app.bookings.addNew(payload)
       } else {
         this.$app.bookings.calendarList[index] =
@@ -321,7 +325,6 @@ export default {
           },
           checkedExtras: Object.assign([], checkedExtras)
         })
-        console.log(545, this.helpers, this.newBooking)
       })
     }
   }

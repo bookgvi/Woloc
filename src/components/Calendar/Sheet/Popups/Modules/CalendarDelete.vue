@@ -13,22 +13,15 @@
 <script>
 export default {
   name: 'CalendarDelete',
-  data () {
-    return {
-      id: 0
-    }
-  },
   methods: {
     async deleteBooking () {
-      await this.$app.bookings.deleteOne({ id: this.id })
+      console.log(this.id)
+      await this.$app.bookings.deleteOne(+this.id)
+      this.$app.dialogs.calendarUpdate = false
+      this.$emit('changeBookingsList')
     },
   },
-  props: ['startId'],
-  watch: {
-    'startId' (v) {
-      this.id = v
-    }
-  }
+  props: ['id']
 }
 </script>
 

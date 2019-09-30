@@ -36,7 +36,6 @@ export default {
       const res = await api.bookings.deleteOne({ id: id })
       console.log('bookings :: deleteOne', res)
       if (res) {
-        this.remove(id)
         this.loading.one = false
       }
     },

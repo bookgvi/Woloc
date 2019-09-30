@@ -86,6 +86,7 @@
       update-event-dialog(
         :filter="filter"
         :booking="selectedBooking"
+        @changeBookingsList="changeBookingsList"
       )
  </template>
 
@@ -276,6 +277,10 @@ export default {
     calendarToday () {
       this.selectedDate = date.formatDate(Date.now(), 'YYYY-MM-DD')
     },
+    async changeBookingsList () {
+      console.log('load-load')
+      await this.loadData()
+    }
   },
   watch: {
     bookings: {
