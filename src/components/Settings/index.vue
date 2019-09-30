@@ -11,12 +11,12 @@
     .row.justify-center
       .col-6
         div(v-show="false") {{ studioID }}
-        datas(:datas="singleStudio")
-        specifications(:datas="singleStudio")
-        images(:datas="singleStudio")
-        addressBlock(:datas="singleStudio")
-        services(:datas="singleStudio")
-        equipment(:datas="singleStudio")
+        datas(:singleStudio="singleStudio")
+        specifications(:singleStudio="singleStudio")
+        images
+        addressBlock(:singleStudio="singleStudio")
+        services(:singleStudio="singleStudio")
+        equipment(:singleStudio="singleStudio")
         rooms(:rooms="rooms")
     .row.q-py-lg.justify-center
       q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="updateStudio")

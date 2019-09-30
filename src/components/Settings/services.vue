@@ -2,23 +2,22 @@
   .datas(vi-f="this.datas.services")
     h6.q-mb-md Удобства и услуги
     .col.q-pl-md
-      .row.q-pb-md(v-for="(item, index) in datas.services" :key="index")
+      .row.q-pb-md(v-for="(item, index) in singleStudio.services" :key="index")
         q-checkbox(
-          v-model="datas.services[index].alias"
-          :label="datas.services[index].name"
+          v-model="singleStudio.services[index].alias"
+          :label="singleStudio.services[index].name"
           dense
           )
 </template>
 
 <script>
 export default {
-  name: 'datas',
   props: {
-    datas: Object
+    singleStudio: Object
   },
   data () {
     return {
-      groupTmp: this.datas.services
+      groupTmp: this.singleStudio.services
     }
   }
 }

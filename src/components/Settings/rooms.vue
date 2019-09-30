@@ -13,7 +13,6 @@
 <script>
 import draggable from 'vuedraggable'
 export default {
-  name: 'datas',
   components: { draggable },
   props: {
     rooms: Array

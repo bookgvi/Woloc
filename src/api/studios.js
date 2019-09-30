@@ -25,5 +25,13 @@ export default {
     } catch (err) {
       console.warn('catch :: studios :: UpdateStudio', err)
     }
+  },
+  createStudio: async (createStudio) => {
+    try {
+      const status = await api.post(`${API_URL}/studios`, createStudio)
+      return status.data
+    } catch (err) {
+      console.warn('catch :: studios :: createStudio', err)
+    }
   }
 }

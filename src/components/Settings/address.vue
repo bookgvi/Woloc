@@ -4,8 +4,8 @@
     .row.q-pb-lg
       .col-8.q-pr-sm
         q-select(
-          v-if="datas.address"
-          v-model="datas.address"
+          v-if="singleStudio.address"
+          v-model="singleStudio.address"
           :options="fullAddressArr"
           @input.native="getFullAddress($event)"
           @keyup.native.enter="showOnMap"
@@ -23,18 +23,18 @@
         q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
       yandexMap(
-        v-if="datas.lat"
+        v-if="singleStudio.lat"
         :settings="options.yaMap"
         map-type="map"
         zoom=18
-        :coords="[datas.lat, datas.lon]"
+        :coords="[singleStudio.lat, singleStudio.lon]"
         :controls="yControls"
         style="width: 100%; height: 480px"
         @click="setAddress"
       )
        ymap-marker(
         marker-id="1"
-        :coords="[datas.lat, datas.lon]"
+        :coords="[singleStudio.lat, singleStudio.lon]"
         :balloon="{header: 'First'}"
       )
     .row.q-pb-lg
@@ -42,7 +42,7 @@
         span Инструкция пешком
         q-input.q-pt-sm(change
           type="textarea"
-          v-model="datas.foot"
+          v-model="singleStudio.foot"
           outlined
           rows="4"
         )
@@ -51,7 +51,7 @@
         span Инструкция на машине
         q-input.q-pt-sm(
           type="textarea"
-          v-model="datas.car"
+          v-model="singleStudio.car"
           outlined
           rows="4"
         )
@@ -62,7 +62,7 @@ import axios from 'axios'
 import { yandexMap, ymapMarker } from 'vue-yandex-maps'
 export default {
   props: {
-    datas: Object
+    singleStudio: Object
   },
   components: { yandexMap, ymapMarker },
   data () {
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     async getFullAddress (e) {
-      this.datas.address = e.target.value
+      this.singleStudio.address = e.target.value
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
         count: 5,
         query: e.target.value,
@@ -104,22 +104,22 @@ export default {
           geocode: this.datas.address
         }
       }).then(resp => {
-        this.datas.lon = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
-        this.datas.lat = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
+        this.singleStudio.lon = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
+        this.singleStudio.lat = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
       })
         .catch(err => { console.error('Catched...', err) })
     },
     async setAddress (e) {
-      this.datas.lon = e.get('coords')[1]
-      this.datas.lat = e.get('coords')[0]
+      this.singleStudio.lon = e.get('coords')[1]
+      this.singleStudio.lat = e.get('coords')[0]
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
-        lat: this.datas.lat,
-        lon: this.datas.lon
+        lat: this.singleStudio.lat,
+        lon: this.singleStudio.lon
       }, {
         headers: {
           Authorization: `Token ${this.options.token}`
         }
-      }).then(resp => { this.datas.address = resp.data.suggestions[0].value })
+      }).then(resp => { this.singleStudio.address = resp.data.suggestions[0].value })
         .catch(err => { console.error('Catched...', err) })
     },
     emptyFilter (val, update) {

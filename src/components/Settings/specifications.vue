@@ -4,18 +4,18 @@
     .row.q-pb-lg
       .col
         span Описание локации
-        q-input.q-pt-sm(v-model="datas.description" type="textarea" rows=15 outlined)
+        q-input.q-pt-sm(v-model="singleStudio.description" type="textarea" rows=15 outlined)
     .row.q-pb-sm
       .col.q-pr-sm
         span Лимит, недели
-        q-input(v-model="datas.limit" outlined dense)
+        q-input(v-model="singleStudio.limit" outlined dense)
       .col.q-pr-sm
         span Высота потолков, м
-        q-input(v-model="datas.height" outlined dense)
+        q-input(v-model="singleStudio.height" outlined dense)
       .col
         span(style="line-height: 0;") Площадь, м
           sup 2
-        q-input(v-model="datas.yardage" outlined dense)
+        q-input(v-model="singleStudio.yardage" outlined dense)
     .row.q-pb-lg
       p Насколько недель вперед возможна бронь.
 </template>
@@ -24,7 +24,7 @@
 export default {
   name: 'specifications',
   props: {
-    datas: Object
+    singleStudio: Object
   }
 }
 </script>
