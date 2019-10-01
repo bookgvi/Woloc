@@ -17,6 +17,7 @@
         backgrounds
         additionalServices
         services(:singleStudio="singleStudio")
+        q-btn.bg-primary.text-white(label="Сохранить" no-caps)
 </template>
 
 <script>
@@ -61,6 +62,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
