@@ -6,7 +6,7 @@
           q-expansion-item.text-subtitle1(:label="item.facility.name" default-opened)
             .col.q-pl-md
               .row.q-pb-md
-                q-checkbox(v-model="item.id" :label="item.name")
+                q-checkbox(v-model="isChecked[index]" :label="item.name" checked)
           q-separator
 </template>
 
@@ -14,6 +14,11 @@
 export default {
   props: {
     vendors: Array
+  },
+  data () {
+    return {
+      isChecked: []
+    }
   }
 }
 </script>

@@ -1,10 +1,10 @@
 <template lang="pug">
-  .datas(vi-f="this.datas.services")
+  .services
     h6.q-mb-md Удобства и услуги
     .col.q-pl-md
       .row.q-pb-md(v-for="(item, index) in services" :key="index")
         q-checkbox(
-          v-model="item.alias"
+          v-model="isChecked[index]"
           :label="item.name"
           dense
         )
@@ -14,6 +14,11 @@
 export default {
   props: {
     services: Array
+  },
+  data () {
+    return {
+      isChecked: []
+    }
   }
 }
 </script>
