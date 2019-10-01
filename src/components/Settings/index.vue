@@ -76,10 +76,9 @@ export default {
       this.singleStudio.vendors = vendors.map(item => {
         return { id: item.id }
       })
-      console.log(this.singleStudio)
+      const { studio } = this.$app.filters.getValues('settings')
+      await studios.updateStudio(studio, this.singleStudio)
     }
-    // const { studio } = this.$app.filters.getValues('settings')
-    // await studios.updateStudio(studio, this.singleStudio)
   },
   async mounted () {
     this.singleStudioM()

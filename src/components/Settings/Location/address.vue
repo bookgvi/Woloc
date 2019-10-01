@@ -26,6 +26,7 @@
         v-if="singleStudio.lat"
         :settings="options.yaMap"
         map-type="map"
+        scroll-zoom=false
         zoom=18
         :coords="[singleStudio.lat, singleStudio.lon]"
         :controls="yControls"
@@ -33,6 +34,7 @@
         @click="setAddress"
       )
        ymap-marker(
+        v-if="isMarker"
         marker-id="1"
         :coords="[singleStudio.lat, singleStudio.lon]"
         :balloon="{header: 'First'}"
@@ -67,6 +69,7 @@ export default {
   components: { yandexMap, ymapMarker },
   data () {
     return {
+      isMarker: true,
       fullAddressArr: [],
       yControls: [],
       options: {
@@ -97,6 +100,7 @@ export default {
         .catch(err => { console.error('Catched...', err) })
     },
     async showOnMap () {
+      this.isMarker = false
       await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
           apikey: this.options.yaMap.yAPI,
@@ -108,8 +112,10 @@ export default {
         this.singleStudio.lat = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
       })
         .catch(err => { console.error('Catched...', err) })
+      this.isMarker = true
     },
     async setAddress (e) {
+      this.isMarker = false
       this.singleStudio.lon = e.get('coords')[1]
       this.singleStudio.lat = e.get('coords')[0]
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
@@ -121,6 +127,7 @@ export default {
         }
       }).then(resp => { this.singleStudio.address = resp.data.suggestions[0].value })
         .catch(err => { console.error('Catched...', err) })
+      this.isMarker = true
     },
     emptyFilter (val, update) {
       update(() => {})

@@ -11,6 +11,7 @@
           dataBlock(:singleStudio="singleStudio")
           specifications(:singleStudio="singleStudio")
           images
+          addressBlock(:singleStudio="singleStudio")
           services(:services="services")
           equipment(:vendors="vendors")
           rooms(:rooms="rooms")
