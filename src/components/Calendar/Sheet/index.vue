@@ -64,9 +64,9 @@
           .row.justify-left.q-px-md.q-py-md
             span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
-          q-separator.absolute(
-            color="red"
-            :style="timelineCoords"
+          timeline(
+            :timeStartPos="timeStartPos"
+            :timeDurationHeight="timeDurationHeight"
           )
           q-badge.my-event.absolute-top(
             multi-line
@@ -97,6 +97,7 @@ import { EVENT_TYPES } from 'src/common/constants'
 import roomsColors from 'src/common/rooms/colors'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
+import Timeline from './Modules/Timeline'
 import { dtFormat } from '../../../utils/helpers'
 
 const formDefault = () => ({
@@ -113,7 +114,7 @@ const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
-  components: { FirstColumn, UpdateEventDialog },
+  components: { FirstColumn, UpdateEventDialog, Timeline },
   props: {
     filter: Object,
     bookings: Array
@@ -124,13 +125,7 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
-      timelineCoords: {
-        top: 0,
-        left: 0,
-        width: 0
-      },
       eventForm: formDefault(),
-      interval: {},
       events: [],
       addEvent: false,
       selectedDate: '',
@@ -142,11 +137,6 @@ export default {
   },
   created: async function () {
     this.calendarToday()
-  },
-  mounted: function () {
-    this.timelinePos()
-    this.interval = setInterval(() =>
-      this.timelinePos(), 1000 * 60)
   },
   computed: {
     selectedStudioLabel () {
@@ -208,18 +198,6 @@ export default {
     },
     resetForm () {
       this.$set(this, 'eventForm', formDefault())
-    },
-    timelinePos () {
-      const timestamp = new Date()
-      const hours = date.formatDate(timestamp, 'HH')
-      const minutes = date.formatDate(timestamp, 'mm')
-      if (this.$refs.calendar) {
-        this.timelineCoords['top'] = (hours >= 8) ? `${this.$refs.calendar.timeStartPos(hours) + +this.$refs.calendar.timeDurationHeight(1) * minutes}px` : 0
-      } else {
-        this.timelineCoords['top'] = '0px'
-      }
-      this.timelineCoords['left'] = '0px'
-      this.timelineCoords['width'] = '100%'
     },
     getDate (timestamp) {
       if (+this.$moment.parseZone(timestamp).format('HH') === 0) {

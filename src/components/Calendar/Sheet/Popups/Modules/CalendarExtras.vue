@@ -15,7 +15,7 @@ export default {
   name: 'CalendarExtras',
   data () {
     return {
-      checkedExtras: this.startExtras
+      checkedExtras: [...this.startExtras]
     }
   },
   computed: {
