@@ -150,7 +150,7 @@
 </template>
 
 <script>
-import { date, Notify } from 'quasar'
+import { Notify } from 'quasar'
 import { required } from 'vuelidate/lib/validators'
 import CalendarCustomer from './Modules/CalendarCustomer'
 import CalendarRoom from './Modules/CalendarRoom'
@@ -238,7 +238,7 @@ export default {
       }
     },
     dateSlot () {
-      const formatDate = date.formatDate(this.helpers.date, 'D MMMM YYYY')
+      const formatDate = this.$moment(this.helpers.date).format('D MMMM YYYY')
       return formatDate
     },
     timeSlot () {
