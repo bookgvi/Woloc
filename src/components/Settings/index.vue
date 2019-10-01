@@ -1,55 +1,45 @@
 <template lang="pug">
   .settings
-    q-page-sticky.bg-white(expand position="top" style="z-index: 1000;")
-      q-toolbar
-        q-toolbar-title
-          filters-list(name="settings")
-            template(#prepend="props")
-              studio-filter(v-bind="props")
-            template(#append)
-              q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" disable)
-    .row.justify-center
-      .col-6
-        div(v-show="false") {{ studioID }}
-        datas(:singleStudio="singleStudio")
-        specifications(:singleStudio="singleStudio")
-        images
-        addressBlock(:singleStudio="singleStudio")
-        services(:singleStudio="singleStudio")
-        equipment(:singleStudio="singleStudio")
-        rooms(:rooms="rooms")
-    .row.q-py-lg.justify-center
-      q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="updateStudio")
-      q-btn.q-mr-sm(label="Сохранить и создать зал" no-caps disable)
+    .wrapper
+      .row
+        q-tabs(
+          v-model="currentTab"
+          shrink
+          align="justify"
+          animated
+          no-caps
+          active-color="black"
+          narrow-indicator
+          dense
+        )
+          q-tab(
+            v-for="(tab, index) in tabs"
+            :key="index"
+            :label="tab"
+            :name="tab"
+          )
+    div(v-show="false") {{ studioID }}
+    q-tab-panels(v-model="currentTab")
+      q-tab-panel.q-pa-none(name="Локация")
+        location(:singleStudio="singleStudio" :rooms="rooms" @updateStudio="updateStudio")
 </template>
 
 <script>
-import datas from './datas'
-import specifications from './specifications'
-import images from './images'
-import addressBlock from './address'
-import services from './services'
-import equipment from './equipment'
-import rooms from './rooms'
+import location from './Location'
+import room from './Room'
 import studios from '../../api/studios'
-import StudioFilter from '../Filters/StudioFilter'
-import FiltersList from '../Filters/FiltersList'
-
 export default {
+  name: 'setting',
   components: {
-    datas,
-    specifications,
-    images,
-    addressBlock,
-    services,
-    equipment,
-    rooms,
-    StudioFilter,
-    FiltersList
+    location,
+    room
   },
   data () {
     return {
       id: this.$app.filters.getValues('settings').studio,
+      currentTab: 'Локация',
+      tabs: ['Локация'],
+      allStudiosName: [],
       singleStudio: {},
       rooms: []
     }

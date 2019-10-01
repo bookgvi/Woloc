@@ -5,7 +5,7 @@
       draggable(:list="rooms")
         q-list(v-for="item in rooms" :key="item.id")
           q-item
-            q-item-section {{ item.name }}
+            q-item-section Зал {{ item.name }}
             q-icon(name="drag_handle")
           q-separator
 </template>
