@@ -1,5 +1,5 @@
 <template lang="pug">
-  .specifications
+  .payment
     .row.q-pb-lg
       .col
         .text-h6.q-pb-md Оплата
