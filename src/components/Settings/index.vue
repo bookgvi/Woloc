@@ -21,7 +21,13 @@
     div(v-show="false") {{ studioID }}
     q-tab-panels(v-model="currentTab")
       q-tab-panel.q-pa-none(name="Локация")
-        location(:singleStudio="singleStudio" :rooms="rooms" @updateStudio="updateStudio")
+        location(
+          :singleStudio="singleStudio"
+          :rooms="rooms"
+          :services="services"
+          :vendors="vendors"
+          @updateStudio="updateStudio"
+        )
 </template>
 
 <script>
@@ -41,7 +47,9 @@ export default {
       tabs: ['Локация'],
       allStudiosName: [],
       singleStudio: {},
-      rooms: []
+      rooms: [],
+      services: [],
+      vendors: []
     }
   },
   computed: {
@@ -57,12 +65,21 @@ export default {
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
+      this.services = this.singleStudio.services
+      this.vendors = this.singleStudio.vendors
       console.log('qqq', this.singleStudio)
     },
-    async updateStudio () {
-      const { studio } = this.$app.filters.getValues('settings')
-      await studios.updateStudio(studio, this.singleStudio)
+    async updateStudio (services, vendors) {
+      this.singleStudio.services = services.map(item => {
+        return { id: item.id }
+      })
+      this.singleStudio.vendors = vendors.map(item => {
+        return { id: item.id }
+      })
+      console.log(this.singleStudio)
     }
+    // const { studio } = this.$app.filters.getValues('settings')
+    // await studios.updateStudio(studio, this.singleStudio)
   },
   async mounted () {
     this.singleStudioM()

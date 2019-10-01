@@ -11,11 +11,15 @@
           dataBlock(:singleStudio="singleStudio")
           specifications(:singleStudio="singleStudio")
           images
-          addressBlock(:singleStudio="singleStudio")
-          services(:singleStudio="singleStudio")
-          equipment(:singleStudio="singleStudio")
+          services(:services="services")
+          equipment(:vendors="vendors")
           rooms(:rooms="rooms")
-          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="$emit('updateStudio')")
+
+          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(
+            label="Сохранить"
+            no-caps
+            @click="$emit('updateStudio', services, vendors)"
+          )
           q-btn.q-mr-sm(label="Сохранить и создать зал" no-caps disable)
 </template>
 
@@ -44,6 +48,8 @@ export default {
   },
   props: {
     singleStudio: Object,
+    services: Array,
+    vendors: Array,
     rooms: Array,
     studioID: Number
   },
