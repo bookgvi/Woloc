@@ -12,6 +12,7 @@
         roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom.name")
         specifications(:singleStudio="singleStudio")
         payment
+        images
       .col-3
 </template>
 
@@ -19,6 +20,7 @@
 import roomData from './roomData'
 import specifications from './specifications'
 import payment from './payment'
+import images from './images'
 export default {
   props: {
     rooms: Array,
@@ -33,7 +35,8 @@ export default {
   components: {
     roomData,
     specifications,
-    payment
+    payment,
+    images
   },
   computed: {
     currentRoom: {
