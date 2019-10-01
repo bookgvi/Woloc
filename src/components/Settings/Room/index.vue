@@ -14,7 +14,7 @@
         payment
         images
         interior
-      .col-3
+        backgrounds
 </template>
 
 <script>
@@ -23,6 +23,7 @@ import specifications from './specifications'
 import payment from './payment'
 import images from './images'
 import interior from './interior'
+import backgrounds from './backgrounds'
 export default {
   props: {
     rooms: Array,
@@ -39,7 +40,8 @@ export default {
     specifications,
     payment,
     images,
-    interior
+    interior,
+    backgrounds
   },
   computed: {
     currentRoom: {
