@@ -45,7 +45,7 @@
       span Опубликован и доступен для бронирования
     .row.q-pb-sm
       span Предоплата
-    .row
+    .row.q-pb-lg
       .col-7.q-pr-sm
         q-select(v-model="currentPrepay" :options="prepay" outlined dense)
       .col.q-pa-none

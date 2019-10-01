@@ -10,11 +10,13 @@
           ) Зал {{ room.name }}
       .col-6
         roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom.name")
+        specifications(:singleStudio="singleStudio")
       .col-3
 </template>
 
 <script>
 import roomData from './roomData'
+import specifications from './specifications'
 export default {
   props: {
     rooms: Array,
@@ -27,7 +29,8 @@ export default {
     }
   },
   components: {
-    roomData
+    roomData,
+    specifications
   },
   computed: {
     currentRoom: {
