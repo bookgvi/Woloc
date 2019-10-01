@@ -16,7 +16,15 @@ export default {
       const res = await api.bookings.getForCalendar(filter)
       console.log('bookings :: getForCalendar', res)
       if (res) {
-        this.calendarList = res.data.items
+        let filteredList = res.data.items.filter(item => {
+          const min = filter.price.min
+          const max = (filter.price.max === 10000) ? Infinity : filter.price.max
+          if (item.price >= min && item.price <= max &&
+            filter.events.indexOf(item.eventType) !== -1) {
+            return item
+          }
+        })
+        this.calendarList = filteredList
         this.loading.list = false
       }
     },

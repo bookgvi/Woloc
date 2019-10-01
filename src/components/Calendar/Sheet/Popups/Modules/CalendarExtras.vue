@@ -37,7 +37,7 @@ export default {
   props: {
     startExtras: {
       type: Array,
-      default: function () {
+      default: _ => {
         return []
       }
     }

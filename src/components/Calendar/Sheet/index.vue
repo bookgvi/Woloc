@@ -153,9 +153,6 @@ export default {
     }
   },
   methods: {
-    formatTimeToHours (time) {
-      return +time.split(':')[0]
-    },
     setNewBooking (date, time) {
       this.selectedBooking = Object.assign({}, {
         id: 8983249234,

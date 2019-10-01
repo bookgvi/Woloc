@@ -48,7 +48,12 @@ export default {
   getForCalendar: async (filter) => {
     try {
       const r = await api.get(`${API_URL}/calendar`, {
-        params: filter
+        params: {
+          dateFrom: filter.dateFrom,
+          dateTo: filter.dateTo,
+          studio: filter.studio,
+          rooms: filter.rooms
+        }
       })
       return r.data
     } catch (e) {
