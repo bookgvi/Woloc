@@ -101,7 +101,7 @@ export default {
         params: {
           apikey: this.options.yaMap.yAPI,
           format: 'json',
-          geocode: this.datas.address
+          geocode: this.singleStudio.address
         }
       }).then(resp => {
         this.singleStudio.lon = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]

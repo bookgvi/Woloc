@@ -3,11 +3,11 @@
     q-page-sticky.bg-white(expand position="top" style="z-index: 1000;")
       q-toolbar
         q-toolbar-title
-          filters-list(
-            name="settings"
-            v-slot:default="props"
-          )
-            studio-filter(v-bind="props")
+          filters-list(name="settings")
+            template(#prepend="props")
+              studio-filter(v-bind="props")
+            template(#append)
+              q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" disable)
     .row.justify-center
       .col-6
         div(v-show="false") {{ studioID }}
@@ -21,7 +21,6 @@
     .row.q-py-lg.justify-center
       q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="updateStudio")
       q-btn.q-mr-sm(label="Сохранить и создать зал" no-caps disable)
-      q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" disable)
 </template>
 
 <script>
