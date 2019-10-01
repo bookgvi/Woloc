@@ -27,7 +27,7 @@ export default [
   },
   {
     name: 'createdAtTime',
-    label: 'вермя',
+    label: 'время',
     field: 'createdAt',
     format: value => date.formatDate(value, 'H:mm'),
   },
