@@ -20,7 +20,7 @@ import dataBlock from './data'
 import specifications from './specifications'
 import images from './images'
 import addressBlock from './address'
-import services from './services'
+import services from '../Room/services'
 import equipment from './equipment'
 import rooms from './rooms'
 

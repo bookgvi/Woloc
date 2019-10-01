@@ -16,6 +16,7 @@
         interior
         backgrounds
         additionalServices
+        services(:singleStudio="singleStudio")
 </template>
 
 <script>
@@ -26,6 +27,7 @@ import images from './images'
 import interior from './interior'
 import backgrounds from './backgrounds'
 import additionalServices from './additionalServices'
+import services from './services'
 export default {
   props: {
     rooms: Array,
@@ -44,7 +46,8 @@ export default {
     images,
     interior,
     backgrounds,
-    additionalServices
+    additionalServices,
+    services
   },
   computed: {
     currentRoom: {
