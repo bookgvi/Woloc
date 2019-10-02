@@ -37,13 +37,15 @@
     .row.q-pb-lg
       .col
         extraCahrge(v-if="markup")
+        dayPrices
 </template>
 
 <script>
 import extraCahrge from './extraCahrge'
+import dayPrices from './dayPrices'
 export default {
   name: 'priceCalendar',
-  components: { extraCahrge },
+  components: { extraCahrge, dayPrices },
   data: () => ({
     men: 30,
     var1: 8,
