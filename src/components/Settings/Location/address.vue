@@ -1,10 +1,10 @@
 <template lang="pug">
   .address-class
-    h6.q-mb-md Адрес
+    h6.q-mb-md Адрес &nbsp
+      span.text-red *
     .row.q-pb-lg
       .col-8.q-pr-sm
         q-select(
-          v-if="singleStudio.address"
           v-model="singleStudio.address"
           :options="fullAddressArr"
           @input.native="getFullAddress($event)"
@@ -23,7 +23,6 @@
         q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
       yandexMap(
-        v-if="singleStudio.lat"
         :settings="options.yaMap"
         map-type="map"
         scroll-zoom=false
@@ -41,8 +40,18 @@
       )
     .row.q-pb-lg
       .col
-        span Инструкция пешком
-        q-input.q-pt-sm(change
+        span Ближайшая станция метро &nbsp
+        span.text-red *
+          q-input.q-pt-sm(
+            v-model="singleStudio.metro"
+            outlined
+            dense
+          )
+    .row.q-pb-lg
+      .col
+        span Инструкция пешком &nbsp
+        span.text-red *
+        q-input.q-pt-sm(
           type="textarea"
           v-model="singleStudio.foot"
           outlined
@@ -50,7 +59,8 @@
         )
     .row.q-pb-lg
       .col
-        span Инструкция на машине
+        span Инструкция на машине &nbsp
+        span.text-red *
         q-input.q-pt-sm(
           type="textarea"
           v-model="singleStudio.car"
