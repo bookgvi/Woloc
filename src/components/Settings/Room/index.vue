@@ -1,5 +1,6 @@
 <template lang="pug">
   .room
+    div(v-show="false") {{ studioID }}
     filters-list(name="settings")
       template(#prepend="props")
         studio-filter(v-bind="props")
@@ -10,12 +11,12 @@
         .col-3
           .row(v-for="(room, index) in rooms" :key="index")
             q-btn(
-              @click="currentRoom=room"
+              @click="currentRoom=room.name"
               no-caps
               flat
             ) Зал {{ room.name }}
         .col-6
-          roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom.name")
+          roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom")
           specifications(:singleStudio="singleStudio")
           payment
           images
@@ -37,15 +38,20 @@ import additionalServices from './additionalServices'
 import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
+import studios from '../../../api/studios'
+
 export default {
-  props: {
-    rooms: Array,
-    singleStudio: Object,
-    allStudiosName: Array
-  },
   data () {
     return {
-      changeRoom: this.rooms[0]
+      id: this.$app.filters.getValues('settings').studio,
+      allStudiosName: [],
+      singleStudio: {},
+      currentStudio: '',
+      currentRoom: '',
+      isSave: false,
+      rooms: [],
+      services: [],
+      vendors: []
     }
   },
   components: {
@@ -61,14 +67,56 @@ export default {
     services
   },
   computed: {
-    currentRoom: {
-      get () {
-        return this.changeRoom
-      },
-      set (room) {
-        this.changeRoom = room
-      }
+    studioID () {
+      this.singleStudioM()
+      return this.$app.filters.getValues('settings').studio
     }
+  },
+  methods: {
+    async singleStudioM () {
+      if (this.currentStudio !== 'settings') {
+        this.$app.filters.reset('settings')
+        this.currentStudio = 'settings'
+        return
+      }
+      this.currentStudio = 'settings'
+      this.isSave = false
+      const { studio } = this.$app.filters.getValues('settings')
+      const { items } = await studios.getAll().then(resp => resp.data)
+      this.allStudiosName = items.map(item => item.name)
+      const [{ rooms }] = items.filter(item => item.id === studio)
+      this.rooms = rooms
+      this.currentRoom = rooms[0].name
+      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
+      this.services = this.singleStudio.services
+      this.vendors = this.singleStudio.vendors
+    },
+    async updateStudio (services, vendors) {
+      this.singleStudio.services = services.map(item => {
+        return { id: item.id }
+      })
+      this.singleStudio.vendors = vendors.map(item => {
+        return { id: item.id }
+      })
+      const { studio } = this.$app.filters.getValues('settings')
+      await studios.updateStudio(studio, this.singleStudio)
+    },
+    async newStudio () {
+      console.log('Adding new studio')
+      this.currentStudio = ''
+      this.isSave = true
+      this.singleStudio = { lat: 55.786419, lon: 37.725433 }
+      this.rooms = []
+      this.services = []
+      this.vendors = []
+    },
+    async createNewStudio () {
+      await studios.createStudio(this.singleStudio)
+      this.isSave = false
+    }
+  },
+  async mounted () {
+    this.singleStudioM()
   }
 }
 </script>

@@ -14,7 +14,6 @@
       :to="route.to"
       :label="route.label"
     )
-
 </template>
 
 <script>
