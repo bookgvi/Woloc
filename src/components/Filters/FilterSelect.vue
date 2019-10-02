@@ -8,8 +8,22 @@
   )
     q-popup-proxy(ref="QPopupProxy")
       slot
-
+      q-field.row.col-12.text-body2.q-px-md.q-pt-lg(
+        v-if="isRange"
+        borderless
+        style="width: 80%; margin: auto;"
+        )
+        q-range(
+          v-model="currentValue"
+          label-always
+          markers
+          :min="0"
+          :max="10000"
+          :step="500"
+          color="green"
+        )
       q-option-group.text-body2.q-px-md.q-pt-md(
+        v-else
         color="black"
         :type="type"
         :options="listOptions"
@@ -54,6 +68,7 @@ export default {
   props: {
     title: String,
     selectAllLabel: String,
+    isRange: Boolean,
     models: Array,
     options: Array,
     type: {
@@ -62,18 +77,20 @@ export default {
     },
     value: {
       validator (prop) {
-        return prop === null || prop instanceof Array || typeof prop === 'number'
+        return prop === null || prop instanceof Array || typeof prop === 'number' || prop instanceof Object
       },
     },
   },
   computed: {
     listOptions () {
+      if (this.isRange === true) return {}
       return this.options || this.models.map(({ id, name }) => ({
         value: id,
         label: name,
       }))
     },
     disabled () {
+      if (this.isRange === true) return false
       return !this.listOptions.length
     },
     selectAllState () {

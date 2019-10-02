@@ -1,6 +1,6 @@
 <template lang="pug">
   q-dialog(
-    v-model="$app.dialogs.calendarNew"
+    v-model="false"
     persistent
   )
     q-card

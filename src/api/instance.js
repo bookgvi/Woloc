@@ -47,7 +47,7 @@ instance.interceptors.response.use(
             if (Array.isArray(response.data.errors)) {
               response.data.errors.forEach(err => {
                 Notify.create({
-                  message: err.message,
+                  message: err.title,
                   color: 'negative',
                   position: 'bottom-left',
                   icon: 'warning'
@@ -55,7 +55,7 @@ instance.interceptors.response.use(
               })
             } else {
               Notify.create({
-                message: response.data.errors.message,
+                message: response.data.errors.title,
                 color: 'negative',
                 position: 'bottom-left',
                 icon: 'warning'

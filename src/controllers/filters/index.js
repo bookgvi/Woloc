@@ -4,7 +4,9 @@ const defaultValues = {
   },
   calendar: {
     studio: 37,
-    rooms: [143, 144, 206, 207, 208]
+    rooms: [143, 144, 206, 207, 208],
+    events: ['photo', 'video', 'event'],
+    price: { min: 0, max: 10000 }
   }
 }
 
