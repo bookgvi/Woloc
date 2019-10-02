@@ -32,13 +32,18 @@
         q-input(v-model="var4" outlined dense)
           template(#append)
             span(style="font-size: 1rem") %
-    .row.q-pb-lg
+    .row.q-pb-sm
       q-checkbox(label="Наценка на единственный час" v-model="markup")
+    .row.q-pb-lg
+      .col
+        extraCahrge(v-if="markup")
 </template>
 
 <script>
+import extraCahrge from './extraCahrge'
 export default {
   name: 'priceCalendar',
+  components: { extraCahrge },
   data: () => ({
     men: 30,
     var1: 8,

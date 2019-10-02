@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import priceCalendar from './priceCalendar'
+import priceCalendar from './priceCalendar/index.vue'
 export default {
   name: 'payment',
   components: { priceCalendar },

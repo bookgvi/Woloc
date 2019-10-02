@@ -31,21 +31,29 @@
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
         )
+      q-tab-panel.q-pa-none(name="Залы")
+        rooms(
+          :singleStudio="singleStudio"
+          :allStudiosName="allStudiosName"
+          :rooms="rooms"
+        )
 </template>
 
 <script>
 import location from './Location'
+import rooms from './Room'
 import studios from '../../api/studios'
 export default {
   name: 'setting',
   components: {
-    location
+    location,
+    rooms
   },
   data () {
     return {
       id: this.$app.filters.getValues('settings').studio,
       currentTab: 'Локация',
-      tabs: ['Локация'],
+      tabs: ['Локация', 'Залы'],
       allStudiosName: [],
       singleStudio: {},
       currentStudio: '',
@@ -72,6 +80,7 @@ export default {
       this.isSave = false
       const { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
+      this.allStudiosName = items.map(item => item.name)
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)

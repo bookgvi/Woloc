@@ -6,7 +6,7 @@
     .row.q-pb-lg
       .col
         span Локация
-        q-select.q-pt-sm(v-model="singleStudio.name" :options="allStudiosName" outlined dense)
+        q-input.q-pt-sm(v-model="singleStudio.name" :options="allStudiosName" outlined dense disable)
     .row.q-pb-lg
       .col
         span Название зала
