@@ -1,10 +1,10 @@
 <template lang="pug">
-  .priceCalendar.q-pa-md
+  .priceCalendar.q-pa-lg
     .row.q-pb-lg
-      .col-9
+      .col-11
         .text-h6 Календарь цен
       q-space
-      .col
+      .col-1
         q-btn(icon="close" flat @click="$emit('hide')")
     .row.q-pb-lg
       .col-6.q-pr-sm.column.justify-end
