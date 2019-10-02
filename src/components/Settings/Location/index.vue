@@ -4,7 +4,7 @@
       template(#prepend="props")
         studio-filter(v-bind="props")
       template(#append)
-        q-btn.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" disable)
+        q-btn.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" @click="$emit('newStudio')")
     .wrapper
       .row.justify-center.q-pb-md
         .col-6

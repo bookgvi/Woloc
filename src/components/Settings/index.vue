@@ -27,18 +27,17 @@
           :services="services"
           :vendors="vendors"
           @updateStudio="updateStudio"
+          @newStudio="newStudio"
         )
 </template>
 
 <script>
 import location from './Location'
-import room from './Room'
 import studios from '../../api/studios'
 export default {
   name: 'setting',
   components: {
-    location,
-    room
+    location
   },
   data () {
     return {
@@ -47,6 +46,7 @@ export default {
       tabs: ['Локация'],
       allStudiosName: [],
       singleStudio: {},
+      currentStudio: '',
       rooms: [],
       services: [],
       vendors: []
@@ -60,6 +60,12 @@ export default {
   },
   methods: {
     async singleStudioM () {
+      if (this.currentStudio !== 'settings') {
+        this.$app.filters.reset('settings')
+        this.currentStudio = 'settings'
+        return
+      }
+      this.currentStudio = 'settings'
       const { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
       const [{ rooms }] = items.filter(item => item.id === studio)
@@ -78,6 +84,14 @@ export default {
       })
       const { studio } = this.$app.filters.getValues('settings')
       await studios.updateStudio(studio, this.singleStudio)
+    },
+    newStudio () {
+      console.log('Adding new studio')
+      this.currentStudio = ''
+      this.singleStudio = {}
+      this.rooms = []
+      this.services = []
+      this.vendors = []
     }
   },
   async mounted () {
