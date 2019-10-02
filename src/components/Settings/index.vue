@@ -24,10 +24,12 @@
         location(
           :singleStudio="singleStudio"
           :rooms="rooms"
+          :isSave="isSave"
           :services="services"
           :vendors="vendors"
           @updateStudio="updateStudio"
           @newStudio="newStudio"
+          @createNewStudio="createNewStudio"
         )
 </template>
 
@@ -47,6 +49,7 @@ export default {
       allStudiosName: [],
       singleStudio: {},
       currentStudio: '',
+      isSave: false,
       rooms: [],
       services: [],
       vendors: []
@@ -66,6 +69,7 @@ export default {
         return
       }
       this.currentStudio = 'settings'
+      this.isSave = false
       const { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
       const [{ rooms }] = items.filter(item => item.id === studio)
@@ -85,13 +89,18 @@ export default {
       const { studio } = this.$app.filters.getValues('settings')
       await studios.updateStudio(studio, this.singleStudio)
     },
-    newStudio () {
+    async newStudio () {
       console.log('Adding new studio')
       this.currentStudio = ''
+      this.isSave = true
       this.singleStudio = {}
       this.rooms = []
       this.services = []
       this.vendors = []
+    },
+    async createNewStudio () {
+      await studios.createStudio(this.singleStudio)
+      this.isSave = false
     }
   },
   async mounted () {

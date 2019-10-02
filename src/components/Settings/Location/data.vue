@@ -3,14 +3,17 @@
     h6.q-mb-md Данные локации
     .row.q-pb-lg
       .col
-        span Название
+        span Название &nbsp
+        span.text-red *
         q-input.q-pt-sm(v-model="singleStudio.name" outlined dense)
     .row.q-pb-lg
       .col.q-pr-sm
-        span Телефон
+        span Телефон &nbsp
+        span.text-red *
         q-input.q-pt-sm(v-model="singleStudio.phone" type="tel" outlined dense)
       .col
-        span Эл. почта
+        span Эл. почта &nbsp
+        span.text-red *
         q-input.q-pt-sm(v-model="singleStudio.email" type="email" outlined dense)
     .row.q-pb-sm
       q-checkbox(v-model="singleStudio.hidden" label="Скрыть локацию" dense)

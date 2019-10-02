@@ -20,8 +20,14 @@
             label="Сохранить"
             no-caps
             @click="$emit('updateStudio', services, vendors)"
+            :disable='isSave'
           )
-          q-btn.q-mr-sm(label="Сохранить и создать зал" no-caps disable)
+          q-btn.q-mr-sm(
+            label="Сохранить и создать зал"
+            no-caps
+            :disable='!isSave'
+            @click="$emit('createNewStudio')"
+          )
 </template>
 
 <script>
@@ -52,11 +58,11 @@ export default {
     services: Array,
     vendors: Array,
     rooms: Array,
-    studioID: Number
+    studioID: Number,
+    isSave: Boolean
   },
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>
