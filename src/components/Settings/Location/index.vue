@@ -1,18 +1,33 @@
 <template lang="pug">
   .location
-    .row.justify-center
-      .col-6
-        dataBlock(:singleStudio="singleStudio")
-        specifications(:singleStudio="singleStudio")
-        images
-        addressBlock(:singleStudio="singleStudio")
-        services(:singleStudio="singleStudio")
-        equipment(:singleStudio="singleStudio")
-        rooms(:rooms="rooms")
-    .row.q-py-lg.justify-center
-      q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(label="Сохранить" no-caps @click="$emit('updateStudio')")
-      q-btn.q-mr-sm(label="Сохранить и создать зал" no-caps disable)
-      q-btn.col-2.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" disable)
+    filters-list(name="settings")
+      template(#prepend="props")
+        studio-filter(v-bind="props")
+      template(#append)
+        q-btn.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" @click="$emit('newStudio')")
+    .wrapper
+      .row.justify-center.q-pb-md
+        .col-6
+          dataBlock(:singleStudio="singleStudio")
+          specifications(:singleStudio="singleStudio")
+          images
+          addressBlock(:singleStudio="singleStudio")
+          services(:services="services")
+          equipment(:vendors="vendors")
+          rooms(:rooms="rooms")
+
+          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(
+            label="Сохранить"
+            no-caps
+            @click="$emit('updateStudio', services, vendors)"
+            :disable='isSave'
+          )
+          q-btn.q-mr-sm(
+            label="Сохранить и создать зал"
+            no-caps
+            :disable='!isSave'
+            @click="$emit('createNewStudio')"
+          )
 </template>
 
 <script>
@@ -23,6 +38,8 @@ import addressBlock from './address'
 import services from '../Room/services'
 import equipment from './equipment'
 import rooms from './rooms'
+import StudioFilter from '../../Filters/StudioFilter'
+import FiltersList from '../../Filters/FiltersList'
 
 export default {
   components: {
@@ -32,16 +49,20 @@ export default {
     addressBlock,
     services,
     equipment,
-    rooms
+    rooms,
+    StudioFilter,
+    FiltersList
   },
   props: {
     singleStudio: Object,
+    services: Array,
+    vendors: Array,
     rooms: Array,
-    studioID: Number
+    studioID: Number,
+    isSave: Boolean
   },
   data () {
-    return {
-    }
+    return {}
   }
 }
 </script>

@@ -1,11 +1,9 @@
 <template lang="pug">
   .calendar
-    filters-list(
-      name="calendar"
-      v-slot:default="props"
-    )
-      studio-filter(v-bind="props")
-      rooms-filter(v-bind="props")
+    filters-list(name="calendar")
+      template(#prepend="props")
+        studio-filter(v-bind="props")
+        rooms-filter(v-bind="props")
     CalendarSheet(
       :filter="$app.filters.getValues('calendar')"
       :bookings="$app.bookings.calendarList"

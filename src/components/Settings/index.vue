@@ -1,52 +1,58 @@
 <template lang="pug">
-  .wrapper
-    .navTabs
+  .settings
+    .wrapper
       .row
         q-tabs(
           v-model="currentTab"
+          shrink
+          align="justify"
+          animated
+          no-caps
+          active-color="black"
+          narrow-indicator
+          dense
         )
           q-tab(
             v-for="(tab, index) in tabs"
             :key="index"
             :label="tab"
             :name="tab"
-            no-caps
           )
-        filters-list(
-          name="settings"
-          v-slot:default="props"
+    div(v-show="false") {{ studioID }}
+    q-tab-panels(v-model="currentTab")
+      q-tab-panel.q-pa-none(name="Локация")
+        location(
+          :singleStudio="singleStudio"
+          :rooms="rooms"
+          :isSave="isSave"
+          :services="services"
+          :vendors="vendors"
+          @updateStudio="updateStudio"
+          @newStudio="newStudio"
+          @createNewStudio="createNewStudio"
         )
-          studio-filter(v-bind="props")
-      div(v-show="false") {{ studioID }}
-      q-tab-panels(v-model="currentTab")
-        q-tab-panel.q-pa-none(name="Локация")
-          location(:singleStudio="singleStudio" :rooms="rooms" @updateStudio="updateStudio")
-        q-tab-panel.q-pa-none(name="Залы")
-          room(:rooms="rooms" :singleStudio="singleStudio" :allStudiosName="allStudiosName")
 </template>
 
 <script>
-import StudioFilter from '../Filters/StudioFilter'
-import FiltersList from '../Filters/FiltersList'
 import location from './Location'
-import room from './Room'
 import studios from '../../api/studios'
 export default {
   name: 'setting',
   components: {
-    StudioFilter,
-    FiltersList,
-    location,
-    room
+    location
   },
   data () {
     return {
       id: this.$app.filters.getValues('settings').studio,
       currentTab: 'Локация',
-      tabs: ['Локация', 'Залы'],
+      tabs: ['Локация'],
       allStudiosName: [],
       singleStudio: {},
-      rooms: []
+      currentStudio: '',
+      isSave: false,
+      rooms: [],
+      services: [],
+      vendors: []
     }
   },
   computed: {
@@ -57,17 +63,44 @@ export default {
   },
   methods: {
     async singleStudioM () {
+      if (this.currentStudio !== 'settings') {
+        this.$app.filters.reset('settings')
+        this.currentStudio = 'settings'
+        return
+      }
+      this.currentStudio = 'settings'
+      this.isSave = false
       const { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
-      this.allStudiosName = items.map(item => item.name)
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
-      console.log('settings', this.singleStudio)
+      this.services = this.singleStudio.services
+      this.vendors = this.singleStudio.vendors
+      console.log('qqq', this.singleStudio)
     },
-    async updateStudio () {
+    async updateStudio (services, vendors) {
+      this.singleStudio.services = services.map(item => {
+        return { id: item.id }
+      })
+      this.singleStudio.vendors = vendors.map(item => {
+        return { id: item.id }
+      })
       const { studio } = this.$app.filters.getValues('settings')
       await studios.updateStudio(studio, this.singleStudio)
+    },
+    async newStudio () {
+      console.log('Adding new studio')
+      this.currentStudio = ''
+      this.isSave = true
+      this.singleStudio = { lat: 55.786419, lon: 37.725433 }
+      this.rooms = []
+      this.services = []
+      this.vendors = []
+    },
+    async createNewStudio () {
+      await studios.createStudio(this.singleStudio)
+      this.isSave = false
     }
   },
   async mounted () {

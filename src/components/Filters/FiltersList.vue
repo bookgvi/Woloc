@@ -4,18 +4,20 @@
     .wrapper
       .row.items-center.q-py-sm.q-gutter-x-sm
         slot(
+          name="prepend"
           :values="values"
           :onChange="onChange"
         )
         q-space
-        q-btn.q-py-none.q-px-sm(
-          outline
-          no-caps
-          label="Сбросить все"
-          dense
-          :disable="isNotFiltered"
-          @click="onReset"
-        )
+        slot(name="append")
+          q-btn.q-py-none.q-px-sm(
+            outline
+            no-caps
+            label="Сбросить все"
+            dense
+            :disable="isNotFiltered"
+            @click="onReset"
+          )
     q-separator
 </template>
 

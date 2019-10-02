@@ -1,10 +1,10 @@
 <template lang="pug">
   .address-class
-    h6.q-mb-md Адрес
+    h6.q-mb-md Адрес &nbsp
+      span.text-red *
     .row.q-pb-lg
       .col-8.q-pr-sm
         q-select(
-          v-if="singleStudio.address"
           v-model="singleStudio.address"
           :options="fullAddressArr"
           @input.native="getFullAddress($event)"
@@ -23,24 +23,36 @@
         q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
       yandexMap(
-        v-if="singleStudio.lat"
+        v-if="singleStudio.lon ? true : false"
         :settings="options.yaMap"
         map-type="map"
-        zoom=18
+        scroll-zoom=false
+        zoom=17
         :coords="[singleStudio.lat, singleStudio.lon]"
         :controls="yControls"
         style="width: 100%; height: 480px"
         @click="setAddress"
       )
-       ymap-marker(
-        marker-id="1"
-        :coords="[singleStudio.lat, singleStudio.lon]"
-        :balloon="{header: 'First'}"
-      )
+        ymap-marker(
+          v-if="isMarker"
+          marker-id="1"
+          :coords="markerCoords"
+          :balloon="{ header: 'First' }"
+        )
     .row.q-pb-lg
       .col
-        span Инструкция пешком
-        q-input.q-pt-sm(change
+        span Ближайшая станция метро &nbsp
+        span.text-red *
+          q-input.q-pt-sm(
+            v-model="singleStudio.metro"
+            outlined
+            dense
+          )
+    .row.q-pb-lg
+      .col
+        span Инструкция пешком &nbsp
+        span.text-red *
+        q-input.q-pt-sm(
           type="textarea"
           v-model="singleStudio.foot"
           outlined
@@ -48,7 +60,8 @@
         )
     .row.q-pb-lg
       .col
-        span Инструкция на машине
+        span Инструкция на машине &nbsp
+        span.text-red *
         q-input.q-pt-sm(
           type="textarea"
           v-model="singleStudio.car"
@@ -67,6 +80,7 @@ export default {
   components: { yandexMap, ymapMarker },
   data () {
     return {
+      isMarker: false,
       fullAddressArr: [],
       yControls: [],
       options: {
@@ -77,6 +91,12 @@ export default {
       },
       instWalk: 'Выйдя из метро идите вдоль торговых рядов вдоль и железной дороги. Перейдя железнодорожные пути пройдите через шлагбаум на территорию бывшего завода Станколит ...',
       instAuto: ''
+    }
+  },
+  computed: {
+    markerCoords () {
+      this.showOnMap()
+      return [this.singleStudio.lat, this.singleStudio.lon]
     }
   },
   methods: {
@@ -97,6 +117,7 @@ export default {
         .catch(err => { console.error('Catched...', err) })
     },
     async showOnMap () {
+      this.isMarker = false
       await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
           apikey: this.options.yaMap.yAPI,
@@ -108,8 +129,10 @@ export default {
         this.singleStudio.lat = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
       })
         .catch(err => { console.error('Catched...', err) })
+      this.isMarker = true
     },
     async setAddress (e) {
+      this.isMarker = false
       this.singleStudio.lon = e.get('coords')[1]
       this.singleStudio.lat = e.get('coords')[0]
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
@@ -121,6 +144,7 @@ export default {
         }
       }).then(resp => { this.singleStudio.address = resp.data.suggestions[0].value })
         .catch(err => { console.error('Catched...', err) })
+      this.isMarker = true
     },
     emptyFilter (val, update) {
       update(() => {})

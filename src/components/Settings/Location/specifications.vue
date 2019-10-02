@@ -3,17 +3,22 @@
     h6.q-mb-md Характеристики
     .row.q-pb-lg
       .col
-        span Описание локации
+        span Описание локации &nbsp
+        span.text-red *
         q-input.q-pt-sm(v-model="singleStudio.description" type="textarea" rows=15 outlined)
     .row.q-pb-sm
       .col.q-pr-sm
-        span Лимит, недели
+        span Лимит, недели &nbsp
+        span.text-red *
         q-input(v-model="singleStudio.limit" outlined dense)
       .col.q-pr-sm
-        span Высота потолков, м
+        span Высота потолков, м &nbsp
+        span.text-red *
         q-input(v-model="singleStudio.height" outlined dense)
       .col
-        span(style="line-height: 0;") Площадь, м
+        span(style="line-height: 0;") Площадь,
+        span.text-red * &nbsp
+        span м
           sup 2
         q-input(v-model="singleStudio.yardage" outlined dense)
     .row.q-pb-lg

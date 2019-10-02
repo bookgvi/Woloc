@@ -1,11 +1,9 @@
 <template lang="pug">
   .refunds
-    filters-list(
-      name="refunds"
-      v-slot:default="props"
-    )
-      studio-filter(v-bind="props")
-      rooms-filter(v-bind="props")
+    filters-list(name="refunds")
+      template(#prepend="props")
+        studio-filter(v-bind="props")
+        rooms-filter(v-bind="props")
     RefundsTable
 </template>
 
