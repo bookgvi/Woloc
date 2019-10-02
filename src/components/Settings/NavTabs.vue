@@ -1,6 +1,6 @@
 <template lang="pug">
   .www
-    .wrapper.wrapper--header
+    .wrapper.wrapper--header.bg-white.z-top
       q-tabs(
         shrink
         align="left"
@@ -10,13 +10,13 @@
         narrow-indicator
         dense
       )
-        q-route-tab.nav-tabs__tab(
+        q-route-tab(
           v-for="(route, index) in settings"
           :key="index"
           :to="route.to"
           :label="route.label"
         )
-    router-view
+      router-view
 </template>
 
 <script>
