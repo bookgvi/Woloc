@@ -23,21 +23,22 @@
         q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
       yandexMap(
+        v-if="singleStudio.lon ? true : false"
         :settings="options.yaMap"
         map-type="map"
         scroll-zoom=false
-        zoom=18
+        zoom=17
         :coords="[singleStudio.lat, singleStudio.lon]"
         :controls="yControls"
         style="width: 100%; height: 480px"
         @click="setAddress"
       )
-       ymap-marker(
-        v-if="isMarker"
-        marker-id="1"
-        :coords="[singleStudio.lat, singleStudio.lon]"
-        :balloon="{header: 'First'}"
-      )
+        ymap-marker(
+          v-if="isMarker"
+          marker-id="1"
+          :coords="markerCoords"
+          :balloon="{ header: 'First' }"
+        )
     .row.q-pb-lg
       .col
         span Ближайшая станция метро &nbsp
@@ -79,7 +80,7 @@ export default {
   components: { yandexMap, ymapMarker },
   data () {
     return {
-      isMarker: true,
+      isMarker: false,
       fullAddressArr: [],
       yControls: [],
       options: {
@@ -90,6 +91,12 @@ export default {
       },
       instWalk: 'Выйдя из метро идите вдоль торговых рядов вдоль и железной дороги. Перейдя железнодорожные пути пройдите через шлагбаум на территорию бывшего завода Станколит ...',
       instAuto: ''
+    }
+  },
+  computed: {
+    markerCoords () {
+      this.showOnMap()
+      return [this.singleStudio.lat, this.singleStudio.lon]
     }
   },
   methods: {

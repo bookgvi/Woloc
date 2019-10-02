@@ -1,6 +1,5 @@
 <template lang="pug">
   .settings
-    div(v-show="false") {{ studioID }}
     .wrapper
       .row
         q-tabs(
@@ -19,6 +18,7 @@
             :label="tab"
             :name="tab"
           )
+    div(v-show="false") {{ studioID }}
     q-tab-panels(v-model="currentTab")
       q-tab-panel.q-pa-none(name="Локация")
         location(
@@ -93,7 +93,7 @@ export default {
       console.log('Adding new studio')
       this.currentStudio = ''
       this.isSave = true
-      this.singleStudio = {}
+      this.singleStudio = { lat: 55.786419, lon: 37.725433 }
       this.rooms = []
       this.services = []
       this.vendors = []
