@@ -1,22 +1,20 @@
 <template lang="pug">
   .finances
-    filters-list(
-      name="finances"
-      v-slot:default="props"
-    )
-      studio-filter(v-bind="props")
-      q-btn.q-py-none.q-px-sm(
-        outline
-        dense
-        no-caps
-        label="Дата и время"
-      )
-      q-btn.q-py-none.q-px-sm(
-        outline
-        dense
-        no-caps
-        label="Тип записи"
-      )
+    filters-list(name="finances")
+      template(#prepend="props")
+        studio-filter(v-bind="props")
+        q-btn.q-py-none.q-px-sm(
+          outline
+          dense
+          no-caps
+          label="Дата и время"
+        )
+        q-btn.q-py-none.q-px-sm(
+          outline
+          dense
+          no-caps
+          label="Тип записи"
+        )
     FinancesTable
 </template>
 

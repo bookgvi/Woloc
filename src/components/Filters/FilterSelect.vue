@@ -107,10 +107,7 @@ export default {
       this.$refs.QPopupProxy.hide()
     },
     onApply () {
-      if (this.currentValue !== this.value) {
-        this.$emit('change', this.currentValue)
-      }
-
+      this.$emit('change', this.currentValue)
       this.hidePopup()
     },
     onReset () {

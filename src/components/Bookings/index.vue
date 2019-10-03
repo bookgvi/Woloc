@@ -1,12 +1,10 @@
 <template lang="pug">
   .bookings
-    filters-list(
-      name="bookings"
-      v-slot:default="props"
-    )
-      studio-filter(v-bind="props")
-      rooms-filter(v-bind="props")
-      status-filter(v-bind="props")
+    filters-list(name="bookings")
+      template(#prepend="props")
+        studio-filter(v-bind="props")
+        rooms-filter(v-bind="props")
+        status-filter(v-bind="props")
     bookings-table
 
 </template>

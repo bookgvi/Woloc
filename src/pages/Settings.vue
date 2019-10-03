@@ -1,9 +1,10 @@
 <template lang="pug">
-  Settings
+  q-page
+    Settings
 </template>
 
 <script>
-import Settings from '../components/Settings'
+import Settings from '../components/Settings/NavTabs'
 export default {
   components: { Settings }
 }

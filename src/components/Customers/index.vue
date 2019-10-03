@@ -1,10 +1,8 @@
 <template lang="pug">
   .customers
-    filters-list(
-      name="customers"
-      v-slot:default="props"
-    )
-      rating-filter(v-bind="props")
+    filters-list(name="customers")
+      template(#prepend="props")
+        rating-filter(v-bind="props")
     customers-table
 </template>
 
