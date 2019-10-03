@@ -25,7 +25,8 @@
     "vue-i18n": "^8.0.0",
     "vue-moment": "^4.0.0",
     "vuedraggable": "^2.23.1",
-    "vuelidate": "^0.7.4"
+    "vuelidate": "^0.7.4",
+    "vue-yandex-maps": "^0.8.17"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.5",
@@ -36,7 +37,8 @@
     "eslint-loader": "^2.1.1",
     "eslint-plugin-vue": "^5.0.0",
     "pug": "^2.0.4",
-    "pug-plain-loader": "^1.0.0"
+    "pug-plain-loader": "^1.0.0",
+    "vue-yandex-maps": "^0.8.17"
   },
   "engines": {
     "node": ">= 8.9.0",
