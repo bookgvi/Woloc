@@ -6,7 +6,7 @@
         studio-filter(v-bind="props")
       template(#append)
         q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
-    .wrapper
+    .wrapper--hedaer
       .row.q-pt-md
         .col-3
           .row(v-for="(room, index) in rooms" :key="index")

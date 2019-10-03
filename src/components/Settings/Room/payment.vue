@@ -5,7 +5,7 @@
         .text-h6.q-pb-md Оплата
         q-btn.bg-primary.text-white(label="Открыть календарь цен" no-caps @click="isModal = true")
       q-dialog(v-model="isModal" persistent)
-        q-card(style="min-width: 70%")
+        q-card(style="min-width: 40%")
           q-card-section
             priceCalendar(@hide="isModal = false")
 </template>
