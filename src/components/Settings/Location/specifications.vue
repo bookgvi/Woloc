@@ -6,7 +6,7 @@
         span Описание локации &nbsp
         span.text-red *
         q-input.q-pt-sm(v-model="singleStudio.description" type="textarea" rows=15 outlined)
-    .row.q-pb-sm
+    .row.q-pb-sm.items-end
       .col.q-pr-sm
         span Лимит, недели &nbsp
         span.text-red *
