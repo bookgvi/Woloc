@@ -24,6 +24,7 @@ export default {
   data () {
     return {
       settings: [
+        { to: '/settings/location', label: 'Локация' },
         { to: '/settings/room', label: 'Залы' }
       ]
     }

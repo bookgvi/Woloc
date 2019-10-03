@@ -30,8 +30,9 @@ const routes = [
         path: 'settings',
         component: () => import('pages/Settings.vue'),
         children: [
-          { path: '', component: () => import('components/Settings/Room/index.vue') },
+          { path: '', component: () => import('components/Settings/Location/index.vue') },
           { path: 'room', component: () => import('components/Settings/Room/index.vue') },
+          { path: 'location', component: () => import('components/Settings/Location/index.vue') }
         ]
       }
     ]
