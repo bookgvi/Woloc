@@ -1,68 +1,92 @@
 <template lang="pug">
-  .location
-    filters-list(name="settings")
-      template(#prepend="props")
-        studio-filter(v-bind="props")
-      template(#append)
-        q-btn.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" @click="$emit('newStudio')")
-    .wrapper
-      .row.justify-center.q-pb-md
-        .col-6
-          dataBlock(:singleStudio="singleStudio")
-          specifications(:singleStudio="singleStudio")
-          images
-          addressBlock(:singleStudio="singleStudio")
-          services(:services="services")
-          equipment(:vendors="vendors")
-          rooms(:rooms="rooms")
-
-          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(
-            label="Сохранить"
-            no-caps
-            @click="$emit('updateStudio', services, vendors)"
-            :disable='isSave'
-          )
-          q-btn.q-mr-sm(
-            label="Сохранить и создать зал"
-            no-caps
-            :disable='!isSave'
-            @click="$emit('createNewStudio')"
-          )
+  .settings
+    div(v-show="false") {{ studioID }}
+    q-tab-panels(v-model="currentTab")
+      q-tab-panel.q-pa-none(name="Локация")
+        location(
+          :singleStudio="singleStudio"
+          :rooms="rooms"
+          :isSave="isSave"
+          :services="services"
+          :vendors="vendors"
+          @updateStudio="updateStudio"
+          @newStudio="newStudio"
+          @createNewStudio="createNewStudio"
+        )
 </template>
 
 <script>
-import dataBlock from './data'
-import specifications from './specifications'
-import images from './images'
-import addressBlock from './address'
-import services from './services'
-import equipment from './equipment'
-import rooms from './rooms'
-import StudioFilter from '../../Filters/StudioFilter'
-import FiltersList from '../../Filters/FiltersList'
-
+import location from './main'
+import studios from '../../../api/studios'
 export default {
+  name: 'setting',
   components: {
-    dataBlock,
-    specifications,
-    images,
-    addressBlock,
-    services,
-    equipment,
-    rooms,
-    StudioFilter,
-    FiltersList
-  },
-  props: {
-    singleStudio: Object,
-    services: Array,
-    vendors: Array,
-    rooms: Array,
-    studioID: Number,
-    isSave: Boolean
+    location
   },
   data () {
-    return {}
+    return {
+      id: this.$app.filters.getValues('settings').studio,
+      currentTab: 'Локация',
+      tabs: ['Локация'],
+      allStudiosName: [],
+      singleStudio: {},
+      currentStudio: '',
+      isSave: false,
+      rooms: [],
+      services: [],
+      vendors: []
+    }
+  },
+  computed: {
+    studioID () {
+      this.singleStudioM()
+      return this.$app.filters.getValues('settings').studio
+    }
+  },
+  methods: {
+    async singleStudioM () {
+      if (this.currentStudio !== 'settings') {
+        this.$app.filters.reset('settings')
+        this.currentStudio = 'settings'
+        return
+      }
+      this.currentStudio = 'settings'
+      this.isSave = false
+      const { studio } = this.$app.filters.getValues('settings')
+      const { items } = await studios.getAll().then(resp => resp.data)
+      const [{ rooms }] = items.filter(item => item.id === studio)
+      this.rooms = rooms
+      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
+      this.services = this.singleStudio.services
+      this.vendors = this.singleStudio.vendors
+    },
+    async updateStudio (services, vendors) {
+      this.singleStudio.services = services.map(item => {
+        return { id: item.id }
+      })
+      this.singleStudio.vendors = vendors.map(item => {
+        return { id: item.id }
+      })
+      const { studio } = this.$app.filters.getValues('settings')
+      await studios.updateStudio(studio, this.singleStudio)
+    },
+    async newStudio () {
+      this.currentStudio = ''
+      this.isSave = true
+      this.singleStudio = { lat: 55.786419, lon: 37.725433 }
+      this.rooms = []
+      this.services = []
+      this.vendors = []
+    },
+    async createNewStudio () {
+      const result = await studios.createStudio(this.singleStudio)
+      if (result) {
+        this.isSave = false
+      }
+    }
+  },
+  async mounted () {
+    this.singleStudioM()
   }
 }
 </script>

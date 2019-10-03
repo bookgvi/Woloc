@@ -26,7 +26,14 @@ const routes = [
       { path: 'refunds', component: () => import('pages/Refunds.vue') },
       { path: 'documents', component: () => import('pages/Documents.vue') },
       { path: 'finances', component: () => import('pages/Finances.vue') },
-      { path: 'settings', component: () => import('pages/Settings.vue') }
+      {
+        path: 'settings',
+        component: () => import('pages/Settings.vue'),
+        children: [
+          { path: '', component: () => import('components/Settings/Location/index.vue') },
+          { path: 'location', component: () => import('components/Settings/Location/index.vue') }
+        ]
+      }
     ]
   }
 ]

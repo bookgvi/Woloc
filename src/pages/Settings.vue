@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import Settings from '../components/Settings/index'
+import Settings from '../components/Settings/NavTabs'
 export default {
   components: { Settings }
 }
