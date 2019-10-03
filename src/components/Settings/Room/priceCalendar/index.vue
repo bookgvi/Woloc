@@ -9,9 +9,9 @@
     .row.q-pb-lg
       .col-6.q-pr-sm.column.justify-end
         div
-          q-btn(icon="photo_camera")
-          q-btn(icon="videocam")
-          q-btn.q-mr-md(icon="local_play")
+          q-btn(icon="photo_camera" @click="price = 'prices1'")
+          q-btn(icon="videocam"  @click="price = 'prices2'")
+          q-btn.q-mr-md(icon="local_play"  @click="price = 'prices3'")
       .col-6
         span Вместимость зала, человек
         q-input(v-model="men" outlined dense)
@@ -37,7 +37,7 @@
     .row.q-pb-lg
       .col
         extraCahrge(v-if="markup")
-        dayPrices
+        dayPrices(:price="price")
 </template>
 
 <script>
@@ -47,6 +47,7 @@ export default {
   name: 'priceCalendar',
   components: { extraCahrge, dayPrices },
   data: () => ({
+    price: 'prices1',
     men: 30,
     var1: 8,
     var2: 50,
