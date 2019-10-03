@@ -14,7 +14,6 @@ export default {
     async getForCalendar (filter) {
       this.loading.list = true
       const res = await api.bookings.getForCalendar(filter)
-      console.log('bookings :: getForCalendar', res)
       if (res) {
         let filteredList = res.data.items.filter(item => {
           const min = filter.price.min
@@ -33,7 +32,6 @@ export default {
       this.loading.one = true
       this.idOfJustAdded = 0
       const res = await api.bookings.addNew(payload)
-      console.log('bookings :: addNew', res)
       if (res) {
         this.idOfJustAdded = res.id
       }
@@ -43,7 +41,6 @@ export default {
     async deleteOne (id) {
       this.loading.one = true
       const res = await api.bookings.deleteOne({ id: id })
-      console.log('bookings :: deleteOne', res)
       if (res) {
         this.loading.one = false
       }
@@ -53,8 +50,6 @@ export default {
       this.loading.one = true
 
       const { data } = await api.bookings.getOne({ id: id })
-
-      console.log(`bookings :: getOne`, data)
 
       if (data) {
         this.loading.one = false

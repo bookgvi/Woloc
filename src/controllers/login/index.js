@@ -5,7 +5,6 @@ import api from 'src/api'
 const user = LocalStorage.getItem('user-data') || null
 let token = LocalStorage.getItem('user-token') || null
 const jwt = token ? jwtDecode(token) : { exp: 0 }
-console.log(jwt.exp)
 const expired = jwt.exp < Math.round(Date.now() / 1000)
 if (expired) {
   LocalStorage.remove('user-token')

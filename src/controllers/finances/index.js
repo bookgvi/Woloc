@@ -23,7 +23,6 @@ export default {
     async getAll (page, filter) {
       this.loading.list = true
       const { data } = await api.finances.getAll(page, filter)
-      console.log('finances :: getAll', data)
       if (data) {
         this.list = data.items
         this.loading.list = false
