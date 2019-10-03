@@ -12,7 +12,6 @@
 import Logo from './Blocks/Logo'
 import User from './Blocks/User'
 import NavTabs from './Blocks/NavTabs'
-
 export default {
   name: 'Header',
   components: { NavTabs, User, Logo },

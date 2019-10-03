@@ -13,7 +13,6 @@ export default {
     async getForCalendar (search) {
       this.loading.list = true
       const { data } = await api.customers.getSearchedCustomers(search)
-      console.log('customers :: getSearchedCustomers', data)
       if (data) {
         this.searched = data.items
         this.loading.list = false

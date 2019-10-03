@@ -18,8 +18,6 @@ export default {
       const { name } = this.$options
       const { data } = await api[name].getAll(page, filter)
 
-      console.log(`${name} :: getAll}`, data)
-
       if (data) {
         this.list = data.items
         this.loading.list = false
@@ -38,8 +36,6 @@ export default {
       }
     },
     'loading.one' (v) {
-      console.log('loading.one')
-
       if (v || this.loading.list) {
         this.$q.loading.show()
       } else {
