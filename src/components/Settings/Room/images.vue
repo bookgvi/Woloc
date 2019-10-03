@@ -12,6 +12,9 @@
         q-btn.absolute-top-right(icon="close" class="block" dense flat color="white")
       q-img.col(src="http://placeimg.com/640/480/arch")
         q-btn.absolute-top-right(icon="close" class="block" dense flat color="white")
+    .row.q-pb-lg
+      .col-5
+        q-select(:value="var1" label="Показать все 30 изображений" dense)
 </template>
 
 <script>
@@ -22,7 +25,8 @@ export default {
     img2: true,
     img3: true,
     img4: true,
-    img5: true
+    img5: true,
+    var1: ''
   })
 }
 </script>
