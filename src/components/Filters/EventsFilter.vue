@@ -1,18 +1,19 @@
 <template lang="pug">
   filter-select(
-    :title="buttonTitle"
     selectAllLabel="Все цели"
-    :models="models"
+    :title="buttonTitle"
     :value="value"
+    :options="options"
     @change="event => onChange('events', event)"
   )
 </template>
 
 <script>
 import FilterSelect from './FilterSelect'
+import { EVENT_TYPES } from 'src/common/constants'
 
 export default {
-  name: 'event-filter',
+  name: 'events-filter',
   components: { FilterSelect },
   props: {
     values: {
@@ -20,6 +21,14 @@ export default {
     },
     onChange: Function
   },
+  data: () => ({
+    options: Object.values(EVENT_TYPES).map(({ name, value }) => {
+      return {
+        value: value,
+        label: name
+      }
+    })
+  }),
   computed: {
     value () {
       return this.values.events || []
@@ -27,9 +36,6 @@ export default {
     buttonTitle () {
       return `Цели ${this.value.length || ''}`
     },
-    models () {
-      return this.$app.events.list
-    }
   }
 }
 </script>

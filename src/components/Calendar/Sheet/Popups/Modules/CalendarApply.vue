@@ -21,13 +21,10 @@ export default {
   name: 'CalendarApply',
   methods: {
     cancelBooking () {
-      this.$app.dialogs.calendarUpdate = false
-      this.$app.dialogs.calendarNew = false
+      this.$emit('setQueryState', false)
     },
-    saveBooking () {
-      this.applyBooking()
-      this.$app.dialogs.calendarUpdate = false
-      this.$app.dialogs.calendarNew = false
+    async saveBooking () {
+      await this.applyBooking()
     }
   },
   props: ['applyBooking']

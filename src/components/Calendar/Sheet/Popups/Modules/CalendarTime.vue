@@ -55,10 +55,10 @@ export default {
   },
   props: ['startTime', 'endTime'],
   watch: {
-    'startTime' (v) {
+    startTime (v) {
       this.range.min = this.startTime
     },
-    'endTime' (v) {
+    endTime (v) {
       this.range.max = this.endTime
     },
   }

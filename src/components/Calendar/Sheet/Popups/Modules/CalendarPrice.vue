@@ -7,7 +7,7 @@
       .col-9.row.justify-left.items-center
         .text.text_small {{ position.name }}
       .col-3.row.justify-left.items-center
-        .text.text_gray {{ position.value }}
+        .text.text_gray {{ position.price }}
       .row.col-12.q-py-sm
         q-separator(
           inset
@@ -71,12 +71,12 @@ export default {
     price () {
       let sum = 0
       this.positions.forEach((position) => {
-        sum += +position.value
+        sum += +position.price
       })
       return sum
     },
     priceWithDiscount () {
-      return this.price + +this.discount
+      return +this.price + +this.discount
     },
     positions () {
       let arr = []

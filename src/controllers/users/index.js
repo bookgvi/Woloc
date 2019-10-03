@@ -19,7 +19,7 @@ export default {
     },
   },
   watch: {
-    'loading' (v) {
+    loading (v) {
       if (v) {
         this.$q.loading.show()
       } else {
