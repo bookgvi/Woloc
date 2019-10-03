@@ -39,7 +39,6 @@ import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
 import studios from '../../../api/studios'
-
 export default {
   data () {
     return {

@@ -19,10 +19,8 @@
 </template>
 
 <script>
-import room from './Room'
 export default {
   name: 'NavTabs',
-  components: { room },
   data () {
     return {
       settings: [

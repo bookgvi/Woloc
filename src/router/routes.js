@@ -31,7 +31,7 @@ const routes = [
         component: () => import('pages/Settings.vue'),
         children: [
           { path: '', component: () => import('components/Settings/Room/index.vue') },
-          { path: 'room', component: () => import('components/Settings/Room/index.vue') }
+          { path: 'room', component: () => import('components/Settings/Room/index.vue') },
         ]
       }
     ]
