@@ -318,7 +318,6 @@ export default {
   },
   watch: {
     price (newValue) {
-      console.log(this.price)
       switch (this.price) {
         case 'prices1':
           this.prices = this.prices1
