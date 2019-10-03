@@ -2,7 +2,7 @@
   .wrapper
     .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
-        h6.wrap-md.text-weight-bold {{ selectedStudioLabel }} {{ month }}
+        h6.wrap-md.text-weight-bold {{ selectedStudioLabel }}, {{ month }}
       q-space
       .justify-end.items-center
         .row.justify-end.q-px-none.q-gutter-sm
@@ -41,7 +41,7 @@
               color="secondary"
              )
     template
-      FirstColumn
+      first-column
       q-calendar.row.col-12(
         style="width: 95%; margin-left: 5%"
         ref="calendar"
@@ -64,11 +64,11 @@
           .row.justify-left.q-px-md.q-py-md
             span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
-          q-separator.absolute(
-            color="red"
-            :style="timelineCoords"
+          timeline(
+            :timeStartPos="timeStartPos"
+            :timeDurationHeight="timeDurationHeight"
           )
-          q-badge.my-event.absolute-top(
+          q-badge.absolute-top(
             multi-line
             v-for="(e, index) in events"
             :value="e"
@@ -84,41 +84,26 @@
               .row.col-12
                 span.text-body2.ellipsis {{ e.details }}
       update-event-dialog(
+        :dialogState="dialogState"
         :filter="filter"
         :booking="selectedBooking"
-      )
-      new-event-dialog(
-        :date="newBooking.date"
-        :time="newBooking.time"
-        :studio="newBooking.studio"
-        :filter="newBooking.filter"
+        @setQueryState="setQueryState($event)"
       )
  </template>
 
 <script>
-import { date, colors } from 'quasar'
+import { colors } from 'quasar'
 import { EVENT_TYPES } from 'src/common/constants'
 import roomsColors from 'src/common/rooms/colors'
-import NewEventDialog from './Popups/NewEventDialog'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
-import { dtFormat } from '../../../utils/helpers'
-
-const formDefault = () => ({
-  title: '',
-  details: '',
-  allDay: false,
-  dateTimeStart: '',
-  dateTimeEnd: '',
-  icon: '',
-  bgcolor: '#0000FF'
-})
+import Timeline from './Modules/Timeline'
 
 const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
-  components: { FirstColumn, UpdateEventDialog, NewEventDialog },
+  components: { FirstColumn, UpdateEventDialog, Timeline },
   props: {
     filter: Object,
     bookings: Array
@@ -129,30 +114,14 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
-      timelineCoords: {
-        top: 0,
-        left: 0,
-        width: 0
-      },
-      eventForm: formDefault(),
-      interval: {},
       events: [],
-      addEvent: false,
       selectedDate: '',
-      dateDialog: false,
-      date: '',
-      dialog: false,
+      dialogState: false,
       selectedBooking: {},
-      newBooking: {}
     }
   },
   created: async function () {
     this.calendarToday()
-  },
-  mounted: function () {
-    this.timelinePos()
-    this.interval = setInterval(() =>
-      this.timelinePos(), 1000 * 60)
   },
   computed: {
     selectedStudioLabel () {
@@ -162,31 +131,36 @@ export default {
       return this.$app.studios.getFiltered(this.filter)
     },
     month () {
-      return date.formatDate(this.selectedDate, 'MMMM YYYY')
+      return this.$moment(this.selectedDate).format('MMMM YYYY')
     },
     rooms () {
       return this.$app.rooms.getFiltered(this.filter)
     }
   },
   methods: {
-    formatTimeToHours (time) {
-      return +time.split(':')[0]
-    },
     setNewBooking (date, time) {
-      this.newBooking = Object.assign({}, {
-        date: date,
-        time: this.formatTimeToHours(time),
+      this.selectedBooking = Object.assign({}, {
+        id: 8983249234,
+        customer: {},
+        customerComment: 'test',
+        managerComment: 'test',
+        price: 0,
+        reservedFrom: this.$moment(`${date}T${time}`),
+        reservedTo: this.$moment(`${date}T00:00`),
+        room: this.filter.rooms[0] || '',
+        eventType: '',
         studio: this.studio,
         filter: this.filter
       })
-      this.$app.dialogs.calendarNew = true
+      // console.log(1111, this.selectedBooking)
+      this.dialogState = true
     },
     async findBooking (index) {
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
-      this.$app.dialogs.calendarUpdate = true
+      this.dialogState = true
     },
     dayHeader (dt) {
-      return date.formatDate(dt, 'ddd D')
+      return this.$moment(dt).format('ddd D')
     },
     async loadData () {
       await this.$app.bookings.getForCalendar({
@@ -196,32 +170,17 @@ export default {
       })
     },
     async placeEvents () {
-      const day = +date.formatDate(this.selectedDate, 'E') - 1
-      const start = date.subtractFromDate(this.selectedDate, { days: day })
+      const dayOfWeek = +this.$moment(this.selectedDate).format('e')
+      const startDate = this.$moment(this.selectedDate).subtract(dayOfWeek, 'days')
       this.range = Object.assign({}, {
-        from: date.formatDate(start, 'YYYY-MM-DD'),
-        to: date.formatDate(date.addToDate(start, { days: 6 }), 'YYYY-MM-DD')
+        from: this.$moment(startDate).format('YYYY-MM-DD'),
+        to: this.$moment(startDate).add(6, 'days').format('YYYY-MM-DD')
       })
       await this.loadData()
     },
-    resetForm () {
-      this.$set(this, 'eventForm', formDefault())
-    },
-    timelinePos () {
-      const timestamp = new Date()
-      const hours = date.formatDate(timestamp, 'HH')
-      const minutes = date.formatDate(timestamp, 'mm')
-      if (this.$refs.calendar) {
-        this.timelineCoords['top'] = (hours >= 8) ? `${this.$refs.calendar.timeStartPos(hours) + +this.$refs.calendar.timeDurationHeight(1) * minutes}px` : 0
-      } else {
-        this.timelineCoords['top'] = '0px'
-      }
-      this.timelineCoords['left'] = '0px'
-      this.timelineCoords['width'] = '100%'
-    },
     getDate (timestamp) {
       if (+this.$moment.parseZone(timestamp).format('HH') === 0) {
-        timestamp = date.addToDate(timestamp, { days: -1 })
+        timestamp = this.$moment(timestamp).subtract(1, 'days')
       }
       return this.$moment.parseZone(timestamp).format('YYYY-MM-DD')
     },
@@ -272,8 +231,15 @@ export default {
       this.$refs.calendar.prev()
     },
     calendarToday () {
-      this.selectedDate = date.formatDate(Date.now(), 'YYYY-MM-DD')
+      this.selectedDate = this.$moment().format('YYYY-MM-DD')
     },
+    async setQueryState (state = true) {
+      // console.log(999, state)
+      if (state === true) {
+        await this.placeEvents()
+      }
+      this.dialogState = false
+    }
   },
   watch: {
     bookings: {
@@ -284,14 +250,15 @@ export default {
         let bookings = []
         this.$nextTick(function () {
           v.map((booking) => {
-            const diff = date.getDateDiff(
-              dtFormat(booking.reservedTo),
-              dtFormat(booking.reservedFrom),
-              'minutes'
-            )
+            const diff = this.$moment(booking.reservedTo)
+              .diff(booking.reservedFrom, 'minutes')
+            let title = ''
+            if (booking.customer && booking.customer.firstName) {
+              title = booking.customer.firstName
+            }
             const event = {
               id: booking.id,
-              title: booking.customer.firstName,
+              title: title,
               details: `${booking.amount}/${booking.price}`,
               date: this.getDate(booking.reservedFrom),
               time: this.getTime(booking.reservedFrom),
@@ -382,11 +349,11 @@ export default {
             // console.log(widthArray)
             allEvents.push(...events)
           }
-          const dayOfWeek = +date.formatDate(this.selectedDate, 'E') - 1
-          const startDate = date.subtractFromDate(this.selectedDate, { days: dayOfWeek })
+          const dayOfWeek = +this.$moment(this.selectedDate).format('e')
+          const startDate = this.$moment(this.selectedDate).subtract(dayOfWeek, 'days')
           for (let i = 0; i < 7; i++) {
-            const currentDate = date.addToDate(startDate, { days: i })
-            const formattedCurrentDate = date.formatDate(currentDate, 'YYYY-MM-DD')
+            const currentDate = this.$moment(startDate).add(i, 'days')
+            const formattedCurrentDate = this.$moment(currentDate).format('YYYY-MM-DD')
             setPositionOfEvents(formattedCurrentDate)
           }
           this.events = allEvents

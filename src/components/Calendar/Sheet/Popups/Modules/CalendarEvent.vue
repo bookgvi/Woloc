@@ -37,8 +37,8 @@ export default {
   },
   props: ['startEvent'],
   watch: {
-    'startEvent' (v) {
-      this.event = this.startEvent
+    startEvent (v) {
+      this.event = v
     }
   }
 }

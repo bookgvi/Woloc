@@ -1,6 +1,6 @@
 <template lang="pug">
   q-dialog(
-    v-model="$app.dialogs.calendarUpdate"
+    v-model="dialogState"
     persistent
   )
     q-card.q-py-md(
@@ -39,7 +39,7 @@
               calendar-room(
                 @roomChange="newBooking.room = $event"
                 :filter="filter"
-                :startRoom="newBooking.room.name"
+                :startRoom="room.name"
               )
         q-expansion-item(
           group="new-event"
@@ -99,8 +99,8 @@
           q-card
             q-card-section
               calendar-extras(
-                @extrasChange="newBooking.extras = $event"
-                :startExtras="newBooking.extras"
+                @extrasChange="helpers.checkedExtras = [...$event]"
+                :startExtras="[...helpers.checkedExtras]"
               )
         q-expansion-item(
           group="new-event"
@@ -125,7 +125,12 @@
         )
           q-card
             q-card-section
-              calendar-comment
+              calendar-comment(
+                @customerCommentChange="newBooking.customerComment = $event"
+                :startCustomerComment="newBooking.customerComment"
+                @managerCommentChange="newBooking.customerComment = $event"
+                :startManagerComment="newBooking.customerComment"
+              )
         q-expansion-item(
           group="new-event"
           dense
@@ -133,15 +138,20 @@
         )
           q-card
             q-card-section
-              calendar-delete
+              calendar-delete(
+                :id="newBooking.id"
+                @setQueryState="setQueryState($event)"
+              )
         calendar-apply(
           :applyBooking="applyBooking"
+          @setQueryState="setQueryState($event)"
         )
 
 </template>
 
 <script>
-import { date } from 'quasar'
+import { Notify } from 'quasar'
+import { required } from 'vuelidate/lib/validators'
 import CalendarCustomer from './Modules/CalendarCustomer'
 import CalendarRoom from './Modules/CalendarRoom'
 import CalendarDate from './Modules/CalendarDate'
@@ -171,37 +181,15 @@ export default {
   },
   data () {
     return {
-      newBooking: {
-        reservedFrom: '',
-        reservedTo: '',
-        eventType: '',
-        price: '',
-        discount: 0,
-        amount: '',
-        duration: 0,
-        extras: [],
-        members: [],
-        customer: {
-          email: '',
-          fullName: '',
-          phone: ''
-        },
-        studio: {
-          id: '',
-          name: ''
-        },
-        room: {
-          id: '',
-          name: ''
-        }
-      },
+      newBooking: {},
       helpers: {
         date: '',
+        checkedExtras: [],
         time: {
           from: 0,
           to: 0
         }
-      }
+      },
     }
   },
   computed: {
@@ -213,17 +201,30 @@ export default {
       }
       return {
         name: `${this.newBooking.eventType} ${duration} ч. • ${price} р.`,
-        value: duration * price
+        price: duration * price
+      }
+    },
+    room () {
+      if (!this.newBooking.room) {
+        return {}
+      } else {
+        return this.newBooking.room
       }
     },
     extras () {
-      return this.newBooking.extras.map(item => Object.assign({
-        name: item.name,
-        value: item.price
-      }))
+      if (!this.helpers.checkedExtras) {
+        return []
+      } else {
+        return this.helpers.checkedExtras.map(item => {
+          return {
+            name: item,
+            price: this.$app.extras.list.find(extra => extra.name === item).price
+          }
+        })
+      }
     },
     customerSlot () {
-      if (this.newBooking.customer.firstName && this.newBooking.customer.phone) {
+      if (this.newBooking.customer && this.newBooking.customer.firstName && this.newBooking.customer.phone) {
         return `${this.newBooking.customer.firstName} ${this.newBooking.customer.phone}`
       } else {
         return 'Введите имя пользователя'
@@ -237,7 +238,7 @@ export default {
       }
     },
     dateSlot () {
-      const formatDate = date.formatDate(this.helpers.date, 'D MMMM YYYY')
+      const formatDate = this.$moment(this.helpers.date).format('D MMMM YYYY')
       return formatDate
     },
     timeSlot () {
@@ -251,7 +252,8 @@ export default {
       }
     },
     extrasSlot () {
-      return this.newBooking.extras.length
+      if (!this.helpers.checkedExtras) return 0
+      return this.helpers.checkedExtras.length
     },
     membersSlot () {
       return this.newBooking.members.length
@@ -260,46 +262,109 @@ export default {
       return `${this.newBooking.price} р.`
     },
     reservedTime () {
-      // const timeOffset = '+03:00'
-      const bookingDate = date.extractDate(date.formatDate(this.helpers.date, 'YYYY-MM-DD'), 'YYYY-MM-DD')
-      const from = date.addToDate(bookingDate, { hours: this.helpers.time.from })
-      const to = (this.helpers.time.to !== 0 && this.helpers.time.to !== 24)
-        ? date.addToDate(bookingDate, { hours: this.helpers.time.to })
-        : date.addToDate(bookingDate, { days: 1 })
+      const bookingDate = this.$moment(this.helpers.date)
+      const from = this.$moment(bookingDate).hour(this.helpers.time.from).format('YYYY-MM-DDTHH:mm:ss+03:00')
+      const to = this.$moment(bookingDate).hour(this.helpers.time.to).format('YYYY-MM-DDTHH:mm:ss+03:00')
       return { from, to }
     }
   },
   methods: {
-    applyBooking () {
+    setQueryState (state) {
+      this.$emit('setQueryState', state)
+    },
+    setParamsForPost () {
+      if (!this.newBooking.customer || !this.newBooking.customer.id) {
+        Notify.create({
+          message: `Выберите клиента`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      if (!this.newBooking.room) {
+        Notify.create({
+          message: `Выберите зал`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      if (!this.newBooking.eventType) {
+        Notify.create({
+          message: `Выберите цель бронирования`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      const params = {
+        roomId: this.newBooking.room.id,
+        consumerId: this.newBooking.customer.id,
+        reserveFrom: this.newBooking.reservedFrom,
+        reserveTo: this.newBooking.reservedTo,
+        // userComment: this.newBooking.customerComment || '',
+        priceType: this.newBooking.eventType,
+        extras: [],
+        seats: 1,
+        description: this.newBooking.managerComment || ''
+      }
+      // console.log('post', params)
+      return params
+    },
+    async applyBooking () {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
-      this.newBooking.studio.id = this.filter.studio
-      this.newBooking.studio.name = this.selectedStudioLabel
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
-      console.log(9, this.newBooking.id, index)
-      this.$app.bookings.calendarList[index] =
-        Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
+      if (index === -1) {
+        const payload = this.setParamsForPost()
+        if (payload) {
+          await this.$app.bookings.addNew(payload)
+          if (this.$app.bookings.idOfJustAdded !== 0) {
+            this.$emit('setQueryState', true)
+          }
+        }
+      } else {
+        this.$app.bookings.calendarList[index] =
+          Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
+        this.$emit('setQueryState', false)
+      }
+      // console.log(9, this.newBooking.id, index)
     }
   },
-  props: ['booking', 'filter'],
+  props: ['booking', 'filter', 'dialogState'],
   watch: {
-    'booking' (v) {
+    booking (v) {
       this.$nextTick(function () {
-        this.newBooking = Object.assign(this.newBooking, v)
+        this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('k')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
         if (hTo === 0) {
           hTo = 24
         }
-        this.helpers = Object.assign({
+        let checkedExtras = []
+        if (this.newBooking.extras) {
+          checkedExtras = this.newBooking.extras.map(item => item.name)
+        }
+        this.helpers = Object.assign(this.helpers, {
           date: hDate,
           time: {
             from: hFrom,
             to: hTo
-          }
+          },
+          checkedExtras: [...checkedExtras]
         })
       })
+    }
+  },
+  validations: {
+    newBooking: {
+      customer: { required },
+      eventType: { required },
+      room: { required }
     }
   }
 }

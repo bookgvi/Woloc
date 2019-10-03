@@ -9,8 +9,8 @@
     :isRowDisabled="({ status }) => !status"
   )
     template(#row-controls)
-      q-btn(flat round icon="block")
-      q-btn(flat round icon="thumb_up")
+      q-btn(flat round icon="block" no-caps title="Отменить")
+      q-btn(flat round icon="thumb_up" no-cpas title="Подтвердить")
 
 </template>
 

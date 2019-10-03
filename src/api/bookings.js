@@ -16,6 +16,25 @@ export default {
     }
   },
 
+  addNew: async (payload) => {
+    try {
+      const r = await api.post(`${API_URL}/bookings`, payload)
+      return r.data
+    } catch (e) {
+      console.warn('catch :: bookings :: addNew', e)
+    }
+  },
+
+  deleteOne: async (payload) => {
+    const { id } = payload
+    try {
+      const r = await api.delete(`${API_URL}/bookings/${id}`)
+      return r.data
+    } catch (e) {
+      console.warn('catch :: bookings :: deleteOne', e)
+    }
+  },
+
   getOne: async (payload) => {
     const { id } = payload
     try {
@@ -29,7 +48,12 @@ export default {
   getForCalendar: async (filter) => {
     try {
       const r = await api.get(`${API_URL}/calendar`, {
-        params: filter
+        params: {
+          dateFrom: filter.dateFrom,
+          dateTo: filter.dateTo,
+          studio: filter.studio,
+          rooms: filter.rooms
+        }
       })
       return r.data
     } catch (e) {

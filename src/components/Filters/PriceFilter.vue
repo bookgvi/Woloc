@@ -1,18 +1,18 @@
 <template lang="pug">
   filter-select(
     :title="buttonTitle"
-    :options="options"
     :value="value"
-    @change="event => onChange('rating', event)"
+    :isRange="true"
+    @change="event => onChange('price', event)"
   )
+    .row.text-body2.q-pt-md.q-px-md.justify-center {{ "Выберите ценовой диапазон" }}
 </template>
 
 <script>
-import range from 'lodash/range'
 import FilterSelect from './FilterSelect'
 
 export default {
-  name: 'rating-filter',
+  name: 'price-filter',
   components: { FilterSelect },
   props: {
     values: {
@@ -21,15 +21,30 @@ export default {
     onChange: Function
   },
   data: () => ({
-    options: range(1, 6).map(i => `${i}`).map(value => ({ value, label: value }))
+    range: {
+      min: 0,
+      max: 10000
+    },
   }),
   computed: {
-    value () {
-      return this.values.rating || []
+    value: {
+      set (v) {
+        this.range = Object.assign({}, v)
+      },
+      get () {
+        return this.range
+      }
     },
     buttonTitle () {
-      return `Рейтинг ${this.value.join(',')}`
+      const min = this.values.price.min
+      const max = (this.value.max === 10000) ? 'максимум' : this.range.max
+      return `Цена ${min}-${max}`
     },
+  },
+  watch: {
+    values (v) {
+      this.value = Object.assign({}, v.price)
+    }
   }
 }
 </script>

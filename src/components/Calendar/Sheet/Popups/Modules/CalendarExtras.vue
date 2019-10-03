@@ -9,41 +9,48 @@
 </template>
 
 <script>
-import sortBy from 'lodash/sortBy'
+// import sortBy from 'lodash/sortBy'
 
 export default {
   name: 'CalendarExtras',
-  created () {
-    this.checkedExtras = this.startExtras.map(item => item.name)
-  },
   data () {
     return {
-      checkedExtras: []
+      checkedExtras: [...this.startExtras]
     }
   },
   computed: {
     extrasComp () {
       return this.extrasChange()
     },
-    chExtras () {
-      return this.checkedExtras.map(item => {
-        return Object.assign({ name: item, price: 400 })
-      })
-    },
     options () {
-      return sortBy(this.$app.extras.list, ['name']).map(({ name, price }) => ({
+      return this.$app.extras.list.map(({ name }) => ({
         label: name,
         value: name,
-        price: price,
       }))
     }
   },
   methods: {
     extrasChange () {
-      this.$emit('extrasChange', this.chExtras)
+      this.$emit('extrasChange', [...this.checkedExtras])
     }
   },
-  props: ['startExtras'],
+  props: {
+    startExtras: {
+      type: Array,
+      default: _ => {
+        return []
+      }
+    }
+  },
+/*  watch: {
+    startExtras: {
+      handler (v) {
+        console.log(this.checkedExtras)
+        this.checkedExtras = Object.assign(this.checkedExtras, v)
+      },
+      immediate: true
+    }
+  } */
 }
 </script>
 

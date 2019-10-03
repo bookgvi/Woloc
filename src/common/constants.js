@@ -1,16 +1,19 @@
 const EVENT_TYPES = {
   photo: {
     name: 'Фотосъемка',
+    value: 'photo',
     icon: 'camera_alt',
-    price: 1200
+    price: 1200,
   },
   video: {
     name: 'Видеосъемка',
+    value: 'video',
     icon: 'videocam',
     price: 1500
   },
   event: {
     name: 'Событие',
+    value: 'event',
     icon: 'fas fa-calendar-day',
     price: 1300
   }

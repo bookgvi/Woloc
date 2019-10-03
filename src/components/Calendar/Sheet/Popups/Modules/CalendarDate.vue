@@ -26,7 +26,7 @@ export default {
   },
   props: ['date'],
   watch: {
-    'date' (v) {
+    date (v) {
       this.selectedDate = v
     }
   }
