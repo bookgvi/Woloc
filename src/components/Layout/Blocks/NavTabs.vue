@@ -29,7 +29,7 @@ export default {
         { to: '/finances', label: 'Финансы' },
         { to: '/refunds', label: 'Возвраты' },
         { to: '/documents', label: 'Документы' },
-        { to: '/settings', label: 'Настройки' },
+        { to: '/settings', label: 'Настройки' }
       ]
     }
   }

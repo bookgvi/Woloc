@@ -1,6 +1,6 @@
 <template lang="pug">
-  .www
-    .wrapper.wrapper--header.bg-white.z-top
+  .q-pa-md
+    q-card
       q-tabs(
         shrink
         align="left"
@@ -16,7 +16,7 @@
           :to="route.to"
           :label="route.label"
         )
-      router-view
+    router-view
 </template>
 
 <script>

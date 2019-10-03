@@ -1,5 +1,5 @@
 <template lang="pug">
-  .priceCalendar.q-pa-lg
+  .q-pa-lg
     .row.q-pb-lg
       .col-11
         .text-h6 Календарь цен
@@ -15,7 +15,7 @@
       .col-6
         span Вместимость зала, человек
         q-input(v-model="men" outlined dense)
-    .row.q-pb-lg
+    .row.q-pb-lg.items-end
       .col.q-pr-sm
         span Гости без доплаты
         q-input(v-model="var1" outlined dense)

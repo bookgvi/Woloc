@@ -3,8 +3,10 @@
     .row.q-pb-lg
       .col
         .text-h6.q-pb-md Оплата
-        q-btn.bg-primary.text-white(label="Открыть календарь цен" no-caps)
-          q-popup-proxy(v-model="isModal" :offset="[200, 0]")
+        q-btn.bg-primary.text-white(label="Открыть календарь цен" no-caps @click="isModal = true")
+      q-dialog(v-model="isModal" persistent)
+        q-card(style="min-width: 70%")
+          q-card-section
             priceCalendar(@hide="isModal = false")
 </template>
 

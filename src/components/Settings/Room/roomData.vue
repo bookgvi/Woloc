@@ -26,9 +26,7 @@
           .block
             q-color(
               v-model="color"
-              no-header
               no-footer
-              default-view="palette"
               style="width: 300px;"
             )
     .row.q-pb-md
