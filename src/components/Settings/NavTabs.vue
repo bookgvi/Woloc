@@ -1,6 +1,6 @@
 <template lang="pug">
-  .wrapper
-    q-tabs(
+  .navtabs
+    q-tabs.wrapper(
       shrink
       align="left"
       animated
