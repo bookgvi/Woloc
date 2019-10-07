@@ -25,7 +25,8 @@ export default {
     return {
       settings: [
         { to: '/settings/location', label: 'Локация' },
-        { to: '/settings/room', label: 'Залы' }
+        { to: '/settings/room', label: 'Залы' },
+        { to: '/settings/extras', label: 'Доп. услуги' }
       ]
     }
   }
