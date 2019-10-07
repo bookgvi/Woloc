@@ -18,6 +18,9 @@ export default {
     values: {
       type: Object,
     },
+    filter: {
+      type: Object
+    },
     onChange: Function,
   },
   async created () {
@@ -34,6 +37,7 @@ export default {
       return this.controller.list
     },
     buttonTitle () {
+      console.log(this.values)
       const studio = this.controller.getFiltered(this.values)
 
       return studio ? studio.name : 'Студия'
@@ -42,7 +46,10 @@ export default {
   methods: {
     onInputChange (event) {
       this.onChange('studio', event)
-      this.onChange('rooms', [])
+      const rooms = this.$app.rooms.getAvailable({ studio: event }).map(item => {
+        return item.id
+      })
+      this.onChange('rooms', rooms)
     }
   }
 }
