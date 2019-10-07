@@ -6,6 +6,204 @@
       "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
       "amount": 150.00,
       "room": {
+          "id": 27,
+          "name": "Большой зал"
+        },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 3,
+      "title": "Аренда платьев, пеньюаров и детской одежды",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 1,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 12,
+      "title": "Микроволновая печь",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 2,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 2,
+      "title": "Генератор мыльных пузырей",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 3,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 11,
+      "title": "Парковка",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 4,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 122,
+      "title": "Парковка",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 5,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 133,
+      "title": "Парковка",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 6,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 144,
+      "title": "Парковка",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 8,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 15,
+      "title": "Парковка",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
+        "id": 3,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "users": {
+        "id": 7763
+      },
+      "createdAt": "2018-02-16 14:22:22",
+      "publishedAt": "2018-02-16 14:22:22",
+      "image": "01b2e2efd67fb59c2758dacc14432bfe.jpg",
+      "sortField": "null",
+      "maxLimit": 0
+    },
+    {
+      "id": 31,
+      "title": "Парковка",
+      "description": "Парковка на 20 машиномест прямо возле нашей студии!! Оплата за въезд , без ограничения  по времени.",
+      "amount": 150.00,
+      "room": {
         "id": 7,
         "name": "Большой зал"
       },

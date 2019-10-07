@@ -18,7 +18,6 @@ export default {
         total = data.transactions.total
       }
       this.data = items
-      console.log('data = ', this.data)
       Object.assign(this.pagination, pagination, { rowsNumber: total })
     },
     setPagination (prop, value) {
