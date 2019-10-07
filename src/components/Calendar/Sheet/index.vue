@@ -68,7 +68,7 @@
             :timeStartPos="timeStartPos"
             :timeDurationHeight="timeDurationHeight"
           )
-          q-badge.absolute-top(
+          q-badge.absolute-top.block.q-pa-none(
             multi-line
             v-for="(e, index) in events"
             :value="e"
@@ -77,12 +77,16 @@
             @click="findBooking(index)"
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
-            .row.col-12.justify-start.q-px-xs
-              q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
+            .row.col-12.justify-start.q-pl-xs
+              q-icon.col-1.row.justify-start(v-if="e.icon", :name="e.icon")
+              .q-pa-none.col-1(
+                v-if="e.isExtras"
+                :style="triangleStyles(e)"
+              )
               .row.col-12
-                span.text-body2.ellipsis {{ e.title }}
+                span.row.text-body2.ellipsis {{ e.title }}
               .row.col-12
-                span.text-body2.ellipsis {{ e.details }}
+                span.row.text-body2.ellipsis {{ e.details }}
       update-event-dialog(
         :dialogState="dialogState"
         :filter="filter"
@@ -157,6 +161,7 @@ export default {
     },
     async findBooking (index) {
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      // console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
@@ -203,6 +208,16 @@ export default {
     setOrder (room) {
       const order = this.rooms.findIndex(item => item.name === room)
       return order
+    },
+    triangleStyles (event) {
+      let s = {
+        'width': '0',
+        'height': '0',
+        'border-top': `10px solid ${colors.lighten(event.bgcolor, -30)}`,
+        'border-left': '10px solid transparent',
+        'margin': '0 0 0 auto'
+      }
+      return s
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {
@@ -258,6 +273,7 @@ export default {
             }
             const event = {
               id: booking.id,
+              isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
               details: `${booking.amount}/${booking.price}`,
               date: this.getDate(booking.reservedFrom),
