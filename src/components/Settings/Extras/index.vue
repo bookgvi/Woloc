@@ -3,9 +3,8 @@
     filters-list(name="settings")
       template(#prepend="props")
         studio-filter(v-bind="props")
-    .wrapper
-      .row.q-pt-md
-        .inline-block
+    .wrapper.wrapper--header
+      .row
         ExtrasTable
 </template>
 
