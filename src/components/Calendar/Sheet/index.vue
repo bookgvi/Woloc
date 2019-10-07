@@ -62,7 +62,9 @@
             )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
-            span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
+            span.ellipsis.text-uppercase.text-body2.text-weight-bold(
+              :style="dayHeaderStyle(date)"
+            ) {{ dayHeader(date) }}
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           timeline(
             :timeStartPos="timeStartPos"
@@ -165,6 +167,13 @@ export default {
     },
     dayHeader (dt) {
       return this.$moment(dt).format('ddd D')
+    },
+    dayHeaderStyle (dt) {
+      if (this.$moment(dt).isSame(this.$moment(), 'day')) {
+        return {
+          color: 'blue'
+        }
+      }
     },
     async loadData () {
       await this.$app.bookings.getForCalendar({
