@@ -37,7 +37,6 @@ export default {
       return this.controller.list
     },
     buttonTitle () {
-      console.log(this.values)
       const studio = this.controller.getFiltered(this.values)
 
       return studio ? studio.name : 'Студия'
