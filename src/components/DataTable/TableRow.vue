@@ -40,6 +40,8 @@
             :color="controlsAreVisible(row) ? 'primary' : undefined"
             :disable="disabled"
           )
+      template(v-else-if="name === 'refundsControls'")
+        slot(v-if="row.status")
       template(v-else-if="name === 'status'")
         .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
       template(v-else-if="name === 'link'")
