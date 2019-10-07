@@ -25,6 +25,22 @@
       template(v-else-if="name === 'rating'")
         i(v-for="(item, i) in 5" class="fa-star" :class="i < value ? 'fas' : 'far' ")
       template(v-else-if="name === 'controls'")
+        .buttons.absolute
+          transition(
+            enter-active-class="animated fadeInRight"
+            leave-active-class="animated fadeOutRight"
+          )
+            .inline-block(v-if="controlsAreVisible(row)")
+              slot(:row="row")
+          q-btn(
+            flat
+            round
+            icon="more_vert"
+            @click="$emit('toggleControls', row.id)"
+            :color="controlsAreVisible(row) ? 'primary' : undefined"
+            :disable="disabled"
+          )
+      template(v-else-if="name === 'refundsControls'")
         slot(v-if="row.status")
       template(v-else-if="name === 'status'")
         .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
