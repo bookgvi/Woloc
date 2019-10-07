@@ -2,9 +2,9 @@ import { date } from 'quasar'
 
 export default [
   {
-    name: 'name',
+    name: 'title',
     label: 'Название',
-    width: 150,
+    width: 150
   },
   {
     name: 'room',
@@ -12,23 +12,24 @@ export default [
     width: 120
   },
   {
-    name: 'price',
+    name: 'amount',
     label: 'цена, Р.',
     width: 120
   },
   {
-    name: 'limit',
+    name: 'maxLimit',
     label: 'лимит',
     width: 120
   },
   {
-    name: 'createDate',
+    name: 'createdAt',
     label: 'Дата создания',
-    format: value => date.formatDate(value, 'D MMM'),
+    format: value => date.formatDate(value, 'D MMMM YYYY h:mm'),
     width: 60
   },
   {
     name: 'extrasControls',
-    width: 40
+    width: 40,
+    align: 'right'
   }
 ]

@@ -6,6 +6,11 @@
     :columns="columns"
     :details="details"
   )
+    template(#row-controls)
+      q-btn(flat round icon="drag_handle" no-caps)
+    template(#table-controls-append)
+      q-btn.q-ml-md.text-white.bg-primary(label="Добавить услугу" no-caps)
+
 </template>
 
 <script>

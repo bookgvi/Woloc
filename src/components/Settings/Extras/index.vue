@@ -5,7 +5,7 @@
         studio-filter(v-bind="props")
     .wrapper
       .row.q-pt-md
-        .inline-block {{ singleStudio }}
+        .inline-block
         ExtrasTable
 </template>
 
