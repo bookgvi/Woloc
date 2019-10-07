@@ -54,7 +54,7 @@ export default [
     width: 250
   },
   {
-    name: 'controls',
+    name: 'refundsControls',
     width: 40
   }
 ]
