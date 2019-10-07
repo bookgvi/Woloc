@@ -138,6 +138,10 @@ export default {
     }
   },
   methods: {
+    formatPrice (price) {
+      const fixed = +Number(price).toFixed()
+      return fixed.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+    },
     setNewBooking (date, time) {
       this.selectedBooking = Object.assign({}, {
         id: 8983249234,
@@ -259,7 +263,7 @@ export default {
             const event = {
               id: booking.id,
               title: title,
-              details: `${booking.amount}/${booking.price}`,
+              details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
               date: this.getDate(booking.reservedFrom),
               time: this.getTime(booking.reservedFrom),
               duration: diff,
