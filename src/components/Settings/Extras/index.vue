@@ -4,6 +4,8 @@
     filters-list(name="settings")
       template(#prepend="props")
         studio-filter(v-bind="props")
+    .wrapper
+      .row.q-pt-md
 
 </template>
 
