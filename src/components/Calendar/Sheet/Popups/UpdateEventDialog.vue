@@ -6,146 +6,132 @@
     q-card.q-py-md(
       style="width: 330px"
     )
-      q-list.text-body2.text-black.text-weight-bold(
-        dense
+      q-card-section.q-pa-none(
+        style="width: 330px"
       )
-        q-expansion-item(
-          group="new-event"
-          dense
-          default-opened
-        )
-          template(v-slot:header).row.items-center
-            .col-4.q-py-sm
-              span {{ "Клиент" }}
-            .col-7.q-py-sm
-              span.text-grey {{ customerSlot }}
-          q-card
-            q-card-section
-              calendar-customer(
-                :startCustomer="newBooking.customer"
-                @customerChange="newBooking.customer = $event"
-              )
-        q-expansion-item(
-          group="new-event"
+        q-list.text-body2.text-black.text-weight-bold(
           dense
         )
-          template(v-slot:header)
-            .col-4.q-py-sm
-              span {{ "Зал" }}
-            .col-7.q-py-sm
-              span.text-grey {{ roomSlot }}
-          q-card
-            q-card-section
-              calendar-room(
-                @roomChange="newBooking.room = $event"
-                :filter="filter"
-                :startRoom="room.name"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-        )
-          template(v-slot:header)
-            .col-4.q-py-sm
-              span {{ "Дата" }}
-            .col-7.q-py-sm
-              span.text-grey {{ dateSlot }}
-          q-card
-            q-card-section
-              calendar-date(
-                @dateChange="helpers.date = $event"
-                :date="helpers.date"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-        )
-          template(v-slot:header)
-            .col-4.q-py-sm
-              span {{ "Время" }}
-            .col-7.q-py-sm
-              span.text-grey {{ timeSlot }}
-          q-card
-            q-card-section
-              calendar-time(
-                @timeChange="helpers.time = $event"
-                :startTime="helpers.time.from"
-                :endTime="helpers.time.to"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-        )
-          template(v-slot:header)
-            .col-4.q-py-sm
-              span {{ "Цель" }}
-            .col-7.q-py-sm
-              span.text-grey {{ eventSlot }}
-          q-card
-            q-card-section
-              calendar-event(
-                @eventChange="newBooking.eventType = $event"
-                :startEvent="newBooking.eventType"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-        )
-          template(v-slot:header)
-            .col-4.q-py-sm
-              span {{ "Доп. услуги" }}
-            .col-7.q-py-sm
-              span.text-grey {{ extrasSlot }}
-          q-card
-            q-card-section
-              calendar-extras(
-                @extrasChange="helpers.checkedExtras = [...$event]"
-                :startExtras="[...helpers.checkedExtras]"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-        )
-          template(v-slot:header)
-            .col-4.q-py-sm
-              span {{ "Оплата" }}
-            .col-7.q-py-sm
-              span.text-grey {{priceSlot }}
-          q-card
-            q-card-section
-              calendar-price(
-                @priceChange="newBooking.price = $event"
-                :extras="extras"
-                :fee="fee"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-          label="Коммент"
-        )
-          q-card
-            q-card-section
-              calendar-comment(
-                @customerCommentChange="newBooking.customerComment = $event"
-                :startCustomerComment="newBooking.customerComment"
-                @managerCommentChange="newBooking.customerComment = $event"
-                :startManagerComment="newBooking.customerComment"
-              )
-        q-expansion-item(
-          group="new-event"
-          dense
-          label="Удалить бронирование"
-        )
-          q-card
-            q-card-section
-              calendar-delete(
-                :id="newBooking.id"
-                @setQueryState="setQueryState($event)"
-              )
-        calendar-apply(
-          :applyBooking="applyBooking"
-          @setQueryState="setQueryState($event)"
-        )
+          q-expansion-item(
+            group="new-event"
+            dense
+            default-opened
+          )
+            template(v-slot:header).row.items-center
+              .col-4.q-py-sm
+                span {{ "Клиент" }}
+              .col-7.q-py-sm
+                span.text-grey {{ customerSlot }}
+            calendar-customer.q-pa-md(
+              :startCustomer="newBooking.customer"
+              @customerChange="newBooking.customer = $event"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+          )
+            template(v-slot:header)
+              .col-4.q-py-sm
+                span {{ "Зал" }}
+              .col-7.q-py-sm
+                span.text-grey {{ roomSlot }}
+            calendar-room.q-pa-md(
+              @roomChange="newBooking.room = $event"
+              :filter="filter"
+              :startRoom="room.name"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+          )
+            template(v-slot:header)
+              .col-4.q-py-sm
+                span {{ "Дата" }}
+              .col-7.q-py-sm
+                span.text-grey {{ dateSlot }}
+            calendar-date.q-pa-md(
+              @dateChange="helpers.date = $event"
+              :date="helpers.date"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+          )
+            template(v-slot:header)
+              .col-4.q-py-sm
+                span {{ "Время" }}
+              .col-7.q-py-sm
+                span.text-grey {{ timeSlot }}
+            calendar-time.q-pa-md(
+              @timeChange="helpers.time = $event"
+              :startTime="helpers.time.from"
+              :endTime="helpers.time.to"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+          )
+            template(v-slot:header)
+              .col-4.q-py-sm
+                span {{ "Цель" }}
+              .col-7.q-py-sm
+                span.text-grey {{ eventSlot }}
+            calendar-event.q-pa-md(
+              @eventChange="newBooking.eventType = $event"
+              :startEvent="newBooking.eventType"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+          )
+            template(v-slot:header)
+              .col-4.q-py-sm
+                span {{ "Доп. услуги" }}
+              .col-7.q-py-sm
+                span.text-grey {{ extrasSlot }}
+            calendar-extras.q-pa-md(
+              @extrasChange="helpers.checkedExtras = [...$event]"
+              :startExtras="[...helpers.checkedExtras]"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+          )
+            template(v-slot:header)
+              .col-4.q-py-sm
+                span {{ "Оплата" }}
+              .col-7.q-py-sm
+                span.text-grey {{priceSlot }}
+            calendar-price.q-pa-md(
+              @priceChange="newBooking.price = $event"
+              :extras="extras"
+              :fee="fee"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+            label="Коммент"
+          )
+            calendar-comment.q-pa-md(
+              @customerCommentChange="newBooking.customerComment = $event"
+              :startCustomerComment="newBooking.customerComment"
+              @managerCommentChange="newBooking.customerComment = $event"
+              :startManagerComment="newBooking.customerComment"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+            label="Удалить бронирование"
+          )
+            calendar-delete.q-pa-md(
+              :id="newBooking.id"
+              @setQueryState="setQueryState($event)"
+            )
+          q-item
+            calendar-apply.q-pa-md(
+              :applyBooking="applyBooking"
+              @setQueryState="setQueryState($event)"
+            )
 
 </template>
 

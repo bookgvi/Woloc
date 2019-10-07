@@ -1,5 +1,5 @@
 <template lang="pug">
-  .fit.col-12.row.justify-around.items-center
+  .col-12.row.justify-around.items-center
     .col-12
       q-select.text-body2.text-weight-bold(
         outlined
