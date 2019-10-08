@@ -85,6 +85,10 @@
           )
             .row.col-12.justify-start.q-pl-xs
               q-icon.col-1.row.justify-start(v-if="e.icon", :name="e.icon")
+              .q-pa-none.col-1.offset-4(
+                v-if="e.isNotFullVisible"
+                :style="arrowUpStyles(e)"
+              )
               .q-pa-none.col-1(
                 v-if="e.isExtras"
                 :style="triangleStyles(e)"
@@ -208,14 +212,10 @@ export default {
       await this.loadData()
     },
     getDate (timestamp) {
-      if (+this.$moment.parseZone(timestamp).format('HH') === 0) {
-        timestamp = this.$moment(timestamp).subtract(1, 'days')
-      }
-      return this.$moment.parseZone(timestamp).format('YYYY-MM-DD')
+      return timestamp.format('YYYY-MM-DD')
     },
     getTime (timestamp, mask = 'HH:mm') {
-      const hours = this.$moment.parseZone(timestamp).format('HH') !== '00' ? this.$moment.parseZone(timestamp).format(mask) : 24
-      return hours
+      return timestamp.format(mask)
     },
     getColor ({ room: { id } }) {
       if (!(id in usedColors)) {
@@ -240,6 +240,16 @@ export default {
         'border-top': `10px solid ${colors.lighten(event.bgcolor, -30)}`,
         'border-left': '10px solid transparent',
         'margin': '0 0 0 auto'
+      }
+      return s
+    },
+    arrowUpStyles (event) {
+      let s = {
+        'width': '0',
+        'height': '0',
+        'border-left': '5px solid transparent',
+        'border-right': '5px solid transparent',
+        'border-bottom': `10px solid ${colors.lighten(event.bgcolor, -30)}`
       }
       return s
     },
@@ -289,26 +299,38 @@ export default {
         let bookings = []
         this.$nextTick(function () {
           v.map((booking) => {
-            const diff = this.$moment(booking.reservedTo)
-              .diff(booking.reservedFrom, 'minutes')
+            let from = this.$moment(booking.reservedFrom).parseZone()
+            let to = this.$moment(booking.reservedTo).parseZone()
+            let isNotFullVisible = false
+            if (!this.isAllDay) {
+              if (from.hour() < 8) {
+                from.hour(8)
+                isNotFullVisible = true
+              }
+              if (to.hour() < 8 && to.hour() > 0) {
+                to.hour(8)
+              }
+            }
+            const diff = to.diff(from, 'minutes')
             let title = ''
             if (booking.customer && booking.customer.firstName) {
               title = booking.customer.firstName
             }
             const event = {
               id: booking.id,
+              isNotFullVisible,
               isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
               details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
-              date: this.getDate(booking.reservedFrom),
-              time: this.getTime(booking.reservedFrom),
+              date: this.getDate(from),
+              time: this.getTime(from),
               duration: diff,
               bgcolor: this.getColor(booking),
               icon: this.setIcon(booking.eventType),
               devInfo: {
                 time: {
-                  from: +this.getTime(booking.reservedFrom, 'H'),
-                  to: +this.getTime(booking.reservedTo, 'H')
+                  from: +this.getTime(from, 'HH'),
+                  to: +this.getTime(to, 'H') !== 0 ? +this.getTime(to, 'H') : 24
                 },
                 room: booking.room.name
               },
@@ -342,7 +364,7 @@ export default {
                 const e = bookings[i]
                 const timeFrom = e.devInfo.time.from
                 const timeTo = e.devInfo.time.to
-                if (e.date === dt) {
+                if (e.date === dt && e.duration > 0) {
                   if (this.setOrder(e.devInfo.room) === order) {
                     let col = posArray.length - 1
                     if (col !== 0) {
@@ -397,6 +419,7 @@ export default {
             setPositionOfEvents(formattedCurrentDate)
           }
           this.events = allEvents
+          console.log(this.events)
         })
       },
       deep: true
@@ -404,8 +427,11 @@ export default {
     async filter (v) {
       await this.loadData()
     },
-    selectedDate (v) {
-      this.placeEvents()
+    async isAllDay (v) {
+      await this.placeEvents()
+    },
+    async selectedDate (v) {
+      await this.placeEvents()
     }
   }
 }

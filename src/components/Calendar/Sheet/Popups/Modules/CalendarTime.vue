@@ -17,7 +17,7 @@
     .row.text-body2.q-py-sm Зеленым отмечено свободное время.
     q-range.row.q-px-sm(
       v-model="range"
-      :min="8"
+      :min="0"
       :max="24"
       color="green"
     ) {{ timeComp }}
@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       range: {
-        min: this.startTime || 8,
+        min: this.startTime || 0,
         max: this.endTime || 24
       },
     }
@@ -37,7 +37,7 @@ export default {
   computed: {
     duration () {
       const foo = this.range.max - this.range.min
-      const bar = ([1, 21].includes(foo)) ? 'час' : ([2, 3, 4, 22, 23, 24].includes(foo))
+      const bar = ([1, 21].includes(foo)) ? 'час' : ([0, 2, 3, 4, 22, 23, 24].includes(foo))
         ? 'часа' : 'часов'
       return `${foo} ${bar}`
     },
@@ -56,10 +56,10 @@ export default {
   props: ['startTime', 'endTime'],
   watch: {
     startTime (v) {
-      this.range.min = this.startTime
+      this.range.min = v
     },
     endTime (v) {
-      this.range.max = this.endTime
+      this.range.max = v
     },
   }
 }
