@@ -1,42 +1,32 @@
 <template lang="pug">
-  q-card-section.row.col-12
-    q-btn.q-mr-xs(
-      label="Неделя"
-      no-caps
-      outline
-      @click="setPeriod"
-      color="secondary"
-    )
-    q-btn.q-mr-xs(
-      outline
-      label="Месяц"
-      no-caps
-      @click="setPeriod"
-      color="secondary"
-    )
-    q-btn.q-mr-xs(
-      outline
-      label="Год"
-      no-caps
-      @click="setPeriod"
-      color="secondary"
-    )
-    q-space
-    q-btn-group(outline)
-      q-btn.q-px-sm.q-mx-none(
-        @click="periodPrev"
+  q-card-section.row.col-12.items-center.q-py-none
+    .col-6
+      span.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
+    .row.col.justify-around
+      q-btn.q-mr-xs(
         outline
-        icon="chevron_left"
+        size="sm"
+        label="Сегодня"
+        no-caps
+        @click="today"
         color="secondary"
       )
-      q-separator(vertical, inset)
-      q-btn.q-px-sm.q-mx-none(
-        @click="periodNext"
-        outline
-        icon="chevron_right"
-        color="secondary"
-      ) {{ periodComp }}
-    span {{ dateComp }}
+      q-btn-group(outline)
+        q-btn.q-px-sm.q-mx-none(
+          @click="datePrev"
+          outline
+          size="sm"
+          icon="chevron_left"
+          color="secondary"
+        )
+        q-separator(vertical, inset)
+        q-btn.q-px-sm.q-mx-none(
+          @click="dateNext"
+          outline
+          size="sm"
+          icon="chevron_right"
+          color="secondary"
+        ) {{ dateComp }}
 </template>
 
 <script>
@@ -48,84 +38,38 @@ export default {
   },
   data () {
     return {
-      period: this.startPeriod || '',
+      date: this.startDate || '',
       from: '',
       to: ''
     }
   },
   computed: {
-    date: {
-      get () {
-        return {
-          from: this.from,
-          to: this.to,
-        }
-      },
-      set (from) {
-        const to = this.$moment(from).add(this.periodObject)
-        this.from = from
-        this.to = to
-      }
-    },
-    periodComp () {
-      return this.periodChange()
+    dateFormatForLabel () {
+      if (this.date === '') return '23 сентября, 2019'
+      return `${this.$moment(this.date).format('D MMMM, YYYY')}`
     },
     dateComp () {
       return this.dateChange()
-    },
-    periodObject () {
-      let obj = {}
-      switch (this.period) {
-        case 'week':
-          obj = { days: 7 }
-          break
-        case 'month':
-          obj = { month: 1 }
-          break
-        case 'year':
-          obj = { year: 1 }
-          break
-      }
-      return obj
     }
   },
   methods: {
-    periodPrev () {
-      this.date = this.$moment(this.date.from).subtract(this.periodObject)
+    datePrev () {
+      this.date = this.$moment(this.date).subtract({ days: 1 })
     },
-    periodNext () {
-      this.date = this.$moment(this.date.from).add(this.periodObject)
+    today () {
+      this.date = this.$moment()
     },
-    addToDate (buttonName) {
-      if (buttonName === 'chevron_left') {
-        return {}
-      }
-    },
-    setPeriod (e) {
-      switch (e.srcElement.innerText) {
-        case 'Неделя':
-          this.period = 'week'
-          break
-        case 'Месяц':
-          this.period = 'month'
-          break
-        case 'Год':
-          this.period = 'year'
-          break
-      }
-      this.date = this.$moment(this.date.from).startOf(this.period)
-    },
-    periodChange () {
-      this.$emit('periodChange', this.period)
+    dateNext () {
+      this.date = this.$moment(this.date).add({ days: 1 })
     },
     dateChange () {
       this.$emit('dateChange', this.date)
-    }
+    },
   },
-  props: ['startPeriod'],
+  props: ['startDate'],
   watch: {
-    startPeriod (v) {
-      this.period = v
+    startDate (v) {
+      this.date = v
     },
   }
 }
