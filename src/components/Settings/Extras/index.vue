@@ -5,7 +5,7 @@
         studio-filter(v-bind="props")
     .wrapper.wrapper--header
       .row
-        ExtrasTable
+        ExtrasTable(:singleStudio="singleStudio" :rooms="rooms")
 </template>
 
 <script>
@@ -24,7 +24,8 @@ export default {
     return {
       id: this.$app.filters.getValues('settings').studio,
       allStudiosName: [],
-      singleStudio: []
+      rooms: [],
+      singleStudio: {}
     }
   },
   methods: {
