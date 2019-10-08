@@ -6,16 +6,15 @@
       :columns="columns"
       :details="details"
     )
+      template(#table-controls-append)
+        q-btn.q-ml-md.text-white.bg-primary(label="Добавить услугу" no-caps)
+
       template(#row-controls="props")
         q-btn(flat round icon="drag_handle" no-caps title="Редактировать" @click="showDialog(props.row)")
     q-dialog(v-model="editExtras" persistent)
       q-card
         q-card-section
           editExtras(:singleStudio="singleStudio" :rooms="rooms" :dataset="dataset" @hide="editExtras = false")
-
-      template(#table-controls-append)
-        q-btn.q-ml-md.text-white.bg-primary(label="Добавить услугу" no-caps)
-
 </template>
 
 <script>
