@@ -29,7 +29,7 @@
       template(#top-right="props")
         slot(name="table-controls-prepend")
         TableControls(v-bind="props" :setPagination="setPagination")
-            slot(name="table-controls-append")
+          slot(name="table-controls-append")
 
       template(#body="props")
         TableRow(
