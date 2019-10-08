@@ -41,13 +41,16 @@
               color="secondary"
              )
     template
-      first-column
+      first-column(
+        :isAllDay ="isAllDay"
+        @allDayChange="isAllDay=$event"
+      )
       q-calendar.row.col-12(
         style="width: 95%; margin-left: 5%"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
-        :interval-start="8"
-        :interval-count="16"
+        :interval-start="intervalStartCalendar"
+        :interval-count="intervalCountCalendar"
         v-model="selectedDate"
         view="week"
         locale="ru-ru"
@@ -55,7 +58,7 @@
         hour24-format
         short-weekday-label
         column-header-before
-        )
+      )
         template.row(#interval="{ time, date }")
           .row.fit.q-pa-none(
             @click="setNewBooking(date, time)"
@@ -69,6 +72,7 @@
           timeline(
             :timeStartPos="timeStartPos"
             :timeDurationHeight="timeDurationHeight"
+            :isAllDay ="isAllDay"
           )
           q-badge.absolute-top(
             multi-line
@@ -116,6 +120,7 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
+      isAllDay: false,
       events: [],
       selectedDate: '',
       dialogState: false,
@@ -126,6 +131,12 @@ export default {
     this.calendarToday()
   },
   computed: {
+    intervalStartCalendar () {
+      return this.isAllDay ? 0 : 8
+    },
+    intervalCountCalendar () {
+      return this.isAllDay ? 24 : 16
+    },
     selectedStudioLabel () {
       return this.studio ? this.studio.name : ''
     },
@@ -315,7 +326,7 @@ export default {
                 const e = bookings[i]
                 const timeFrom = e.devInfo.time.from
                 const timeTo = e.devInfo.time.to
-                if (e.date === dt && +timeFrom >= 8) {
+                if (e.date === dt) {
                   if (this.setOrder(e.devInfo.room) === order) {
                     let col = posArray.length - 1
                     if (col !== 0) {
