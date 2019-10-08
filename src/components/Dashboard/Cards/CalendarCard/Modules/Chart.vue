@@ -1,8 +1,8 @@
 <template lang="pug">
-  q-card-section(style="height: 400px;")
+  q-card-section
     chart(
       :options="chartOptions"
-      style="width: 100%; height: 100%;"
+      style="width: 100%; height=100%;"
     )
 
 </template>

@@ -419,7 +419,7 @@ export default {
             setPositionOfEvents(formattedCurrentDate)
           }
           this.events = allEvents
-          console.log(this.events)
+          // console.log(this.events)
         })
       },
       deep: true

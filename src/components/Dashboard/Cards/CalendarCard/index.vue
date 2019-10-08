@@ -46,7 +46,7 @@ const rawData = [
 ]
 
 export default {
-  name: 'ProfitCard',
+  name: 'CalendarCard',
   components: {
     Chart,
     NavBar,
