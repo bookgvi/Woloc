@@ -24,6 +24,7 @@ export default {
           }
         })
         this.calendarList = filteredList
+        // console.log(filteredList)
         this.loading.list = false
       }
     },
