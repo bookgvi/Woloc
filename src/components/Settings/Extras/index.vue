@@ -29,8 +29,11 @@ export default {
   },
   methods: {
     async singleStudioM () {
-      const { studio } = this.$app.filters.getValues('settings')
+      let { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
+      if (!studio) {
+        studio = items[0].id
+      }
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
