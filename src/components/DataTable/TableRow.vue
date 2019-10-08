@@ -53,9 +53,6 @@
         div.q-py-sm(style="width: 100%; white-space: normal;") {{ value }}
       template(v-else-if="name === 'extrasControls'")
         slot
-      template(v-else-if="name === 'maxLimit'")
-        span(v-if="value") Да
-        span(v-else) Нет
       template(v-else) {{ value }}
 </template>
 

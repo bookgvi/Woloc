@@ -31,7 +31,7 @@
     .row.q-pb-md
       q-input(v-model="dataset.amount" outlined dense)
     .row.q-pb-md
-      q-checkbox(v-model="dataset.maxLimit" label="Включить ограничение по колличеству доп. услуг")
+      q-checkbox(v-model="isLimit" label="Включить ограничение по колличеству доп. услуг")
     .row.q-pb-md
       .text-h6 Изображения
     .row.q-pb-xs
@@ -54,6 +54,9 @@ export default {
     dataset: Object
   },
   name: 'editExtras',
+  data: () => ({
+    isLimit: false
+  }),
   filters: {
     imgUrl () {
       return 'http://placeimg.com/640/480/animals'
