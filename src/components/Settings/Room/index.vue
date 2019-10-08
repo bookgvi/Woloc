@@ -6,7 +6,7 @@
         studio-filter(v-bind="props")
       template(#append)
         q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
-    .wrapper--hedaer
+    .wrapper
       .row.q-pt-md
         .col-3
           .row(v-for="(room, index) in rooms" :key="index")
@@ -80,8 +80,11 @@ export default {
       }
       this.currentStudio = 'settings'
       this.isSave = false
-      const { studio } = this.$app.filters.getValues('settings')
+      let { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
+      if (!studio) {
+        studio = items[0].id
+      }
       this.allStudiosName = items.map(item => item.name)
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
