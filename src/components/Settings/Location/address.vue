@@ -41,8 +41,7 @@
         )
     .row.q-pb-lg
       .col
-        span Ближайшая станция метро &nbsp
-        span.text-red *
+        span Ближайшая станция метро
           q-input.q-pt-sm(
             v-model="singleStudio.metro"
             outlined
@@ -50,8 +49,7 @@
           )
     .row.q-pb-lg
       .col
-        span Инструкция пешком &nbsp
-        span.text-red *
+        span Инструкция пешком
         q-input.q-pt-sm(
           type="textarea"
           v-model="singleStudio.foot"
@@ -60,8 +58,7 @@
         )
     .row.q-pb-lg
       .col
-        span Инструкция на машине &nbsp
-        span.text-red *
+        span Инструкция на машине
         q-input.q-pt-sm(
           type="textarea"
           v-model="singleStudio.car"
