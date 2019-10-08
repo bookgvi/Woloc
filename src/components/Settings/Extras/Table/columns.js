@@ -13,7 +13,7 @@ export default [
   },
   {
     name: 'amount',
-    label: 'цена, Р.',
+    label: 'цена, ₽.',
     width: 120
   },
   {
