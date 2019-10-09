@@ -7,7 +7,7 @@
         events-filter(v-bind="props")
         price-filter(v-bind="props")
     CalendarSheet(
-      :filter="$app.filters.getValues('calendar')"
+      :filter="filter"
       :bookings="$app.bookings.calendarList"
     )
 </template>
@@ -22,7 +22,18 @@ import PriceFilter from '../Filters/PriceFilter'
 
 export default {
   name: 'Calendar',
-  components: { EventsFilter, FiltersList, RoomsFilter, StudioFilter, PriceFilter, CalendarSheet }
+  components: { EventsFilter, FiltersList, RoomsFilter, StudioFilter, PriceFilter, CalendarSheet },
+  computed: {
+    filter () {
+      const studio = this.$app.studios.list[0].id
+      const filter = {
+        studio,
+        rooms: this.$app.rooms.getAvailable({ studio }).map(item => item.id)
+      }
+      return filter
+    }
+  }
+
 }
 </script>
 

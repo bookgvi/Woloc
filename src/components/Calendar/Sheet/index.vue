@@ -222,7 +222,6 @@ export default {
         const i = Object.keys(usedColors).length
         usedColors[id] = roomsColors[i < roomsColors.length ? i : 0]
       }
-
       return usedColors[id].color
     },
     setIcon (action) {

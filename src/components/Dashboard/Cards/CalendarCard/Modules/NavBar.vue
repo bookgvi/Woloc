@@ -1,9 +1,17 @@
 <template lang="pug">
   q-card-section.row.col-12.items-center.q-py-none
-    .col-6
+    .col-5
       span.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
     .row.col.justify-around
-      q-btn.q-mr-xs(
+      q-btn.q-mr-xs.col-3(
+        outline
+        size="sm"
+        label="Студия"
+        no-caps
+        @click="today"
+        color="secondary"
+      )
+      q-btn.q-mr-xs.col-3(
         outline
         size="sm"
         label="Сегодня"
@@ -11,7 +19,7 @@
         @click="today"
         color="secondary"
       )
-      q-btn-group(outline)
+      q-btn-group(outline).col.offset-1
         q-btn.q-px-sm.q-mx-none(
           @click="datePrev"
           outline

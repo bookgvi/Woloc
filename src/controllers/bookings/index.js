@@ -26,7 +26,7 @@ export default {
           })
           this.calendarList = filteredList
           // console.log(filteredList)
-        }
+        } else this.calendarList = res.data.items
       }
       this.loading.list = false
     },
