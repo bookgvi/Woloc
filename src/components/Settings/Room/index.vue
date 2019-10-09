@@ -87,6 +87,7 @@ export default {
       this.isSave = false
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
+      this.currentRoom = rooms[0].name
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
       this.services = this.singleStudio.services
       this.vendors = this.singleStudio.vendors

@@ -2,18 +2,16 @@
   .table
     DataTable(
       title="Промокоды"
+      :getDialogTitle="({ id }) => `Промокод № ${id}`"
       :loadData="$app.promo.getAll"
       :columns="columns"
       :details="details"
     )
       template(#row-dialog="props")
-        editPromocode(v-bind="props")
+        editPromocode(v-bind="props" :allStudiosName="allStudiosName" :singleStudio="singleStudio" :rooms="rooms")
+
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить промокод" no-caps)
-    q-dialog(v-model="editPromo" persistent)
-      q-card
-        q-card-section
-          editPromocode(:singleStudio="singleStudio" :rooms="rooms" :dataset="dataset" @hide="editPromo = false")
 </template>
 
 <script>
@@ -24,20 +22,22 @@ import editPromocode from '../editPromoModal/editPromo'
 export default {
   props: {
     singleStudio: Object,
-    rooms: Array
+    rooms: Array,
+    allStudiosName: Array
   },
   name: 'promoTable',
   components: { DataTable, editPromocode },
   data: () => ({
     columns,
     details,
-    editPromo: false,
+    editPromo: true,
     dataset: {}
   }),
   methods: {
     showDialog (props) {
       this.editPromo = true
       this.dataset = props
+      console.log('props', props)
     }
   }
 }
