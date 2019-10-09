@@ -44,13 +44,19 @@
           span Период действия
       .row.q-pb-md
         .col.q-pr-sm
-          q-input(v-model="row.minPrice" outlined dense)
+          DateRange(
+            class="calendar"
+            :sync-range.sync="range"
+            :lang="lang"
+            v-model="range"
+          )
         .col
-          q-select(v-model="isPublic" :options="statusArr" outlined dense)
 </template>
 
 <script>
 import RowDialog from '../../../DataTable/RowDialog'
+import { DateRange } from 'vue-date-range'
+import moment from '../../../../boot/moment'
 export default {
   props: {
     getTitle: Function,
@@ -63,14 +69,22 @@ export default {
     singleStudio: Object
   },
   components: {
-    RowDialog
+    RowDialog,
+    DateRange
   },
-  data: () => ({
-    isPublic: 'Публичный',
-    statusArr: ['Публичный', 'Персональный'],
-    type: 'В рублях',
-    typeArr: ['В рублях', 'В процентах']
-  })
+  data () {
+    return {
+      isPublic: 'Публичный',
+      statusArr: ['Публичный', 'Персональный'],
+      type: 'В рублях',
+      typeArr: ['В рублях', 'В процентах'],
+      lang: 'ru',
+      range: {
+        startDate: moment(),
+        endDate: moment().add(7, 'days')
+      }
+    }
+  }
 }
 </script>
 

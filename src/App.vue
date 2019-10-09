@@ -19,6 +19,7 @@ import finances from './controllers/finances'
 import documents from './controllers/documents'
 import filters from './controllers/filters'
 import promo from './controllers/promo'
+
 export default {
   name: 'App',
   created () {
