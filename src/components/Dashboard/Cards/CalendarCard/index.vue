@@ -22,6 +22,7 @@
       calendar(
         :startDate="date"
         :isAllDay="isAllDay"
+        :bookings="$app.bookings.calendarList"
       )
 </template>
 
