@@ -40,7 +40,7 @@
       },
       "room": {
         "id": 27,
-        "name": "Большой зал"
+        "name": "Малый зал"
       },
       "studios": {
         "id": 339,
@@ -51,7 +51,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 0,
+      "isPublic": 1,
       "type": "percent",
       "startAt": "null",
       "startedAt": "2018-09-21 00:00:00",
