@@ -42,15 +42,34 @@
           span Период действия
         .col
           span Период действия
-      .row.q-pb-md
+      .row
         .col.q-pr-sm
-          q-input(v-model="row.minPrice" outlined dense)
-        .col
-          q-select(v-model="isPublic" :options="statusArr" outlined dense)
+          DateRange(
+            class="calendar"
+            :sync-range.sync="range"
+            :lang="lang"
+            v-model="range"
+          )
+        .col.q-pr-sm
+          DateRange(
+            class="calendar"
+            :sync-range.sync="range2"
+            :lang="lang"
+            v-model="range2"
+          )
+      .row.q-pb-md
+        .col-4
+          span Заполните только дату начала, если срок действия должен быть неограничен.
+      .row.justify-center
+        .col-4.q-mr-sm
+          q-btn(label="Удалить" outlined dense no-caps)
+        .col-4
+          q-btn.bg-primary.text-white(label="Сохранить" outlined dense no-caps)
 </template>
 
 <script>
 import RowDialog from '../../../DataTable/RowDialog'
+import { DateRange } from 'vue-date-range'
 export default {
   props: {
     getTitle: Function,
@@ -63,14 +82,26 @@ export default {
     singleStudio: Object
   },
   components: {
-    RowDialog
+    RowDialog,
+    DateRange
   },
-  data: () => ({
-    isPublic: 'Публичный',
-    statusArr: ['Публичный', 'Персональный'],
-    type: 'В рублях',
-    typeArr: ['В рублях', 'В процентах']
-  })
+  data () {
+    return {
+      isPublic: 'Публичный',
+      statusArr: ['Публичный', 'Персональный'],
+      type: 'В рублях',
+      typeArr: ['В рублях', 'В процентах'],
+      lang: 'ru',
+      range: {
+        startDate: this.$moment(),
+        endDate: this.$moment().add(7, 'days')
+      },
+      range2: {
+        startDate: this.$moment(),
+        endDate: this.$moment().add(7, 'days')
+      }
+    }
+  }
 }
 </script>
 
