@@ -52,8 +52,6 @@ export default {
       }
       if (this.currentStudio !== 'settings') {
         this.$app.filters.setValue('settings', 'studio', studio)
-        this.currentStudio = 'settings'
-        return
       }
       this.currentStudio = 'settings'
       this.isSave = false
