@@ -4,38 +4,49 @@ export default [
   {
     name: 'alias',
     label: 'промокод',
-    width: 150
+    active: true,
+    isPromocode: true
   },
   {
     name: 'discount',
     label: 'скидка',
-    width: 150
+    align: 'right',
+    width: 100,
+    active: true,
+    isPromocode: true
   },
   {
     name: 'room',
     label: 'Зал',
-    width: 120
+    active: true,
+    isPromocode: true
   },
   {
     name: 'minPrice',
     label: 'Мин. заказ, ₽.',
-    width: 120
+    align: 'right',
+    width: 100,
+    active: true,
+    isPromocode: true
   },
   {
     name: 'isPublic',
     label: 'статус',
-    width: 120
+    active: true,
+    isPromocode: true
   },
   {
     name: 'createdAt',
     label: 'Дата создания',
     format: value => date.formatDate(value, 'D MMMM YYYY в h:mm'),
-    width: 60
+    active: true,
+    isPromocode: true
   },
   {
     name: 'expiredAt',
     label: 'Активен до',
     format: value => date.formatDate(value, 'D MMMM'),
-    width: 60
-  }
+    active: true,
+    isPromocode: true
+  },
 ]

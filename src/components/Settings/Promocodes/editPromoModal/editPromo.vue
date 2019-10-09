@@ -8,42 +8,6 @@
         q-btn(icon="close" flat @click="$emit('hide')")
     .row
       span Название
-    .row.q-pb-md
-      .col
-        q-input(v-model="dataset.title" outlined dense)
-    .row
-      .col.q-pr-md
-        span Локация
-      .col
-        span Все залы
-    .row.q-pb-md
-      .col.q-pr-md
-        q-input(v-model="singleStudio.name" outlined dense)
-      .col
-        q-select(v-model="rooms[0].name" :options="rooms.map(item => item.name)" outlined dense)
-    .row
-      span Описание
-    .row.q-pb-md
-      .col
-        q-input(v-model="dataset.description" type="textarea" rows="3" outlined dense)
-    .row
-      span Цена, ₽
-    .row.q-pb-md
-      q-input(v-model="dataset.amount" outlined dense)
-    .row.q-pb-md
-      q-checkbox(v-model="isLimit" label="Включить ограничение по колличеству доп. услуг")
-    .row.q-pb-md
-      .text-h6 Изображения
-    .row.q-pb-xs
-      q-btn(outline dense label="Выбрать файл")
-    .row.no-wrap.q-pb-md
-      q-img(:src="dataset.image | imgUrl" style="height: 150px; max-width: 150px")
-        q-btn.absolute-top-right(icon="close" class="block" dense flat color="white")
-    .row.q-pb-md.justify-center
-      .col-2.q-mr-md
-        q-btn.bg-white.text-black(label="Удалить" no-caps)
-      .col-2
-        q-btn.bg-primary.text-white(label="Сохранить" no-caps flat)
 </template>
 
 <script>

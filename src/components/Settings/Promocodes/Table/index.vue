@@ -6,10 +6,8 @@
       :columns="columns"
       :details="details"
     )
-      template(#body="props")
-        q-tr
-          span {{ props }}
-          .cursor-pointer(@click="showDialog(props.row)") {{ props }}
+      template(#row-dialog="props")
+        editPromocode(v-bind="props")
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить промокод" no-caps)
     q-dialog(v-model="editPromo" persistent)
