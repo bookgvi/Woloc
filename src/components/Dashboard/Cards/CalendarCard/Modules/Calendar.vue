@@ -68,7 +68,7 @@ export default {
       return this.$app.rooms.getAvailable({ studio: this.studio }).map(item => item.id)
     },
     studio () {
-      return this.$app.studios.list[0].id
+      return (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
     }
   },
   props: {
@@ -134,11 +134,19 @@ export default {
     },
   },
   watch: {
-    async isAllDay (v) {
+    async isAllDay () {
       await this.loadData()
     },
-    async selectedDate (v) {
+    async selectedDate () {
       await this.loadData()
+    },
+    studio: {
+      async handler () {
+        if (this.studio !== 0) {
+          await this.loadData()
+        }
+      },
+      immediate: true
     },
     bookings: {
       handler (v) {
