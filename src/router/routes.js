@@ -33,7 +33,8 @@ const routes = [
           { path: '', component: () => import('components/Settings/Location/index.vue') },
           { path: 'room', component: () => import('components/Settings/Room/index.vue') },
           { path: 'location', component: () => import('components/Settings/Location/index.vue') },
-          { path: 'extras', component: () => import('components/Settings/Extras/index.vue') }
+          { path: 'extras', component: () => import('components/Settings/Extras/index.vue') },
+          { path: 'promo', component: () => import('components/Settings/Promocodes/index.vue') }
         ]
       }
     ]
