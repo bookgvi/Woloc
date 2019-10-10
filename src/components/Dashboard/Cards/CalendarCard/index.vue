@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import NavBar from './Modules/NavBar'
+import NavBar from '../CommonModules/NavBar'
 import Calendar from './Modules/Calendar'
 
 export default {
@@ -38,12 +38,9 @@ export default {
     Calendar,
     NavBar,
   },
-  created () {
-    this.date = this.$moment({ hour: 0 }).parseZone()
-  },
   data () {
     return {
-      date: '',
+      date: this.$moment({ hour: 0 }).parseZone(),
       isAllDay: false,
       studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
     }

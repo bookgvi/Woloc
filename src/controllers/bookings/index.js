@@ -6,6 +6,7 @@ export default {
   data () {
     return {
       calendarList: [],
+      dashboardList: [],
       idOfJustAdded: 0,
     }
   },
@@ -27,6 +28,14 @@ export default {
           this.calendarList = filteredList
           // console.log(filteredList)
         } else this.calendarList = res.data.items
+      }
+      this.loading.list = false
+    },
+    async getForDashBoard (filter) {
+      this.loading.list = true
+      const res = await api.bookings.getForCalendar(filter)
+      if (res) {
+        this.dashboardList = res.data.items
       }
       this.loading.list = false
     },

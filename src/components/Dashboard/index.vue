@@ -9,7 +9,8 @@
         calendar-card
       .col-4
         finances-card
-
+      .col-4
+        bookings-card
 </template>
 
 <script>
@@ -17,10 +18,11 @@ import ProfitCard from './Cards/ProfitCard'
 import PartsCard from './Cards/PartsCard/index'
 import CalendarCard from './Cards/CalendarCard/index'
 import FinancesCard from './Cards/FinancesCard'
+import BookingsCard from './Cards/BookingsCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 

@@ -122,7 +122,6 @@ export default {
     async loadData () {
       const filter = {
         studio: this.studio,
-        rooms: this.rooms
       }
       await this.$app.bookings.getForCalendar({
         ...filter,
