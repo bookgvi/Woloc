@@ -1,21 +1,21 @@
 <template lang="pug">
   .room
     div(v-show="false") {{ studioID }}
-    filters-list(name="settings")
+    filters-list(name="settings" :isFirstPosition="false")
       template(#prepend="props")
         studio-filter(v-bind="props")
       template(#append)
         q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
     .wrapper
       .row.q-pt-md
-        .col-3
+        .col-3.wrapper--plus
           .row(v-for="(room, index) in rooms" :key="index")
             q-btn(
               @click="currentRoom=room.name"
               no-caps
               flat
             ) Зал {{ room.name }}
-        .col-6
+        .col-6.wrapper--plus
           roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom")
           specifications(:singleStudio="singleStudio")
           payment

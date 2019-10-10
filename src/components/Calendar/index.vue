@@ -2,7 +2,7 @@
   .q-pa-none(
     v-if="rerender"
   )
-    filters-list(name="calendar")
+    filters-list(name="calendar" )
       template(#prepend="props")
         studio-filter(v-bind="props")
         rooms-filter(v-bind="props")
