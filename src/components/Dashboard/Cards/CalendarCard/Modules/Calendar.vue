@@ -34,9 +34,9 @@
               :style="triangleStyles(e)"
             )
             .row.col-12
-              span.row.text-body2.ellipsis {{ e.title }}
+              span.row.text-booking.wrap {{ e.title }}
             .row.col-12
-              span.row.text-body2.ellipsis {{ e.details }}
+              span.row.text-booking.wrap {{ e.details }}
 
 </template>
 

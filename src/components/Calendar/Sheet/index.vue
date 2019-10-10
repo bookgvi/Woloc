@@ -40,13 +40,15 @@
               @click="calendarNext"
               color="secondary"
              )
-    template
+    template(
+      style="width: 100%"
+      )
       first-column(
         :isAllDay ="isAllDay"
         @allDayChange="isAllDay=$event"
       )
       q-calendar.row.col-12(
-        style="width: 95%; margin-left: 5%"
+        style="width: 100%; padding-left: 68px"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
         :interval-start="intervalStartCalendar"
@@ -94,9 +96,9 @@
                 :style="triangleStyles(e)"
               )
               .row.col-12
-                span.row.text-body2.ellipsis {{ e.title }}
+                span.row.text-booking.wrap {{ e.title }}
               .row.col-12
-                span.row.text-body2.ellipsis {{ e.details }}
+                span.row.text-booking.wrap {{ e.details }}
       update-event-dialog(
         :dialogState="dialogState"
         :filter="filter"
@@ -128,6 +130,7 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
+      calendarKey: 0,
       isAllDay: false,
       events: [],
       selectedDate: '',
@@ -418,18 +421,18 @@ export default {
             setPositionOfEvents(formattedCurrentDate)
           }
           this.events = allEvents
-          // console.log(this.events)
         })
       },
       deep: true
     },
-    async filter (v) {
+    async filter () {
       await this.loadData()
     },
     async isAllDay (v) {
+      this.$emit('isAllDayChange', v)
       await this.placeEvents()
     },
-    async selectedDate (v) {
+    async selectedDate () {
       await this.placeEvents()
     }
   }
