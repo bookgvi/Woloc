@@ -1,5 +1,7 @@
 <template lang="pug">
-  .calendar
+  .q-pa-none(
+    v-if="rerender"
+  )
     filters-list(name="calendar")
       template(#prepend="props")
         studio-filter(v-bind="props")
@@ -9,6 +11,7 @@
     CalendarSheet(
       :filter="$app.filters.getValues('calendar')"
       :bookings="$app.bookings.calendarList"
+      @isAllDayChange="isAllDay = $event"
     )
 </template>
 
@@ -22,6 +25,12 @@ import PriceFilter from '../Filters/PriceFilter'
 
 export default {
   name: 'Calendar',
+  data () {
+    return {
+      rerender: true,
+      isAllDay: true
+    }
+  },
   components: { EventsFilter, FiltersList, RoomsFilter, StudioFilter, PriceFilter, CalendarSheet }
 }
 </script>

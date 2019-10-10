@@ -1,19 +1,20 @@
 <template lang="pug">
-  q-card
-    q-card-section
-      span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доход"}}
-      span.row.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
-    chart(
-      :options ="options"
-    )
-    nav-bar(
-      :startPeriod="period"
-      @periodChange="period = $event"
-      @dateChange="date = $event"
+  .q-pa-none
+    q-card
+      q-card-section
+        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доход"}}
+        span.row.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
+      chart(
+        :options ="options"
       )
-    options(
-      @checkedChange="checked = $event"
-    )
+      nav-bar(
+        :startPeriod="period"
+        @periodChange="period = $event"
+        @dateChange="date = $event"
+        )
+      options(
+        @checkedChange="checked = $event"
+      )
 </template>
 
 <script>

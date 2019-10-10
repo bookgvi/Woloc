@@ -1,8 +1,7 @@
 <template lang="pug">
-  q-card-section.row
+  q-card-section.row.col-12
     q-btn.q-mr-xs(
       label="Неделя"
-      size="md"
       no-caps
       outline
       @click="setPeriod"
@@ -11,14 +10,12 @@
     q-btn.q-mr-xs(
       outline
       label="Месяц"
-      size="md"
       no-caps
       @click="setPeriod"
       color="secondary"
     )
     q-btn.q-mr-xs(
       outline
-      size="md"
       label="Год"
       no-caps
       @click="setPeriod"
@@ -28,7 +25,6 @@
     q-btn-group(outline)
       q-btn.q-px-sm.q-mx-none(
         @click="periodPrev"
-        size="md"
         outline
         icon="chevron_left"
         color="secondary"
@@ -36,7 +32,6 @@
       q-separator(vertical, inset)
       q-btn.q-px-sm.q-mx-none(
         @click="periodNext"
-        size="md"
         outline
         icon="chevron_right"
         color="secondary"

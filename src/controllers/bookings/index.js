@@ -6,6 +6,7 @@ export default {
   data () {
     return {
       calendarList: [],
+      dashboardList: [],
       idOfJustAdded: 0,
     }
   },
@@ -15,17 +16,28 @@ export default {
       this.loading.list = true
       const res = await api.bookings.getForCalendar(filter)
       if (res) {
-        let filteredList = res.data.items.filter(item => {
-          const min = filter.price.min
-          const max = (filter.price.max === 10000) ? Infinity : filter.price.max
-          if (item.price >= min && item.price <= max &&
-            filter.events.indexOf(item.eventType) !== -1) {
-            return item
-          }
-        })
-        this.calendarList = filteredList
-        this.loading.list = false
+        if (filter.price && filter.events) {
+          let filteredList = res.data.items.filter(item => {
+            const min = filter.price.min
+            const max = (filter.price.max === 10000) ? Infinity : filter.price.max
+            if (item.price >= min && item.price <= max &&
+              filter.events.indexOf(item.eventType) !== -1) {
+              return item
+            }
+          })
+          this.calendarList = filteredList
+          // console.log(filteredList)
+        } else this.calendarList = res.data.items
       }
+      this.loading.list = false
+    },
+    async getForDashBoard (filter) {
+      this.loading.list = true
+      const res = await api.bookings.getForCalendar(filter)
+      if (res) {
+        this.dashboardList = res.data.items
+      }
+      this.loading.list = false
     },
 
     async addNew (payload) {

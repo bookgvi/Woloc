@@ -92,6 +92,7 @@
             calendar-extras.q-pa-md(
               @extrasChange="helpers.checkedExtras = [...$event]"
               :startExtras="[...helpers.checkedExtras]"
+              :roomId="roomId"
             )
           q-expansion-item(
             group="new-event"
@@ -191,11 +192,10 @@ export default {
       }
     },
     room () {
-      if (!this.newBooking.room) {
-        return {}
-      } else {
-        return this.newBooking.room
-      }
+      return (this.newBooking.room) || {}
+    },
+    roomId () {
+      return this.room.id || 0
     },
     extras () {
       if (!this.helpers.checkedExtras) {
@@ -326,11 +326,8 @@ export default {
       this.$nextTick(function () {
         this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
-        const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('k')
+        const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
-        if (hTo === 0) {
-          hTo = 24
-        }
         let checkedExtras = []
         if (this.newBooking.extras) {
           checkedExtras = this.newBooking.extras.map(item => item.name)
