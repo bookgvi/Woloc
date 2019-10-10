@@ -66,15 +66,13 @@ export default {
     },
     rooms () {
       return this.$app.rooms.getAvailable({ studio: this.studio }).map(item => item.id)
-    },
-    studio () {
-      return (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
     }
   },
   props: {
     startDate: Object,
     bookings: Array,
-    isAllDay: Boolean
+    isAllDay: Boolean,
+    studio: Number
   },
   methods: {
     triangleStyles (event) {

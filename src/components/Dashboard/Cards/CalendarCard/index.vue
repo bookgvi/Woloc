@@ -6,6 +6,7 @@
       nav-bar(
         :startDate="date"
         @dateChange="date = $event"
+        @studioChange="studio = $event"
       )
       q-card-section(
         v-if="!isAllDay"
@@ -20,6 +21,7 @@
       )
         span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm {{ "Скрыть 00:00-08:00"}}
       calendar(
+        :studio="studio"
         :startDate="date"
         :isAllDay="isAllDay"
         :bookings="$app.bookings.calendarList"
@@ -42,7 +44,8 @@ export default {
   data () {
     return {
       date: '',
-      isAllDay: false
+      isAllDay: false,
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
     }
   },
   computed: {

@@ -11,6 +11,12 @@
         @click="today"
         color="secondary"
       )
+        q-popup-proxy
+          q-option-group.text-body2.q-px-md.q-pt-md(
+            color="black"
+            :options="$app.studios.forOptions"
+            v-model="studio"
+          )
       q-btn.q-mr-xs.col-3(
         outline
         size="sm"
@@ -34,7 +40,7 @@
           size="sm"
           icon="chevron_right"
           color="secondary"
-        ) {{ dateComp }}
+        ) {{ dateComp }} {{ studioComp }}
 </template>
 
 <script>
@@ -47,8 +53,7 @@ export default {
   data () {
     return {
       date: this.startDate || '',
-      from: '',
-      to: ''
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
     }
   },
   computed: {
@@ -58,6 +63,9 @@ export default {
     },
     dateComp () {
       return this.dateChange()
+    },
+    studioComp () {
+      return this.studioChange()
     }
   },
   methods: {
@@ -72,6 +80,9 @@ export default {
     },
     dateChange () {
       this.$emit('dateChange', this.date)
+    },
+    studioChange () {
+      this.$emit('studioChange', this.studio)
     },
   },
   props: ['startDate'],
