@@ -1,5 +1,6 @@
 <template lang="pug">
   .navTabs
+    q-separator
     q-tabs.wrapper(
       shrink
       align="left"
