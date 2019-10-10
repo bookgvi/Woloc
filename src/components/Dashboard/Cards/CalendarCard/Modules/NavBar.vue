@@ -53,7 +53,7 @@ export default {
   data () {
     return {
       date: this.startDate || '',
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 37
     }
   },
   computed: {
