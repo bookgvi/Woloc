@@ -22,7 +22,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 0,
+      "isPublic": "Персональный",
       "type": "rub",
       "types": [
         {
@@ -61,7 +61,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 1,
+      "isPublic": "Публичный",
       "type": "percent",
       "types": [
         {
@@ -100,7 +100,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 1,
+      "isPublic": "Публичный",
       "type": "percent",
       "types": [
         {
@@ -139,7 +139,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 1,
+      "isPublic": "Публичный",
       "type": "percent",
       "types": [
         {
@@ -178,7 +178,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 1,
+      "isPublic": "Публичный",
       "type": "percent",
       "types": [
         {
@@ -217,7 +217,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 1,
+      "isPublic": "Публичный",
       "type": "percent",
       "types": [
         {
@@ -256,7 +256,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 0,
+      "isPublic": "Персональный",
       "type": "percent",
       "types": [
         {
@@ -295,7 +295,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 1,
+      "isPublic": "Публичный",
       "type": "percent",
       "types": [
         {
@@ -334,7 +334,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 1,
+      "isPublic": "Публичный",
       "type": "percent",
       "types": [
         {
@@ -373,7 +373,7 @@
       "canceledAt": "2018-01-16 12:35:18",
       "deletedAt": "2018-01-16 12:35:18",
       "expiredAt": "2018-01-16 12:35:18",
-      "isPublic": 0,
+      "isPublic": "Персональный",
       "type": "percent",
       "types": [
         {

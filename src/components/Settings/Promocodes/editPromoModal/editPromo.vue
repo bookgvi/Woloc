@@ -36,7 +36,7 @@
         .col.q-pr-sm
           q-input(v-model="row.minPrice" outlined dense)
         .col
-          q-select(v-model="isPublic" :options="statusArr" outlined dense)
+          q-select(v-model="row.isPublic" :options="statusArr" outlined dense)
       .row
         .col.q-pr-sm
           span Период действия
