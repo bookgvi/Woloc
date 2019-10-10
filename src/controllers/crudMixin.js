@@ -14,10 +14,8 @@ export default {
   methods: {
     async getAll (page, filter) {
       this.loading.list = true
-
       const { name } = this.$options
       const { data } = await api[name].getAll(page, filter)
-
       if (data) {
         this.list = data.items
         this.loading.list = false

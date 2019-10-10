@@ -73,19 +73,18 @@ export default {
   },
   methods: {
     async singleStudioM () {
-      if (this.currentStudio !== 'settings') {
-        this.$app.filters.reset('settings')
-        this.currentStudio = 'settings'
-        return
-      }
-      this.currentStudio = 'settings'
-      this.isSave = false
       let { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
       if (!studio) {
         studio = items[0].id
       }
-      this.allStudiosName = items.map(item => item.name)
+      if (this.currentStudio !== 'settings') {
+        this.$app.filters.setValue('settings', 'studio', studio)
+        this.currentStudio = 'settings'
+        return
+      }
+      this.currentStudio = 'settings'
+      this.isSave = false
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.currentRoom = rooms[0].name

@@ -5,20 +5,20 @@
         studio-filter(v-bind="props")
     .wrapper.wrapper--header
       .row
-        ExtrasTable(:singleStudio="singleStudio" :rooms="rooms")
+        promoTable(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :rooms="rooms")
 </template>
 
 <script>
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
 import studios from '../../../api/studios'
-import ExtrasTable from './Table'
+import promoTable from './Table'
 export default {
-  name: 'setting',
+  name: 'promocodes',
   components: {
     StudioFilter,
     FiltersList,
-    ExtrasTable
+    promoTable
   },
   data () {
     return {
@@ -39,10 +39,10 @@ export default {
         this.$app.filters.setValue('settings', 'studio', studio)
       }
       this.currentStudio = 'settings'
-      this.isSave = false
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
+      this.allStudiosName = items.map(item => item.name)
       this.services = this.singleStudio.services
       this.vendors = this.singleStudio.vendors
     }
