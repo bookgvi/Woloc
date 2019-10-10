@@ -42,7 +42,6 @@
              )
     template(
       style="width: 100%"
-      v-if="rerender"
       )
       first-column(
         :isAllDay ="isAllDay"
@@ -133,7 +132,6 @@ export default {
       },
       calendarKey: 0,
       isAllDay: false,
-      rerender: true,
       events: [],
       selectedDate: '',
       dialogState: false,
@@ -428,17 +426,14 @@ export default {
       },
       deep: true
     },
-    async filter (v) {
+    async filter () {
       await this.loadData()
     },
     async isAllDay (v) {
+      this.$emit('isAllDayChange', v)
       await this.placeEvents()
-      this.$nextTick(function () {
-        this.rerender = false
-        this.rerender = true
-      })
     },
-    async selectedDate (v) {
+    async selectedDate () {
       await this.placeEvents()
     }
   }
