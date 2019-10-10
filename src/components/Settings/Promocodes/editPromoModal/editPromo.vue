@@ -42,32 +42,46 @@
           span Период действия
         .col
           span Период действия
-      .row
+      .row.q-pb-md
         .col.q-pr-sm
-          DateRange(
-            class="calendar"
-            :sync-range.sync="range"
-            :lang="lang"
-            v-model="range"
-          )
+          q-input(:value="currentRange1" outlined dense @click="isCalendar1= !isCalendar1")
+          .col(v-if="isCalendar1")
+            DateRange(
+              class="calendar"
+              :sync-range.sync="range1"
+              :lang="lang"
+            )
+            .row
+              .col
+                q-btn(label="Сбросить дату" no-caps @click="resetRange(range1)")
+              .col
+                q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range1)")
         .col.q-pr-sm
-          DateRange(
-            class="calendar"
-            :sync-range.sync="range2"
-            :lang="lang"
-            v-model="range2"
-          )
+          q-input(:value="currentRange2" outlined dense @click="isCalendar2= !isCalendar2")
+          .col(v-if="isCalendar2")
+            DateRange(
+              class="calendar"
+              :sync-range.sync="range2"
+              :lang="lang"
+            )
+            .row
+              .col
+                q-btn(label="Сбросить дату" no-caps @click="resetRange(this.range2)")
+              .col
+                q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range2)")
+
       .row.q-pb-md
         .col-4
           span Заполните только дату начала, если срок действия должен быть неограничен.
       .row.justify-center
         .col-4.q-mr-sm
-          q-btn(label="Удалить" outlined dense no-caps)
+          q-btn(label="Удалить" no-caps)
         .col-4
-          q-btn.bg-primary.text-white(label="Сохранить" outlined dense no-caps)
+          q-btn.bg-primary.text-white(label="Сохранить" no-caps)
 </template>
 
 <script>
+import { date } from 'quasar'
 import RowDialog from '../../../DataTable/RowDialog'
 import { DateRange } from 'vue-date-range'
 export default {
@@ -83,7 +97,8 @@ export default {
   },
   components: {
     RowDialog,
-    DateRange
+    DateRange,
+    date
   },
   data () {
     return {
@@ -91,20 +106,42 @@ export default {
       statusArr: ['Публичный', 'Персональный'],
       type: 'В рублях',
       typeArr: ['В рублях', 'В процентах'],
+      isCalendar1: false,
+      isCalendar2: false,
       lang: 'ru',
-      range: {
+      range1: {
         startDate: this.$moment(),
-        endDate: this.$moment().add(7, 'days')
+        endDate: this.$moment()
       },
       range2: {
         startDate: this.$moment(),
-        endDate: this.$moment().add(7, 'days')
+        endDate: this.$moment()
       }
+    }
+  },
+  computed: {
+    currentRange1: {
+      get () {
+        return `${this.range1.startDate.format('D MMM')} — ${this.range1.endDate.format('D MMM')}`
+      }
+    },
+    currentRange2: {
+      get () {
+        return `${this.range2.startDate.format('D MMM')} — ${this.range2.endDate.format('D MMM')}`
+      }
+    }
+  },
+  methods: {
+    resetRange (range) {
+      range.startDate = this.$moment(Date.now())
+      range.endDate = this.$moment()
+    },
+    applyRange (range) {
+      range === this.range1 ? this.isCalendar1 = false : this.isCalendar2 = false
     }
   }
 }
 </script>
 
 <style scoped>
-
 </style>
