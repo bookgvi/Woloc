@@ -1,6 +1,6 @@
 <template lang="pug">
   .refunds
-    filters-list(name="refunds")
+    filters-list(name="refunds" )
       template(#prepend="props")
         studio-filter(v-bind="props")
         rooms-filter(v-bind="props")

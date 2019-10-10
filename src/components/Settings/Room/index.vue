@@ -1,21 +1,21 @@
 <template lang="pug">
   .room
     div(v-show="false") {{ studioID }}
-    filters-list(name="settings")
+    filters-list(name="settings" :isFirstPosition="false")
       template(#prepend="props")
         studio-filter(v-bind="props")
       template(#append)
         q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
     .wrapper
       .row.q-pt-md
-        .col-3
+        .col-3.wrapper--plus
           .row(v-for="(room, index) in rooms" :key="index")
             q-btn(
               @click="currentRoom=room.name"
               no-caps
               flat
             ) Зал {{ room.name }}
-        .col-6
+        .col-6.wrapper--plus
           roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom")
           specifications(:singleStudio="singleStudio")
           payment
@@ -73,19 +73,18 @@ export default {
   },
   methods: {
     async singleStudioM () {
-      if (this.currentStudio !== 'settings') {
-        this.$app.filters.reset('settings')
-        this.currentStudio = 'settings'
-        return
-      }
-      this.currentStudio = 'settings'
-      this.isSave = false
       let { studio } = this.$app.filters.getValues('settings')
       const { items } = await studios.getAll().then(resp => resp.data)
       if (!studio) {
         studio = items[0].id
       }
-      this.allStudiosName = items.map(item => item.name)
+      if (this.currentStudio !== 'settings') {
+        this.$app.filters.setValue('settings', 'studio', studio)
+        this.currentStudio = 'settings'
+        return
+      }
+      this.currentStudio = 'settings'
+      this.isSave = false
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.currentRoom = rooms[0].name
