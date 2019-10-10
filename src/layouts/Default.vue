@@ -1,7 +1,7 @@
 <template lang="pug">
   q-layout(view="hHh LPr lFf")
     q-header.bg-white.text-grey
-      .wrapper.wrapper--header
+      .wrapper.wrapper--header.wrapper--zero
         Header
     q-page-container
       router-view

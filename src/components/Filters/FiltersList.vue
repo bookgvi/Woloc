@@ -1,23 +1,25 @@
 <template lang="pug">
-  .q-px-none
+  .wrapper.fixed.z-max(
+    style="left: 0; right: 0; background-color: #ffffff"
+    :class="position"
+  )
     q-separator
-    .wrapper
-      .row.items-center.q-py-sm.q-gutter-x-sm
-        slot(
-          name="prepend"
-          :values="values"
-          :onChange="onChange"
+    .row.items-center.q-py-sm.q-gutter-x-sm
+      slot(
+        name="prepend"
+        :values="values"
+        :onChange="onChange"
+      )
+      q-space
+      slot(name="append")
+        q-btn.q-py-none.q-px-sm(
+          outline
+          no-caps
+          label="Сбросить все"
+          dense
+          :disable="isNotFiltered"
+          @click="onReset"
         )
-        q-space
-        slot(name="append")
-          q-btn.q-py-none.q-px-sm(
-            outline
-            no-caps
-            label="Сбросить все"
-            dense
-            :disable="isNotFiltered"
-            @click="onReset"
-          )
     q-separator
 </template>
 
@@ -25,7 +27,11 @@
 export default {
   name: 'filters-list',
   props: {
-    name: String
+    name: String,
+    isFirstPosition: {
+      type: Boolean,
+      default: true
+    }
   },
   computed: {
     values () {
@@ -33,6 +39,9 @@ export default {
     },
     isNotFiltered () {
       return !Object.values(this.values).length
+    },
+    position () {
+      return (this.isFirstPosition) ? { 'wrapper--minus': true } : { 'wrapper--zero': true }
     }
   },
   methods: {

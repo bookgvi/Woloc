@@ -1,6 +1,6 @@
 <template lang="pug">
   .extras
-    filters-list(name="settings")
+    filters-list(name="settings" :isFirstPosition="false")
       template(#prepend="props")
         studio-filter(v-bind="props")
     .wrapper.wrapper--header
