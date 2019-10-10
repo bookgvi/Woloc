@@ -47,7 +47,6 @@
           q-input(:value="currentRange1" outlined dense @click="isCalendar1= !isCalendar1")
           .col(v-if="isCalendar1")
             DateRange(
-              class="calendar"
               :sync-range.sync="range1"
               :lang="lang"
             )
@@ -56,11 +55,10 @@
                 q-btn(label="Сбросить дату" no-caps @click="resetRange(range1)")
               .col
                 q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range1)")
-        .col.q-pr-sm
+        .col
           q-input(:value="currentRange2" outlined dense @click="isCalendar2= !isCalendar2")
           .col(v-if="isCalendar2")
             DateRange(
-              class="calendar"
               :sync-range.sync="range2"
               :lang="lang"
             )
@@ -74,10 +72,10 @@
         .col-4
           span Заполните только дату начала, если срок действия должен быть неограничен.
       .row.justify-center
-        .col-4.q-mr-sm
-          q-btn(label="Удалить" no-caps)
-        .col-4
-          q-btn.bg-primary.text-white(label="Сохранить" no-caps)
+        .col.q-mr-sm
+          q-btn.q-py-md(label="Удалить" no-caps style="width: 100%")
+        .col
+          q-btn.q-py-md.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%")
 </template>
 
 <script>
