@@ -23,10 +23,16 @@ export default {
       return this.extrasChange()
     },
     options () {
-      return this.$app.extras.list.map(({ name }) => ({
-        label: name,
-        value: name,
-      }))
+      let arr = []
+      this.$app.extras.list.forEach(({ title, room }) => {
+        if (room.id === this.roomId) {
+          arr.push({
+            label: title,
+            value: title
+          })
+        }
+      })
+      return arr
     }
   },
   methods: {
@@ -40,6 +46,9 @@ export default {
       default: _ => {
         return []
       }
+    },
+    roomId: {
+      type: Number
     }
   },
 /*  watch: {

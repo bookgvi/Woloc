@@ -92,6 +92,7 @@
             calendar-extras.q-pa-md(
               @extrasChange="helpers.checkedExtras = [...$event]"
               :startExtras="[...helpers.checkedExtras]"
+              :roomId="roomId"
             )
           q-expansion-item(
             group="new-event"
@@ -191,11 +192,10 @@ export default {
       }
     },
     room () {
-      if (!this.newBooking.room) {
-        return {}
-      } else {
-        return this.newBooking.room
-      }
+      return (this.newBooking.room) || {}
+    },
+    roomId () {
+      return this.room.id || 0
     },
     extras () {
       if (!this.helpers.checkedExtras) {
