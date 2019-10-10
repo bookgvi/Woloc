@@ -25,13 +25,16 @@ export default {
       const hours = this.$moment(this.now).format('HH')
       const minutes = this.$moment(this.now).format('mm')
       const position = this.timeStartPos(hours) + +this.timeDurationHeight(1) * minutes
-      const top = (hours >= 8) ? `${position}px` : '0px'
+      let top = `${position}px`
+      if (!this.isAllDay && hours < 8) {
+        top = '0px'
+      }
       return {
         top
       }
     },
   },
-  props: ['timeStartPos', 'timeDurationHeight']
+  props: ['timeStartPos', 'timeDurationHeight', 'isAllDay']
 }
 </script>
 

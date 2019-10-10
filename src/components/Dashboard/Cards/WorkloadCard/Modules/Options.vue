@@ -17,7 +17,7 @@
           q-icon(
             :style="{color: point.color}"
             name="far fa-circle"
-            )
+          )
         q-item-section
           span {{ point.name }}
         q-item-section
@@ -30,7 +30,7 @@
 <script>
 
 export default {
-  name: 'ProfitOptions',
+  name: 'WorkloadOptions',
   data () {
     return {
       checkedOptions: [],
