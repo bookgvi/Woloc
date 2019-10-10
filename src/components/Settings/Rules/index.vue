@@ -122,22 +122,57 @@
             .row
               q-radio(v-model="cleaning" val="first" label="Не требуется")
             .row
-              q-radio(v-model="cleaning" val="second" label="Требуется только ответственному лицу")
+              q-radio(v-model="cleaning" val="second" label="Требуется произвести уборку ")
             .row.q-pb-sm
-              q-radio(v-model="cleaning" val="third" label="Требуется всем участниками")
-            .row.q-pb-sm
-              span Освободить заранее, мин
-            .row.q-pb-sm
-              q-input(v-model="leaveTime" outlined dense)
-            .penalty
-              .row
-                q-checkbox(v-model="isPenalty" label="Установить штраф")
-            .penalty.q-pl-md(v-if="isPenalty")
+              q-radio(v-model="cleaning" val="third" label="Требуется заранее освободить помещение")
+            .penalty(v-if="cleaning === 'third'")
               .row.q-pb-sm
                 span Освободить заранее, мин
-              .row
+              .row.q-pb-sm
                 q-input(v-model="leaveTime" outlined dense)
-
+            .row
+              q-checkbox(v-model="isPenalty" label="Установить штраф")
+            .penalty(v-if="isPenalty")
+              .row.q-pb-sm
+                span Установить штраф
+              .row.q-pb-sm
+                q-input(v-model="extraPay2" outlined dense)
+        .row.q-pb-md
+          .text-h6 Ограничения на самостоятельные манипуляции с оснащением
+        .row.q-pb-xl
+          .col
+            .row
+              q-checkbox(v-model="devices.first" label="Смена насадок")
+            .row
+              q-checkbox(v-model="devices.second" label="Перемещение источников")
+            .row
+              q-checkbox(v-model="devices.third" label="Замена бумажного фона")
+            .row
+              q-checkbox(v-model="devices.fourth" label="Раскатка бумажного фона")
+            .row
+              q-checkbox(v-model="devices.fives" label="Штраф за нарушение")
+        .row.q-pb-md
+          .text-h6 Циклорама
+        .row.q-pb-xl
+          .col
+            .row
+              q-radio(v-model="cyclorama" val="first" label="Нет циклорамы")
+            .row
+              q-radio(v-model="cyclorama" val="second" label="Всегда свежеокрашенная")
+            .row
+              q-radio(v-model="cyclorama" val="third" label="Окрашивается по предварительному согласованию")
+        .row.q-pb-md
+          .text-h6 Прочие правила
+        .row.q-pb-xs
+          span Прочие детали
+        .row.q-pb-sm
+          .col
+            q-input(v-model="someText" type="textarea" rows=3 outlined dense)
+        .row.q-pb-md
+          span Укажите в этом поле дополнительные правила. Они не олжны содержать ссылок на другие сайти и номера телефонов. Здесь так же можно указать размер штрмифов за нарушение правил.
+        .row.q-pb-xl
+          .col-6
+            q-btn.bg-primary.text-white(label="Сохранить" outine dense no-caps style="width: 100%")
 </template>
 
 <script>
@@ -159,7 +194,17 @@ export default {
     price: 100,
     cleaning: 'third',
     leaveTime: 10,
-    isPenalty: true
+    isPenalty: true,
+    extraPay2: 500,
+    devices: {
+      first: true,
+      second: true,
+      third: false,
+      fourth: true,
+      fives: false
+    },
+    cyclorama: 'third',
+    someText: ''
   })
 }
 </script>
