@@ -25,12 +25,15 @@ export default {
   components: { EventsFilter, FiltersList, RoomsFilter, StudioFilter, PriceFilter, CalendarSheet },
   computed: {
     filter () {
-      const studio = this.$app.studios.list[0].id
+      const studio = this.studio
       const filter = {
         studio,
         rooms: this.$app.rooms.getAvailable({ studio }).map(item => item.id)
       }
       return filter
+    },
+    studio () {
+      return (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 37
     }
   }
 
