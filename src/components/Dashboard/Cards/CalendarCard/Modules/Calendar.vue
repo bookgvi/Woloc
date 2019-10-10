@@ -126,7 +126,7 @@ export default {
       await this.$app.bookings.getForCalendar({
         ...filter,
         dateFrom: this.selectedDate,
-        dateTo: this.$moment(this.selectedDate).add(1, 'days').format('YYYY-MM-DD')
+        dateTo: this.selectedDate
       })
     },
   },

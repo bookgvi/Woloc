@@ -2,55 +2,22 @@
   .q-pa-none
     q-card
       q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Бронирования"}}
+        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Загруженность"}}
       nav-bar.q-pb-md(
         @dateChange="selectedDate = $event"
         @studioChange="studio = $event"
       )
-      q-card-section.q-pb-none
-        q-markup-table(
-          separator="none"
-          dense
-          flat
-        )
-          thead.text-left
-            tr
-              th(style="width: 70%")
-                span.text-bold.text-black.text-body2 Клиент • Время
-              th
-                span.text-bold.text-black.text-body2 Оплата, р.
-          tbody
-            tr(
-              v-for="(booking, index) in bookings"
-              :key="index"
-            )
-              td {{ clientSlot(index) }}
-              td
-                span.text-grey.text-caption {{ prepaymentSlot(index) }}
-                span &nbsp
-                span.text-body1 {{ paymentSlot(index) }}
-      q-card-section(
-        v-if="isMiniTable"
-        class="cursor-pointer"
-        @click="isMiniTable = false"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Ещё {{ $app.bookings.dashboardList.length - 3 }}
-      q-card-section(
-        v-else
-        class="cursor-pointer"
-        @click="isMiniTable = true"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Свернуть
-
+      workload-options
 </template>
 
 <script>
 
 import NavBar from '../CommonModules/NavBar'
+import WorkloadOptions from './Modules/Options'
 
 export default {
-  name: 'BookingsCard',
-  components: { NavBar },
+  name: 'WorkloadCard',
+  components: { WorkloadOptions, NavBar },
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),
@@ -71,7 +38,7 @@ export default {
       await this.$app.bookings.getForDashBoard({
         ...filter,
         dateFrom: this.selectedDate.format('YYYY-MM-DD'),
-        dateTo: this.selectedDate.format('YYYY-MM-DD')
+        dateTo: this.$moment(this.selectedDate).add(1, 'days').format('YYYY-MM-DD')
       })
     },
     clientSlot (index) {
