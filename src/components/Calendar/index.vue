@@ -9,7 +9,7 @@
         events-filter(v-bind="props")
         price-filter(v-bind="props")
     CalendarSheet(
-      :filter="filter"
+      :filter="$app.filters.getValues('calendar')"
       :bookings="$app.bookings.calendarList"
       @isAllDayChange="isAllDay = $event"
     )
