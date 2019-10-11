@@ -24,7 +24,7 @@
                 )
                 span {{ item.name }}
       q-card-actions.q-pt-none.q-pl-lg
-        q-btn.q-mr-xs.col-3.text-body2.text-black(
+        q-btn.q-mr-xs.text-body2.text-black(
           outline
           size="sm"
           label="Добавить зал"

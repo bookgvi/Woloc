@@ -55,7 +55,7 @@
 import NavBar from '../CommonModules/NavBar'
 
 export default {
-  name: 'InvoicesCard',
+  name: 'RequestsCard',
   components: { NavBar },
   data () {
     return {

@@ -9,7 +9,8 @@
       .q-px-sm.column.col-4.q-gutter-md
         parts-card
         bookings-card
-        invoices-card
+        requests-card
+        refunds-card
       .q-px-sm.column.col-4.q-gutter-md
         calendar-card
         workload-card
@@ -24,13 +25,14 @@ import FinancesCard from './Cards/FinancesCard'
 import BookingsCard from './Cards/BookingsCard/index'
 import WorkloadCard from './Cards/WorkloadCard/index'
 import LocationsCard from './Cards/LocationsCard/index'
-import InvoicesCard from './Cards/InvoicesCard/index'
+import RequestsCard from './Cards/RequestsCard/index'
 import ChatCard from './Cards/ChatCard/index'
 import RoomsCardsCreator from './Cards/RoomsCardsCreator/index'
+import RefundsCard from './Cards/RefundsCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { RoomsCardsCreator, ChatCard, InvoicesCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 

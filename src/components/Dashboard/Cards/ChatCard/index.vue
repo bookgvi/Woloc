@@ -1,7 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section.q-pb-none
+      q-card-section
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm Чат
       q-card-section
         q-list(style="max-width: 400px")

@@ -3,6 +3,7 @@
     rooms-card.q-mb-md(
       v-for="(item, index) in studios"
       :studio="item"
+      :key="index"
     )
 </template>
 
