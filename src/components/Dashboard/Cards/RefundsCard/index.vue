@@ -11,6 +11,9 @@
           flat
         )
           thead.text-left
+          th(style="width: 80%")
+          th
+          th
           tbody
             tr(
               v-for="(item, index) in options"
