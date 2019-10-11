@@ -13,7 +13,7 @@
               q-item-label
                 span.text-bold.text-body2 {{ item.author }}
                 span &nbsp
-                span.text-body2.bg-cyan.q-pa-xs(
+                span.text-body2.bg-cyan-3.q-pa-xs(
                   v-if="item.isAdmin"
                 ) Админ
               q-item-label(

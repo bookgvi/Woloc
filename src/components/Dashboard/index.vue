@@ -4,7 +4,8 @@
       .q-px-sm.column.col-4.q-gutter-md
         profit-card
         finances-card
-        location-card
+        locations-card
+        rooms-card
       .q-px-sm.column.col-4.q-gutter-md
         parts-card
         bookings-card
@@ -22,13 +23,14 @@ import CalendarCard from './Cards/CalendarCard/index'
 import FinancesCard from './Cards/FinancesCard'
 import BookingsCard from './Cards/BookingsCard/index'
 import WorkloadCard from './Cards/WorkloadCard/index'
-import LocationCard from './Cards/LocationCard/index'
+import LocationsCard from './Cards/LocationsCard/index'
 import InvoicesCard from './Cards/InvoicesCard/index'
 import ChatCard from './Cards/ChatCard/index'
+import RoomsCard from './Cards/RoomsCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { ChatCard, InvoicesCard, LocationCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { RoomsCard, ChatCard, InvoicesCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 

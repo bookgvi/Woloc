@@ -36,7 +36,7 @@
 
 <script>
 export default {
-  name: 'LocationCard',
+  name: 'LocationsCard',
   computed: {
     options () {
       return this.$app.studios.list.map(item => {
