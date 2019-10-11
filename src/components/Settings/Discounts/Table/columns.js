@@ -17,16 +17,20 @@ export default [
   {
     name: 'dayOfWeek',
     label: 'день',
-    format: value => ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье'].filter((
-      item, index) => value === index + 1).pop(),
-    width: 100,
+    format: value => {
+      const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
+      const shortDaysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
+      const getDays = value.map(item => daysOfWeek[item - 1])
+      const getShortDays = value.map(item => shortDaysOfWeek[item - 1])
+      return getDays.length > 1 ? getShortDays.join(', ') : getDays.join(', ')
+    },
     active: true
   },
   {
-    name: 'hoursFrom',
+    name: 'hourFrom',
     label: 'время',
     format: (value, { hourFrom, hourTo }) => [hourFrom, hourTo].map(
-      part => date.formatDate(part, 'H:mm')
+      item => `${item}:00`
     ).join(' — '),
     active: true
   },
