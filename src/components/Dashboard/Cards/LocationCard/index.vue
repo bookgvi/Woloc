@@ -23,7 +23,7 @@
                   name="far fa-circle"
                 )
                 span {{ item.name }}
-      q-card-actions.q-py-none.q-pl-lg
+      q-card-actions.q-pt-none.q-pl-lg
         q-btn.q-mr-xs.col-3.text-body2.text-black(
           outline
           size="sm"
