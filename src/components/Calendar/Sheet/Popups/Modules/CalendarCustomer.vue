@@ -1,15 +1,18 @@
 <template lang="pug">
-  .fit.col-12.row.justify-around.items-center
+  .col-12.row.justify-around.items-center
     .col-12
       q-select.text-body2.text-weight-bold(
         outlined
         fill-input
         hide-selected
-        stack-label
         @filter="filterFn"
         use-input
-        label="Пользователь"
-        :options="$app.customers.searched"
+        input-debounce="1000"
+        hide-dropdown-icon
+        options-dense
+        placeholder="Пользователь"
+        clearable
+        :options="$app.customers.searched.slice(0, 10)"
         :option-value="opt => opt === null ? '' : opt.fullName"
         :option-label="opt => opt === null ? '' : opt.fullName"
         v-model="customer"
@@ -17,19 +20,18 @@
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
-        stack-label
-        readonly
+        read-only
         mask="#(###)###-##-##"
-        label="Телефон"
-        v-model="customer.phone"
+        placeholder="Телефон"
+        v-model="phone"
       )
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
+        read-only
         stack-label
-        readonly
-        label="Эл. почта"
-        v-model="customer.email"
+        placeholder="Эл. почта"
+        v-model="email"
       ) {{ customerComp }}
 </template>
 
@@ -50,21 +52,35 @@ export default {
   computed: {
     customerComp () {
       return this.customerChange()
+    },
+    phone: {
+      get () {
+        return (this.customer) ? this.customer.phone : ''
+      },
+      set (v) {
+        this.customer.phone = v
+      }
+    },
+    email: {
+      get () {
+        return (this.customer) ? this.customer.email : ''
+      },
+      set (v) {
+        this.customer.email = v
+      }
     }
   },
   methods: {
     customerChange () {
       this.$emit('customerChange', this.customer)
     },
-    filterFn (val, update, abort) {
-      if (val.length < 1) {
+    async filterFn (val, update, abort) {
+      if (!val || val.length < 1) {
         abort()
         return
       }
-      update(() => {
-        const needle = val.toLowerCase()
-        this.$app.customers.getForCalendar(needle)
-      })
+      await this.$app.customers.getForCalendar(val.toLowerCase())
+      update()
     }
   },
   props: {
@@ -83,7 +99,13 @@ export default {
   watch: {
     startCustomer: {
       handler (v) {
-        this.customer = Object.assign(v)
+        this.customer = (v) ? Object.assign(v)
+          : {
+            firstName: '',
+            fullName: '',
+            phone: '',
+            email: ''
+          }
       },
       immediate: true
     }

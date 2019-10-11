@@ -2,10 +2,13 @@
   q-card-section
     q-list
       q-item
+        q-item-section(avatar)
         q-item-section.text-bold
           span {{ "Зал" }}
+        q-item-section.text-bold
+          span {{ "%" }}
         q-item-section(side).text-bold
-          span {{ "% р." }}
+          span {{ "р." }}
       q-item(
         v-for="(point, index) in chartData"
         :key="index"

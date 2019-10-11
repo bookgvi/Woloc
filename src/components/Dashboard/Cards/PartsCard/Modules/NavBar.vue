@@ -1,41 +1,36 @@
 <template lang="pug">
-  q-card-section.row
-    q-btn.q-mr-md(
+  q-card-section.row.col-12
+    q-btn.q-mr-md.col-2(
       label="Студия"
-      size="md"
       no-caps
       outline
       color="secondary"
     )
-    q-btn.q-mr-xs(
+    q-btn.q-mr-xs.col-2(
       label="Неделя"
-      size="md"
       no-caps
       outline
       @click="setPeriod"
       color="secondary"
     )
-    q-btn.q-mr-xs(
+    q-btn.q-mr-xs.col-2(
       outline
       label="Месяц"
-      size="md"
       no-caps
       @click="setPeriod"
       color="secondary"
     )
-    q-btn.q-mr-xs(
+    q-btn.q-mr-xs.col-2(
       outline
-      size="md"
       label="Квартал"
       no-caps
       @click="setPeriod"
       color="secondary"
     )
     q-space
-    q-btn-group(outline)
+    q-btn-group(outline).col-2.justify-center
       q-btn.q-px-sm.q-mx-none(
         @click="periodPrev"
-        size="md"
         outline
         icon="chevron_left"
         color="secondary"
@@ -43,7 +38,6 @@
       q-separator(vertical, inset)
       q-btn.q-px-sm.q-mx-none(
         @click="periodNext"
-        size="md"
         outline
         icon="chevron_right"
         color="secondary"

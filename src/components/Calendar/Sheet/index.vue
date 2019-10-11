@@ -40,14 +40,19 @@
               @click="calendarNext"
               color="secondary"
              )
-    template
-      first-column
+    template(
+      style="width: 100%"
+      )
+      first-column(
+        :isAllDay ="isAllDay"
+        @allDayChange="isAllDay=$event"
+      )
       q-calendar.row.col-12(
-        style="width: 95%; margin-left: 5%"
+        style="width: 100%; padding-left: 68px"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
-        :interval-start="8"
-        :interval-count="16"
+        :interval-start="intervalStartCalendar"
+        :interval-count="intervalCountCalendar"
         v-model="selectedDate"
         view="week"
         locale="ru-ru"
@@ -55,20 +60,23 @@
         hour24-format
         short-weekday-label
         column-header-before
-        )
+      )
         template.row(#interval="{ time, date }")
           .row.fit.q-pa-none(
             @click="setNewBooking(date, time)"
             )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md
-            span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
+            span.ellipsis.text-uppercase.text-body2.text-weight-bold(
+              :style="dayHeaderStyle(date)"
+            ) {{ dayHeader(date) }}
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           timeline(
             :timeStartPos="timeStartPos"
             :timeDurationHeight="timeDurationHeight"
+            :isAllDay ="isAllDay"
           )
-          q-badge.absolute-top(
+          q-badge.absolute-top.block.q-pa-none(
             multi-line
             v-for="(e, index) in events"
             :value="e"
@@ -77,12 +85,20 @@
             @click="findBooking(index)"
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
-            .row.col-12.justify-start.q-px-xs
-              q-icon.row.justify-start(v-if="e.icon", :name="e.icon")
+            .row.col-12.justify-start.q-pl-xs
+              q-icon.col-1.row.justify-start(v-if="e.icon", :name="e.icon")
+              .q-pa-none.col-1.offset-4(
+                v-if="e.isNotFullVisible"
+                :style="arrowUpStyles(e)"
+              )
+              .q-pa-none.col-1(
+                v-if="e.isExtras"
+                :style="triangleStyles(e)"
+              )
               .row.col-12
-                span.text-body2.ellipsis {{ e.title }}
+                span.row.text-booking.wrap {{ e.title }}
               .row.col-12
-                span.text-body2.ellipsis {{ e.details }}
+                span.row.text-booking.wrap {{ e.details }}
       update-event-dialog(
         :dialogState="dialogState"
         :filter="filter"
@@ -114,6 +130,8 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
+      calendarKey: 0,
+      isAllDay: false,
       events: [],
       selectedDate: '',
       dialogState: false,
@@ -124,6 +142,12 @@ export default {
     this.calendarToday()
   },
   computed: {
+    intervalStartCalendar () {
+      return this.isAllDay ? 0 : 8
+    },
+    intervalCountCalendar () {
+      return this.isAllDay ? 24 : 16
+    },
     selectedStudioLabel () {
       return this.studio ? this.studio.name : ''
     },
@@ -138,6 +162,10 @@ export default {
     }
   },
   methods: {
+    formatPrice (price) {
+      const fixed = +Number(price).toFixed()
+      return fixed.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+    },
     setNewBooking (date, time) {
       this.selectedBooking = Object.assign({}, {
         id: 8983249234,
@@ -157,10 +185,18 @@ export default {
     },
     async findBooking (index) {
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      // console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
       return this.$moment(dt).format('ddd D')
+    },
+    dayHeaderStyle (dt) {
+      if (this.$moment(dt).isSame(this.$moment(), 'day')) {
+        return {
+          color: 'blue'
+        }
+      }
     },
     async loadData () {
       await this.$app.bookings.getForCalendar({
@@ -179,21 +215,16 @@ export default {
       await this.loadData()
     },
     getDate (timestamp) {
-      if (+this.$moment.parseZone(timestamp).format('HH') === 0) {
-        timestamp = this.$moment(timestamp).subtract(1, 'days')
-      }
-      return this.$moment.parseZone(timestamp).format('YYYY-MM-DD')
+      return timestamp.format('YYYY-MM-DD')
     },
     getTime (timestamp, mask = 'HH:mm') {
-      const hours = this.$moment.parseZone(timestamp).format('HH') !== '00' ? this.$moment.parseZone(timestamp).format(mask) : 24
-      return hours
+      return timestamp.format(mask)
     },
     getColor ({ room: { id } }) {
       if (!(id in usedColors)) {
         const i = Object.keys(usedColors).length
         usedColors[id] = roomsColors[i < roomsColors.length ? i : 0]
       }
-
       return usedColors[id].color
     },
     setIcon (action) {
@@ -203,6 +234,26 @@ export default {
     setOrder (room) {
       const order = this.rooms.findIndex(item => item.name === room)
       return order
+    },
+    triangleStyles (event) {
+      let s = {
+        'width': '0',
+        'height': '0',
+        'border-top': `10px solid ${colors.lighten(event.bgcolor, -30)}`,
+        'border-left': '10px solid transparent',
+        'margin': '0 0 0 auto'
+      }
+      return s
+    },
+    arrowUpStyles (event) {
+      let s = {
+        'width': '0',
+        'height': '0',
+        'border-left': '5px solid transparent',
+        'border-right': '5px solid transparent',
+        'border-bottom': `10px solid ${colors.lighten(event.bgcolor, -30)}`
+      }
+      return s
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {
@@ -250,25 +301,38 @@ export default {
         let bookings = []
         this.$nextTick(function () {
           v.map((booking) => {
-            const diff = this.$moment(booking.reservedTo)
-              .diff(booking.reservedFrom, 'minutes')
+            let from = this.$moment(booking.reservedFrom).parseZone()
+            let to = this.$moment(booking.reservedTo).parseZone()
+            let isNotFullVisible = false
+            if (!this.isAllDay) {
+              if (from.hour() < 8) {
+                from.hour(8)
+                isNotFullVisible = true
+              }
+              if (to.hour() < 8 && to.hour() > 0) {
+                to.hour(8)
+              }
+            }
+            const diff = to.diff(from, 'minutes')
             let title = ''
             if (booking.customer && booking.customer.firstName) {
               title = booking.customer.firstName
             }
             const event = {
               id: booking.id,
+              isNotFullVisible,
+              isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
-              details: `${booking.amount}/${booking.price}`,
-              date: this.getDate(booking.reservedFrom),
-              time: this.getTime(booking.reservedFrom),
+              details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
+              date: this.getDate(from),
+              time: this.getTime(from),
               duration: diff,
               bgcolor: this.getColor(booking),
               icon: this.setIcon(booking.eventType),
               devInfo: {
                 time: {
-                  from: +this.getTime(booking.reservedFrom, 'H'),
-                  to: +this.getTime(booking.reservedTo, 'H')
+                  from: +this.getTime(from, 'HH'),
+                  to: +this.getTime(to, 'H') !== 0 ? +this.getTime(to, 'H') : 24
                 },
                 room: booking.room.name
               },
@@ -302,7 +366,7 @@ export default {
                 const e = bookings[i]
                 const timeFrom = e.devInfo.time.from
                 const timeTo = e.devInfo.time.to
-                if (e.date === dt && +timeFrom >= 8) {
+                if (e.date === dt && e.duration > 0) {
                   if (this.setOrder(e.devInfo.room) === order) {
                     let col = posArray.length - 1
                     if (col !== 0) {
@@ -361,11 +425,15 @@ export default {
       },
       deep: true
     },
-    async filter (v) {
+    async filter () {
       await this.loadData()
     },
-    selectedDate (v) {
-      this.placeEvents()
+    async isAllDay (v) {
+      this.$emit('isAllDayChange', v)
+      await this.placeEvents()
+    },
+    async selectedDate () {
+      await this.placeEvents()
     }
   }
 }

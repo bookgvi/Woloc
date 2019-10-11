@@ -62,7 +62,7 @@ export default {
 
 <style lang="stylus">
   .q-card
-    width 620px
+    min-width 700px
   .q-field--float
     .q-field__label
       transform none
