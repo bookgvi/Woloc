@@ -1,9 +1,9 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
+      q-card-section.q-pb-none
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm Возвраты
-      q-card-section
+      q-card-section.q-pt-none
         q-markup-table(
           separator="none"
           style="max-width: 400px"
@@ -11,9 +11,10 @@
           flat
         )
           thead.text-left
-          th(style="width: 80%")
-          th
-          th
+            tr
+              th(style="width: 80%")
+              th
+              th
           tbody
             tr(
               v-for="(item, index) in options"
