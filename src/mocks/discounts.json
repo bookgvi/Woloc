@@ -1,0 +1,30 @@
+{
+  "items": [
+    {
+      "id": 1,
+      "isActive": 1,
+      "minHours": 5,
+      "dayOfWeek": 1,
+      "users": {
+        "id": 3,
+        "name": "Марк"
+      },
+      "room": {
+        "id": 27,
+        "name": "Большой зал"
+      },
+      "studios": {
+        "id": 339,
+        "name": "PhotoFilmStudio"
+      },
+      "hourFrom": 9,
+      "hourTo": 14,
+      "percent": 20,
+      "deletedAt": "2016-06-23 22:25:35",
+      "expiredAt": "2018-08-31 23:59:59",
+      "updatedAt": null,
+      "createdAt": "2015-12-31 21:00:00",
+      "startedAt": null
+    }
+  ]
+}
