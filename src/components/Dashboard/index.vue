@@ -1,18 +1,16 @@
 <template lang="pug">
   .wrapper
-    .q-py-md.row.col-12.q-col-gutter-sm
-      .col-4
+    .row.q-pa-mg.col-12.justify-center
+      .q-px-sm.column.col-4.q-gutter-md
         profit-card
-      .col-4
-        parts-card
-      .col-4
-        calendar-card
-      .col-4
         finances-card
-      .col-4
+      .q-px-sm.column.col-4.q-gutter-md
+        parts-card
         bookings-card
-      .col-4
+      .q-px-sm.column.col-4.q-gutter-md
+        calendar-card
         workload-card
+
 </template>
 
 <script>
