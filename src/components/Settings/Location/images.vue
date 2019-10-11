@@ -4,8 +4,6 @@
     .row.q-pb-sm
       .col
         q-btn.q-btn--no-uppercase(label="Выбрать файл" outline dense)
-      .col-2
-        q-toggle(v-model="isShow" title="Показать все фото")
     .row.no-wrap.q-pb-lg(v-if="!isShow")
       draggable(v-model="images")
         .inline-block(v-for="index in 4" :key="index" title="Drag and drop")
@@ -16,6 +14,14 @@
         .inline-block(v-for="(item, index) in images" :key="index" title="Drag and drop")
           q-img.q-mr-sm.q-mb-sm.cursor-pointer(:src="item.url" style="height: 140px; width: 140px")
             q-btn.absolute-top-right(icon="close" class="block" dense flat color="white" title="close")
+    .row
+      .col
+        .cursor-pointer(v-if="!isShow" @click="isShow = !isShow" style="font-size: 18px")
+          q-icon(name="keyboard_arrow_down")
+          span.text-primary &nbsp; Показать все {{ images.length }} изображений
+        .cursor-pointer(v-if="isShow" @click="isShow = !isShow" style="font-size: 18px")
+          q-icon(name="keyboard_arrow_up")
+          span.text-primary &nbsp; Скрыть все изображения
 </template>
 
 <script>
