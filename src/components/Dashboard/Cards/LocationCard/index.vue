@@ -1,13 +1,9 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Загруженность"}}
-      nav-bar.q-pb-md(
-        @dateChange="selectedDate = $event"
-        @studioChange="studio = $event"
-      )
       q-card-section.q-pb-none
+        span.row.text-bold.text-body1.q-pt-md.q-pl-sm Локации
+      q-card-section.q-py-none
         q-markup-table.q-pb-md(
           separator="none"
           dense
@@ -15,59 +11,46 @@
         )
           thead.text-left
             tr
-              th(style="width: 70%")
-                span.text-bold.text-black.text-body2 Зал
-              th
-                span.text-bold.text-black.text-body2 %
-              th
-                span.text-bold.text-black.text-body2 часы
+              th(style="width: 100%")
           tbody
             tr(
-              v-for="(load, index) in options"
+              v-for="(item, index) in options"
               :key="index"
             )
               td
                 q-icon.q-mr-md(
-                  :style="{color: load.color}"
+                  :style="{color: item.color}"
                   name="far fa-circle"
                 )
-                span {{ load.name }}
-              td
-                span.text-grey.text-caption {{ load.percents }}
-              td
-                span.text-body1 {{ load.hours }}
+                span {{ item.name }}
+      q-card-actions.q-py-none.q-pl-lg
+        q-btn.q-mr-xs.col-3.text-body2.text-black(
+          outline
+          size="sm"
+          label="Добавить локацию"
+          no-caps
+          @click="addLocation"
+          color="secondary"
+        )
 </template>
 
 <script>
-
-import NavBar from '../CommonModules/NavBar'
-
 export default {
-  name: 'WorkloadCard',
-  components: { NavBar },
-  data () {
-    return {
-      selectedDate: this.$moment({ hour: 0 }).parseZone(),
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
-    }
-  },
+  name: 'LocationCard',
   computed: {
-    rooms () {
-      return this.$app.rooms.getAvailable({ studio: this.studio })
-    },
     options () {
-      if (!this.rooms) return []
-      return this.rooms.map(item => {
+      return this.$app.studios.list.map(item => {
         return {
           name: item.name,
-          color: '#' + ((1 << 24) * Math.random() | 0).toString(16),
-          hours: item.name.length,
-          percents: item.name.length * 5
+          color: '#' + ((1 << 24) * Math.random() | 0).toString(16)
         }
       })
     }
   },
   methods: {
+    addLocation () {
+      //
+    }
   }
 }
 </script>
