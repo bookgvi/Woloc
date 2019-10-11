@@ -40,7 +40,6 @@ export default {
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
     }
   },
   computed: {
@@ -64,6 +63,9 @@ export default {
     addRoom () {
       //
     }
+  },
+  props: {
+    studio: Number
   }
 }
 </script>
