@@ -28,9 +28,9 @@
             )
               td {{ clientSlot(index) }}
               td
-                q-icon.text-booking.text-bold(
-                  v-if="index % 3 === 0"
-                  :style="{color: 'red'}"
+                q-icon(
+                  size="7px"
+                  color="red"
                   name="fas fa-circle"
                 )
               td

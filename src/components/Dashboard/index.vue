@@ -12,7 +12,7 @@
       .q-px-sm.column.col-4.q-gutter-md
         calendar-card
         workload-card
-
+        chat-card
 </template>
 
 <script>
@@ -24,12 +24,14 @@ import BookingsCard from './Cards/BookingsCard/index'
 import WorkloadCard from './Cards/WorkloadCard/index'
 import LocationCard from './Cards/LocationCard/index'
 import InvoicesCard from './Cards/InvoicesCard/index'
+import ChatCard from './Cards/ChatCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { InvoicesCard, LocationCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { ChatCard, InvoicesCard, LocationCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 
 <style scoped>
+
 </style>
