@@ -3,7 +3,7 @@
     filters-list(name="settings")
       template(#prepend="props")
         studio-filter(v-bind="props")
-    .wrapper.wrapper--header
+    .q-pa-none.wrapper--header
       .row
         promoTable(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :rooms="rooms")
 </template>

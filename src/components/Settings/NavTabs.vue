@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    .wrapper.wrapper--zero.fixed.z-top(
+    .fixed.z-top(
       style="left: 0; right: 0; background-color: #fff; height: 45px"
     )
       q-separator
@@ -20,7 +20,7 @@
           :to="route.to"
           :label="route.label"
         )
-    .wrapper.z-fab
+    .q-pa-none.z-fab
       router-view
 </template>
 

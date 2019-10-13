@@ -3,7 +3,7 @@
     filters-list(name="settings" :isFirstPosition="false")
       template(#prepend="props")
         studio-filter(v-bind="props")
-    .wrapper.wrapper--header
+    .wrapper--header
       .row
         ExtrasTable(:singleStudio="singleStudio" :rooms="rooms")
 </template>

@@ -1,10 +1,10 @@
 <template lang="pug">
   q-layout(view="hHh LPr lFf")
     q-header.bg-white.text-grey
-      .wrapper.wrapper--zero.wrapper--header
+      .wrapper.wrapper--header
         site-header
     q-page-container
-      .wrapper.wrapper--zero.wrapper--header
+      .wrapper
         router-view
 </template>
 
