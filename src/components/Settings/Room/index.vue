@@ -1,12 +1,13 @@
 <template lang="pug">
   .room
     div(v-show="false") {{ studioID }}
-    filters-list(name="settings" :isFirstPosition="false")
-      template(#prepend="props")
-        studio-filter(v-bind="props")
-      template(#append)
-        q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
-    .q-pa-none
+    .menu.menu--menu2
+      filters-list(name="settings" :isFirstPosition="false")
+        template(#prepend="props")
+          studio-filter(v-bind="props")
+        template(#append)
+          q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
+    .content--content2
       .row.q-pt-md
         .col-3
           .row(v-for="(room, index) in rooms" :key="index")

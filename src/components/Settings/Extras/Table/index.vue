@@ -1,5 +1,5 @@
 <template lang="pug">
-  .table
+  .table.wrapper.wrapper--header
     DataTable(
       title="Дополнительные услуги"
       :loadData="$app.extras.getAll"

@@ -1,11 +1,11 @@
 <template lang="pug">
   .location
-    filters-list(name="settings" :isFirstPosition="false")
-      template(#prepend="props")
-        studio-filter(v-bind="props")
-      template(#append)
-        q-btn.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" @click="$emit('newStudio')")
-    .q-pa-none
+    .menu.menu--menu2
+      filters-list(name="settings" :isFirstPosition="false")
+        template(#prepend="props")
+          studio-filter(v-bind="props")
+        template(#append)
+          q-btn.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" @click="$emit('newStudio')")
       .row.justify-center.q-pb-md
         .col-6
           dataBlock(:singleStudio="singleStudio")

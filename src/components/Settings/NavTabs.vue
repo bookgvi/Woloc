@@ -1,8 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    .fixed.z-top(
-      style="left: 0; right: 0; background-color: #fff; height: 45px"
-    )
+    .menu
       q-separator
       q-tabs(
         shrink
@@ -20,7 +18,7 @@
           :to="route.to"
           :label="route.label"
         )
-    .q-pa-none.z-fab
+    .content
       router-view
 </template>
 
