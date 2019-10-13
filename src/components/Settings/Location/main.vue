@@ -1,7 +1,7 @@
 <template lang="pug">
   .location
     .menu.menu--menu2
-      filters-list(name="settings" :isFirstPosition="false")
+      filters-list(name="settings")
         template(#prepend="props")
           studio-filter(v-bind="props")
         template(#append)

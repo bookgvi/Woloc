@@ -25,10 +25,6 @@ export default {
   name: 'filters-list',
   props: {
     name: String,
-    isFirstPosition: {
-      type: Boolean,
-      default: true
-    }
   },
   computed: {
     values () {
@@ -36,9 +32,6 @@ export default {
     },
     isNotFiltered () {
       return !Object.values(this.values).length
-    },
-    position () {
-      return (this.isFirstPosition) ? { 'wrapper--minus': true } : { 'wrapper--zero': true }
     }
   },
   methods: {
