@@ -8,7 +8,8 @@ module.exports = function (ctx) {
     boot: [
       'i18n',
       'moment',
-      'vuelidate'
+      'vuelidate',
+      'eventBus'
     ],
 
     css: [

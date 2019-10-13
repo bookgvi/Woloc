@@ -8,14 +8,14 @@
         q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
     .wrapper
       .row.q-pt-md
-        .col-3.wrapper--plus
+        .col-3
           .row(v-for="(room, index) in rooms" :key="index")
             q-btn(
               @click="currentRoom=room.name"
               no-caps
               flat
             ) Зал {{ room.name }}
-        .col-6.wrapper--plus
+        .col-6
           roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom")
           specifications(:singleStudio="singleStudio")
           payment

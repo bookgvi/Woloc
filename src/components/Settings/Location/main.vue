@@ -6,7 +6,7 @@
       template(#append)
         q-btn.q-btn--no-uppercase(label="Добавить локацию" dense color="primary" @click="$emit('newStudio')")
     .wrapper
-      .row.justify-center.q-pb-md.wrapper--plus
+      .row.justify-center.q-pb-md
         .col-6
           dataBlock(:singleStudio="singleStudio")
           specifications(:singleStudio="singleStudio")

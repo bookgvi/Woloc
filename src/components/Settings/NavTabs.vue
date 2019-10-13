@@ -1,26 +1,27 @@
 <template lang="pug">
-  .navTabs
-    .q-pa-xs
-    q-separator.wrapper.wrapper--zero.fixed(
-      style="left: 0; right: 0; background-color: #fff")
-    q-tabs.wrapper.wrapper--zero.fixed.z-max(
+  .q-pa-none
+    .wrapper.wrapper--zero.fixed.z-top(
       style="left: 0; right: 0; background-color: #fff; height: 45px"
-      shrink
-      bordered
-      align="left"
-      animated
-      no-caps
-      active-color="black"
-      narrow-indicator
-      dense
     )
-      q-route-tab(
-        v-for="(route, index) in settings"
-        :key="index"
-        :to="route.to"
-        :label="route.label"
+      q-separator
+      q-tabs(
+        shrink
+        bordered
+        align="left"
+        animated
+        no-caps
+        active-color="black"
+        narrow-indicator
+        dense
       )
-    router-view
+        q-route-tab(
+          v-for="(route, index) in settings"
+          :key="index"
+          :to="route.to"
+          :label="route.label"
+        )
+    .wrapper.z-fab
+      router-view
 </template>
 
 <script>
