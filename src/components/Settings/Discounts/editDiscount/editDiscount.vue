@@ -50,7 +50,7 @@
       .col.q-pr-sm
         span Период действия
       .col
-        span Период действия
+        span Время действия
     .row.q-pb-md
       .col.q-pr-sm
         q-input.q-pt-sm(:value="currentRange1" outlined dense @click="isCalendar1= !isCalendar1")
@@ -65,17 +65,7 @@
             .col
               q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range1)")
       .col
-        q-input.q-pt-sm(:value="currentRange2" outlined dense @click="isCalendar2= !isCalendar2")
-        .col(v-if="isCalendar2")
-          DateRange(
-            :sync-range.sync="range2"
-            :lang="lang"
-          )
-          .row
-            .col
-              q-btn(label="Сбросить дату" no-caps @click="resetRange(this.range2)")
-            .col
-              q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range2)")
+        .col
 
     .row.q-pb-md
       .col
@@ -89,7 +79,6 @@
 
 <script>
 import { date } from 'quasar'
-import RowDialog from '../../../DataTable/RowDialog'
 import { DateRange } from 'vue-date-range'
 export default {
   props: {
@@ -103,7 +92,6 @@ export default {
     singleStudio: Object
   },
   components: {
-    RowDialog,
     DateRange,
     date
   },
