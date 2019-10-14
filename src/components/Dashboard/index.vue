@@ -14,6 +14,7 @@
         requests-card
         refunds-card
         promocodes-card
+        notes-card
       .q-px-sm.column.col-4.q-gutter-md
         calendar-card
         workload-card
@@ -37,10 +38,11 @@ import PromocodesCard from './Cards/PromocodesCard/index'
 import ReviewsCard from './Cards/ReviewsCard/index'
 import DocumentsCard from './Cards/DocumentsCard/index'
 import NotificationsCard from './Cards/NotificationsCard/index'
+import NotesCard from './Cards/NotesCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { NotificationsCard, DocumentsCard, ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { NotesCard, NotificationsCard, DocumentsCard, ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 
