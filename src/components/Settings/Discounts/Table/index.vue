@@ -26,6 +26,9 @@ import columns from './columns'
 import details from './details'
 import DataTable from 'components/DataTable'
 import editDiscount from '../editDiscount/editDiscount'
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
+import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
+
 export default {
   props: {
     singleStudio: Object,
@@ -33,7 +36,7 @@ export default {
     allStudiosName: Array
   },
   name: 'promoTable',
-  components: { DataTable, editDiscount },
+  components: { DataTable, editDiscount, VueCtkDateTimePicker },
   data: () => ({
     columns,
     details,
@@ -54,4 +57,7 @@ export default {
 </script>
 
 <style scoped>
+  .q-card {
+    overflow: visible;
+  }
 </style>

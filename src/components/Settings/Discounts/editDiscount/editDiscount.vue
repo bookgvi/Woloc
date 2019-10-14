@@ -51,22 +51,38 @@
         span Период действия
       .col
         span Время действия
-    .row.q-pb-md
+    .row
       .col.q-pr-sm
-        q-input.q-pt-sm(:value="currentRange1" outlined dense @click="isCalendar1= !isCalendar1")
-        .col(v-if="isCalendar1")
-          DateRange(
-            :sync-range.sync="range1"
-            :lang="lang"
+        VueCtkDateTimePicker.q-pt-sm(
+          v-model="dateRange"
+          color="#81AEB6"
+          formatted="D MMMM Y"
+          range
+          no-shortcuts
+          no-label
+          :label="showDateRange"
+        )
+      .col
+        q-input.q-pt-sm(:value="showTimeRange" @click="isTimeRange = !isTimeRange" outlined dense)
+        .timeRange(v-if="isTimeRange" style="width: 100%;")
+          q-range(
+            v-model="rangeTime"
+            :min="0"
+            :max="23"
+            :step="1"
+            drag-range
+            :left-label-value="rangeTime.min + ':00'"
+            :right-label-value="rangeTime.max + ':00'"
+            label-always
+            markers
+            snap
+            color="#81AEB6"
           )
           .row
+            .col.q-pr-sm
+              q-btn.bg-primary.text-white(label="Сохранить" style="width: 100%" @click="timeRangeSave")
             .col
-              q-btn(label="Сбросить дату" no-caps @click="resetRange(range1)")
-            .col
-              q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range1)")
-      .col
-        .col
-
+              q-btn(label="Сбросить" style="width: 100%" @click="timeRangeReset")
     .row.q-pb-md
       .col
         span Заполните только дату начала, если срок действия должен быть неограничен.
@@ -80,6 +96,7 @@
 <script>
 import { date } from 'quasar'
 import { DateRange } from 'vue-date-range'
+import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
 export default {
   props: {
     getTitle: Function,
@@ -93,6 +110,7 @@ export default {
   },
   components: {
     DateRange,
+    VueCtkDateTimePicker,
     date
   },
   data () {
@@ -106,41 +124,36 @@ export default {
         sat: false,
         sun: false
       },
-      isCalendar1: false,
-      isCalendar2: false,
-      lang: 'ru',
-      range1: {
-        startDate: this.$moment(),
-        endDate: this.$moment()
-      },
-      range2: {
-        startDate: this.$moment(),
-        endDate: this.$moment()
+      dateRange: '',
+      dateLabel: '',
+      isTimeRange: false,
+      rangeTime: {
+        min: this.row.hourFrom,
+        max: this.row.hourTo
       }
     }
   },
   computed: {
-    currentRange1: {
-      get () {
-        return `${this.range1.startDate.format('D MMM')} — ${this.range1.endDate.format('D MMM')}`
-      }
+    showDateRange () {
+      return `${date.formatDate(this.row.expiredAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM')}`
     },
-    currentRange2: {
-      get () {
-        return `${this.range2.startDate.format('D MMM')} — ${this.range2.endDate.format('D MMM')}`
-      }
+    showTimeRange () {
+      return `${this.rangeTime.min}:00 — ${this.rangeTime.max}:00`
     }
   },
   methods: {
-    resetRange (range) {
-      range.startDate = this.$moment(Date.now())
-      range.endDate = this.$moment()
-    },
     hasModal () {
       this.$emit('hasModal')
     },
-    applyRange (range) {
-      range === this.range1 ? this.isCalendar1 = false : this.isCalendar2 = false
+    timeRangeReset () {
+      this.isTimeRange = false
+      this.rangeTime.min = this.row.hourFrom
+      this.rangeTime.max = this.row.hourTo
+    },
+    timeRangeSave () {
+      this.isTimeRange = false
+      this.row.hourFrom = this.rangeTime.min
+      this.row.hourTo = this.rangeTime.max
     }
   }
 }
