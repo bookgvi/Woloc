@@ -16,19 +16,21 @@
           services(:services="services")
           equipment(:vendors="vendors")
           rooms(:rooms="rooms")
-
-          q-btn.bg-primary.text-white.q-px-xl.q-mr-sm(
-            label="Сохранить"
-            no-caps
-            @click="$emit('updateStudio', services, vendors)"
-            :disable='isSave'
-          )
-          q-btn.q-mr-sm(
-            label="Сохранить и создать зал"
-            no-caps
-            :disable='!isSave'
-            @click="$emit('createNewStudio')"
-          )
+          .row.col-12.justify-center.q-pt-md
+            .col-6.q-pr-sm
+              q-btn.fit.bg-primary.text-white(
+                label="Сохранить"
+                no-caps
+                @click="$emit('updateStudio', services, vendors)"
+                :disable='isSave'
+              )
+            .col-6.q-pl-sm
+              q-btn.fit(
+                label="Сохранить и создать зал"
+                no-caps
+                :disable='!isSave'
+                @click="$emit('createNewStudio')"
+              )
 </template>
 
 <script>
