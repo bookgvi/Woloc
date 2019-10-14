@@ -9,6 +9,8 @@
       )
       q-card-section.q-pb-none
         q-markup-table(
+          style="min-width: 350px"
+          wrap-cells
           separator="none"
           dense
           flat

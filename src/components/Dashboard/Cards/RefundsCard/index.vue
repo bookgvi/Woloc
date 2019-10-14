@@ -5,14 +5,15 @@
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm Возвраты
       q-card-section.q-pt-none
         q-markup-table(
+          wrap-cells
+          style="min-width: 350px"
           separator="none"
-          style="max-width: 400px"
           dense
           flat
         )
           thead.text-left
             tr
-              th(style="width: 80%")
+              th(style="width: 70%")
               th
               th
           tbody

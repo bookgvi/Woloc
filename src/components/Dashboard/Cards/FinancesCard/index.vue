@@ -5,6 +5,8 @@
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Финансы"}}
       q-card-section
         q-markup-table(
+          style="min-width: 350px"
+          wrap-cells
           separator="none"
           dense
           flat
@@ -25,6 +27,8 @@
                 span.text-grey {{ waitingSlot }}
       q-card-section
         q-markup-table(
+          style="min-width: 350px"
+          wrap-cells
           separator="none"
           dense
           flat

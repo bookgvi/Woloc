@@ -5,6 +5,8 @@
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm Локации
       q-card-section.q-py-none
         q-markup-table.q-pb-md(
+          style="min-width: 350px"
+          wrap-cells
           separator="none"
           dense
           flat

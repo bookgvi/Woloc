@@ -5,8 +5,9 @@
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm.q-pb-none Документы
       q-card-section.q-pt-none
         q-markup-table(
+          wrap-cells
           separator="none"
-          style="max-width: 400px"
+          style="min-width: 350px"
           dense
           flat
         )

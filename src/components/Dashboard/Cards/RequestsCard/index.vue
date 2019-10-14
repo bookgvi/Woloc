@@ -9,14 +9,15 @@
       )
       q-card-section.q-pb-none
         q-markup-table(
+          style="min-width: 350px"
           separator="none"
-          style="max-width: 400px"
+          wrap-cells
           dense
           flat
         )
           thead.text-left
             tr
-              th(style="width: 80%")
+              th(style="width: 70%")
                 span.text-bold.text-black.text-body2 Клиент • Зал
               th
               th

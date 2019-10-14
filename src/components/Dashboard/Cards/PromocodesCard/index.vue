@@ -5,13 +5,15 @@
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm Промокоды
       q-card-section
         q-markup-table(
+          style="min-width: 350px"
+          wrap-cells
           separator="none"
           dense
           flat
         )
           thead.text-left
             tr
-              th(style="width: 80%")
+              th(style="width: 70%")
                 span.text-bold.text-black.text-body2 Название • Скидка
               th
                 span.text-bold.text-black.text-body2 Активен до
