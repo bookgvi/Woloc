@@ -2,17 +2,19 @@
   .q-pa-none(
     v-if="rerender"
   )
-    filters-list(name="calendar" )
-      template(#prepend="props")
-        studio-filter(v-bind="props")
-        rooms-filter(v-bind="props")
-        events-filter(v-bind="props")
-        price-filter(v-bind="props")
-    CalendarSheet(
-      :filter="$app.filters.getValues('calendar')"
-      :bookings="$app.bookings.calendarList"
-      @isAllDayChange="isAllDay = $event"
-    )
+    .menu
+      filters-list(name="calendar" )
+        template(#prepend="props")
+          studio-filter(v-bind="props")
+          rooms-filter(v-bind="props")
+          events-filter(v-bind="props")
+          price-filter(v-bind="props")
+    .content
+      CalendarSheet(
+        :filter="$app.filters.getValues('calendar')"
+        :bookings="$app.bookings.calendarList"
+        @isAllDayChange="isAllDay = $event"
+      )
 </template>
 
 <script>

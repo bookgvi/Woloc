@@ -1,11 +1,13 @@
 <template lang="pug">
   .bookings
-    filters-list(name="bookings")
-      template(#prepend="props")
-        studio-filter(v-bind="props")
-        rooms-filter(v-bind="props")
-        status-filter(v-bind="props")
-    bookings-table
+    .menu
+      filters-list(name="bookings")
+        template(#prepend="props")
+          studio-filter(v-bind="props")
+          rooms-filter(v-bind="props")
+          status-filter(v-bind="props")
+    .content
+      bookings-table
 
 </template>
 

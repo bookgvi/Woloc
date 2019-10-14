@@ -1,14 +1,16 @@
 <template lang="pug">
   .documents
-    filters-list(name="documents")
-      template(#prepend="props")
-        q-btn.q-py-none.q-px-sm(
-          outline
-          dense
-          no-caps
-          label="Дата и время"
-        )
-    DocumentsTable
+    .menu
+      filters-list(name="documents")
+        template(#prepend="props")
+          q-btn.q-py-none.q-px-sm(
+            outline
+            dense
+            no-caps
+            label="Дата и время"
+          )
+    .content
+      DocumentsTable
 </template>
 
 <script>

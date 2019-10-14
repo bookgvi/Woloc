@@ -1,6 +1,6 @@
 <template lang="pug">
   q-dialog(:value="!!row.id" @hide="$emit('toggleDialogRow', row.id)")
-    q-card
+    q-card(style="min-width: 700px")
       q-card-section
         .row
           .text-h6.text-bold {{title}}
@@ -61,8 +61,6 @@ export default {
 </script>
 
 <style lang="stylus">
-  .q-card
-    min-width 700px
   .q-field--float
     .q-field__label
       transform none

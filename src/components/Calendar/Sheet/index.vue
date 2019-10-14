@@ -1,5 +1,5 @@
 <template lang="pug">
-  .wrapper
+  .q-pa-none
     .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
         h6.wrap-md.text-weight-bold {{ selectedStudioLabel }}, {{ month }}

@@ -1,12 +1,14 @@
 <template lang="pug">
   .refunds
-    filters-list(name="refunds" )
-      template(#prepend="props")
-        studio-filter(v-bind="props")
-        rooms-filter(v-bind="props")
-        q-btn.q-py-none(label="Дата и время" outline no-caps dense)
-        q-btn.q-py-none(label="Статус" outline no-caps dense)
-    RefundsTable
+    .menu
+      filters-list(name="refunds" )
+        template(#prepend="props")
+          studio-filter(v-bind="props")
+          rooms-filter(v-bind="props")
+          q-btn.q-py-none(label="Дата и время" outline no-caps dense)
+          q-btn.q-py-none(label="Статус" outline no-caps dense)
+    .content
+      RefundsTable
 </template>
 
 <script>
