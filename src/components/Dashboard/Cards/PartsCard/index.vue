@@ -21,7 +21,6 @@
 import NavBar from './Modules/NavBar'
 import Chart from './Modules/Chart'
 import Options from './Modules/Options'
-import roomsColors from 'src/common/rooms/colors'
 
 const rawData = {
   week: [
@@ -106,8 +105,8 @@ export default {
         const point = {
           name: item.room,
           total: item.total,
-          percent: (item.total / sum * 100).toFixed(2),
-          color: roomsColors[index].color
+          percents: (item.total / sum * 100).toFixed(2),
+          color: '#' + ((1 << 24) * Math.random() | 0).toString(16)
         }
         return point
       })
