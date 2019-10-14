@@ -20,6 +20,7 @@
         workload-card
         chat-card
         reviews-card
+        widget-card
 </template>
 
 <script>
@@ -39,10 +40,11 @@ import ReviewsCard from './Cards/ReviewsCard/index'
 import DocumentsCard from './Cards/DocumentsCard/index'
 import NotificationsCard from './Cards/NotificationsCard/index'
 import NotesCard from './Cards/NotesCard/index'
+import WidgetCard from './Cards/WidgetCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { NotesCard, NotificationsCard, DocumentsCard, ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { WidgetCard, NotesCard, NotificationsCard, DocumentsCard, ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 

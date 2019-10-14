@@ -21,7 +21,7 @@
           size="sm"
           label="Добавить заметку"
           no-caps
-          @click="addLocation"
+          @click="add"
           color="secondary"
         )
 </template>
@@ -53,6 +53,11 @@ export default {
   computed: {
     options () {
       return this.notes
+    }
+  },
+  methods: {
+    add () {
+      //
     }
   }
 }
