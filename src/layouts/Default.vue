@@ -1,17 +1,18 @@
 <template lang="pug">
   q-layout(view="hHh LPr lFf")
     q-header.bg-white.text-grey
-      .wrapper.wrapper--header.wrapper--zero
-        Header
+      .wrapper.wrapper--header
+        site-header
     q-page-container
-      router-view
+      .wrapper
+        router-view
 </template>
 
 <script>
-import Header from '../components/Layout/Header'
+import SiteHeader from '../components/Layout'
 export default {
   name: 'DefaultLayout',
-  components: { Header }
+  components: { SiteHeader }
 }
 </script>
 

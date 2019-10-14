@@ -1,5 +1,5 @@
 <template lang="pug">
-  .wrapper
+  .q-pa-none
     .q-py-md.row.col-12.q-col-gutter-sm
       .col-4
         profit-card

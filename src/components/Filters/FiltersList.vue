@@ -1,8 +1,5 @@
 <template lang="pug">
-  .wrapper.fixed.z-max(
-    style="left: 0; right: 0; background-color: #ffffff"
-    :class="position"
-  )
+  .q-pa-none
     q-separator
     .row.items-center.q-py-sm.q-gutter-x-sm
       slot(
@@ -28,10 +25,6 @@ export default {
   name: 'filters-list',
   props: {
     name: String,
-    isFirstPosition: {
-      type: Boolean,
-      default: true
-    }
   },
   computed: {
     values () {
@@ -39,9 +32,6 @@ export default {
     },
     isNotFiltered () {
       return !Object.values(this.values).length
-    },
-    position () {
-      return (this.isFirstPosition) ? { 'wrapper--minus': true } : { 'wrapper--zero': true }
     }
   },
   methods: {
