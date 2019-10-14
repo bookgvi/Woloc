@@ -1,5 +1,5 @@
 <template lang="pug">
-  .table
+  .table.wrapper.wrapper--header
     DataTable(
       title="Скидки"
       :getDialogTitle="({ id }) => `Скидка № ${id}`"

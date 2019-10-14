@@ -1,9 +1,10 @@
 <template lang="pug">
   .dicounts
-    filters-list(name="settings")
-      template(#prepend="props")
-        studio-filter(v-bind="props")
-    .wrapper.wrapper--header
+    .menu.menu--menu2
+      filters-list(name="settings")
+        template(#prepend="props")
+          studio-filter(v-bind="props")
+    .content--content2
       .row
         discountsTable(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :rooms="rooms")
 </template>
