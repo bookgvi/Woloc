@@ -16,6 +16,7 @@
         calendar-card
         workload-card
         chat-card
+        reviews-card
 </template>
 
 <script>
@@ -31,10 +32,11 @@ import ChatCard from './Cards/ChatCard/index'
 import RoomsCardsCreator from './Cards/RoomsCardsCreator/index'
 import RefundsCard from './Cards/RefundsCard/index'
 import PromocodesCard from './Cards/PromocodesCard/index'
+import ReviewsCard from './Cards/ReviewsCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 
