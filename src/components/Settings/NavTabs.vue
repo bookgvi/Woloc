@@ -2,7 +2,7 @@
   .q-pa-none
     .menu
       q-separator
-      q-tabs(
+      q-tabs.q-pa-xs(
         shrink
         bordered
         align="left"
