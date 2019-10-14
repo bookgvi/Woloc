@@ -7,6 +7,7 @@
       :columns="columns"
       :details="details"
       @toggleDialogRow="toggleDialogRow"
+      :isRowDisabled="({ expiredAt }) => !expiredAt"
     )
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить скидку" no-caps)
