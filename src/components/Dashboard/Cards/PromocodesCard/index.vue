@@ -3,7 +3,7 @@
     q-card
       q-card-section
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm Промокоды
-      q-card-section.q-pb-none
+      q-card-section
         q-markup-table(
           separator="none"
           dense
@@ -20,9 +20,18 @@
               v-for="(item, index) in options"
               :key="index"
             )
-              td {{ nameSlot(index) }}
+              td {{ nameSlot(index) }} &nbsp
+                span.text-body2.bg-cyan-3.q-pa-xs(
+                  v-if="!item.isActive"
+                ) ugoloc
               td
-                span.text-black.text-body2 {{ dateSlot(index) }}
+                span.text-black.text-body2(
+                  v-if="item.isActive"
+                ) {{ dateSlot(index) }}
+                span.text-cyan-3.text-body2(
+                  v-else
+                  class="cursor-pointer"
+                ) Активировать
 </template>
 
 <script>
@@ -35,12 +44,20 @@ export default {
         {
           name: 'Весна',
           discount: 5,
-          date: this.$moment()
+          date: this.$moment().add(99, 'days'),
+          isActive: true
         },
         {
-          name: 'Весна',
-          discount: 5,
-          date: this.$moment()
+          name: 'Май15',
+          discount: 15,
+          date: this.$moment().add(235, 'days'),
+          isActive: true
+        },
+        {
+          name: 'Подарок10',
+          discount: 10,
+          date: this.$moment().add(235, 'days'),
+          isActive: false
         }
       ]
     }
@@ -57,19 +74,6 @@ export default {
       return `${this.$moment(item.date).format('DD MMMM, hh:mm')}`
     },
   },
-  watch: {
-    async selectedDate () {
-      await this.loadData()
-    },
-    studio: {
-      async handler () {
-        if (this.studio !== 0) {
-          await this.loadData()
-        }
-      },
-      immediate: true
-    },
-  }
 }
 </script>
 
