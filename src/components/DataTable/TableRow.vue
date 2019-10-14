@@ -2,9 +2,9 @@
   q-tr(:class="{ disabled }")
     q-td(
       :key="name"
-      v-for="{name, value, active} of cols"
+      v-for="{ name, value, active, discount } of cols"
       v-bind="getColProps(name)"
-      @click.native="active && $emit('toggleDialogRow', row.id)"
+      @click.native="active && rowDialog(row, discount)"
     )
       template(v-if="name === 'room'")
         q-chip(
@@ -104,7 +104,14 @@ export default {
         backgroundColor: usedColors[id].color,
       }
     },
-  },
+    rowDialog (row, discount) {
+      if (discount) {
+        this.$emit('toggleDialogRow', row)
+      } else {
+        this.$emit('toggleDialogRow', row.id)
+      }
+    }
+  }
 }
 </script>
 

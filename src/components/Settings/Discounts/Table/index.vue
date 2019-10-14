@@ -6,12 +6,19 @@
       :loadData="$app.discounts.getAll"
       :columns="columns"
       :details="details"
+      @toggleDialogRow="toggleDialogRow"
     )
-      template(#row-dialog="props")
-        editDiscount(v-bind="props" :allStudiosName="allStudiosName" :singleStudio="singleStudio" :rooms="rooms")
-
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить скидку" no-caps)
+    q-dialog(v-model="isModal")
+      q-card
+        edit-discount(
+          :row="row"
+          :singleStudio="singleStudio"
+          :rooms="rooms"
+          :allStudiosName="allStudiosName"
+          @hasModal="hasModal"
+        )
 </template>
 
 <script>
@@ -30,11 +37,17 @@ export default {
   data: () => ({
     columns,
     details,
-    dataset: {}
+    dataset: {},
+    isModal: false,
+    row: {}
   }),
   methods: {
-    showDialog (props) {
-      this.dataset = props
+    toggleDialogRow (row) {
+      this.row = row
+      this.isModal = true
+    },
+    hasModal () {
+      this.isModal = false
     }
   }
 }
