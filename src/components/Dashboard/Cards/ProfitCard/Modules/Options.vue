@@ -1,10 +1,34 @@
 <template lang="pug">
   q-card-section
-    q-option-group(
-      v-model="checkedOptions"
-      :options="options"
-      type="checkbox"
-    ) {{ checkedComp }}
+    q-markup-table.q-pb-md(
+      style="min-width: 350px"
+      wrap-cells
+      separator="none"
+      dense
+      flat
+    )
+    thead.text-left
+      tr
+        th(style="width: 5%")
+        th(style="width: 90%")
+        th(style="width: 5%")
+    tbody
+      tr(
+        v-for="(item, index) in options"
+        :key="index"
+      )
+        td
+          q-icon.q-mr-md(
+            :style="{color: item.color}"
+            name="far fa-circle"
+          )
+        td
+          span.text-caption {{ item.label }}
+        td
+          q-checkbox(
+            v-model="checkedOptions"
+            :val="index"
+          ) {{ checkedComp }}
 
 </template>
 
@@ -13,33 +37,28 @@ export default {
   name: 'ProfitOptions',
   data () {
     return {
-      checkedOptions: [0, 1, 2, 3]
+      checkedOptions: []
     }
   },
   computed: {
     checkedComp () {
       return this.checkedChange()
     },
-    options () {
-      let arr = []
-      this.$app.studios.list.forEach((item, index) => {
-        const total = {
-          label: `${item.name} - Предоплата`,
-          value: index * 2
-        }
-        const prepayment = {
-          label: `${item.name} - Бронирования`,
-          value: index * 2 + 1
-        }
-        arr.push(total)
-        arr.push(prepayment)
-      })
-      return arr
-    }
   },
   methods: {
     checkedChange () {
       this.$emit('checkedChange', this.checkedOptions)
+    }
+  },
+  props: {
+    options: Array
+  },
+  watch: {
+    options: {
+      handler (v) {
+        this.checkedOptions = [...Array(v.length).keys()]
+      },
+      immediate: true
     }
   }
 }
