@@ -51,7 +51,7 @@
         span Период действия
       .col
         span Время действия
-    .row
+    .row.q-pb-md
       .col.q-pr-sm
         VueCtkDateTimePicker.q-pt-sm(
           v-model="dateRange"
@@ -63,7 +63,7 @@
           :label="showDateRange"
         )
       .col
-        q-input.q-pt-sm(:value="`${row.hourFrom}:00 — ${row.hourTo}:00`" @click="isTimeRange = !isTimeRange" outlined dense)
+        q-input.q-pt-sm.q-pb-md.cursor-pointer(:value="`${row.hourFrom}:00 — ${row.hourTo}:00`" @click="isTimeRange = !isTimeRange" outlined dense)
         .timeRange(v-if="isTimeRange" style="width: 100%;")
           q-range(
             v-model="rangeTime"
