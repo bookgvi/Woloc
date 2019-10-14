@@ -53,7 +53,7 @@
         div.q-py-sm(style="width: 100%; white-space: normal;") {{ value }}
       template(v-else-if="name === 'extrasControls'")
         slot
-      template(v-else-if="name === 'expiredAt'")
+      template(v-else-if="name === 'expiredAt'") {{ value }}
       template(v-else) {{ value }}
 </template>
 

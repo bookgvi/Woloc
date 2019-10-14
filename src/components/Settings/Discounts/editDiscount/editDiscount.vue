@@ -63,7 +63,7 @@
           :label="showDateRange"
         )
       .col
-        q-input.q-pt-sm(:value="showTimeRange" @click="isTimeRange = !isTimeRange" outlined dense)
+        q-input.q-pt-sm(:value="`${row.hourFrom}:00 — ${row.hourTo}:00`" @click="isTimeRange = !isTimeRange" outlined dense)
         .timeRange(v-if="isTimeRange" style="width: 100%;")
           q-range(
             v-model="rangeTime"
@@ -136,9 +136,6 @@ export default {
   computed: {
     showDateRange () {
       return `${date.formatDate(this.row.expiredAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM')}`
-    },
-    showTimeRange () {
-      return `${this.rangeTime.min}:00 — ${this.rangeTime.max}:00`
     }
   },
   methods: {
