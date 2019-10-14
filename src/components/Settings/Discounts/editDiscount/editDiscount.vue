@@ -6,12 +6,6 @@
       .col-1
         q-icon.cursor-pointer(name="close" @click="hasModal" style="font-size: 1.5rem;")
     .row
-      .col
-        span Название промокода
-    .row.q-pb-md
-      .col
-        q-input(v-model="row.alias" outlined dense)
-    .row
       .col.q-pr-sm
         span Локация
       .col
@@ -20,27 +14,38 @@
       .col.q-pr-sm
         q-select(v-model="singleStudio.name" :options="allStudiosName" outlined dense)
       .col
-        q-select(v-model="row.alias" :options="rooms.map(item => item.name)" outlined dense)
+        q-select(v-model="rooms[0].name" :options="rooms.map(item => item.name)" outlined dense)
     .row
       .col.q-pr-sm
-        span Скидка
+        span Процент скидки
       .col
-        span Тип
+        span Минимальное кол-во часов
     .row.q-pb-md
       .col.q-pr-sm
-        q-input(v-model="row.discount" outlined dense)
+        q-input(v-model="row.percent" outlined dense)
+          template(#append)
+            span(style="font-size: 75%") %
       .col
-        q-select(v-model="type" :options="typeArr" outlined dense)
+        q-input(v-model="row.minHours" outlined dense)
     .row
+      span День недели
+    .row.q-pb-sm
       .col.q-pr-sm
-        span Минимальная сумма заказа, ₽.
+        .row
+          q-checkbox(label="Понедельник" v-model="week.mon")
+        .row
+          q-checkbox(label="Вторник" v-model="week.tue")
+        .row
+          q-checkbox(label="Среда" v-model="week.wed")
+        .row
+          q-checkbox(label="Четверг" v-model="week.thu")
       .col
-        span Статус
-    .row.q-pb-md
-      .col.q-pr-sm
-        q-input(v-model="row.minPrice" outlined dense)
-      .col
-        q-select(v-model="row.isPublic" :options="statusArr" outlined dense)
+        .row
+          q-checkbox(label="Пятница" v-model="week.fri")
+        .row
+          q-checkbox(label="Суббота" v-model="week.sat")
+        .row
+          q-checkbox(label="Воскресенье" v-model="week.sun")
     .row
       .col.q-pr-sm
         span Период действия
@@ -48,7 +53,7 @@
         span Период действия
     .row.q-pb-md
       .col.q-pr-sm
-        q-input(:value="currentRange1" outlined dense @click="isCalendar1= !isCalendar1")
+        q-input.q-pt-sm(:value="currentRange1" outlined dense @click="isCalendar1= !isCalendar1")
         .col(v-if="isCalendar1")
           DateRange(
             :sync-range.sync="range1"
@@ -60,7 +65,7 @@
             .col
               q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range1)")
       .col
-        q-input(:value="currentRange2" outlined dense @click="isCalendar2= !isCalendar2")
+        q-input.q-pt-sm(:value="currentRange2" outlined dense @click="isCalendar2= !isCalendar2")
         .col(v-if="isCalendar2")
           DateRange(
             :sync-range.sync="range2"
@@ -73,7 +78,7 @@
               q-btn.bg-primary.text-white(label="Применить" no-caps @click="applyRange(range2)")
 
     .row.q-pb-md
-      .col-4
+      .col
         span Заполните только дату начала, если срок действия должен быть неограничен.
     .row.justify-center
       .col.q-mr-sm
@@ -104,10 +109,15 @@ export default {
   },
   data () {
     return {
-      isPublic: 'Публичный',
-      statusArr: ['Публичный', 'Персональный'],
-      type: 'В рублях',
-      typeArr: ['В рублях', 'В процентах'],
+      week: {
+        mon: true,
+        tue: false,
+        wed: false,
+        thu: false,
+        fri: false,
+        sat: false,
+        sun: false
+      },
       isCalendar1: false,
       isCalendar2: false,
       lang: 'ru',
@@ -147,6 +157,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-</style>

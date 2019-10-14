@@ -11,7 +11,7 @@
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить скидку" no-caps)
     q-dialog(v-model="isModal")
-      q-card
+      q-card(style="min-width: 680px;")
         edit-discount(
           :row="row"
           :singleStudio="singleStudio"
