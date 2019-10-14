@@ -8,7 +8,7 @@
         template(#append)
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
     .content--content2
-      .row.q-pt-md
+      .row.q-py-md
         .col-3
           .row(v-for="(room, index) in rooms" :key="index")
             q-btn(
@@ -25,7 +25,9 @@
           backgrounds
           additionalServices
           services(:singleStudio="singleStudio")
-          q-btn.bg-primary.text-white(label="Сохранить" no-caps)
+          .row
+            .col-6
+              q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps)
 </template>
 
 <script>

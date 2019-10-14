@@ -18,6 +18,7 @@
           :to="route.to"
           :label="route.label"
         )
+      q-separator
     .content
       router-view
 </template>
