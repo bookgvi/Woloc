@@ -6,6 +6,7 @@
         finances-card
         locations-card
         rooms-cards-creator
+        documents-card
       .q-px-sm.column.col-4.q-gutter-md
         parts-card
         bookings-card
@@ -33,10 +34,11 @@ import RoomsCardsCreator from './Cards/RoomsCardsCreator/index'
 import RefundsCard from './Cards/RefundsCard/index'
 import PromocodesCard from './Cards/PromocodesCard/index'
 import ReviewsCard from './Cards/ReviewsCard/index'
+import DocumentsCard from './Cards/DocumentsCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { DocumentsCard, ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 
