@@ -9,6 +9,7 @@ import documents from './documents'
 import login from './login'
 import studios from './studios'
 import promo from './promo'
+import discounts from './discounts'
 
 export default {
   rooms,
@@ -21,5 +22,6 @@ export default {
   finances,
   refunds,
   documents,
-  promo
+  promo,
+  discounts
 }
