@@ -30,6 +30,54 @@
             q-input(v-model="address" outlined dense)
         .row.q-pb-xs
           q-checkbox(v-model="isRealAddress" label="Юридический адрес совпадает с фактическим.")
+        .row.q-pb-xs
+          .col.q-pr-sm
+            span Ген. директор
+          .col.q-pr-sm
+            span Бухгалтер
+        .row.q-pb-md
+          .col.q-pr-sm
+            q-input(v-model="ceo" outlined dense)
+          .col.q-pr-sm
+            q-input(v-model="booker" outlined dense)
+        .row.q-pb-xs
+          .col.q-pr-sm
+            span ОГРН
+          .col.q-pr-sm
+            span ИНН
+        .row.q-pb-md
+          .col.q-pr-sm
+            q-input(v-model="ogrn" outlined dense)
+          .col.q-pr-sm
+            q-input(v-model="inn" outlined dense)
+        .row.q-pb-xs
+          .col.q-pr-sm
+            span КПП
+        .row.q-pb-md
+          .col-6.q-pr-sm
+            q-input(v-model="kpp" outlined dense)
+        .row.q-py-lg
+          .text-h5 Данные организации
+        .row.q-pb-xs
+          .col.q-pr-sm
+            span БИК
+          .col.q-pr-sm
+            span Кор. счет
+        .row.q-pb-md
+          .col.q-pr-sm
+            q-input(v-model="bic" outlined dense)
+          .col.q-pr-sm
+            q-input(v-model="corrAccount" outlined dense)
+        .row.q-pb-xs
+          .col.q-pr-sm
+            span Банк
+          .col.q-pr-sm
+            span Рассчетный счет
+        .row.q-pb-md
+          .col.q-pr-sm
+            q-input(v-model="bank" outlined dense)
+          .col.q-pr-sm
+            q-input(v-model="account" outlined dense)
 </template>
 
 <script>
@@ -42,7 +90,16 @@ export default {
       types: ['ООО', 'АО', 'ПАО'],
       phone: '+7 495 790 66 24',
       address: '109618, Россия, Москва, ул. Щипок, д 28',
-      isRealAddress: true
+      isRealAddress: true,
+      ceo: 'Капустин Дмитрий Сергеев',
+      booker: 'Капустин Дмитрий Сергеев',
+      ogrn: 1087746473033,
+      inn: 7726084155,
+      kpp: 772601010,
+      bic: '044 525 225',
+      corrAccount: '301 010 101 000 000 202 00',
+      bank: 'ПАО Сбербанк',
+      account: '407 020 101 380 000 500 25'
     }
   },
   methods: {
