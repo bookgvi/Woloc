@@ -83,23 +83,27 @@
         .row.q-pb-md
           .col
             q-list(border separator style="width: 100%;" @click="isModal = true")
-              q-item(clickable).items-center
-                q-item-label.q-pr-md 1. Андрей Ревин
-                q-item-label.q-pr-md
-                  q-chip.bg-primary Владелец
-                  q-chip.bg-primary Админ
-              q-item(clickable).items-center
-                q-item-label.q-pr-md 1. Андрей Ревин
-                q-item-label.q-pr-md
-                  q-chip.bg-primary Владелец
-                  q-chip.bg-primary Админ
-        q-dialog(v-model="isModal")
-          q-card
+              q-item(clickable v-for="item in employees" :key="item.id").items-center
+                q-item-label.col-3.q-mr-sm {{ item.id }}. {{ item.name }}
+                q-item-label.col-8.q-mr-sm
+                  q-chip.bg-primary(v-for="(role, index) in item.role" :key="index" square) {{ role }}
+                q-item-label.col-1.q-ml-sm
+                  q-icon(name="edit" style="font-size: 20px;")
+        .row.q-py-lg
+          .col.q-pr-sm
+            q-btn.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%;")
+          .col
+            q-btn(label="Добавить сотрудника" no-caps style="width: 100%;")
+      q-dialog(v-model="isModal")
+        q-card
+          employees
 </template>
 
 <script>
+import employees from './employees'
 export default {
   name: 'rules',
+  components: { employees },
   data () {
     return {
       name: 48,
@@ -117,7 +121,12 @@ export default {
       corrAccount: '301 010 101 000 000 202 00',
       bank: 'ПАО Сбербанк',
       account: '407 020 101 380 000 500 25',
-      isModal: false
+      isModal: false,
+      employees: [
+        { id: 1, name: 'Андрей Ревин', role: ['Владелец', 'Админ'] },
+        { id: 2, name: 'Джим Кэмп', role: ['Админ'] },
+        { id: 3, name: 'Антон Куранов', role: ['Менеджер'] }
+      ]
     }
   },
   methods: {
