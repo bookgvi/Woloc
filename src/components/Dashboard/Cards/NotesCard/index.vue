@@ -21,7 +21,7 @@
                   ) {{ item.date }}
             q-card-section
               span {{ item.text }}
-        q-card-actions.q-pt-none.q-pl-lg
+        q-card-actions.q-pt-none.q-pl-md.q-pb-md
           q-btn.text-body2.text-black(
             outline
             size="sm"
@@ -49,7 +49,7 @@
               outlined
               dense
             )
-          q-card-actions
+          q-card-actions.q-pb-md
             .row.col-12.justify-between.items-center.q-px-sm
               q-btn.text-body2.text-black.col-3(
                 outline

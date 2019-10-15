@@ -2,7 +2,7 @@
   .q-pa-none
     q-card
       name-slot(name="Документы")
-      q-card-section.q-pa-none
+      q-card-section.q-pa-none.q-pb-md
         q-markup-table(
           wrap-cells
           separator="none"

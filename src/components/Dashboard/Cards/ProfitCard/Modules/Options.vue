@@ -1,7 +1,7 @@
 <template lang="pug">
   q-card-section
     q-markup-table(
-      style="min-width: 370px"
+      style="min-width: 350px"
       wrap-cells
       separator="none"
       dense

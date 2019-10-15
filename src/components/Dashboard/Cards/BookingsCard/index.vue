@@ -41,7 +41,7 @@
         class="cursor-pointer"
         @click="isMiniTable = true"
       )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Свернуть
+        span.row.text-body2.text-blue-5.q-pt-md  Свернуть
 
 </template>
 
@@ -82,11 +82,11 @@ export default {
     },
     prepaymentSlot (index) {
       const booking = this.bookings[index]
-      return (booking.amount).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      return (+Number(booking.amount).toFixed()).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
     },
     paymentSlot (index) {
       const booking = this.bookings[index]
-      return (booking.price).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      return (+Number(booking.price).toFixed()).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
     },
   },
   watch: {

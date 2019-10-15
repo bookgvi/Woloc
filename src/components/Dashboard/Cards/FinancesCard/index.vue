@@ -27,7 +27,7 @@
                 span.text-grey Ожидается:
               td.text-right
                 span.text-grey {{ waitingSlot }}
-      q-card-section.q-pa-none
+      q-card-section.q-pa-none.q-pb-md
         q-markup-table(
           style="min-width: 370px"
           wrap-cells

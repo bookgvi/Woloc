@@ -5,7 +5,7 @@
       q-card-section.q-pa-none
         q-markup-table(
           wrap-cells
-          style="min-width: 370px"
+          style="min-width: 379px"
           separator="none"
           dense
           flat
@@ -23,7 +23,7 @@
               td
                 q-checkbox(v-model="item.check" dense)
                 span &nbsp {{ item.name }}
-              td
+              td.text-right
                 q-icon(
                   v-if="item.isInfo"
                   size="7px"
@@ -35,9 +35,9 @@
                     span.row.text-body2 28 октября 9:00-13:00
                     span.row &nbsp
                     span.row.text-body2.text-red Возврат 28 октября 12:00
-              td
+              td.text-right
                 span.text-black.text-body2 {{ item.value }} р.
-      q-card-actions.q-pl-md
+      q-card-actions.q-pl-md.q-pb-md
         q-btn.q-mr-xs.col-3.text-body2.text-black(
           outline
           size="sm"

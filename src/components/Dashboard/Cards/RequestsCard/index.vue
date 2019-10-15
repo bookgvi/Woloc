@@ -16,7 +16,7 @@
         )
           thead.text-left
             tr
-              th(style="width: 70%")
+              th(style="width: 60%")
                 span.text-bold.text-black.text-body2 Клиент • Зал
               th.text-right
               th.text-right
@@ -43,13 +43,13 @@
         class="cursor-pointer"
         @click="isMiniTable = false"
       )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Ещё {{ $app.bookings.dashboardList.length - 3 }}
+        span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
       q-card-section(
         v-else
         class="cursor-pointer"
         @click="isMiniTable = true"
       )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Свернуть
+        span.row.text-body2.text-blue-5.q-pt-md Свернуть
 
 </template>
 

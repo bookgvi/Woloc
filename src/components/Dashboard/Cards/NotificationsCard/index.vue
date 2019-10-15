@@ -2,7 +2,7 @@
   .q-pa-none
     q-card
       name-slot(name="Уведомления")
-      q-card-section.q-pa-none
+      q-card-section.q-pa-none.q-pb-md
         q-list(style="max-width: 370px")
           q-item(
             v-for="(item, index) in options"

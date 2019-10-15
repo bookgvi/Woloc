@@ -29,7 +29,7 @@
           td.text-right
             span.text-grey.text-caption {{ item.percents }}
           td.text-right
-            span.text-body1 {{ item.total }}
+            span.text-body1 {{ (+item.total).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true }) }}
 
 </template>
 

@@ -2,7 +2,7 @@
   .q-pa-none
     q-card
       name-slot(name="Отзывы")
-      q-card-section.q-pl-lg
+      q-card-section
         .row.col-12.justify-between
           .col-9
             span.text-body2 {{ studioRoomSlot }}
@@ -22,7 +22,7 @@
               icon="chevron_right"
               color="secondary"
             )
-      q-card-section.q-pl-lg
+      q-card-section
         .row.col-12.justify-between
           .col-8
             span.text-body2 {{ review.author }} &nbsp
@@ -41,11 +41,11 @@
                 style="color: #D9D9D9"
                 :key="index + 5"
               )
-          .col.justify-end
+          .col.text-right
             span.text-caption.text-grey {{ review.date }}
-      q-card-section.q-pl-lg
+      q-card-section
         span.text-body2 {{ review.text }}
-      q-card-actions.q-pt-none.q-pl-lg
+      q-card-actions.q-pt-none.q-pl-md
         q-btn.q-mr-xs.text-body2.text-black(
           outline
           size="sm"
