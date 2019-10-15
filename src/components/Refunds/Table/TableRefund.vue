@@ -1,5 +1,5 @@
 <template lang="pug">
-  .wrapper
+  .q-pa-none
     q-markup-table(flat separator="horizontal")
       thead.bg-grey-1
         tr

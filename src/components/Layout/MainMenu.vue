@@ -1,11 +1,11 @@
 <template lang="pug">
   q-toolbar.bg-white.row.col-12.justify-around.items-center.q-pa-none
     .row.justify-start.items-center
-      Logo
-      NavTabs
+      logo
+      nav-tabs
     q-space
     .row.justify-end
-      User
+      user
 </template>
 
 <script>
@@ -13,7 +13,7 @@ import Logo from './Blocks/Logo'
 import User from './Blocks/User'
 import NavTabs from './Blocks/NavTabs'
 export default {
-  name: 'Header',
+  name: 'MainMenu',
   components: { NavTabs, User, Logo },
   data () {
     return {

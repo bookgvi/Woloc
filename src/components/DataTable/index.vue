@@ -1,5 +1,5 @@
 <template lang="pug">
-  .wrapper
+  .q-pa-none
     slot(
       name="row-dialog"
       readonly

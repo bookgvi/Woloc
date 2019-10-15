@@ -1,9 +1,11 @@
 <template lang="pug">
   .customers
-    filters-list(name="customers")
-      template(#prepend="props")
-        rating-filter(v-bind="props")
-    customers-table
+    .menu
+      filters-list(name="customers")
+        template(#prepend="props")
+          rating-filter(v-bind="props")
+    .content
+      customers-table
 </template>
 
 <script>
