@@ -32,8 +32,10 @@ export default {
         { to: '/settings/location', label: 'Локация' },
         { to: '/settings/room', label: 'Залы' },
         { to: '/settings/extras', label: 'Доп. услуги' },
+        { to: '/settings/discounts', label: 'Скидки' },
         { to: '/settings/promo', label: 'Промокоды' },
-        { to: '/settings/rules', label: 'Правила' }
+        { to: '/settings/rules', label: 'Правила' },
+        { to: '/settings/organization', label: 'Данные организации' }
       ]
     }
   }

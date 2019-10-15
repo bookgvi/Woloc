@@ -2,9 +2,9 @@
   q-tr(:class="{ disabled }")
     q-td(
       :key="name"
-      v-for="{name, value, active} of cols"
+      v-for="{ name, value, active, discount } of cols"
       v-bind="getColProps(name)"
-      @click.native="active && $emit('toggleDialogRow', row.id)"
+      @click.native="active && rowDialog(row, discount)"
     )
       template(v-if="name === 'room'")
         q-chip(
@@ -53,6 +53,9 @@
         div.q-py-sm(style="width: 100%; white-space: normal;") {{ value }}
       template(v-else-if="name === 'extrasControls'")
         slot
+      template(v-else-if="name === 'expiredAt'")
+        span(v-if="value") {{ value }}
+        span(v-else) нет
       template(v-else) {{ value }}
 </template>
 
@@ -104,7 +107,16 @@ export default {
         backgroundColor: usedColors[id].color,
       }
     },
-  },
+    rowDialog (row, discount) {
+      if (discount) {
+        if (row.expiredAt) {
+          this.$emit('toggleDialogRow', row)
+        }
+      } else {
+        this.$emit('toggleDialogRow', row.id)
+      }
+    }
+  }
 }
 </script>
 

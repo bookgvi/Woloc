@@ -78,6 +78,7 @@ export default {
     },
     toggleDialogRow (id) {
       this.dialogRowId = this.dialogRowId === id ? undefined : id
+      this.$emit('toggleDialogRow', id)
     },
   },
   computed: {
