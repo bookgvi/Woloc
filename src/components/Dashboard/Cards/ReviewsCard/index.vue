@@ -5,7 +5,7 @@
         span.row.text-bold.text-body1.q-pt-md.q-pl-sm Отзывы
       q-card-section.q-pl-lg
         .row.col-12.justify-between
-          .col-10
+          .col-9
             span.text-body2 {{ studioRoomSlot }}
           q-btn-group(outline).col
             q-btn.q-px-sm.q-mx-none(
