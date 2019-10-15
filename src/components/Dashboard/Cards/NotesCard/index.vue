@@ -1,29 +1,79 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section.q-pb-none
-        q-card.text-body2.q-mb-md(
-          v-for="(item, index) in options"
-          :style="{ 'background-color': item.color }"
-          :key="index"
-        )
-          q-card-section
-            .row.col-12
-              .col-9
-                span.text-bold {{ item.title }}
-              .col
-                span.text-caption {{ item.date }}
-          q-card-section
-            span {{ item.text }}
-      q-card-actions.q-pt-none.q-pl-lg
-        q-btn.text-body2.text-black(
-          outline
-          size="sm"
-          label="Добавить заметку"
-          no-caps
-          @click="add"
-          color="secondary"
-        )
+      template(v-if="!isNoteEditMode")
+        q-card-section.q-pb-none
+          q-card.text-body2.q-mb-md(
+            v-for="(item, index) in options"
+            :style="{ 'background-color': item.color }"
+            :key="index"
+          )
+            q-card-section
+              .row.col-12.justify-between
+                .col-8
+                  span.text-bold {{ item.title }}
+                .col.text-right
+                  span.text-caption(
+                    style="cursor: pointer"
+                    @click="noteEditMode(item, index)"
+                    @mouseover="mouseOver"
+                    @mouseleave="mouseLeave"
+                  ) {{ item.date }}
+            q-card-section
+              span {{ item.text }}
+        q-card-actions.q-pt-none.q-pl-lg
+          q-btn.text-body2.text-black(
+            outline
+            size="sm"
+            label="Добавить заметку"
+            no-caps
+            @click="add"
+            color="secondary"
+          )
+      template(v-else)
+        .q-pt-md.q-pa-none
+          q-card-section.q-pa-none.q-mx-md(
+            :style="{ 'background-color': itemBuffer.color }"
+            style="min-width: 370px"
+          )
+            q-input.text-body2(
+              v-model="itemBuffer.title"
+              label="Заголовок"
+              outlined
+              dense
+            )
+            q-input.text-body2(
+              v-model="itemBuffer.text"
+              label="Заметка"
+              type="textarea"
+              outlined
+              dense
+            )
+          q-card-actions
+            .row.col-12.justify-between.items-center.q-px-sm
+              q-btn.text-body2.text-black.col-3(
+                outline
+                size="sm"
+                label="Отменить"
+                no-caps
+                @click="isNoteEditMode = false"
+                color="secondary"
+              )
+              q-btn.text-body2.text-black.col-3(
+                outline
+                size="sm"
+                label="Сохранить"
+                no-caps
+                @click="save"
+                color="secondary"
+              )
+              q-btn.col-1(
+                size="sm"
+                v-for="(color, index) in colors"
+                @click="itemBuffer.color = color"
+                :style="{ 'background-color': color }"
+                :key="index"
+              )
 </template>
 
 <script>
@@ -34,6 +84,11 @@ export default {
   name: 'NotesCard',
   data () {
     return {
+      isNoteEditMode: false,
+      colors: [],
+      targetTextBuffer: '',
+      indexBuffer: -1,
+      itemBuffer: {},
       notes: [
         {
           title: 'Подготовить доп. штатив',
@@ -50,14 +105,47 @@ export default {
       ]
     }
   },
+  created () {
+    this.colors = [...colors]
+  },
   computed: {
     options () {
       return this.notes
     }
   },
   methods: {
+    mouseOver (e) {
+      this.targetTextBuffer = e.target.innerText
+      e.target.innerText = 'Редактировать'
+    },
+    mouseLeave (e) {
+      e.target.innerText = this.targetTextBuffer
+      this.targetTextBuffer = ''
+    },
+    noteEditMode (item, index) {
+      this.indexBuffer = index
+      this.itemBuffer = Object.assign({}, item)
+      this.isNoteEditMode = true
+    },
+    save () {
+      if (this.indexBuffer !== -1) {
+        this.notes[this.indexBuffer] = Object.assign({}, this.itemBuffer)
+      } else {
+        this.notes.push(this.itemBuffer)
+      }
+      this.isNoteEditMode = false
+      this.indexBuffer = -1
+      this.itemBuffer = Object.assign({})
+    },
     add () {
-      //
+      this.indexBuffer = -1
+      this.itemBuffer = Object.assign({
+        title: '',
+        text: '',
+        date: this.$moment().format('DD MMMM'),
+        color: this.colors[0]
+      })
+      this.isNoteEditMode = true
     }
   }
 }

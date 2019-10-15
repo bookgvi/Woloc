@@ -5,7 +5,7 @@
       q-card-section.q-pt-none
         q-markup-table(
           wrap-cells
-          style="min-width: 350px"
+          style="min-width: 370px"
           separator="none"
           dense
           flat
@@ -29,7 +29,12 @@
                   size="7px"
                   color="red"
                   name="fas fa-circle"
+                  style="cursor: pointer"
                 )
+                  q-tooltip
+                    span.row.text-body2 28 октября 9:00-13:00
+                    span.row &nbsp
+                    span.row.text-body2.text-red Возврат 28 октября 12:00
               td
                 span.text-black.text-body2 {{ item.value }} р.
       q-card-actions.q-pt-none.q-pl-lg

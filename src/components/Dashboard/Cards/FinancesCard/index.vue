@@ -1,8 +1,11 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      name-slot(name="Доход")
-      q-card-section
+      .q-pa-none
+        name-slot(name="Финансы")
+        q-tooltip
+          span.text-body2 Будущие брони
+      q-card-section.q-pa-none
         q-markup-table(
           style="min-width: 350px"
           wrap-cells

@@ -32,7 +32,10 @@
                   size="7px"
                   color="red"
                   name="fas fa-circle"
+                  style="cursor: pointer"
                 )
+                  q-tooltip
+                    span.text-body2 Остался один час до подтверждения
               td
                 span.text-black.text-body2 {{ dateSlot(index) }}
       q-card-section(
