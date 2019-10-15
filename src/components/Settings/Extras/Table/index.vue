@@ -1,5 +1,5 @@
 <template lang="pug">
-  .table
+  .table.wrapper.wrapper--header
     DataTable(
       title="Дополнительные услуги"
       :loadData="$app.extras.getAll"
@@ -12,7 +12,7 @@
       template(#row-controls="props")
         q-btn(flat round icon="drag_handle" no-caps title="Редактировать" @click="showDialog(props.row)")
     q-dialog(v-model="editExtras" persistent)
-      q-card
+      q-card(style="min-width: 700px")
         q-card-section
           editExtras(:singleStudio="singleStudio" :rooms="rooms" :dataset="dataset" @hide="editExtras = false")
 </template>
