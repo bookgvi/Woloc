@@ -6,9 +6,9 @@
         @dateChange="selectedDate = $event"
         @studioChange="studio = $event"
       )
-      q-card-section.q-pb-none
+      q-card-section.q-pa-none
         q-markup-table(
-          style="min-width: 350px"
+          style="min-width: 370px"
           separator="none"
           wrap-cells
           dense
@@ -18,8 +18,8 @@
             tr
               th(style="width: 70%")
                 span.text-bold.text-black.text-body2 Клиент • Зал
-              th
-              th
+              th.text-right
+              th.text-right
                 span.text-bold.text-black.text-body2 Дата
           tbody
             tr(
@@ -27,7 +27,7 @@
               :key="index"
             )
               td {{ clientSlot(index) }}
-              td
+              td.text-right
                 q-icon(
                   size="7px"
                   color="red"
@@ -36,7 +36,7 @@
                 )
                   q-tooltip
                     span.text-body2 Остался один час до подтверждения
-              td
+              td.text-right
                 span.text-black.text-body2 {{ dateSlot(index) }}
       q-card-section(
         v-if="isMiniTable"

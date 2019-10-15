@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card-section(style="height: 400px;")
+  q-card-section(style="height: 320px;")
     chart(
       :options="chartOptions"
       style="width: 100%; height: 100%;"
@@ -35,7 +35,8 @@ export default {
           axisLine: {
           },
           axisLabel: {
-            fontSize: 7,
+            fontSize: 9,
+            margin: 5
           }
         },
         tooltip: {

@@ -2,8 +2,8 @@
   .q-pa-none
     q-card
       name-slot(name="Чат")
-      q-card-section
-        q-list(style="max-width: 350px")
+      q-card-section.q-pa-none
+        q-list(style="max-width: 370px")
           q-item(
             v-for="(item, index) in options"
             :key="index"

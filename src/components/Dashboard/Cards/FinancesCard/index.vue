@@ -5,9 +5,9 @@
         name-slot(name="Финансы")
         q-tooltip
           span.text-body2 Будущие брони
-      q-card-section.q-pa-none
+      q-card-section.q-pa-none.q-pb-md
         q-markup-table(
-          style="min-width: 350px"
+          style="min-width: 370px"
           wrap-cells
           separator="none"
           dense
@@ -20,16 +20,16 @@
             tr
               td
                 span.text-grey На счету:
-              td
+              td.text-right
                 span.text-bold.text-h6 {{ accountSlot }}
             tr
               td
                 span.text-grey Ожидается:
-              td
+              td.text-right
                 span.text-grey {{ waitingSlot }}
-      q-card-section
+      q-card-section.q-pa-none
         q-markup-table(
-          style="min-width: 350px"
+          style="min-width: 370px"
           wrap-cells
           separator="none"
           dense
@@ -39,20 +39,20 @@
             tr
               th(style="width: 70%")
                 span.text-bold.text-black.text-body2 Операция
-              th
+              th.text-right
                 span.text-bold.text-black.text-body2 Сумма, р.
           tbody
             tr
               td Предоплата
-              td
+              td.text-right
                 span.text-positive {{ prepaymentSlot }}
             tr
               td Возврат
-              td
+              td.text-right
                 span.text-negative {{ refundSlot }}
             tr
               td Штраф
-              td
+              td.text-right
                 span.text-negative {{ fineSlot }}
 
 </template>

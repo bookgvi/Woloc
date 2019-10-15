@@ -1,10 +1,10 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      name-slot(:name="`Залы ` + studioName")
-      q-card-section.q-py-none
+      name-slot(:name="`Залы ` + studioName").q-pb-none
+      q-card-section.q-pa-none
         q-markup-table.q-pb-md(
-          style="min-width: 350px"
+          style="min-width: 370px"
           wrap-cells
           separator="none"
           dense

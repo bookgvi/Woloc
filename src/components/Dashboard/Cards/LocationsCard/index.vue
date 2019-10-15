@@ -1,8 +1,8 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      name-slot(name="Локации")
-      q-card-section.q-py-none
+      name-slot(name="Локации").q-pb-none
+      q-card-section.q-pa-none
         q-markup-table.q-pb-md(
           style="min-width: 350px"
           wrap-cells

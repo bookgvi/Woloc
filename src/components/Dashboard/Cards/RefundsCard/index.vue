@@ -1,8 +1,8 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      name-slot(name="Возвраты")
-      q-card-section.q-pt-none
+      name-slot(name="Возвраты").q-pb-none
+      q-card-section.q-pa-none
         q-markup-table(
           wrap-cells
           style="min-width: 370px"
@@ -37,7 +37,7 @@
                     span.row.text-body2.text-red Возврат 28 октября 12:00
               td
                 span.text-black.text-body2 {{ item.value }} р.
-      q-card-actions.q-pt-none.q-pl-lg
+      q-card-actions.q-pl-md
         q-btn.q-mr-xs.col-3.text-body2.text-black(
           outline
           size="sm"

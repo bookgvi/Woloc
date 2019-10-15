@@ -1,7 +1,7 @@
 <template lang="pug">
-  q-card-section.q-pb-none
+  q-card-section.q-pa-none
     q-markup-table.q-pb-md(
-      style="min-width: 350px"
+      style="min-width: 370px"
       wrap-cells
       separator="none"
       dense
@@ -11,9 +11,9 @@
         tr
           th(style="width: 70%")
             span.text-bold.text-black.text-body2 Зал
-          th
+          th.text-right
             span.text-bold.text-black.text-body2 %
-          th
+          th.text-right
             span.text-bold.text-black.text-body2 р.
       tbody
         tr(
@@ -26,9 +26,9 @@
               name="far fa-circle"
             )
             span {{ item.name }}
-          td
+          td.text-right
             span.text-grey.text-caption {{ item.percents }}
-          td
+          td.text-right
             span.text-body1 {{ item.total }}
 
 </template>

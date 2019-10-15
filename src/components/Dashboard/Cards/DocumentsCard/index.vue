@@ -2,11 +2,11 @@
   .q-pa-none
     q-card
       name-slot(name="Документы")
-      q-card-section.q-pt-none
+      q-card-section.q-pa-none
         q-markup-table(
           wrap-cells
           separator="none"
-          style="min-width: 350px"
+          style="min-width: 370px"
           dense
           flat
         )
@@ -17,7 +17,7 @@
               :key="index"
             )
               td {{ item.name }}
-              td
+              td.text-right
                 a.text-grey(
                   :href="item.link"
                   class="cursor-pointer"

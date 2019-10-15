@@ -1,7 +1,7 @@
 <template lang="pug">
   q-card-section
-    q-markup-table.q-pb-md(
-      style="min-width: 350px"
+    q-markup-table(
+      style="min-width: 370px"
       wrap-cells
       separator="none"
       dense
@@ -11,7 +11,7 @@
       tr
         th(style="width: 5%")
         th(style="width: 90%")
-        th(style="width: 5%")
+        th.text-right(style="width: 5%")
     tbody
       tr(
         v-for="(item, index) in options"
@@ -24,7 +24,7 @@
           )
         td
           span.text-caption {{ item.label }}
-        td
+        td.text-right
           q-checkbox(
             v-model="checkedOptions"
             :val="index"

@@ -6,9 +6,9 @@
         @dateChange="selectedDate = $event"
         @studioChange="studio = $event"
       )
-      q-card-section.q-pb-none
+      q-card-section.q-pa-none
         q-markup-table.q-pb-md(
-          style="min-width: 350px"
+          style="min-width: 370px"
           wrap-cells
           separator="none"
           dense
@@ -18,9 +18,9 @@
             tr
               th(style="width: 70%")
                 span.text-bold.text-black.text-body2 Зал
-              th
+              th.text-right
                 span.text-bold.text-black.text-body2 %
-              th
+              th.text-right
                 span.text-bold.text-black.text-body2 часы
           tbody
             tr(
@@ -33,9 +33,9 @@
                   name="far fa-circle"
                 )
                 span {{ load.name }}
-              td
+              td.text-right
                 span.text-grey.text-caption {{ load.percents }}
-              td
+              td.text-right
                 span.text-body1 {{ load.hours }}
 </template>
 

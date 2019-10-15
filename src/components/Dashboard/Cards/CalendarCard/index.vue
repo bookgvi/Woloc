@@ -12,14 +12,14 @@
         class="cursor-pointer"
         @click="isAllDay = true"
       )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm {{ "Показать 00:00-08:00"}}
+        span.row.text-body2.text-blue-5 {{ "Показать 00:00-08:00"}}
       q-card-section(
         v-else
         class="cursor-pointer"
         @click="isAllDay = false"
       )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm {{ "Скрыть 00:00-08:00"}}
-      calendar(
+        span.row.text-body2.text-blue-5 {{ "Скрыть 00:00-08:00"}}
+      calendar.q-pl-none(
         :studio="studio"
         :startDate="date"
         :isAllDay="isAllDay"

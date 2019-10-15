@@ -6,9 +6,9 @@
         @dateChange="selectedDate = $event"
         @studioChange="studio = $event"
       )
-      q-card-section.q-pb-none
+      q-card-section.q-pa-none
         q-markup-table(
-          style="min-width: 350px"
+          style="min-width: 370px"
           wrap-cells
           separator="none"
           dense
@@ -18,7 +18,7 @@
             tr
               th(style="width: 70%")
                 span.text-bold.text-black.text-body2 Клиент • Время
-              th
+              th.text-right
                 span.text-bold.text-black.text-body2 Оплата, р.
           tbody
             tr(
@@ -26,7 +26,7 @@
               :key="index"
             )
               td {{ clientSlot(index) }}
-              td
+              td.text-right
                 span.text-grey.text-caption {{ prepaymentSlot(index) }}
                 span &nbsp
                 span.text-body1 {{ paymentSlot(index) }}
@@ -35,7 +35,7 @@
         class="cursor-pointer"
         @click="isMiniTable = false"
       )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Ещё {{ $app.bookings.dashboardList.length - 3 }}
+        span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
       q-card-section(
         v-else
         class="cursor-pointer"
