@@ -78,6 +78,23 @@
             q-input(v-model="bank" outlined dense)
           .col.q-pr-sm
             q-input(v-model="account" outlined dense)
+        .row.q-py-lg
+          .text-h5 Сотрудники
+        .row.q-pb-md
+          .col
+            q-list(border separator style="width: 100%;" @click="isModal = true")
+              q-item(clickable).items-center
+                q-item-label.q-pr-md 1. Андрей Ревин
+                q-item-label.q-pr-md
+                  q-chip.bg-primary Владелец
+                  q-chip.bg-primary Админ
+              q-item(clickable).items-center
+                q-item-label.q-pr-md 1. Андрей Ревин
+                q-item-label.q-pr-md
+                  q-chip.bg-primary Владелец
+                  q-chip.bg-primary Админ
+        q-dialog(v-model="isModal")
+          q-card
 </template>
 
 <script>
@@ -99,7 +116,8 @@ export default {
       bic: '044 525 225',
       corrAccount: '301 010 101 000 000 202 00',
       bank: 'ПАО Сбербанк',
-      account: '407 020 101 380 000 500 25'
+      account: '407 020 101 380 000 500 25',
+      isModal: false
     }
   },
   methods: {
