@@ -1,9 +1,9 @@
 <template lang="pug">
   .q-pa-none
     q-card
+      name-slot(name="Доход")
       q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доход"}}
-        span.row.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
+        span.row.text-body2 {{ dateFormatForLabel }}
       chart(
         :options ="checkedOptions"
       )
@@ -22,10 +22,12 @@
 import NavBar from './Modules/NavBar'
 import Chart from './Modules/Chart'
 import Options from './Modules/Options'
+import NameSlot from '../CommonModules/NameSlot'
 
 export default {
   name: 'ProfitCard',
   components: {
+    NameSlot,
     Chart,
     NavBar,
     Options

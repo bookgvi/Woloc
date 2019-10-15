@@ -1,9 +1,9 @@
 <template lang="pug">
   .q-pa-none
     q-card
+      name-slot(name="Доля в бронированиях")
       q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доля в бронированиях "}}
-        span.row.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
+        span.row.text-body2 {{ dateFormatForLabel }}
       chart(
         :options ="options"
       )
@@ -21,6 +21,7 @@
 import NavBar from './Modules/NavBar'
 import Chart from './Modules/Chart'
 import Options from './Modules/Options'
+import NameSlot from '../CommonModules/NameSlot'
 
 const rawData = {
   week: [
@@ -80,7 +81,7 @@ const rawData = {
 }
 
 export default {
-  name: 'ProfitCard',
+  name: 'PartsCard',
   data () {
     return {
       period: 'month',
@@ -91,6 +92,7 @@ export default {
     }
   },
   components: {
+    NameSlot,
     Chart,
     NavBar,
     Options

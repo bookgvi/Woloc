@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm Отзывы
+      name-slot(name="Отзывы")
       q-card-section.q-pl-lg
         .row.col-12.justify-between
           .col-9
@@ -67,8 +66,10 @@
 
 <script>
 
+import NameSlot from '../CommonModules/NameSlot'
 export default {
   name: 'ReviewsCard',
+  components: { NameSlot },
   data () {
     return {
       messages: [

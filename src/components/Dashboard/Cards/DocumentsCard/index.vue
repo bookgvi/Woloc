@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm.q-pb-none Документы
+      name-slot(name="Документы")
       q-card-section.q-pt-none
         q-markup-table(
           wrap-cells
@@ -29,10 +28,11 @@
 <script>
 
 import NavBar from '../CommonModules/NavBar'
+import NameSlot from '../CommonModules/NameSlot'
 
 export default {
   name: 'DocumentsCard',
-  components: { NavBar },
+  components: { NameSlot, NavBar },
   async created () {
     await this.$app.documents.getAll()
   },

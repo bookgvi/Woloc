@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm Уведомления
+      name-slot(name="Уведомления")
       q-card-section
         q-list(style="max-width: 400px")
           q-item(
@@ -21,8 +20,10 @@
 
 <script>
 
+import NameSlot from '../CommonModules/NameSlot'
 export default {
   name: 'NotificationsCard',
+  components: { NameSlot },
   data () {
     return {
       messages: [

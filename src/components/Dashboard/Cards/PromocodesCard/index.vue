@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm Промокоды
+      name-slot(name="Промокоды")
       q-card-section
         q-markup-table(
           style="min-width: 350px"
@@ -38,8 +37,10 @@
 
 <script>
 
+import NameSlot from '../CommonModules/NameSlot'
 export default {
   name: 'PromocodesCard',
+  components: { NameSlot },
   data () {
     return {
       options: [

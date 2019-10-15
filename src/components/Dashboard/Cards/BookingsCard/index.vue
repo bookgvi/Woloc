@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Бронирования"}}
+      name-slot(name="Бронирования")
       nav-bar.q-pb-md(
         @dateChange="selectedDate = $event"
         @studioChange="studio = $event"
@@ -49,10 +48,11 @@
 <script>
 
 import NavBar from '../CommonModules/NavBar'
+import NameSlot from '../CommonModules/NameSlot'
 
 export default {
   name: 'BookingsCard',
-  components: { NavBar },
+  components: { NameSlot, NavBar },
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),

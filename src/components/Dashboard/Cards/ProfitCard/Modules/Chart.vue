@@ -23,7 +23,6 @@ export default {
   computed: {
     chartData () {
       if (!this.options) return [100]
-      console.log(this.options)
       return this.options
     },
     chartOptions () {

@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm Чат
+      name-slot(name="Чат")
       q-card-section
         q-list(style="max-width: 350px")
           q-item(
@@ -34,9 +33,11 @@
 <script>
 
 import { messages } from './messages'
+import NameSlot from '../CommonModules/NameSlot'
 
 export default {
   name: 'ChatCard',
+  components: { NameSlot },
   data () {
     return {
       messages: messages

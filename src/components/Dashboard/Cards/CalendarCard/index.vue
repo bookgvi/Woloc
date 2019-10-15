@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Календарь"}}
+      name-slot(name="Календарь")
       nav-bar(
         :startDate="date"
         @dateChange="date = $event"
@@ -31,10 +30,12 @@
 <script>
 import NavBar from '../CommonModules/NavBar'
 import Calendar from './Modules/Calendar'
+import NameSlot from '../CommonModules/NameSlot'
 
 export default {
   name: 'CalendarCard',
   components: {
+    NameSlot,
     Calendar,
     NavBar,
   },

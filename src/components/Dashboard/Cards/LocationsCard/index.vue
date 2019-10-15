@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section.q-pb-none
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm Локации
+      name-slot(name="Локации")
       q-card-section.q-py-none
         q-markup-table.q-pb-md(
           style="min-width: 350px"
@@ -37,8 +36,10 @@
 </template>
 
 <script>
+import NameSlot from '../CommonModules/NameSlot'
 export default {
   name: 'LocationsCard',
+  components: { NameSlot },
   computed: {
     options () {
       return this.$app.studios.list.map(item => {

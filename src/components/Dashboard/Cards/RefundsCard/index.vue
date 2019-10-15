@@ -1,8 +1,7 @@
 <template lang="pug">
   .q-pa-none
     q-card
-      q-card-section.q-pb-none
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm Возвраты
+      name-slot(name="Возвраты")
       q-card-section.q-pt-none
         q-markup-table(
           wrap-cells
@@ -37,6 +36,7 @@
         q-btn.q-mr-xs.col-3.text-body2.text-black(
           outline
           size="sm"
+          :disabled="!enabled"
           label="Отклонить"
           no-caps
           @click="decline"
@@ -45,6 +45,7 @@
         q-btn.q-mr-xs.col-3.text-body2.text-black(
           outline
           size="sm"
+          :disabled="!enabled"
           label="Одобрить"
           no-caps
           @click="accept"
@@ -54,8 +55,10 @@
 </template>
 
 <script>
+import NameSlot from '../CommonModules/NameSlot'
 export default {
   name: 'RefundsCard',
+  components: { NameSlot },
   data () {
     return {
       options: [
@@ -72,6 +75,11 @@ export default {
           value: 2400
         }
       ]
+    }
+  },
+  computed: {
+    enabled () {
+      return this.options.some(item => item.check)
     }
   },
   methods: {
