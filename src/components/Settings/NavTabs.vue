@@ -34,7 +34,8 @@ export default {
         { to: '/settings/extras', label: 'Доп. услуги' },
         { to: '/settings/discounts', label: 'Скидки' },
         { to: '/settings/promo', label: 'Промокоды' },
-        { to: '/settings/rules', label: 'Правила' }
+        { to: '/settings/rules', label: 'Правила' },
+        { to: '/settings/organization', label: 'Данные организации' }
       ]
     }
   }
