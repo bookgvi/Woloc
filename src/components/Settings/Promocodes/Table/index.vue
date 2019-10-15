@@ -37,7 +37,6 @@ export default {
     showDialog (props) {
       this.editPromo = true
       this.dataset = props
-      console.log('props', props)
     }
   }
 }
