@@ -82,11 +82,12 @@
           .text-h5 Сотрудники
         .row.q-pb-md
           .col
-            q-list(border separator style="width: 100%;" @click="isModal = true")
-              q-item(clickable v-for="item in employees" :key="item.id").items-center
+            q-list(border separator style="width: 100%;")
+              q-item(clickable v-for="item in employees" :key="item.id" @click="hasModal(item)").items-center
                 q-item-label.col-3.q-mr-sm {{ item.id }}. {{ item.name }}
                 q-item-label.col-8.q-mr-sm
-                  q-chip.bg-primary(v-for="(role, index) in item.role" :key="index" square) {{ role }}
+                  .inline-block(v-for="(role, index) in item.role" :key="index")
+                    q-chip.bg-primary(v-if="role.isRole" square) {{ role.name }}
                 q-item-label.col-1.q-ml-sm
                   q-icon(name="edit" style="font-size: 20px;")
         .row.q-py-lg
@@ -95,8 +96,12 @@
           .col
             q-btn(label="Добавить сотрудника" no-caps style="width: 100%;")
       q-dialog(v-model="isModal")
-        q-card
-          employees
+        q-card(style="min-width: 480px;")
+          employees(
+            :employees="employerProps"
+            :phone="phone"
+            @closeModal="isModal = false"
+          )
 </template>
 
 <script>
@@ -123,10 +128,42 @@ export default {
       account: '407 020 101 380 000 500 25',
       isModal: false,
       employees: [
-        { id: 1, name: 'Андрей Ревин', role: ['Владелец', 'Админ'] },
-        { id: 2, name: 'Джим Кэмп', role: ['Админ'] },
-        { id: 3, name: 'Антон Куранов', role: ['Менеджер'] }
-      ]
+        {
+          id: 1,
+          name: 'Андрей Ревин',
+          role: [
+            { id: 0, name: 'Менеджер', isRole: false },
+            { id: 1, name: 'Админ', isRole: true },
+            { id: 2, name: 'Владелец', isRole: true }
+          ],
+          login: 'andrey@revin.ru',
+          email: 'andrey@revin.ru',
+          pass: '123'
+        },
+        {
+          id: 2,
+          name: 'Джим Кэмп',
+          role: [
+            { id: 0, name: 'Менеджер', isRole: false },
+            { id: 1, name: 'Админ', isRole: true },
+            { id: 2, name: 'Владелец', isRole: false }
+          ],
+          login: 'jim@camp.ru',
+          email: 'andrey@revin.ru',
+          pass: '123' },
+        {
+          id: 3,
+          name: 'Антон Куранов',
+          role: [
+            { id: 0, name: 'Менеджер', isRole: true },
+            { id: 1, name: 'Админ', isRole: false },
+            { id: 2, name: 'Владелец', isRole: false }
+          ],
+          login: 'anton@kuranov.ru',
+          email: 'andrey@revin.ru',
+          pass: '123' }
+      ],
+      employerProps: {}
     }
   },
   methods: {
@@ -146,6 +183,10 @@ export default {
       space.style.height = '2.5rem'
       space.classList.add('q-mb-sm')
       space.style.border = 'none'
+    },
+    hasModal (value) {
+      this.isModal = true
+      this.employerProps = value
     }
   }
 }
