@@ -1,21 +1,21 @@
 <template lang="pug">
-  .wrapper
-    .row.q-pa-xs.q-pt-lg.col-12.justify-center
-      .q-px-sm.column.col-4.q-gutter-md
+  .wrapper--header
+    .row.q-pt-lg.col-12.justify-around
+      .column.col-4
         profit-card
         finances-card
         locations-card
         rooms-cards-creator
         documents-card
         notifications-card
-      .q-px-sm.column.col-4.q-gutter-md
+      .column.col-4
         parts-card
         bookings-card
         requests-card
         refunds-card
         promocodes-card
         notes-card
-      .q-px-sm.column.col-4.q-gutter-md
+      .column.col-4
         calendar-card
         workload-card
         chat-card

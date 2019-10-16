@@ -1,75 +1,75 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Отзывы")
-      q-card-section
-        .row.col-12.justify-between
-          .col-9
-            span.text-body2 {{ studioRoomSlot }}
-          q-btn-group(outline).col
-            q-btn.q-px-sm.q-mx-none(
-              @click="prev"
-              outline
-              size="sm"
-              icon="chevron_left"
-              color="secondary"
+  standart-card
+    name-slot(name="Отзывы")
+    q-card-section
+      .row.col-12.justify-between
+        .col-9
+          span.text-body2 {{ studioRoomSlot }}
+        q-btn-group(outline).col
+          q-btn.q-px-sm.q-mx-none(
+            @click="prev"
+            outline
+            size="sm"
+            icon="chevron_left"
+            color="secondary"
+          )
+          q-separator(vertical, inset)
+          q-btn.q-px-sm.q-mx-none(
+            @click="next"
+            outline
+            size="sm"
+            icon="chevron_right"
+            color="secondary"
+          )
+    q-card-section
+      .row.col-12.justify-between
+        .col-8
+          span.text-body2 {{ review.author }} &nbsp
+          template
+            q-icon(
+              v-for="(blank, index) in review.rating"
+              name="fas fa-star"
+              size="10px"
+              style="color: #79ADB6"
+              :key="index"
             )
-            q-separator(vertical, inset)
-            q-btn.q-px-sm.q-mx-none(
-              @click="next"
-              outline
-              size="sm"
-              icon="chevron_right"
-              color="secondary"
+            q-icon(
+              v-for="(blank, index) in 5 - review.rating"
+              name="fas fa-star"
+              size="10px"
+              style="color: #D9D9D9"
+              :key="index + 5"
             )
-      q-card-section
-        .row.col-12.justify-between
-          .col-8
-            span.text-body2 {{ review.author }} &nbsp
-            template
-              q-icon(
-                v-for="(blank, index) in review.rating"
-                name="fas fa-star"
-                size="10px"
-                style="color: #79ADB6"
-                :key="index"
-              )
-              q-icon(
-                v-for="(blank, index) in 5 - review.rating"
-                name="fas fa-star"
-                size="10px"
-                style="color: #D9D9D9"
-                :key="index + 5"
-              )
-          .col.text-right
-            span.text-caption.text-grey {{ review.date }}
-      q-card-section
-        span.text-body2 {{ review.text }}
-      q-card-actions.q-pt-none.q-pl-md
-        q-btn.q-mr-xs.text-body2.text-black(
-          outline
-          size="sm"
-          label="Просмотрено"
-          no-caps
-          @click="read"
-          color="secondary"
-        )
-        q-btn.q-mr-xs.text-body2.text-black(
-          outline
-          size="sm"
-          label="Ответить"
-          no-caps
-          @click="reply"
-          color="secondary"
-        )
+        .col.text-right
+          span.text-caption.text-grey {{ review.date }}
+    q-card-section
+      span.text-body2 {{ review.text }}
+    q-card-actions.q-pt-none.q-pl-md
+      q-btn.q-mr-xs.text-body2.text-black(
+        outline
+        size="sm"
+        label="Просмотрено"
+        no-caps
+        @click="read"
+        color="secondary"
+      )
+      q-btn.q-mr-xs.text-body2.text-black(
+        outline
+        size="sm"
+        label="Ответить"
+        no-caps
+        @click="reply"
+        color="secondary"
+      )
 </template>
 
 <script>
 
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 export default {
   name: 'ReviewsCard',
-  components: { NameSlot },
+  components: { StandartCard, NameSlot },
   data () {
     return {
       messages: [

@@ -1,58 +1,57 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Бронирования")
-      nav-bar.q-pb-md(
-        @dateChange="selectedDate = $event"
-        @studioChange="studio = $event"
+  standart-card
+    name-slot(name="Бронирования")
+    nav-bar.q-pb-md(
+      @dateChange="selectedDate = $event"
+      @studioChange="studio = $event"
+    )
+    q-card-section.q-pa-none
+      q-markup-table(
+        style="min-width: 370px"
+        wrap-cells
+        separator="none"
+        dense
+        flat
       )
-      q-card-section.q-pa-none
-        q-markup-table(
-          style="min-width: 370px"
-          wrap-cells
-          separator="none"
-          dense
-          flat
-        )
-          thead.text-left
-            tr
-              th(style="width: 70%")
-                span.text-bold.text-black.text-body2 Клиент • Время
-              th.text-right
-                span.text-bold.text-black.text-body2 Оплата, р.
-          tbody
-            tr(
-              v-for="(booking, index) in bookings"
-              :key="index"
-            )
-              td {{ clientSlot(index) }}
-              td.text-right
-                span.text-grey.text-caption {{ prepaymentSlot(index) }}
-                span &nbsp
-                span.text-body1 {{ paymentSlot(index) }}
-      q-card-section(
-        v-if="isMiniTable"
-        class="cursor-pointer"
-        @click="isMiniTable = false"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
-      q-card-section(
-        v-else
-        class="cursor-pointer"
-        @click="isMiniTable = true"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md  Свернуть
-
+        thead.text-left
+          tr
+            th(style="width: 70%")
+              span.text-bold.text-black.text-body2 Клиент • Время
+            th.text-right
+              span.text-bold.text-black.text-body2 Оплата, р.
+        tbody
+          tr(
+            v-for="(booking, index) in bookings"
+            :key="index"
+          )
+            td {{ clientSlot(index) }}
+            td.text-right
+              span.text-grey.text-caption {{ prepaymentSlot(index) }}
+              span &nbsp
+              span.text-body1 {{ paymentSlot(index) }}
+    q-card-section(
+      v-if="isMiniTable"
+      class="cursor-pointer"
+      @click="isMiniTable = false"
+    )
+      span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
+    q-card-section(
+      v-else
+      class="cursor-pointer"
+      @click="isMiniTable = true"
+    )
+      span.row.text-body2.text-blue-5.q-pt-md  Свернуть
 </template>
 
 <script>
 
 import NavBar from '../CommonModules/NavBar'
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 export default {
   name: 'BookingsCard',
-  components: { NameSlot, NavBar },
+  components: { StandartCard, NameSlot, NavBar },
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),

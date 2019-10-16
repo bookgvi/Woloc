@@ -1,29 +1,29 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Уведомления")
-      q-card-section.q-pa-none.q-pb-md
-        q-list(style="max-width: 370px")
-          q-item(
-            v-for="(item, index) in options"
-            :key="index"
-          )
-            q-item-section
-              q-item-label
-                span.text-body2 {{ item.text }}
-              q-item-label
-                a.text-body2.text-cyan-3(
-                    style="cursor: pointer"
-                    :href="item.link"
-                  ) {{ item.action }}
+  standart-card
+    name-slot(name="Уведомления")
+    q-card-section.q-pa-none.q-pb-md
+      q-list(style="max-width: 370px")
+        q-item(
+          v-for="(item, index) in options"
+          :key="index"
+        )
+          q-item-section
+            q-item-label
+              span.text-body2 {{ item.text }}
+            q-item-label
+              a.text-body2.text-cyan-3(
+                  style="cursor: pointer"
+                  :href="item.link"
+                ) {{ item.action }}
 </template>
 
 <script>
 
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 export default {
   name: 'NotificationsCard',
-  components: { NameSlot },
+  components: { StandartCard, NameSlot },
   data () {
     return {
       messages: [

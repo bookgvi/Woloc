@@ -1,66 +1,65 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Заявки")
-      nav-bar.q-pb-md(
-        @dateChange="selectedDate = $event"
-        @studioChange="studio = $event"
+  standart-card
+    name-slot(name="Заявки")
+    nav-bar.q-pb-md(
+      @dateChange="selectedDate = $event"
+      @studioChange="studio = $event"
+    )
+    q-card-section.q-pa-none
+      q-markup-table(
+        style="min-width: 370px"
+        separator="none"
+        wrap-cells
+        dense
+        flat
       )
-      q-card-section.q-pa-none
-        q-markup-table(
-          style="min-width: 370px"
-          separator="none"
-          wrap-cells
-          dense
-          flat
-        )
-          thead.text-left
-            tr
-              th(style="width: 60%")
-                span.text-bold.text-black.text-body2 Клиент • Зал
-              th.text-right
-              th.text-right
-                span.text-bold.text-black.text-body2 Дата
-          tbody
-            tr(
-              v-for="(booking, index) in bookings"
-              :key="index"
-            )
-              td {{ clientSlot(index) }}
-              td.text-right
-                q-icon(
-                  size="7px"
-                  color="red"
-                  name="fas fa-circle"
-                  style="cursor: pointer"
-                )
-                  q-tooltip
-                    span.text-body2 Остался один час до подтверждения
-              td.text-right
-                span.text-black.text-body2 {{ dateSlot(index) }}
-      q-card-section(
-        v-if="isMiniTable"
-        class="cursor-pointer"
-        @click="isMiniTable = false"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
-      q-card-section(
-        v-else
-        class="cursor-pointer"
-        @click="isMiniTable = true"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md Свернуть
-
+        thead.text-left
+          tr
+            th(style="width: 60%")
+              span.text-bold.text-black.text-body2 Клиент • Зал
+            th.text-right
+            th.text-right
+              span.text-bold.text-black.text-body2 Дата
+        tbody
+          tr(
+            v-for="(booking, index) in bookings"
+            :key="index"
+          )
+            td {{ clientSlot(index) }}
+            td.text-right
+              q-icon(
+                size="7px"
+                color="red"
+                name="fas fa-circle"
+                style="cursor: pointer"
+              )
+                q-tooltip
+                  span.text-body2 Остался один час до подтверждения
+            td.text-right
+              span.text-black.text-body2 {{ dateSlot(index) }}
+    q-card-section(
+      v-if="isMiniTable"
+      class="cursor-pointer"
+      @click="isMiniTable = false"
+    )
+      span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
+    q-card-section(
+      v-else
+      class="cursor-pointer"
+      @click="isMiniTable = true"
+    )
+      span.row.text-body2.text-blue-5.q-pt-md Свернуть
 </template>
 
 <script>
 
 import NavBar from '../CommonModules/NavBar'
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 export default {
   name: 'RequestsCard',
-  components: { NameSlot, NavBar },
+  components: { StandartCard, NameSlot, NavBar },
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),

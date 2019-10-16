@@ -1,20 +1,19 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Доля в бронированиях")
-      q-card-section
-        span.row.text-body2 {{ dateFormatForLabel }}
-      chart(
-        :options ="options"
-      )
-      nav-bar(
-        :startPeriod="period"
-        @periodChange="period = $event"
-        @dateChange="date = $event"
-      )
-      options(
-        :options ="options"
-      )
+  standart-card
+    name-slot(name="Доля в бронированиях")
+    q-card-section
+      span.row.text-body2 {{ dateFormatForLabel }}
+    chart(
+      :options ="options"
+    )
+    nav-bar(
+      :startPeriod="period"
+      @periodChange="period = $event"
+      @dateChange="date = $event"
+    )
+    options(
+      :options ="options"
+    )
 </template>
 
 <script>
@@ -22,6 +21,7 @@ import NavBar from './Modules/NavBar'
 import Chart from './Modules/Chart'
 import Options from './Modules/Options'
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 const rawData = {
   week: [
@@ -92,6 +92,7 @@ export default {
     }
   },
   components: {
+    StandartCard,
     NameSlot,
     Chart,
     NavBar,

@@ -1,21 +1,20 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Доход")
-      q-card-section
-        span.row.text-body2 {{ dateFormatForLabel }}
-      chart(
-        :options ="checkedOptions"
+  standart-card
+    name-slot(name="Доход")
+    q-card-section
+      span.row.text-body2 {{ dateFormatForLabel }}
+    chart(
+      :options ="checkedOptions"
+    )
+    nav-bar(
+      :startPeriod="period"
+      @periodChange="period = $event"
+      @dateChange="date = $event"
       )
-      nav-bar(
-        :startPeriod="period"
-        @periodChange="period = $event"
-        @dateChange="date = $event"
-        )
-      options(
-        @checkedChange="checked = $event"
-        :options ="options"
-      )
+    options(
+      @checkedChange="checked = $event"
+      :options ="options"
+    )
 </template>
 
 <script>
@@ -23,10 +22,12 @@ import NavBar from './Modules/NavBar'
 import Chart from './Modules/Chart'
 import Options from './Modules/Options'
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 export default {
   name: 'ProfitCard',
   components: {
+    StandartCard,
     NameSlot,
     Chart,
     NavBar,

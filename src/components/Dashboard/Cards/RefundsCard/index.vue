@@ -1,69 +1,69 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Возвраты").q-pb-none
-      q-card-section.q-pa-none
-        q-markup-table(
-          wrap-cells
-          style="min-width: 379px"
-          separator="none"
-          dense
-          flat
-        )
-          thead.text-left
-            tr
-              th(style="width: 70%")
-              th
-              th
-          tbody
-            tr(
-              v-for="(item, index) in options"
-              :key="index"
-            )
-              td
-                q-checkbox(v-model="item.check" dense)
-                span &nbsp {{ item.name }}
-              td.text-right
-                q-icon(
-                  v-if="item.isInfo"
-                  size="7px"
-                  color="red"
-                  name="fas fa-circle"
-                  style="cursor: pointer"
-                )
-                  q-tooltip
-                    span.row.text-body2 28 октября 9:00-13:00
-                    span.row &nbsp
-                    span.row.text-body2.text-red Возврат 28 октября 12:00
-              td.text-right
-                span.text-black.text-body2 {{ item.value }} р.
-      q-card-actions.q-pl-md.q-pb-md
-        q-btn.q-mr-xs.col-3.text-body2.text-black(
-          outline
-          size="sm"
-          :disabled="!enabled"
-          label="Отклонить"
-          no-caps
-          @click="decline"
-          color="secondary"
-        )
-        q-btn.q-mr-xs.col-3.text-body2.text-black(
-          outline
-          size="sm"
-          :disabled="!enabled"
-          label="Одобрить"
-          no-caps
-          @click="accept"
-          color="secondary"
-        )
+  standart-card
+    name-slot(name="Возвраты").q-pb-none
+    q-card-section.q-pa-none
+      q-markup-table(
+        wrap-cells
+        style="min-width: 379px"
+        separator="none"
+        dense
+        flat
+      )
+        thead.text-left
+          tr
+            th(style="width: 70%")
+            th
+            th
+        tbody
+          tr(
+            v-for="(item, index) in options"
+            :key="index"
+          )
+            td
+              q-checkbox(v-model="item.check" dense)
+              span &nbsp {{ item.name }}
+            td.text-right
+              q-icon(
+                v-if="item.isInfo"
+                size="7px"
+                color="red"
+                name="fas fa-circle"
+                style="cursor: pointer"
+              )
+                q-tooltip
+                  span.row.text-body2 28 октября 9:00-13:00
+                  span.row &nbsp
+                  span.row.text-body2.text-red Возврат 28 октября 12:00
+            td.text-right
+              span.text-black.text-body2 {{ item.value }} р.
+    q-card-actions.q-pl-md.q-pb-md
+      q-btn.q-mr-xs.col-3.text-body2.text-black(
+        outline
+        size="sm"
+        :disabled="!enabled"
+        label="Отклонить"
+        no-caps
+        @click="decline"
+        color="secondary"
+      )
+      q-btn.q-mr-xs.col-3.text-body2.text-black(
+        outline
+        size="sm"
+        :disabled="!enabled"
+        label="Одобрить"
+        no-caps
+        @click="accept"
+        color="secondary"
+      )
 
 </template>
 
 <script>
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 export default {
   name: 'RefundsCard',
-  components: { NameSlot },
+  components: { StandartCard, NameSlot },
   data () {
     return {
       options: [

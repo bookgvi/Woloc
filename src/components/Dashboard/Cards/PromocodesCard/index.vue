@@ -1,52 +1,52 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Промокоды")
-      q-card-section.q-pa-none.q-pb-md
-        q-markup-table(
-          style="min-width: 370px"
-          wrap-cells
-          separator="none"
-          dense
-          flat
-        )
-          thead.text-left
-            tr
-              th(style="width: 60%")
-                span.text-bold.text-black.text-body2 Название • Скидка
-              th.text-right
-                span.text-bold.text-black.text-body2 Активен до
-          tbody
-            tr(
-              v-for="(item, index) in options"
-              :key="index"
-            )
-              td {{ nameSlot(index) }} &nbsp
-                span.text-body2.bg-cyan-3.q-pa-xs(
-                  v-if="!item.isActive"
-                ) ugoloc
-              td.text-right
-                span.text-black.text-body2(
-                  v-if="item.isActive"
-                ) {{ dateSlot(index) }}
-                span.text-cyan-3.text-body2(
-                  v-else
-                  class="cursor-pointer"
-                  @click="isPromoDialog = true"
-                ) Активировать
-        promo-dialog(
-          :isPromoDialog="promoDialog"
-          @dialogStateChange="isPromoDialog = $event"
-        )
+  standart-card
+    name-slot(name="Промокоды")
+    q-card-section.q-pa-none.q-pb-md
+      q-markup-table(
+        style="min-width: 370px"
+        wrap-cells
+        separator="none"
+        dense
+        flat
+      )
+        thead.text-left
+          tr
+            th(style="width: 60%")
+              span.text-bold.text-black.text-body2 Название • Скидка
+            th.text-right
+              span.text-bold.text-black.text-body2 Активен до
+        tbody
+          tr(
+            v-for="(item, index) in options"
+            :key="index"
+          )
+            td {{ nameSlot(index) }} &nbsp
+              span.text-body2.bg-cyan-3.q-pa-xs(
+                v-if="!item.isActive"
+              ) ugoloc
+            td.text-right
+              span.text-black.text-body2(
+                v-if="item.isActive"
+              ) {{ dateSlot(index) }}
+              span.text-cyan-3.text-body2(
+                v-else
+                class="cursor-pointer"
+                @click="isPromoDialog = true"
+              ) Активировать
+      promo-dialog(
+        :isPromoDialog="promoDialog"
+        @dialogStateChange="isPromoDialog = $event"
+      )
 </template>
 
 <script>
 
 import NameSlot from '../CommonModules/NameSlot'
 import PromoDialog from './Modules/Dialog'
+import StandartCard from '../CommonModules/StandartCard'
 export default {
   name: 'PromocodesCard',
-  components: { PromoDialog, NameSlot },
+  components: { StandartCard, PromoDialog, NameSlot },
   data () {
     return {
       isPromoDialog: false,

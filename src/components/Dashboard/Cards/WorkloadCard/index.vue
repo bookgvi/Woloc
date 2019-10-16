@@ -1,52 +1,52 @@
 <template lang="pug">
-  .q-pa-none
-    q-card(style="max-width: 400px")
-      name-slot(name="Загруженность")
-      nav-bar.q-pb-md(
-        @dateChange="selectedDate = $event"
-        @studioChange="studio = $event"
+  standart-card
+    name-slot(name="Загруженность")
+    nav-bar.q-pb-md(
+      @dateChange="selectedDate = $event"
+      @studioChange="studio = $event"
+    )
+    q-card-section.q-pa-none
+      q-markup-table.q-pb-md(
+        style="min-width: 370px"
+        wrap-cells
+        separator="none"
+        dense
+        flat
       )
-      q-card-section.q-pa-none
-        q-markup-table.q-pb-md(
-          style="min-width: 370px"
-          wrap-cells
-          separator="none"
-          dense
-          flat
-        )
-          thead.text-left
-            tr
-              th(style="width: 70%")
-                span.text-bold.text-black.text-body2 Зал
-              th.text-right
-                span.text-bold.text-black.text-body2 %
-              th.text-right
-                span.text-bold.text-black.text-body2 часы
-          tbody
-            tr(
-              v-for="(load, index) in options"
-              :key="index"
-            )
-              td
-                q-icon.q-mr-md(
-                  :style="{color: load.color}"
-                  name="far fa-circle"
-                )
-                span {{ load.name }}
-              td.text-right
-                span.text-grey.text-caption {{ load.percents }}
-              td.text-right
-                span.text-body1 {{ load.hours }}
+        thead.text-left
+          tr
+            th(style="width: 70%")
+              span.text-bold.text-black.text-body2 Зал
+            th.text-right
+              span.text-bold.text-black.text-body2 %
+            th.text-right
+              span.text-bold.text-black.text-body2 часы
+        tbody
+          tr(
+            v-for="(load, index) in options"
+            :key="index"
+          )
+            td
+              q-icon.q-mr-md(
+                :style="{color: load.color}"
+                name="far fa-circle"
+              )
+              span {{ load.name }}
+            td.text-right
+              span.text-grey.text-caption {{ load.percents }}
+            td.text-right
+              span.text-body1 {{ load.hours }}
 </template>
 
 <script>
 
 import NavBar from '../CommonModules/NavBar'
 import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 export default {
   name: 'WorkloadCard',
-  components: { NameSlot, NavBar },
+  components: { StandartCard, NameSlot, NavBar },
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),
