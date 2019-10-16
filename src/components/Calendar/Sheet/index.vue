@@ -320,7 +320,7 @@ export default {
             const event = {
               id: booking.id,
               isNotFullVisible,
-              isExtras: (booking.extras && booking.extras.items && booking.extras.items.length > 0),
+              isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
               // comment: booking.managerComment,
               details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
