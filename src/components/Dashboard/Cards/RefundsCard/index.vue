@@ -4,7 +4,7 @@
     q-card-section.q-pa-none
       q-markup-table(
         wrap-cells
-        style="min-width: 379px"
+        style="min-width: 400px"
         separator="none"
         dense
         flat

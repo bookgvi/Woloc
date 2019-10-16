@@ -3,7 +3,7 @@
     name-slot(name="Локации").q-pb-none
     q-card-section.q-pa-none
       q-markup-table.q-pb-md(
-        style="min-width: 350px"
+        style="min-width: 400px"
         wrap-cells
         separator="none"
         dense

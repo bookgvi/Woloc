@@ -37,13 +37,13 @@
         )
           q-input.text-body2(
             v-model="itemBuffer.title"
-            label="Заголовок"
+            placeholder="Заголовок"
             outlined
             dense
           )
           q-input.text-body2(
             v-model="itemBuffer.text"
-            label="Заметка"
+            placeholder="Заметка"
             type="textarea"
             outlined
             dense

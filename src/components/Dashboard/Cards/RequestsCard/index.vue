@@ -7,7 +7,7 @@
     )
     q-card-section.q-pa-none
       q-markup-table(
-        style="min-width: 370px"
+        style="min-width: 400px"
         separator="none"
         wrap-cells
         dense

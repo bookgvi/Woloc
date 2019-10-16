@@ -5,7 +5,7 @@
       q-markup-table(
         wrap-cells
         separator="none"
-        style="min-width: 370px"
+        style="min-width: 400px"
         dense
         flat
       )

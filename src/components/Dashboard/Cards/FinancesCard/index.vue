@@ -6,7 +6,7 @@
         span.text-body2 Будущие брони
     q-card-section.q-pa-none.q-pb-md
       q-markup-table(
-        style="min-width: 370px"
+        style="min-width: 400px"
         wrap-cells
         separator="none"
         dense
@@ -28,7 +28,7 @@
               span.text-grey {{ waitingSlot }}
     q-card-section.q-pa-none.q-pb-md
       q-markup-table(
-        style="min-width: 370px"
+        style="min-width: 400px"
         wrap-cells
         separator="none"
         dense
