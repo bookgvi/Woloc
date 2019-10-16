@@ -1,7 +1,7 @@
 <template lang="pug">
-  q-card-section.row.col-12.items-center.q-py-none
+  q-card-section.row.col-12.items-center
     .col-5
-      span.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
+      span.text-body2.q-py-md {{ dateFormatForLabel }}
     .row.col.justify-around
       q-btn.q-mr-xs.col-3(
         outline

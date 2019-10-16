@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card-section(style="height: 400px;")
+  q-card-section(style="height: 320px;")
     chart(
       :options="chartOptions"
       style="width: 100%; height: 100%;"
@@ -10,7 +10,6 @@
 <script>
 import ECharts from 'vue-echarts'
 import 'echarts'
-import roomsColors from 'src/common/rooms/colors'
 
 export default {
   name: 'Chart',
@@ -29,24 +28,40 @@ export default {
     chartOptions () {
       const chartOptions = {
         xAxis: {
-          type: 'category',
+          type: 'category'
         },
         yAxis: {
-          type: 'value'
+          type: 'value',
+          axisLine: {
+          },
+          axisLabel: {
+            fontSize: 9,
+            margin: 5
+          }
         },
+        tooltip: {
+          trigger: 'axis'
+        },
+        dataZoom: [
+          {
+            type: 'slider',
+            start: 0,
+            end: 100
+          }
+        ],
         series: [{
           data: [100],
-          type: 'line'
+          type: 'line',
+          showAllSymbol: true
         }]
       }
       if (this.chartData) {
         this.chartData.forEach((item, index) => {
           chartOptions.series[index] = Object.assign({
-            data: item,
             type: 'line',
-            color: roomsColors[index].color
+            color: item.color
           })
-          chartOptions.series[index].data = item
+          chartOptions.series[index].data = item.data
         })
       }
       return chartOptions

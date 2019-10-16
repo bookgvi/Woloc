@@ -1,56 +1,57 @@
 <template lang="pug">
-  .q-pa-none
-    q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Бронирования"}}
-      nav-bar.q-pb-md(
-        @dateChange="selectedDate = $event"
-        @studioChange="studio = $event"
+  standart-card
+    name-slot(name="Бронирования")
+    nav-bar.q-pb-md(
+      @dateChange="selectedDate = $event"
+      @studioChange="studio = $event"
+    )
+    q-card-section.q-pa-none
+      q-markup-table(
+        style="min-width: 400px"
+        wrap-cells
+        separator="none"
+        dense
+        flat
       )
-      q-card-section.q-pb-none
-        q-markup-table(
-          separator="none"
-          dense
-          flat
-        )
-          thead.text-left
-            tr
-              th(style="width: 70%")
-                span.text-bold.text-black.text-body2 Клиент • Время
-              th
-                span.text-bold.text-black.text-body2 Оплата, р.
-          tbody
-            tr(
-              v-for="(booking, index) in bookings"
-              :key="index"
-            )
-              td {{ clientSlot(index) }}
-              td
-                span.text-grey.text-caption {{ prepaymentSlot(index) }}
-                span &nbsp
-                span.text-body1 {{ paymentSlot(index) }}
-      q-card-section(
-        v-if="isMiniTable"
-        class="cursor-pointer"
-        @click="isMiniTable = false"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Ещё {{ $app.bookings.dashboardList.length - 3 }}
-      q-card-section(
-        v-else
-        class="cursor-pointer"
-        @click="isMiniTable = true"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm  Свернуть
-
+        thead.text-left
+          tr
+            th(style="width: 70%")
+              span.text-bold.text-black.text-body2 Клиент • Время
+            th.text-right
+              span.text-bold.text-black.text-body2 Оплата, р.
+        tbody
+          tr(
+            v-for="(booking, index) in bookings"
+            :key="index"
+          )
+            td {{ clientSlot(index) }}
+            td.text-right
+              span.text-grey.text-caption {{ prepaymentSlot(index) }}
+              span &nbsp
+              span.text-body1 {{ paymentSlot(index) }}
+    q-card-section(
+      v-if="isMiniTable"
+      class="cursor-pointer"
+      @click="isMiniTable = false"
+    )
+      span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
+    q-card-section(
+      v-else
+      class="cursor-pointer"
+      @click="isMiniTable = true"
+    )
+      span.row.text-body2.text-blue-5.q-pt-md  Свернуть
 </template>
 
 <script>
 
 import NavBar from '../CommonModules/NavBar'
+import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 export default {
   name: 'BookingsCard',
-  components: { NavBar },
+  components: { StandartCard, NameSlot, NavBar },
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),
@@ -80,11 +81,11 @@ export default {
     },
     prepaymentSlot (index) {
       const booking = this.bookings[index]
-      return (booking.amount).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      return (+Number(booking.amount).toFixed()).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
     },
     paymentSlot (index) {
       const booking = this.bookings[index]
-      return (booking.price).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      return (+Number(booking.price).toFixed()).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
     },
   },
   watch: {
