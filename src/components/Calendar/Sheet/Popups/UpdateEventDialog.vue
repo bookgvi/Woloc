@@ -24,6 +24,7 @@
                 span.text-grey {{ customerSlot }}
             calendar-customer.q-pa-md(
               :startCustomer="newBooking.customer"
+              :isCreate="isCreate"
               @customerChange="newBooking.customer = $event"
             )
           q-expansion-item(
@@ -369,11 +370,17 @@ export default {
       // console.log(9, this.newBooking.id, index)
     }
   },
-  props: ['booking', 'filter', 'dialogState'],
+  props: {
+    booking: Object,
+    filter: Object,
+    dialogState: Boolean,
+    isCreate: Boolean
+  },
   watch: {
     booking (v) {
       this.$nextTick(function () {
-        console.log(v)
+        console.log(this.isCreate)
+        // console.log(v)
         this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')

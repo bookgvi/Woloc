@@ -99,6 +99,7 @@
                 span.row.col-12.text-booking.wrap {{ e.title }}
                 span.row.col-12.text-booking.wrap {{ e.details }}
       update-event-dialog(
+        :isCreate="isCreate"
         :dialogState="dialogState"
         :filter="filter"
         :booking="selectedBooking"
@@ -129,6 +130,7 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
+      isCreate: true,
       calendarKey: 0,
       isAllDay: false,
       events: [],
@@ -166,8 +168,9 @@ export default {
       return fixed.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
     },
     setNewBooking (date, time) {
+      this.isCreate = true
       this.selectedBooking = Object.assign({}, {
-        id: 8983249234,
+        id: -1,
         customer: {},
         customerComment: 'test',
         managerComment: 'test',
@@ -183,6 +186,7 @@ export default {
       this.dialogState = true
     },
     async findBooking (index) {
+      this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
       // console.log(this.selectedBooking)
       this.dialogState = true
