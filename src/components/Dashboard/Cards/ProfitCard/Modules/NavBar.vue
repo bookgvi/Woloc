@@ -3,6 +3,7 @@
     q-btn.q-mr-xs(
       label="Неделя"
       no-caps
+      size="sm"
       outline
       @click="setPeriod"
       color="secondary"
@@ -11,6 +12,7 @@
       outline
       label="Месяц"
       no-caps
+      size="sm"
       @click="setPeriod"
       color="secondary"
     )
@@ -18,6 +20,7 @@
       outline
       label="Год"
       no-caps
+      size="sm"
       @click="setPeriod"
       color="secondary"
     )
@@ -25,6 +28,7 @@
     q-btn-group(outline)
       q-btn.q-px-sm.q-mx-none(
         @click="periodPrev"
+        size="sm"
         outline
         icon="chevron_left"
         color="secondary"
@@ -32,6 +36,7 @@
       q-separator(vertical, inset)
       q-btn.q-px-sm.q-mx-none(
         @click="periodNext"
+        size="sm"
         outline
         icon="chevron_right"
         color="secondary"

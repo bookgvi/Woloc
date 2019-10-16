@@ -1,6 +1,7 @@
 <template lang="pug">
-  .q-pa-none
+  .q-px-md
     main-menu
+    q-separator
 </template>
 
 <script>
