@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="Документы")
       q-card-section.q-pa-none.q-pb-md
         q-markup-table(

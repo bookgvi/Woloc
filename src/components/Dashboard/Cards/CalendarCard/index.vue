@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="Календарь")
       nav-bar(
         :startDate="date"

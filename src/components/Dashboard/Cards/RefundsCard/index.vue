@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="Возвраты").q-pb-none
       q-card-section.q-pa-none
         q-markup-table(

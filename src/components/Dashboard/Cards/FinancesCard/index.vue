@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       .q-pa-none
         name-slot(name="Финансы")
         q-tooltip

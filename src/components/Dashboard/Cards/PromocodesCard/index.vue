@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="Промокоды")
       q-card-section.q-pa-none.q-pb-md
         q-markup-table(
@@ -32,17 +32,24 @@
                 span.text-cyan-3.text-body2(
                   v-else
                   class="cursor-pointer"
+                  @click="isPromoDialog = true"
                 ) Активировать
+        promo-dialog(
+          :isPromoDialog="promoDialog"
+          @dialogStateChange="isPromoDialog = $event"
+        )
 </template>
 
 <script>
 
 import NameSlot from '../CommonModules/NameSlot'
+import PromoDialog from './Modules/Dialog'
 export default {
   name: 'PromocodesCard',
-  components: { NameSlot },
+  components: { PromoDialog, NameSlot },
   data () {
     return {
+      isPromoDialog: false,
       options: [
         {
           name: 'Весна',
@@ -66,6 +73,9 @@ export default {
     }
   },
   computed: {
+    promoDialog () {
+      return this.isPromoDialog
+    }
   },
   methods: {
     nameSlot (index) {

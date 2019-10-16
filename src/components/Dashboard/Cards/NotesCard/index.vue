@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       template(v-if="!isNoteEditMode")
         q-card-section.q-pb-none
           q-card.text-body2.q-mb-md(

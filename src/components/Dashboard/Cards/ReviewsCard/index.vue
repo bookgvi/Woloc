@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="Отзывы")
       q-card-section
         .row.col-12.justify-between

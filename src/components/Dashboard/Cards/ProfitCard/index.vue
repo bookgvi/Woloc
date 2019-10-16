@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="Доход")
       q-card-section
         span.row.text-body2 {{ dateFormatForLabel }}

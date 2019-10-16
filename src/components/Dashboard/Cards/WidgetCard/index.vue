@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="JS Widget")
       q-card-section
         span.text-body2 Вы можете создать виджет вашей  локации или зала и вставить его на любой сайт.

@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none
-    q-card
+    q-card(style="max-width: 400px")
       name-slot(name="Чат")
       q-card-section.q-pa-none
         q-list(style="max-width: 370px")
