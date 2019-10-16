@@ -117,8 +117,8 @@
             calendar-comment.q-pa-md(
               @customerCommentChange="newBooking.customerComment = $event"
               :startCustomerComment="newBooking.customerComment"
-              @managerCommentChange="newBooking.customerComment = $event"
-              :startManagerComment="newBooking.customerComment"
+              @managerCommentChange="newBooking.managerComment = $event"
+              :startManagerComment="newBooking.managerComment"
             )
           q-expansion-item(
             group="new-event"
@@ -340,7 +340,7 @@ export default {
         seats: 1,
         description: this.newBooking.managerComment || ''
       }
-      // console.log('post', params)
+      // console.log('put', params)
       return {
         id: this.newBooking.id,
         data: params

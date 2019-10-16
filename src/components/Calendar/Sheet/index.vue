@@ -172,8 +172,8 @@ export default {
       this.selectedBooking = Object.assign({}, {
         id: -1,
         customer: {},
-        customerComment: 'test',
-        managerComment: 'test',
+        customerComment: '',
+        managerComment: '',
         price: 0,
         reservedFrom: this.$moment(`${date}T${time}`),
         reservedTo: this.$moment(`${date}T00:00`),
