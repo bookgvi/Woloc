@@ -148,7 +148,7 @@ export default {
       return this.isAllDay ? 24 : 16
     },
     selectedStudioLabel () {
-      return this.studio ? this.studio.name : ''
+      return this.studio ? this.studio.name : 'Студия не выбрана'
     },
     studio () {
       return this.$app.studios.getFiltered(this.filter)
