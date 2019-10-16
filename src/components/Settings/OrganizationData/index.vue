@@ -57,7 +57,7 @@
           .col-6.q-pr-sm
             q-input(v-model="kpp" outlined dense)
         .row.q-py-lg
-          .text-h5 Данные организации
+          .text-h5 Банковские реквизиты
         .row.q-pb-xs
           .col.q-pr-sm
             span БИК
