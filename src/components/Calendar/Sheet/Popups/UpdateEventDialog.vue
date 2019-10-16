@@ -379,7 +379,6 @@ export default {
   watch: {
     booking (v) {
       this.$nextTick(function () {
-        console.log(this.isCreate)
         // console.log(v)
         this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')

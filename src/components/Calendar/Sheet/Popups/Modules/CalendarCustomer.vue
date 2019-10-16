@@ -53,7 +53,6 @@ export default {
   },
   computed: {
     customerComp () {
-      console.log(this.isCreate)
       return this.customerChange()
     },
     phone: {
