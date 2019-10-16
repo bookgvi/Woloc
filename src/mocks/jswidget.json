@@ -1,0 +1,26 @@
+{
+  "studios": [
+    "Kap's Studios (Павелецкая)",
+    "Kap's Studios (Бауманская)"
+  ],
+  "roomsCount": [
+    "Однозальный",
+    "Многозальный"
+  ],
+  "background": [
+    "Белый",
+    "Серый",
+    "Красный"
+  ],
+  "bookingSource": [
+    "Вконтакте",
+    "Инста",
+    "Level",
+    "Facebook"
+  ],
+  "width": 100,
+  "widthUnit": [
+    "%",
+    "метры"
+  ]
+}
