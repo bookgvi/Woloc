@@ -13,7 +13,7 @@
           .col.q-pr-sm
             q-select(v-model="currentStudio" :options="data.studios" outlined dense)
           .col
-            q-select(v-model="currentRoom" :options="data.rooms.map(item => item.name)" outlined dense)
+            q-select(v-model="currentRoom" :options="roomsNames" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Фон
@@ -23,7 +23,7 @@
           .col.q-pr-sm
             q-select(v-model="currentBackground" :options="data.background" outlined dense)
           .col
-            q-select(v-model="currentSource" :options="data.bookingSource" outlined dense)
+            q-select(v-model="currentSource" :options="data.bookingSource" @input="changeSource" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Ширина
@@ -47,60 +47,81 @@
             .text-primary.cursor-pointer(@click="copyWidget" style="text-align: right;") Скопировать
         .row.q-pb-md
           .col
-            q-input.jswidgetArea(v-model="widgetCode" type="textarea" rows=30 outlined dense)
+            q-input.jswidgetArea(v-if="isWidget" type="textarea" rows=3 outlined dense)
+            q-input.jswidgetArea(v-if="!isWidget" v-model="newWidgetCode" type="textarea" rows=30 outlined dense)
 
 </template>
 
 <script>
 export default {
   name: 'index',
-  data: () => ({
-    currentStudio: '',
-    currentRoom: '',
-    currentBackground: '',
-    currentSource: '',
-    currentUnit: '',
-    widgetCode: `<!-- BEGIN UGOLOC CODE {literal} -->
-    <div id='ugoloc'></div>
-    <script type='text/javascript'>
+  data () {
+    return {
+      currentStudio: '',
+      currentRoom: '',
+      roomsNames: [],
+      currentRoomId: 1,
+      currentBackground: '',
+      currentSource: '',
+      currentUnit: '',
+      isWidget: true,
+      newWidgetCode: '',
+      widgetCode: `<!-- BEGIN UGOLOC CODE {literal} -->
+  <div id='ugoloc'></div>
+  <script type='text/javascript'>
     var widgetUrl = 'http://ugoloc.greencow.pro';
     (function () {
-    var room_id = 41;
-    var timestamp = Math.round(Date.now()/10000);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', widgetUrl + '/embed/booking.json?id=' + room_id);
-    xhr.onload = function() {
-    if (xhr.status === 200) {
-    var script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = widgetUrl + '/assets/embed/ugoloc.embed.js?t=' + timestamp;
-    var styles = document.createElement('link');
-    styles.type = 'text/css';
-    styles.rel = 'stylesheet';
-    styles.href = widgetUrl + '/assets/embed/ugoloc.css?t=' + timestamp;
-    var ugoloc = document.getElementById('ugoloc');
-    var json = JSON.parse(xhr.responseText);
-    document.body.appendChild(styles);
-    ugoloc.innerHTML = json.html;
-    ugoloc.appendChild(script);
-    }
-    };
-    xhr.send();
+      var room_id = 41;
+      var timestamp = Math.round(Date.now()/10000);
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', widgetUrl + '/embed/booking.json?id=' + room_id);
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          var script = document.createElement('script');
+          script.type = 'text/javascript';
+          script.src = widgetUrl + '/assets/embed/ugoloc.embed.js?t=' + timestamp;
+          var styles = document.createElement('link');
+          styles.type = 'text/css';
+          styles.rel = 'stylesheet';
+          styles.href = widgetUrl + '/assets/embed/ugoloc.css?t=' + timestamp;
+          var ugoloc = document.getElementById('ugoloc');
+          var json = JSON.parse(xhr.responseText);
+          document.body.appendChild(styles);
+          ugoloc.innerHTML = json.html;
+          ugoloc.appendChild(script);
+        }
+      };
+      xhr.send();
     })();
-    <script>
-    <!-- {/literal} END UGOLOC CODE -->`,
-    data: {}
-  }),
+    script>
+<!-- {/literal} END UGOLOC CODE -->`,
+      data: {}
+    }
+  },
   async created () {
     this.data = await this.$app.jswidget.getAll()
     this.currentStudio = this.data.studios[0]
     this.currentRoom = this.data.rooms[0].name
+    this.roomsNames = this.data.rooms.map(item => item.name)
     this.currentBackground = this.data.background[0]
     this.currentUnit = this.data.widthUnit[0]
   },
   methods: {
     generate () {
       this.currentSource = ''
+      this.isWidget = false
+      const [{ id }] = this.data.rooms.filter(item => item.name === this.currentRoom)
+      let arr = this.widgetCode.split('41')
+      let temp = arr.pop()
+      arr.push(id)
+      arr.push(temp)
+      this.newWidgetCode = arr.join('')
+      arr = this.newWidgetCode.split('script>')
+      temp = arr.pop()
+      arr.push('</')
+      arr.push('script>')
+      arr.push(temp)
+      this.newWidgetCode = arr.join('')
     },
     copyWidget () {
       const widgetNode = document.querySelector('.jswidgetArea textarea')
@@ -111,6 +132,9 @@ export default {
       } catch (err) {
         console.error(`Can't copy`)
       }
+    },
+    changeSource () {
+      this.isWidget = true
     }
   }
 }
