@@ -98,6 +98,8 @@
               .row.col-12(v-if="!e.technical")
                 span.row.col-12.text-booking.wrap {{ e.title }}
                 span.row.col-12.text-booking.wrap {{ e.details }}
+              .row.col-12(v-else)
+                span.row.col-12.text-booking.wrap {{ e.managerComment }}
       update-event-dialog(
         :dialogState="dialogState"
         :filter="filter"
