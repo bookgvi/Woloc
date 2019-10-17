@@ -4,6 +4,7 @@
       color="#FFFFFF"
       text-color="red"
       no-caps
+      :disabled="id < 1"
       label="Удалить"
       full-width
       @click="dialog = !dialog"
