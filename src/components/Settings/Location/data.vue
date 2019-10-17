@@ -35,8 +35,13 @@ export default {
   },
   filters: {
     phoneNumber (value) {
+      console.log(value[0])
+      if (value[0] === '+') {
+        this.reformatPhone(value)
+      }
+      // const reg = '\/s/d\'
       let phone = value
-      if (phone.length < 17) {
+      if (phone && phone[0] !== '+') {
         phone = phone.split('')
         phone.unshift('+')
         phone.splice(2, 0, ' (')
@@ -51,7 +56,7 @@ export default {
     hInput (e) {
       console.log(e.target.value)
       let value = e.target.value
-      value = this.reformatPhone(value)
+      // value = this.reformatPhone(value)
       this.singleStudio.phone = value
     },
     reformatPhone (phone) {
