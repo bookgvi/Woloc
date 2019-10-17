@@ -12,7 +12,7 @@
         span.text-red *
         q-input.q-pt-sm(
           :value="singleStudio.phone | phoneNumber"
-          @input="hInput"
+          @change.native="hInput"
           type="tel"
           outlined
           dense
@@ -36,25 +36,26 @@ export default {
   filters: {
     phoneNumber (value) {
       let phone = value
-      if (phone) {
+      if (phone.length < 17) {
         phone = phone.split('')
         phone.unshift('+')
         phone.splice(2, 0, ' (')
         phone.splice(6, 0, ') ')
         phone.splice(10, 0, ' ')
         phone = phone.join('')
-        console.log(phone)
       }
       return phone
     }
   },
   methods: {
-    hInput (value) {
+    hInput (e) {
+      console.log(e.target.value)
+      let value = e.target.value
       value = this.reformatPhone(value)
       this.singleStudio.phone = value
     },
     reformatPhone (phone) {
-      return String(phone.split().filter(item => !isNaN(item)))
+      return String(phone.split('').filter(item => !isNaN(item) && item !== ' ').join(''))
     }
   }
 }

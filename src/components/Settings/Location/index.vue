@@ -81,14 +81,13 @@ export default {
       this.vendors = []
     },
     async createNewStudio () {
-      console.log(this.singleStudio)
       const result = await studios.createStudio(this.singleStudio)
       if (result) {
         this.isSave = false
       }
     },
     reformatPhone (phone) {
-      return String(phone.split().filter(item => !isNaN(item)))
+      return String(phone.split('').filter(item => !isNaN(item) && item !== ' ').join(''))
     }
   },
   async mounted () {
