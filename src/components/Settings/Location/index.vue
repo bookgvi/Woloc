@@ -34,7 +34,8 @@ export default {
       isSave: false,
       rooms: [],
       services: [],
-      vendors: []
+      vendors: [],
+      phone: undefined
     }
   },
   computed: {
@@ -50,7 +51,7 @@ export default {
       if (!studio) {
         studio = items[0].id
       }
-      this.currentStudio = 'settings'
+      this.currentStudio = studio
       this.isSave = false
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
@@ -60,16 +61,19 @@ export default {
     },
     async updateStudio (services, vendors) {
       this.singleStudio.services = services.map(item => {
-        return { id: item.id }
+        return { id1: item.id }
       })
       this.singleStudio.vendors = vendors.map(item => {
         return { id: item.id }
       })
-      const { studio } = this.$app.filters.getValues('settings')
+      let { studio } = this.$app.filters.getValues('settings')
+      if (!studio) {
+        studio = this.currentStudio
+      }
+      this.singleStudio.phone = this.reformatPhone(this.singleStudio.phone)
       await studios.updateStudio(studio, this.singleStudio)
     },
     async newStudio () {
-      this.currentStudio = ''
       this.isSave = true
       this.singleStudio = { lat: 55.786419, lon: 37.725433 }
       this.rooms = []
@@ -77,10 +81,14 @@ export default {
       this.vendors = []
     },
     async createNewStudio () {
+      console.log(this.singleStudio)
       const result = await studios.createStudio(this.singleStudio)
       if (result) {
         this.isSave = false
       }
+    },
+    reformatPhone (phone) {
+      return String(phone.split().filter(item => !isNaN(item)))
     }
   },
   async mounted () {
