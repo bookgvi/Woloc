@@ -36,9 +36,6 @@ export default {
       if (!studio) {
         studio = items[0].id
       }
-      if (this.currentStudio !== 'settings') {
-        this.$app.filters.setValue('settings', 'studio', studio)
-      }
       this.currentStudio = 'settings'
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
