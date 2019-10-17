@@ -3,8 +3,7 @@
     h6.q-mb-md Характеристики
     .row.q-pb-lg
       .col
-        span Описание локации &nbsp
-        span.text-red *
+        span Описание локации
         q-input.q-pt-sm(v-model="singleStudio.description" type="textarea" rows=5 outlined)
     .row.q-pb-sm.items-end
       .col.q-pr-sm
