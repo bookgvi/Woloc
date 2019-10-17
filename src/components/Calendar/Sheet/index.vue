@@ -86,7 +86,7 @@
             :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
           )
             .row.col-12.justify-start.q-pl-xs
-              q-icon.col-1.row.justify-start(v-if="e.icon", :name="e.icon")
+              q-icon.col-1.row.justify-start(v-if="!e.technical && e.icon", :name="e.icon")
               .q-pa-none.col-1.offset-4(
                 v-if="e.isNotFullVisible"
                 :style="arrowUpStyles(e)"
@@ -95,10 +95,9 @@
                 v-if="e.isExtras"
                 :style="triangleStyles(e)"
               )
-              .row.col-12
-                span.row.text-booking.wrap {{ e.title }}
-              .row.col-12
-                span.row.text-booking.wrap {{ e.details }}
+              .row.col-12(v-if="!e.technical")
+                span.row.col-12.text-booking.wrap {{ e.title }}
+                span.row.col-12.text-booking.wrap {{ e.details }}
       update-event-dialog(
         :dialogState="dialogState"
         :filter="filter"
@@ -149,7 +148,7 @@ export default {
       return this.isAllDay ? 24 : 16
     },
     selectedStudioLabel () {
-      return this.studio ? this.studio.name : ''
+      return this.studio ? this.studio.name : 'Студия не выбрана'
     },
     studio () {
       return this.$app.studios.getFiltered(this.filter)
@@ -321,14 +320,16 @@ export default {
             const event = {
               id: booking.id,
               isNotFullVisible,
-              isExtras: (booking.extras && booking.extras.length > 0),
+              isExtras: (booking.extras && booking.extras.items && booking.extras.items.length > 0),
               title: title,
+              // comment: booking.managerComment,
               details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
               date: this.getDate(from),
               time: this.getTime(from),
               duration: diff,
               bgcolor: this.getColor(booking),
               icon: this.setIcon(booking.eventType),
+              technical: booking.technical,
               devInfo: {
                 time: {
                   from: +this.getTime(from, 'HH'),

@@ -19,7 +19,7 @@
       :style="{ background: 'none'}"
     )
       template(#header-cell="props")
-        q-th.header
+        q-th.header(:class="props.col.__thClass")
           span {{props.col.label}}
 
       template(#top-left)

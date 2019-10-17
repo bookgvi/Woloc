@@ -1,6 +1,6 @@
 <template lang="pug">
   standart-card
-    name-slot(name="Бронирования")
+    name-slot(name="Заявки")
     nav-bar.q-pb-md(
       @dateChange="selectedDate = $event"
       @studioChange="studio = $event"
@@ -8,17 +8,18 @@
     q-card-section.q-pa-none
       q-markup-table(
         style="min-width: 400px"
-        wrap-cells
         separator="none"
+        wrap-cells
         dense
         flat
       )
         thead.text-left
           tr
-            th(style="width: 70%")
-              span.text-bold.text-black.text-body2 Клиент • Время
+            th(style="width: 60%")
+              span.text-bold.text-black.text-body2 Клиент • Зал
             th.text-right
-              span.text-bold.text-black.text-body2 Оплата, р.
+            th.text-right
+              span.text-bold.text-black.text-body2 Дата
         tbody
           tr(
             v-for="(booking, index) in bookings"
@@ -26,9 +27,16 @@
           )
             td {{ clientSlot(index) }}
             td.text-right
-              span.text-grey.text-caption {{ prepaymentSlot(index) }}
-              span &nbsp
-              span.text-body1 {{ paymentSlot(index) }}
+              q-icon(
+                size="7px"
+                color="red"
+                name="fas fa-circle"
+                style="cursor: pointer"
+              )
+                q-tooltip
+                  span.text-body2 Остался один час до подтверждения
+            td.text-right
+              span.text-black.text-body2 {{ dateSlot(index) }}
     q-card-section(
       v-if="isMiniTable"
       class="cursor-pointer"
@@ -40,7 +48,7 @@
       class="cursor-pointer"
       @click="isMiniTable = true"
     )
-      span.row.text-body2.text-blue-5.q-pt-md  Свернуть
+      span.row.text-body2.text-blue-5.q-pt-md Свернуть
 </template>
 
 <script>
@@ -50,7 +58,7 @@ import NameSlot from '../CommonModules/NameSlot'
 import StandartCard from '../CommonModules/StandartCard'
 
 export default {
-  name: 'BookingsCard',
+  name: 'RequestsCard',
   components: { StandartCard, NameSlot, NavBar },
   data () {
     return {
@@ -77,15 +85,11 @@ export default {
     },
     clientSlot (index) {
       const booking = this.bookings[index]
-      return `${booking.customer.fullName} • ${booking.duration} ч.`
+      return `${booking.customer.fullName} • ${booking.room.name}`
     },
-    prepaymentSlot (index) {
+    dateSlot (index) {
       const booking = this.bookings[index]
-      return (+Number(booking.amount).toFixed()).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
-    },
-    paymentSlot (index) {
-      const booking = this.bookings[index]
-      return (+Number(booking.price).toFixed()).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      return `${this.$moment(booking.reservedFrom).format('DD MMMM')}`
     },
   },
   watch: {

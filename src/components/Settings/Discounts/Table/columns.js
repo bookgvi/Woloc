@@ -4,6 +4,7 @@ export default [
   {
     name: 'room',
     label: 'Зал',
+    width: 100,
     active: true,
     discount: true
   },
@@ -11,7 +12,7 @@ export default [
     name: 'percent',
     label: 'процент',
     align: 'right',
-    width: 100,
+    width: 200,
     format: value => `${value}%`,
     active: true,
     discount: true
@@ -26,6 +27,7 @@ export default [
       const getShortDays = value.map(item => shortDaysOfWeek[item - 1])
       return getDays.length > 1 ? getShortDays.join(', ') : getDays.join(', ')
     },
+    align: 'center',
     active: true,
     discount: true
   },
@@ -35,12 +37,16 @@ export default [
     format: (value, { hourFrom, hourTo }) => [hourFrom, hourTo].map(
       item => `${item}:00`
     ).join(' — '),
+    width: 100,
+    align: 'center',
     active: true,
     discount: true
   },
   {
     name: 'minHours',
     label: 'Мин. часы',
+    align: 'right',
+    width: 200,
     active: true,
     discount: true
   },
@@ -48,6 +54,8 @@ export default [
     name: 'expiredAt',
     label: 'Активна до',
     format: value => date.formatDate(value, 'D MMMM'),
+    width: 250,
+    align: 'center',
     active: true,
     discount: true
   }

@@ -1,40 +1,42 @@
 <template lang="pug">
-  .q-pa-none
-    q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Календарь"}}
-      nav-bar(
-        :startDate="date"
-        @dateChange="date = $event"
-        @studioChange="studio = $event"
-      )
-      q-card-section(
-        v-if="!isAllDay"
-        class="cursor-pointer"
-        @click="isAllDay = true"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm {{ "Показать 00:00-08:00"}}
-      q-card-section(
-        v-else
-        class="cursor-pointer"
-        @click="isAllDay = false"
-      )
-        span.row.text-body2.text-blue-5.q-pt-md.q-pl-sm {{ "Скрыть 00:00-08:00"}}
-      calendar(
-        :studio="studio"
-        :startDate="date"
-        :isAllDay="isAllDay"
-        :bookings="$app.bookings.calendarList"
-      )
+  standart-card
+    name-slot(name="Календарь")
+    nav-bar(
+      :startDate="date"
+      @dateChange="date = $event"
+      @studioChange="studio = $event"
+    )
+    q-card-section(
+      v-if="!isAllDay"
+      class="cursor-pointer"
+      @click="isAllDay = true"
+    )
+      span.row.text-body2.text-blue-5 {{ "Показать 00:00-08:00"}}
+    q-card-section(
+      v-else
+      class="cursor-pointer"
+      @click="isAllDay = false"
+    )
+      span.row.text-body2.text-blue-5 {{ "Скрыть 00:00-08:00"}}
+    calendar.q-pl-none(
+      :studio="studio"
+      :startDate="date"
+      :isAllDay="isAllDay"
+      :bookings="$app.bookings.calendarList"
+    )
 </template>
 
 <script>
 import NavBar from '../CommonModules/NavBar'
 import Calendar from './Modules/Calendar'
+import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 export default {
   name: 'CalendarCard',
   components: {
+    StandartCard,
+    NameSlot,
     Calendar,
     NavBar,
   },

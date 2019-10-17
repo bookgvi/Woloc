@@ -1,27 +1,27 @@
 <template lang="pug">
-  .q-pa-none
-    q-card
-      q-card-section
-        span.row.text-bold.text-body1.q-pt-md.q-pl-sm {{ "Доля в бронированиях "}}
-        span.row.text-body2.q-py-md.q-pl-sm {{ dateFormatForLabel }}
-      chart(
-        :options ="options"
-      )
-      nav-bar(
-        :startPeriod="period"
-        @periodChange="period = $event"
-        @dateChange="date = $event"
-      )
-      options(
-        :options ="options"
-      )
+  standart-card
+    name-slot(name="Доля в бронированиях")
+    q-card-section
+      span.row.text-body2 {{ dateFormatForLabel }}
+    chart(
+      :options ="options"
+    )
+    nav-bar(
+      :startPeriod="period"
+      @periodChange="period = $event"
+      @dateChange="date = $event"
+    )
+    options(
+      :options ="options"
+    )
 </template>
 
 <script>
 import NavBar from './Modules/NavBar'
 import Chart from './Modules/Chart'
 import Options from './Modules/Options'
-import roomsColors from 'src/common/rooms/colors'
+import NameSlot from '../CommonModules/NameSlot'
+import StandartCard from '../CommonModules/StandartCard'
 
 const rawData = {
   week: [
@@ -81,7 +81,7 @@ const rawData = {
 }
 
 export default {
-  name: 'ProfitCard',
+  name: 'PartsCard',
   data () {
     return {
       period: 'month',
@@ -92,6 +92,8 @@ export default {
     }
   },
   components: {
+    StandartCard,
+    NameSlot,
     Chart,
     NavBar,
     Options
@@ -106,8 +108,8 @@ export default {
         const point = {
           name: item.room,
           total: item.total,
-          percent: (item.total / sum * 100).toFixed(2),
-          color: roomsColors[index].color
+          percents: (item.total / sum * 100).toFixed(2),
+          color: '#' + ((1 << 24) * Math.random() | 0).toString(16)
         }
         return point
       })

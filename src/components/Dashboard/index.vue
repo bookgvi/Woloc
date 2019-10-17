@@ -1,18 +1,26 @@
 <template lang="pug">
-  .q-pa-none
-    .q-py-md.row.col-12.q-col-gutter-sm
-      .col-4
+  .wrapper--header
+    .row.q-pt-lg.col-12.justify-around
+      .column.col-4
         profit-card
-      .col-4
-        parts-card
-      .col-4
-        calendar-card
-      .col-4
         finances-card
-      .col-4
+        locations-card
+        rooms-cards-creator
+        documents-card
+        notifications-card
+      .column.col-4
+        parts-card
         bookings-card
-      .col-4
+        requests-card
+        refunds-card
+        promocodes-card
+        notes-card
+      .column.col-4
+        calendar-card
         workload-card
+        chat-card
+        reviews-card
+        widget-card
 </template>
 
 <script>
@@ -22,12 +30,24 @@ import CalendarCard from './Cards/CalendarCard/index'
 import FinancesCard from './Cards/FinancesCard'
 import BookingsCard from './Cards/BookingsCard/index'
 import WorkloadCard from './Cards/WorkloadCard/index'
+import LocationsCard from './Cards/LocationsCard/index'
+import RequestsCard from './Cards/RequestsCard/index'
+import ChatCard from './Cards/ChatCard/index'
+import RoomsCardsCreator from './Cards/RoomsCardsCreator/index'
+import RefundsCard from './Cards/RefundsCard/index'
+import PromocodesCard from './Cards/PromocodesCard/index'
+import ReviewsCard from './Cards/ReviewsCard/index'
+import DocumentsCard from './Cards/DocumentsCard/index'
+import NotificationsCard from './Cards/NotificationsCard/index'
+import NotesCard from './Cards/NotesCard/index'
+import WidgetCard from './Cards/WidgetCard/index'
 
 export default {
   name: 'Dashboard',
-  components: { WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
+  components: { WidgetCard, NotesCard, NotificationsCard, DocumentsCard, ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
 
 <style scoped>
+
 </style>

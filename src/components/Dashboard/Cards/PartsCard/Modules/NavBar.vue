@@ -2,6 +2,7 @@
   q-card-section.row.col-12
     q-btn.q-mr-md.col-2(
       label="Студия"
+      size="sm"
       no-caps
       outline
       color="secondary"
@@ -9,6 +10,7 @@
     q-btn.q-mr-xs.col-2(
       label="Неделя"
       no-caps
+      size="sm"
       outline
       @click="setPeriod"
       color="secondary"
@@ -16,6 +18,7 @@
     q-btn.q-mr-xs.col-2(
       outline
       label="Месяц"
+      size="sm"
       no-caps
       @click="setPeriod"
       color="secondary"
@@ -23,6 +26,7 @@
     q-btn.q-mr-xs.col-2(
       outline
       label="Квартал"
+      size="sm"
       no-caps
       @click="setPeriod"
       color="secondary"
@@ -32,6 +36,7 @@
       q-btn.q-px-sm.q-mx-none(
         @click="periodPrev"
         outline
+        size="sm"
         icon="chevron_left"
         color="secondary"
       )
@@ -39,6 +44,7 @@
       q-btn.q-px-sm.q-mx-none(
         @click="periodNext"
         outline
+        size="sm"
         icon="chevron_right"
         color="secondary"
       ) {{ periodComp }}
