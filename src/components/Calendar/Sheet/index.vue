@@ -66,10 +66,10 @@
             @click="setNewBooking(date, time)"
             )
         template(#day-header="{ date }")
-          .row.justify-left.q-px-md.q-py-md
-            span.ellipsis.text-uppercase.text-body2.text-weight-bold(
-              :style="dayHeaderStyle(date)"
-            ) {{ dayHeader(date) }}
+          .row.justify-left.q-px-md.q-py-md(
+            :style="dayHeaderStyle(date)"
+          )
+            span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           timeline(
             :timeStartPos="timeStartPos"
@@ -197,7 +197,8 @@ export default {
     dayHeaderStyle (dt) {
       if (this.$moment(dt).isSame(this.$moment(), 'day')) {
         return {
-          color: 'blue'
+          color: '#fff',
+          'background-color': '#8F7CC2',
         }
       }
     },
