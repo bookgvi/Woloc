@@ -24,6 +24,7 @@
                 span.text-grey {{ customerSlot }}
             calendar-customer.q-pa-md(
               :startCustomer="newBooking.customer"
+              :isCreate="isCreate"
               @customerChange="newBooking.customer = $event"
             )
           q-expansion-item(
@@ -116,8 +117,8 @@
             calendar-comment.q-pa-md(
               @customerCommentChange="newBooking.customerComment = $event"
               :startCustomerComment="newBooking.customerComment"
-              @managerCommentChange="newBooking.customerComment = $event"
-              :startManagerComment="newBooking.customerComment"
+              @managerCommentChange="newBooking.managerComment = $event"
+              :startManagerComment="newBooking.managerComment"
             )
           q-expansion-item(
             group="new-event"
@@ -202,9 +203,11 @@ export default {
         return []
       } else {
         return this.helpers.checkedExtras.map(item => {
+          const extra = this.$app.extras.list.find(extra => extra.name === item)
+          if (!extra) return { name: item, price: 0 }
           return {
             name: item,
-            price: this.$app.extras.list.find(extra => extra.name === item).price
+            price: extra.price
           }
         })
       }
@@ -300,6 +303,49 @@ export default {
       // console.log('post', params)
       return params
     },
+    setParamsForPut () {
+      if (!this.newBooking.customer || !this.newBooking.customer.id) {
+        Notify.create({
+          message: `Выберите клиента`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      if (!this.newBooking.room) {
+        Notify.create({
+          message: `Выберите зал`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      if (!this.newBooking.eventType) {
+        Notify.create({
+          message: `Выберите цель бронирования`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      const params = {
+        roomId: this.newBooking.room.id,
+        reserveFrom: this.newBooking.reservedFrom,
+        reserveTo: this.newBooking.reservedTo,
+        priceType: this.newBooking.eventType,
+        extras: [],
+        seats: 1,
+        description: this.newBooking.managerComment || ''
+      }
+      // console.log('put', params)
+      return {
+        id: this.newBooking.id,
+        data: params
+      }
+    },
     async applyBooking () {
       this.newBooking.reservedFrom = this.reservedTime.from
       this.newBooking.reservedTo = this.reservedTime.to
@@ -313,24 +359,34 @@ export default {
           }
         }
       } else {
-        this.$app.bookings.calendarList[index] =
-          Object.assign(this.$app.bookings.calendarList[index], this.newBooking)
-        this.$emit('setQueryState', false)
+        const payload = this.setParamsForPut()
+        if (payload) {
+          await this.$app.bookings.updateOne(payload.id, payload.data)
+          if (this.$app.bookings.idOfJustAdded !== 0) {
+            this.$emit('setQueryState', true)
+          }
+        }
       }
       // console.log(9, this.newBooking.id, index)
     }
   },
-  props: ['booking', 'filter', 'dialogState'],
+  props: {
+    booking: Object,
+    filter: Object,
+    dialogState: Boolean,
+    isCreate: Boolean
+  },
   watch: {
     booking (v) {
       this.$nextTick(function () {
+        // console.log(v)
         this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
         let checkedExtras = []
-        if (this.newBooking.extras) {
-          checkedExtras = this.newBooking.extras.map(item => item.name)
+        if (this.newBooking.extras && this.newBooking.extras.items) {
+          checkedExtras = this.newBooking.extras.items.map(item => item.name)
         }
         this.helpers = Object.assign(this.helpers, {
           date: hDate,

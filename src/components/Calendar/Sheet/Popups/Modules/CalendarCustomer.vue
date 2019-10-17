@@ -4,6 +4,8 @@
       q-select.text-body2.text-weight-bold(
         outlined
         fill-input
+        :disabled="!isCreate"
+        :readonly="!isCreate"
         hide-selected
         @filter="filterFn"
         use-input
@@ -20,7 +22,7 @@
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
-        read-only
+        readonly
         mask="#(###)###-##-##"
         placeholder="Телефон"
         v-model="phone"
@@ -28,7 +30,7 @@
     .col-12
       q-input.text-body2.text-weight-bold(
         outlined
-        read-only
+        readonly
         stack-label
         placeholder="Эл. почта"
         v-model="email"
@@ -94,6 +96,9 @@ export default {
           email: ''
         }
       }
+    },
+    isCreate: {
+      type: Boolean
     }
   },
   watch: {
