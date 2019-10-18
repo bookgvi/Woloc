@@ -62,8 +62,10 @@
         column-header-before
       )
         template.row(#interval="{ time, date }")
-          .row.fit.q-pa-none(
-            @click="setNewBooking(date, time)"
+          .row.fit.q-pa-none
+            booking-type-menu(
+              @fastClick="setNewTechnical(date, time)"
+              @commonClick="setNewBooking(date, time)"
             )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md(
@@ -116,12 +118,13 @@ import roomsColors from 'src/common/rooms/colors'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
 import Timeline from './Modules/Timeline'
+import BookingTypeMenu from './Popups/BookingTypeMenu'
 
 const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
-  components: { FirstColumn, UpdateEventDialog, Timeline },
+  components: { BookingTypeMenu, FirstColumn, UpdateEventDialog, Timeline },
   props: {
     filter: Object,
     bookings: Array
@@ -138,6 +141,7 @@ export default {
       events: [],
       selectedDate: '',
       dialogState: false,
+      technicalDialogState: false,
       selectedBooking: {},
     }
   },
@@ -187,11 +191,24 @@ export default {
       // console.log(1111, this.selectedBooking)
       this.dialogState = true
     },
+    setNewTechnical (date, time) {
+      this.isCreate = true
+      this.selectedBooking = Object.assign({}, {
+        id: -1,
+        managerComment: '',
+        reservedFrom: this.$moment(`${date}T${time}`),
+        reservedTo: this.$moment(`${date}T${time}`).add(1, 'hours'),
+        room: this.filter.rooms[0] || '',
+        technical: true
+      })
+      // console.log(1111, this.selectedBooking)
+      this.dialogState = true
+    },
     async findBooking (index) {
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
       // console.log(this.selectedBooking)
-      this.dialogState = true
+      this.technicalDialogState = true
     },
     dayHeader (dt) {
       return this.$moment(dt).format('ddd D')
