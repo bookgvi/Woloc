@@ -78,28 +78,33 @@
           )
           q-badge.absolute-top.block.q-pa-none(
             multi-line
-            v-for="(e, index) in events"
-            :value="e"
-            v-if="e.date === date"
+            v-for="(item, index) in events"
+            :value="item"
+            v-if="item.date === date"
             :key="index"
-            @click="findBooking(index)"
-            :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
+            @click="findBooking(index, $event)"
+            :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
           )
+            .resizer(
+              @mousedown="resizerMouseDown"
+              @mouseup="resizerMouseUp"
+              @mousemove="resizerMouseMove"
+            )
             .row.col-12.justify-start.q-pl-xs
-              q-icon.col-1.row.justify-start(v-if="!e.technical && e.icon", :name="e.icon")
+              q-icon.col-1.row.justify-start(v-if="!item.technical && item.icon", :name="item.icon")
               .q-pa-none.col-1.offset-4(
-                v-if="e.isNotFullVisible"
-                :style="arrowUpStyles(e)"
+                v-if="item.isNotFullVisible"
+                :style="arrowUpStyles(item)"
               )
               .q-pa-none.col-1(
-                v-if="e.isExtras"
-                :style="triangleStyles(e)"
+                v-if="item.isExtras"
+                :style="triangleStyles(item)"
               )
-              .row.col-12(v-if="!e.technical")
-                span.row.col-12.text-booking.wrap {{ e.title }}
-                span.row.col-12.text-booking.wrap {{ e.details }}
+              .row.col-12(v-if="!item.technical")
+                span.row.col-12.text-booking.wrap {{ item.title }}
+                span.row.col-12.text-booking.wrap {{ item.details }}
               .row.col-12(v-else)
-                span.row.col-12.text-booking.wrap {{ e.managerComment }}
+                span.row.col-12.text-booking.wrap {{ item.managerComment }}
       update-event-dialog(
         :isCreate="isCreate"
         :dialogState="dialogState"
@@ -110,12 +115,14 @@
  </template>
 
 <script>
-import { colors } from 'quasar'
+import { colors, dom } from 'quasar'
 import { EVENT_TYPES } from 'src/common/constants'
 import roomsColors from 'src/common/rooms/colors'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
 import Timeline from './Modules/Timeline'
+
+const { height, css, offset } = dom
 
 const usedColors = {}
 
@@ -132,6 +139,11 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
+      isResizeNow: false,
+      target: {},
+      top: 0,
+      height: 0,
+      up: false,
       isCreate: true,
       calendarKey: 0,
       isAllDay: false,
@@ -165,6 +177,27 @@ export default {
     }
   },
   methods: {
+    resizerMouseDown (e) {
+      this.top = offset(e.target).top
+      this.height = height(e.target)
+      this.up = true
+      if (e.offsetY < 5) {
+        css(e.target, {
+          top: `${this.top - e.y + 20}px`,
+        })
+        this.isResizeNow = true
+        this.target = e.target
+        console.log(222, this.top - e.y, e)
+      }
+    },
+    resizerMouseUp () {
+      this.isResizeNow = false
+    },
+    resizerMouseMove (e) {
+      if (this.isResizeNow) {
+        // this.top = offset(e.target).top
+      }
+    },
     formatPrice (price) {
       const fixed = +Number(price).toFixed()
       return fixed.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
@@ -187,7 +220,8 @@ export default {
       // console.log(1111, this.selectedBooking)
       this.dialogState = true
     },
-    async findBooking (index) {
+    async findBooking (index, event) {
+      if (event.offsetY < 5 || event.target.offsetHeight - event.offsetY < 5) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
       // console.log(this.selectedBooking)
@@ -296,7 +330,7 @@ export default {
         await this.placeEvents()
       }
       this.dialogState = false
-    }
+    },
   },
   watch: {
     bookings: {
@@ -448,4 +482,28 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .resizer
+    position absolute
+    height 100%
+    width 100%
+    padding-top 5px
+    padding-bottom 5px
+    background-color: inherit
+    opacity: .6
+  .resizer:before
+    content: " "
+    background-color #000
+    position absolute
+    top 0
+    width 100%
+    height 5px
+    cursor: n-resize
+  .resizer:after
+    content: " "
+    background-color #000
+    position absolute
+    bottom 0
+    width 100%
+    height 5px
+    cursor: s-resize
 </style>
