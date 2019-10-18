@@ -1,5 +1,5 @@
 <template lang="pug">
-  .jswidget
+  .jswidget.q-pt-lg
     .row.q-pb-md.justify-center
       .col-6
         .row.q-pb-md
