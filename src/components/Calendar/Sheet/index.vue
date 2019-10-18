@@ -42,7 +42,7 @@
              )
     template(
       style="width: 100%"
-      )
+    )
       first-column(
         :isAllDay ="isAllDay"
         @allDayChange="isAllDay=$event"
@@ -109,6 +109,12 @@
         :booking="selectedBooking"
         @setQueryState="setQueryState($event)"
       )
+      new-technical-dialog(
+        :dialogState="technicalDialogState"
+        :filter="filter"
+        :booking="selectedBooking"
+        @setQueryState="setTechnicalQueryState($event)"
+      )
  </template>
 
 <script>
@@ -119,12 +125,13 @@ import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
 import Timeline from './Modules/Timeline'
 import BookingTypeMenu from './Popups/BookingTypeMenu'
+import NewTechnicalDialog from './Popups/NewTechnicalDialog'
 
 const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
-  components: { BookingTypeMenu, FirstColumn, UpdateEventDialog, Timeline },
+  components: { NewTechnicalDialog, BookingTypeMenu, FirstColumn, UpdateEventDialog, Timeline },
   props: {
     filter: Object,
     bookings: Array
@@ -192,7 +199,6 @@ export default {
       this.dialogState = true
     },
     setNewTechnical (date, time) {
-      this.isCreate = true
       this.selectedBooking = Object.assign({}, {
         id: -1,
         managerComment: '',
@@ -201,14 +207,13 @@ export default {
         room: this.filter.rooms[0] || '',
         technical: true
       })
-      // console.log(1111, this.selectedBooking)
-      this.dialogState = true
+      this.technicalDialogState = true
     },
     async findBooking (index) {
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
       // console.log(this.selectedBooking)
-      this.technicalDialogState = true
+      this.dialogState = true
     },
     dayHeader (dt) {
       return this.$moment(dt).format('ddd D')
@@ -313,6 +318,13 @@ export default {
         await this.placeEvents()
       }
       this.dialogState = false
+    },
+    async setTechnicalQueryState (state = true) {
+      // console.log(999, state)
+      if (state === true) {
+        await this.placeEvents()
+      }
+      this.technicalDialogState = false
     }
   },
   watch: {
