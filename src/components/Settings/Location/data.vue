@@ -5,7 +5,8 @@
       .col
         span Название &nbsp
         span.text-red *
-        q-input.q-pt-sm(v-model="singleStudio.name" outlined dense)
+        q-input.q-pt-sm(v-if="!singleStudio.name" placeholder="Название студии" outlined dense)
+        q-input.q-pt-sm(v-if="singleStudio.name" v-model="singleStudio.name" outlined dense)
     .row.q-pb-lg
       .col.q-pr-sm
         span Телефон &nbsp
@@ -22,7 +23,8 @@
       .col
         span Эл. почта &nbsp
         span.text-red *
-        q-input.q-pt-sm(v-model="singleStudio.email" type="email" outlined dense)
+        q-input.q-pt-sm(v-if="!singleStudio.email" placeholder="email@doamin.com" type="email" outlined dense)
+        q-input.q-pt-sm(v-if="singleStudio.email" v-model="singleStudio.email" type="email" outlined dense)
     .row.q-pb-sm
       q-checkbox(v-model="singleStudio.hidden" label="Скрыть локацию" dense)
     .row

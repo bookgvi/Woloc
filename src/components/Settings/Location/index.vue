@@ -14,6 +14,16 @@
           @createNewStudio="createNewStudio"
           @phoneChange="phoneChange"
         )
+        q-dialog(v-model="isRequiredFields")
+          q-card
+            .alarmo.q-pa-lg
+              .row.q-pb-sm
+                .col
+                  q-icon.text-red(name="warning" style="font-size: 4rem;")
+                  .text-h6.text-red Заполните обязательные поля
+              .row.justify-center
+                .col-4
+                  q-btn.bg-primary.text-white(label="Закрыть" @click="isRequiredFields = false")
 </template>
 
 <script>
@@ -27,6 +37,7 @@ export default {
   data () {
     return {
       id: this.$app.filters.getValues('settings').studio,
+      isRequiredFields: false,
       currentTab: 'Локация',
       tabs: ['Локация'],
       allStudiosName: [],
@@ -70,6 +81,18 @@ export default {
       if (!studio) {
         studio = this.currentStudio
       }
+      if (
+        !this.singleStudio.name ||
+        !this.singleStudio.phone ||
+        !this.singleStudio ||
+        !this.singleStudio.limit ||
+        !this.singleStudio.height ||
+        !this.singleStudio.yardage ||
+        !this.singleStudio.address
+      ) {
+        this.isRequiredFields = true
+        return
+      }
       await studios.updateStudio(studio, this.singleStudio)
     },
     async newStudio () {
@@ -80,6 +103,18 @@ export default {
       this.vendors = []
     },
     async createNewStudio () {
+      if (
+        !this.singleStudio.name ||
+        !this.singleStudio.phone ||
+        !this.singleStudio ||
+        !this.singleStudio.limit ||
+        !this.singleStudio.height ||
+        !this.singleStudio.yardage ||
+        !this.singleStudio.address
+      ) {
+        this.isRequiredFields = true
+        return
+      }
       const result = await studios.createStudio(this.singleStudio)
       if (result) {
         this.isSave = false
