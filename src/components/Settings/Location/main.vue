@@ -9,7 +9,7 @@
     .content
       .row.justify-center.q-pb-md
         .col-6
-          dataBlock(:singleStudio="singleStudio")
+          dataBlock(:singleStudio="singleStudio" @phoneChange="phoneChange")
           specifications(:singleStudio="singleStudio")
           images
           addressBlock(:singleStudio="singleStudio")
@@ -66,6 +66,11 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+    phoneChange (value) {
+      this.$emit('phoneChange', value)
+    }
   }
 }
 </script>

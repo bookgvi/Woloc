@@ -10,9 +10,11 @@
       .col.q-pr-sm
         span Телефон &nbsp
         span.text-red *
+        q-input.q-pt-sm(v-if="!singleStudio.phone" placeholder="+7 (800) 800 0123", outlined dense)
         q-input.q-pt-sm(
-          :value="singleStudio.phone | phoneNumber"
-          @change.native="hInput"
+          v-if="singleStudio.phone"
+          :value="reformatPhone(singleStudio.phone) | phoneNumber"
+          @change.native="phoneChange"
           type="tel"
           outlined
           dense
@@ -35,11 +37,6 @@ export default {
   },
   filters: {
     phoneNumber (value) {
-      console.log(value[0])
-      if (value[0] === '+') {
-        this.reformatPhone(value)
-      }
-      // const reg = '\/s/d\'
       let phone = value
       if (phone && phone[0] !== '+') {
         phone = phone.split('')
@@ -53,11 +50,9 @@ export default {
     }
   },
   methods: {
-    hInput (e) {
-      console.log(e.target.value)
-      let value = e.target.value
-      // value = this.reformatPhone(value)
-      this.singleStudio.phone = value
+    phoneChange (e) {
+      const value = e.target.value
+      this.$emit('phoneChange', value)
     },
     reformatPhone (phone) {
       return String(phone.split('').filter(item => !isNaN(item) && item !== ' ').join(''))

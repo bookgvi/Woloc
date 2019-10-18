@@ -12,6 +12,7 @@
           @updateStudio="updateStudio"
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
+          @phoneChange="phoneChange"
         )
 </template>
 
@@ -70,7 +71,6 @@ export default {
       if (!studio) {
         studio = this.currentStudio
       }
-      this.singleStudio.phone = this.reformatPhone(this.singleStudio.phone)
       await studios.updateStudio(studio, this.singleStudio)
     },
     async newStudio () {
@@ -85,6 +85,11 @@ export default {
       if (result) {
         this.isSave = false
       }
+    },
+    phoneChange (value) {
+      value = this.reformatPhone(value)
+      console.log(value)
+      this.singleStudio.phone = value
     },
     reformatPhone (phone) {
       return String(phone.split('').filter(item => !isNaN(item) && item !== ' ').join(''))
