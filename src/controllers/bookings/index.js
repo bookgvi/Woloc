@@ -50,12 +50,23 @@ export default {
       this.loading.one = false
     },
 
+    async updateOne (id, data) {
+      this.loading.one = true
+      const res = await api.bookings.updateOne({ id, data })
+      // console.log('bookings :: updateOne', res)
+      if (res) {
+        this.idOfJustAdded = res.id
+      }
+      this.loading.one = false
+    },
+
     async deleteOne (id) {
       this.loading.one = true
       const res = await api.bookings.deleteOne({ id: id })
       if (res) {
-        this.loading.one = false
+        // console.log(res)
       }
+      this.loading.one = false
     },
 
     async getOne (id) {
@@ -65,9 +76,9 @@ export default {
 
       if (data) {
         this.loading.one = false
-
         return data
       }
+      this.loading.one = false
     },
 
     calendarGetObjById (id) {

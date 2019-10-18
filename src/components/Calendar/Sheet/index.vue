@@ -66,10 +66,10 @@
             @click="setNewBooking(date, time)"
             )
         template(#day-header="{ date }")
-          .row.justify-left.q-px-md.q-py-md
-            span.ellipsis.text-uppercase.text-body2.text-weight-bold(
-              :style="dayHeaderStyle(date)"
-            ) {{ dayHeader(date) }}
+          .row.justify-left.q-px-md.q-py-md(
+            :style="dayHeaderStyle(date)"
+          )
+            span.ellipsis.text-uppercase.text-body2.text-weight-bold {{ dayHeader(date) }}
         template(#day-body="{ date, timeStartPos, timeDurationHeight }")
           timeline(
             :timeStartPos="timeStartPos"
@@ -98,7 +98,10 @@
               .row.col-12(v-if="!e.technical")
                 span.row.col-12.text-booking.wrap {{ e.title }}
                 span.row.col-12.text-booking.wrap {{ e.details }}
+              .row.col-12(v-else)
+                span.row.col-12.text-booking.wrap {{ e.managerComment }}
       update-event-dialog(
+        :isCreate="isCreate"
         :dialogState="dialogState"
         :filter="filter"
         :booking="selectedBooking"
@@ -129,6 +132,7 @@ export default {
         from: '2019-05-01',
         to: '2020-01-01'
       },
+      isCreate: true,
       calendarKey: 0,
       isAllDay: false,
       events: [],
@@ -148,7 +152,7 @@ export default {
       return this.isAllDay ? 24 : 16
     },
     selectedStudioLabel () {
-      return this.studio ? this.studio.name : ''
+      return this.studio ? this.studio.name : 'Студия не выбрана'
     },
     studio () {
       return this.$app.studios.getFiltered(this.filter)
@@ -166,11 +170,12 @@ export default {
       return fixed.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
     },
     setNewBooking (date, time) {
+      this.isCreate = true
       this.selectedBooking = Object.assign({}, {
-        id: 8983249234,
+        id: -1,
         customer: {},
-        customerComment: 'test',
-        managerComment: 'test',
+        customerComment: '',
+        managerComment: '',
         price: 0,
         reservedFrom: this.$moment(`${date}T${time}`),
         reservedTo: this.$moment(`${date}T00:00`),
@@ -183,6 +188,7 @@ export default {
       this.dialogState = true
     },
     async findBooking (index) {
+      this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
       // console.log(this.selectedBooking)
       this.dialogState = true
@@ -193,7 +199,8 @@ export default {
     dayHeaderStyle (dt) {
       if (this.$moment(dt).isSame(this.$moment(), 'day')) {
         return {
-          color: 'blue'
+          color: '#fff',
+          'background-color': '#8F7CC2',
         }
       }
     },
@@ -320,7 +327,7 @@ export default {
             const event = {
               id: booking.id,
               isNotFullVisible,
-              isExtras: (booking.extras && booking.extras.items && booking.extras.items.length > 0),
+              isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
               // comment: booking.managerComment,
               details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,

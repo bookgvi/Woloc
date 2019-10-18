@@ -1,18 +1,19 @@
 <template lang="pug">
   .q-py-md
     .col-12.row.justify-left.items-center
-      q-input.col-12(
+      q-input.col-12.text-body2(
         v-model="customerComment"
         readonly
-        filled
+        placeholder="Комментарий пользователя"
         type="textarea"
       )
     .col-12.row.justify-left.items-center
       .text-body2 Админ
     .col-12.row.justify-left.items-center
-      q-input.col-12(
+      q-input.col-12.text-body2(
         v-model="managerComment"
         filled
+        placeholder="Комментарий мененджера"
         type="textarea"
       ) {{ customerCommentComp }} {{ managerCommentComp }}
 </template>
@@ -42,13 +43,16 @@ export default {
       this.$emit('managerCommentChange', this.managerComment)
     }
   },
-  props: ['startCustomerComment, startManagerComment'],
+  props: {
+    startCustomerComment: String,
+    startManagerComment: String
+  },
   watch: {
     startCustomerComment (v) {
-      this.customerComment = Object.assign(v)
+      this.customerComment = v
     },
     startManagerComment (v) {
-      this.managerComment = Object.assign(v)
+      this.managerComment = v
     }
   }
 }
