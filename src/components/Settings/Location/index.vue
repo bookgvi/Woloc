@@ -12,9 +12,8 @@
           @updateStudio="updateStudio"
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
-          @phoneChange="phoneChange"
         )
-        q-dialog(v-model="isRequiredFields")
+        q-dialog(v-model="isRequiredModal")
           q-card
             .alarmo.q-pa-lg
               .row.q-pb-sm
@@ -23,7 +22,7 @@
                   .text-h6.text-red Заполните обязательные поля
               .row.justify-center
                 .col-4
-                  q-btn.bg-primary.text-white(label="Закрыть" @click="isRequiredFields = false")
+                  q-btn.bg-primary.text-white(label="Закрыть" @click="isRequiredModal = false")
 </template>
 
 <script>
@@ -37,7 +36,7 @@ export default {
   data () {
     return {
       id: this.$app.filters.getValues('settings').studio,
-      isRequiredFields: false,
+      isRequiredModal: false,
       currentTab: 'Локация',
       tabs: ['Локация'],
       allStudiosName: [],
@@ -90,7 +89,7 @@ export default {
         !this.singleStudio.yardage ||
         !this.singleStudio.address
       ) {
-        this.isRequiredFields = true
+        this.isRequiredModal = true
         return
       }
       await studios.updateStudio(studio, this.singleStudio)
@@ -112,21 +111,13 @@ export default {
         !this.singleStudio.yardage ||
         !this.singleStudio.address
       ) {
-        this.isRequiredFields = true
+        this.isRequiredModal = true
         return
       }
       const result = await studios.createStudio(this.singleStudio)
       if (result) {
         this.isSave = false
       }
-    },
-    phoneChange (value) {
-      value = this.reformatPhone(value)
-      console.log(value)
-      this.singleStudio.phone = value
-    },
-    reformatPhone (phone) {
-      return String(phone.split('').filter(item => !isNaN(item) && item !== ' ').join(''))
     }
   },
   async mounted () {

@@ -9,17 +9,17 @@
       .col.q-pr-sm
         span Лимит, недели &nbsp
         span.text-red *
-        q-input(v-model="singleStudio.limit" outlined dense)
+        q-input(v-model="singleStudio.limit" mask="#####" unmasked-value outlined dense)
       .col.q-pr-sm
         span Высота потолков, м &nbsp
         span.text-red *
-        q-input(v-model="singleStudio.height" outlined dense)
+        q-input(v-model="singleStudio.height" mask="#####" unmasked-value outlined dense)
       .col
         span(style="line-height: 0;") Площадь,
         span.text-red * &nbsp
         span м
           sup 2
-        q-input(v-model="singleStudio.yardage" outlined dense)
+        q-input(v-model="singleStudio.yardage" mask="#####" unmasked-value outlined dense)
     .row.q-pb-lg
       p Насколько недель вперед возможна бронь.
 </template>
