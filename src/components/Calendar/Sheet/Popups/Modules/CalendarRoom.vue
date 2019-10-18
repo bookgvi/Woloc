@@ -46,7 +46,6 @@ export default {
   props: ['filter', 'startRoom'],
   watch: {
     startRoom (v) {
-      console.log(v)
       this.room = v
     }
   }

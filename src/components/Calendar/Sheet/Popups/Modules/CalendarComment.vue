@@ -1,14 +1,16 @@
 <template lang="pug">
   .q-py-md
-    .col-12.row.justify-left.items-center
+    .col-12.row.justify-left.items-center(v-if="!isTechnical")
       q-input.col-12.text-body2(
         v-model="customerComment"
         readonly
         placeholder="Комментарий пользователя"
         type="textarea"
       )
-    .col-12.row.justify-left.items-center
-      .text-body2 Админ
+    .col-12.row.justify-left.items-center(v-if="!isTechnical")
+      span.q-py-md.row.text-body2 Админ
+    .col-12.row.justify-left.items-center(v-else)
+      span.q-py-md.row.text-body2 Комментарий
     .col-12.row.justify-left.items-center
       q-input.col-12.text-body2(
         v-model="managerComment"
@@ -45,7 +47,8 @@ export default {
   },
   props: {
     startCustomerComment: String,
-    startManagerComment: String
+    startManagerComment: String,
+    isTechnical: Boolean
   },
   watch: {
     startCustomerComment (v) {

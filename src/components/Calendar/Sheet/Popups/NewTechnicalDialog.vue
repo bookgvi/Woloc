@@ -7,13 +7,17 @@
       style="width: 330px"
     )
       q-card-section
-        span.text-bold Быстрая бронь
+        span.row.text-bold.q-px-sm.q-pb-md Быстрая бронь
         calendar-room(
           @roomChange="newBooking.room = $event"
           :filter="filter"
           :startRoom="room.name"
         )
-        calendar-comment
+        calendar-comment(
+          :isTechnical="true"
+          @managerCommentChange="newBooking.managerComment = $event"
+          :startManagerComment="newBooking.managerComment"
+        )
         calendar-apply(
           :applyBooking="applyBooking"
           @setQueryState="setQueryState($event)"
@@ -22,6 +26,8 @@
 </template>
 
 <script>
+import { Notify } from 'quasar'
+
 import CalendarRoom from './Modules/CalendarRoom'
 import CalendarComment from './Modules/CalendarComment'
 import CalendarApply from './Modules/CalendarApply'
@@ -30,14 +36,7 @@ export default {
   components: { CalendarApply, CalendarComment, CalendarRoom },
   data () {
     return {
-      newBooking: {},
-      helpers: {
-        date: '',
-        time: {
-          from: 0,
-          to: 0
-        }
-      },
+      newBooking: {}
     }
   },
   computed: {
@@ -50,15 +49,6 @@ export default {
       this.$emit('setQueryState', state)
     },
     setParamsForPost () {
-      if (!this.newBooking.customer || !this.newBooking.customer.id) {
-        Notify.create({
-          message: `Выберите клиента`,
-          color: 'negative',
-          position: 'bottom-left',
-          icon: 'warning'
-        })
-        return null
-      }
       if (!this.newBooking.room) {
         Notify.create({
           message: `Выберите зал`,
@@ -68,32 +58,16 @@ export default {
         })
         return null
       }
-      if (!this.newBooking.eventType) {
-        Notify.create({
-          message: `Выберите цель бронирования`,
-          color: 'negative',
-          position: 'bottom-left',
-          icon: 'warning'
-        })
-        return null
-      }
       const params = {
         roomId: this.newBooking.room.id,
-        consumerId: this.newBooking.customer.id,
         reserveFrom: this.newBooking.reservedFrom,
         reserveTo: this.newBooking.reservedTo,
-        // userComment: this.newBooking.customerComment || '',
-        priceType: this.newBooking.eventType,
-        extras: [],
-        seats: 1,
-        description: this.newBooking.managerComment || ''
+        description: this.newBooking.managerComment || '',
+        technical: true
       }
-      // console.log('post', params)
       return params
     },
     async applyBooking () {
-      this.newBooking.reservedFrom = this.from
-      this.newBooking.reservedTo = this.to
       const payload = this.setParamsForPost()
       if (payload) {
         await this.$app.bookings.addNew(payload)
@@ -111,19 +85,12 @@ export default {
   },
   watch: {
     booking (v) {
-      this.$nextTick(function () {
-        console.log(v)
-        this.newBooking = Object.assign(v)
-        const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
-        const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')
-        let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
-        this.helpers = Object.assign(this.helpers, {
-          date: hDate,
-          time: {
-            from: hFrom,
-            to: hTo
-          },
-        })
+      this.newBooking = Object.assign({}, {
+        room: v.room,
+        managerComment: v.managerComment,
+        reservedFrom: v.reservedFrom.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        reservedTo: v.reservedTo.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        technical: true
       })
     }
   }
