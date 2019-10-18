@@ -36,16 +36,8 @@ export default {
     singleStudio: Object
   },
   filters: {
-    phoneNumber (value) {
-      let phone = value
-      if (phone && phone[0] !== '+') {
-        phone = phone.split('')
-        phone.unshift('+')
-        phone.splice(2, 0, ' (')
-        phone.splice(6, 0, ') ')
-        phone.splice(10, 0, ' ')
-        phone = phone.join('')
-      }
+    phoneNumber (phone) {
+      phone = phone.replace(/(^.)?(...?)(...?)?(....?)(.*)/, '+$1 ($2) $3 $4')
       return phone
     }
   },

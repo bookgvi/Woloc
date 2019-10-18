@@ -35,8 +35,7 @@ export default {
       isSave: false,
       rooms: [],
       services: [],
-      vendors: [],
-      phone: undefined
+      vendors: []
     }
   },
   computed: {
