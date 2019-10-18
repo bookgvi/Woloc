@@ -21,19 +21,19 @@ const EVENT_TYPES = {
 
 const BOOKING_STATUSES = {
   NEW: {
-    value: 0, label: 'Не подтвержденный'
+    value: 0, label: 'Ожидается оплата'
   },
   CANCELED: {
-    value: 1, label: 'Отмененный'
+    value: 1, label: 'Отменено'
   },
   PAID: {
-    value: 2, label: 'Подтвержденный'
+    value: 2, label: 'Забронировано'
   },
   DONE: {
-    value: 3, label: 'Исполненный'
+    value: 3, label: 'Завершено'
   },
   EXPIRED: {
-    value: 4, label: 'Истекший'
+    value: 4, label: 'Просрочено'
   },
 }
 

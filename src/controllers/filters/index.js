@@ -1,9 +1,9 @@
 const defaultValues = {
   bookings: {
-    studio: 37
+    studio: undefined
   },
   settings: {
-    studio: 37
+    studio: undefined
   },
   calendar: {
     studio: 37,

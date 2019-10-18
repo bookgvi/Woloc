@@ -3,7 +3,7 @@
     :title="buttonTitle"
     :options="options"
     :value="value"
-    @change="event => onChange('statuses', event)"
+    @change="event => onChange('status', event)"
   )
 </template>
 
@@ -25,7 +25,7 @@ export default {
   }),
   computed: {
     value () {
-      return this.values.statuses || []
+      return this.values.status || []
     },
     buttonTitle () {
       return `Статус ${this.value.length || ''}`
