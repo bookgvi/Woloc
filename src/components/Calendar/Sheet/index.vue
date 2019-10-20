@@ -76,35 +76,41 @@
             :timeDurationHeight="timeDurationHeight"
             :isAllDay ="isAllDay"
           )
-          q-badge.absolute-top.block.q-pa-none(
-            multi-line
+          template(
             v-for="(item, index) in events"
-            :value="item"
             v-if="item.date === date"
-            :key="index"
-            @click="findBooking(index, $event)"
-            :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
           )
-            .resizer(
-              @mousedown="resizerMouseDown"
+            q-badge.absolute-top.block.q-pa-none(
+              multi-line
+              :value="item"
+              :key="index"
+              :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
+            )
+              .row.col-12.justify-start.q-pl-xs
+                q-icon.col-1.row.justify-start(v-if="!item.technical && item.icon", :name="item.icon")
+                .q-pa-none.col-1.offset-4(
+                  v-if="item.isNotFullVisible"
+                  :style="arrowUpStyles(item)"
+                )
+                .q-pa-none.col-1(
+                  v-if="item.isExtras"
+                  :style="triangleStyles(item)"
+                )
+                .row.col-12(v-if="!item.technical")
+                  span.row.col-12.text-booking.wrap {{ item.title }}
+                  span.row.col-12.text-booking.wrap {{ item.details }}
+                .row.col-12(v-else)
+                  span.row.col-12.text-booking.wrap {{ item.managerComment }}
+            .resizer.absolute(
+              :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
+              @mousedown="resizerMouseDown(item, $event)"
               @mouseup="resizerMouseUp"
               @mousemove="resizerMouseMove"
             )
-            .row.col-12.justify-start.q-pl-xs
-              q-icon.col-1.row.justify-start(v-if="!item.technical && item.icon", :name="item.icon")
-              .q-pa-none.col-1.offset-4(
-                v-if="item.isNotFullVisible"
-                :style="arrowUpStyles(item)"
-              )
-              .q-pa-none.col-1(
-                v-if="item.isExtras"
-                :style="triangleStyles(item)"
-              )
-              .row.col-12(v-if="!item.technical")
-                span.row.col-12.text-booking.wrap {{ item.title }}
-                span.row.col-12.text-booking.wrap {{ item.details }}
-              .row.col-12(v-else)
-                span.row.col-12.text-booking.wrap {{ item.managerComment }}
+          .q-badge.absolute.block.q-pa-none(
+            :style="createAvailaibleZone(timeStartPos, timeDurationHeight)"
+            v-if="borders.date === date"
+          )
       update-event-dialog(
         :isCreate="isCreate"
         :dialogState="dialogState"
@@ -138,6 +144,11 @@ export default {
       range: {
         from: '2019-05-01',
         to: '2020-01-01'
+      },
+      borders: {
+        from: 0,
+        to: 24,
+        date: ''
       },
       isResizeNow: false,
       target: {},
@@ -177,25 +188,81 @@ export default {
     }
   },
   methods: {
-    resizerMouseDown (e) {
+    createAvailaibleZone (timeStartPos, timeDurationHeight) {
+      console.log(this.borders)
+      if (!this.borders) return {}
+      const { from, to } = this.borders
+      let s = {
+        'background-color': `#000000`,
+        'opacity': '.2',
+        'width': `100%`,
+        'left': `0px`
+      }
+      if (timeStartPos) {
+        s = Object.assign({}, s, {
+          'top': timeStartPos(from + ':00') + 'px',
+        })
+      }
+      if (timeDurationHeight) {
+        s = Object.assign({}, s, { 'height': timeDurationHeight(to - from) * 60 + 'px' })
+      }
+      console.log(s, this.borders)
+      return s
+    },
+    getAvailableTime (params) {
+      let from = 0
+      let to = 24
+      if (this.up) {
+        to = params.to - 1
+        this.events.forEach(item => {
+          if (params.roomId === item.roomId && item.date === params.date) {
+            from = (item.to > from && item.to < params.from) ? item.to : from
+          }
+        })
+      } else {
+        from = params.from + 1
+        this.events.forEach(item => {
+          if (params.roomId === item.roomId && item.date === params.date) {
+            to = (item.from < to && item.from > params.to) ? item.from : to
+          }
+        })
+      }
+      return { from, to, date: params.date }
+    },
+    resizerMouseDown (item, e) {
+      const params = Object.assign({}, {
+        date: item.date,
+        from: item.from,
+        to: item.to,
+        roomId: item.roomId
+      })
       this.top = offset(e.target).top
       this.height = height(e.target)
-      this.up = true
-      if (e.offsetY < 5) {
-        css(e.target, {
-          top: `${this.top - e.y + 20}px`,
-        })
+      if (e.offsetY < 5 || this.height - e.offsetY < 5) {
+        this.up = (e.offsetY < 5)
+        this.borders = this.getAvailableTime(params)
         this.isResizeNow = true
         this.target = e.target
-        console.log(222, this.top - e.y, e)
       }
     },
     resizerMouseUp () {
       this.isResizeNow = false
+      this.top = 0
+      this.height = 0
     },
     resizerMouseMove (e) {
       if (this.isResizeNow) {
-        // this.top = offset(e.target).top
+        let offset = 0
+        if (this.up) {
+          offset = e.y - this.top
+          css(this.target, {
+            top: `${offset}px`,
+          })
+        } else {
+          css(this.target, {
+            height: `${this.height - e.y}px`,
+          })
+        }
       }
     },
     formatPrice (price) {
@@ -271,8 +338,8 @@ export default {
       const icon = EVENT_TYPES[action].icon
       return icon
     },
-    setOrder (room) {
-      const order = this.rooms.findIndex(item => item.name === room)
+    setOrder (roomId) {
+      const order = this.rooms.findIndex(item => item.id === roomId)
       return order
     },
     triangleStyles (event) {
@@ -371,13 +438,9 @@ export default {
               bgcolor: this.getColor(booking),
               icon: this.setIcon(booking.eventType),
               technical: booking.technical,
-              devInfo: {
-                time: {
-                  from: +this.getTime(from, 'HH'),
-                  to: +this.getTime(to, 'H') !== 0 ? +this.getTime(to, 'H') : 24
-                },
-                room: booking.room.name
-              },
+              from: +this.getTime(from, 'HH'),
+              to: +this.getTime(to, 'H') !== 0 ? +this.getTime(to, 'H') : 24,
+              roomId: booking.room.id,
               posx: 0,
               countInRow: 1
             }
@@ -406,10 +469,10 @@ export default {
             for (let order = 0; order < roomsAmount; order++) {
               for (let i = 0; i < bookings.length; i++) {
                 const e = bookings[i]
-                const timeFrom = e.devInfo.time.from
-                const timeTo = e.devInfo.time.to
+                const timeFrom = e.from
+                const timeTo = e.to
                 if (e.date === dt && e.duration > 0) {
-                  if (this.setOrder(e.devInfo.room) === order) {
+                  if (this.setOrder(e.roomId) === order) {
                     let col = posArray.length - 1
                     if (col !== 0) {
                       col = findEmptyPlace(col, timeFrom, timeTo)
@@ -435,7 +498,7 @@ export default {
             while (isNormalizedWidth === false) {
               events = events.map((event) => {
                 let maxCountInRow = 0
-                for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+                for (let i = event.from; i < event.to; i++) {
                   maxCountInRow = (maxCountInRow < widthArray[i]) ? widthArray[i] : maxCountInRow
                 }
                 event.countInRow = (event.countInRow < maxCountInRow) ? maxCountInRow : event.countInRow
@@ -443,7 +506,7 @@ export default {
               })
               isNormalizedWidth = true
               events = events.map((event) => {
-                for (let i = event.devInfo.time.from; i < event.devInfo.time.to; i++) {
+                for (let i = event.from; i < event.to; i++) {
                   if (widthArray[i] < event.countInRow) {
                     widthArray[i] = event.countInRow
                     isNormalizedWidth = false
