@@ -130,7 +130,7 @@ import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
 import Timeline from './Modules/Timeline'
 
-const { height, css, offset } = dom
+const { height, css, style } = dom
 
 const usedColors = {}
 
@@ -148,6 +148,8 @@ export default {
         to: '2020-01-01'
       },
       borders: {
+        top: 0,
+        height: 0,
         from: 0,
         to: 24,
         date: ''
@@ -195,19 +197,25 @@ export default {
       if (!this.borders) return {}
       const { from, to } = this.borders
       let s = {
-        'background-color': `#000000`,
+        'background-color': `#666666`,
         'opacity': '.2',
         'width': `100%`,
         'left': `0px`
       }
+      let t = 0
+      let h = 0
       if (timeStartPos) {
+        t = timeStartPos(from + ':00')
         s = Object.assign({}, s, {
-          'top': timeStartPos(from + ':00') + 'px',
+          'top': t + 'px',
         })
       }
       if (timeDurationHeight) {
-        s = Object.assign({}, s, { 'height': timeDurationHeight(to - from) * 60 + 'px' })
+        h = timeDurationHeight(to - from) * 60
+        s = Object.assign({}, s, { 'height': h + 'px' })
       }
+      console.log(t, h)
+      this.borders = Object.assign(this.borders, { top: t, height: h })
       return s
     },
     getAvailableTime (params) {
@@ -238,7 +246,7 @@ export default {
         to: item.to,
         roomId: item.roomId
       })
-      this.top = offset(e.target).top
+      this.top = +style(e.target, 'top').replace('px', '')
       this.height = height(e.target)
       if (e.offsetY < 10 || this.height - e.offsetY < 10) {
         this.up = (e.offsetY < 10)
@@ -259,15 +267,22 @@ export default {
       if (this.isResizeNow) {
         if (this.up) {
           css(this.target, {
-            'margin-top': `${e.y - this.top - 5}px`,
+            top: `${this.top + e.y - this.mouseStart}px`,
             height: `${this.height - e.y + this.mouseStart}px`,
           })
+          const first = +style(this.target, 'top').replace('px', '')
+          if (first < this.borders.top || first > this.borders.top + this.borders.height) {
+            this.isResizeNow = false
+          }
         } else {
           css(this.target, {
-            height: `${e.y - this.top}px`,
+            height: `${this.height + e.y - this.mouseStart}px`,
           })
+          const second = +style(this.target, 'top').replace('px', '') + height(this.target)
+          if (second < this.borders.top || second > this.borders.top + this.borders.height) {
+            this.isResizeNow = false
+          }
         }
-        // console.log(this.top, this.height, offset, e)
       }
     },
     formatPrice (price) {
