@@ -3,6 +3,19 @@ import api from './instance'
 const API_URL = process.env.API_CABINET_URL
 export default {
   getAll: async (page, filter) => {
+    if (!filter.studio) {
+      try {
+        const r = await api.get(`${API_URL}/studios`, {
+          params: {
+            page
+          }
+        })
+        console.log(page, r.data.data.items[0])
+        return r.data.items[0]
+      } catch (err) {
+        console.warn('catch: bookings: Ошибка получения данных по студии...')
+      }
+    }
     try {
       const r = await api.get(`${API_URL}/bookings`, {
         params: {
