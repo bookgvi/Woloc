@@ -109,6 +109,23 @@
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
               @mousedown="resizerMouseDown(item, index, $event)"
             )
+              q-tooltip(
+                v-if="isResizeNow"
+                anchor="center right"
+                self="center left"
+                :offset="[10, 10]"
+              )
+                span.row.text-body2 от {{ item.from + ":00" }}
+                span.row.text-body2 до {{ item.to + ":00" }}
+                .row.col-12.justify-between.q-py-md
+                  q-btn.col-5(
+                    icon="fa fa-check"
+                    color="positive"
+                  )
+                  q-btn.col-5(
+                    icon="fa fa-ban"
+                    color="negative"
+                  )
           .q-badge.absolute.block.q-pa-none(
             :style="createAvailaibleZone(timeStartPos, timeDurationHeight)"
             v-if="borders.date === date && isResizeNow"
@@ -197,6 +214,7 @@ export default {
       if (!this.borders) return {}
       const { from, to } = this.borders
       let s = {
+        'z-index': 0,
         'background-color': `#666666`,
         'opacity': '.2',
         'width': `100%`,
@@ -383,6 +401,7 @@ export default {
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {
+        'z-index': 1,
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
         'font-size': '13px',
         'background-color': `${event.bgcolor}40`,
