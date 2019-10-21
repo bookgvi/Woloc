@@ -1,5 +1,8 @@
 <template lang="pug">
-  .q-pa-none
+  .q-pa-none(
+    @mouseup="resizerMouseUp"
+    @mousemove="resizerMouseMove"
+  )
     .row.justify-start.items-center.q-px-none.no-wrap
       .justify-start.items-center
         h6.wrap-md.text-weight-bold {{ selectedStudioLabel }}, {{ month }}
@@ -82,6 +85,7 @@
           )
             q-badge.absolute-top.block.q-pa-none(
               multi-line
+              style="resize: horizontal"
               :value="item"
               :key="index"
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
@@ -103,13 +107,11 @@
                   span.row.col-12.text-booking.wrap {{ item.managerComment }}
             .resizer.absolute(
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
-              @mousedown="resizerMouseDown(item, $event)"
-              @mouseup="resizerMouseUp"
-              @mousemove="resizerMouseMove"
+              @mousedown="resizerMouseDown(item, index, $event)"
             )
           .q-badge.absolute.block.q-pa-none(
             :style="createAvailaibleZone(timeStartPos, timeDurationHeight)"
-            v-if="borders.date === date"
+            v-if="borders.date === date && isResizeNow"
           )
       update-event-dialog(
         :isCreate="isCreate"
@@ -189,7 +191,6 @@ export default {
   },
   methods: {
     createAvailaibleZone (timeStartPos, timeDurationHeight) {
-      console.log(this.borders)
       if (!this.borders) return {}
       const { from, to } = this.borders
       let s = {
@@ -206,7 +207,6 @@ export default {
       if (timeDurationHeight) {
         s = Object.assign({}, s, { 'height': timeDurationHeight(to - from) * 60 + 'px' })
       }
-      console.log(s, this.borders)
       return s
     },
     getAvailableTime (params) {
@@ -216,20 +216,21 @@ export default {
         to = params.to - 1
         this.events.forEach(item => {
           if (params.roomId === item.roomId && item.date === params.date) {
-            from = (item.to > from && item.to < params.from) ? item.to : from
+            from = (item.to > from && item.to <= params.from) ? item.to : from
           }
         })
+        from = (!this.isAllDay && from < 8) ? 8 : from
       } else {
         from = params.from + 1
         this.events.forEach(item => {
           if (params.roomId === item.roomId && item.date === params.date) {
-            to = (item.from < to && item.from > params.to) ? item.from : to
+            to = (item.from < to && item.from >= params.to) ? item.from : to
           }
         })
       }
       return { from, to, date: params.date }
     },
-    resizerMouseDown (item, e) {
+    resizerMouseDown (item, index, e) {
       const params = Object.assign({}, {
         date: item.date,
         from: item.from,
@@ -238,11 +239,13 @@ export default {
       })
       this.top = offset(e.target).top
       this.height = height(e.target)
-      if (e.offsetY < 5 || this.height - e.offsetY < 5) {
-        this.up = (e.offsetY < 5)
+      if (e.offsetY < 10 || this.height - e.offsetY < 10) {
+        this.up = (e.offsetY < 10)
         this.borders = this.getAvailableTime(params)
         this.isResizeNow = true
         this.target = e.target
+      } else {
+        this.findBooking(index)
       }
     },
     resizerMouseUp () {
@@ -253,16 +256,17 @@ export default {
     resizerMouseMove (e) {
       if (this.isResizeNow) {
         let offset = 0
+        offset = e.y - this.top
         if (this.up) {
-          offset = e.y - this.top
           css(this.target, {
-            top: `${offset}px`,
+            'margin-top': `${offset}px`,
           })
         } else {
           css(this.target, {
-            height: `${this.height - e.y}px`,
+            height: `${offset}px`,
           })
         }
+        // console.log(this.top, this.height, offset, e)
       }
     },
     formatPrice (price) {
@@ -287,11 +291,9 @@ export default {
       // console.log(1111, this.selectedBooking)
       this.dialogState = true
     },
-    async findBooking (index, event) {
-      if (event.offsetY < 5 || event.target.offsetHeight - event.offsetY < 5) return
+    async findBooking (index) {
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
-      // console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
@@ -319,6 +321,7 @@ export default {
         from: this.$moment(startDate).format('YYYY-MM-DD'),
         to: this.$moment(startDate).add(6, 'days').format('YYYY-MM-DD')
       })
+      // console.log('range', this.range.from, this.range.to)
       await this.loadData()
     },
     getDate (timestamp) {
@@ -549,24 +552,26 @@ export default {
     position absolute
     height 100%
     width 100%
-    padding-top 5px
-    padding-bottom 5px
+    padding-top 10px
+    padding-bottom 10px
     background-color: inherit
     opacity: .6
   .resizer:before
     content: " "
-    background-color #000
+    background-color inherit
+    opacity: 1
     position absolute
     top 0
     width 100%
-    height 5px
+    height 10px
     cursor: n-resize
   .resizer:after
     content: " "
-    background-color #000
+    background-color inherit
+    opacity: 1
     position absolute
     bottom 0
     width 100%
-    height 5px
+    height 10px
     cursor: s-resize
 </style>
