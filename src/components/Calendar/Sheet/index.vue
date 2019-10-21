@@ -155,6 +155,7 @@ export default {
       isResizeNow: false,
       target: {},
       top: 0,
+      mouseStart: 0,
       height: 0,
       up: false,
       isCreate: true,
@@ -241,6 +242,7 @@ export default {
       this.height = height(e.target)
       if (e.offsetY < 10 || this.height - e.offsetY < 10) {
         this.up = (e.offsetY < 10)
+        this.mouseStart = +e.y
         this.borders = this.getAvailableTime(params)
         this.isResizeNow = true
         this.target = e.target
@@ -255,15 +257,14 @@ export default {
     },
     resizerMouseMove (e) {
       if (this.isResizeNow) {
-        let offset = 0
-        offset = e.y - this.top
         if (this.up) {
           css(this.target, {
-            'margin-top': `${offset}px`,
+            'margin-top': `${e.y - this.top - 5}px`,
+            height: `${this.height - e.y + this.mouseStart}px`,
           })
         } else {
           css(this.target, {
-            height: `${offset}px`,
+            height: `${e.y - this.top}px`,
           })
         }
         // console.log(this.top, this.height, offset, e)
