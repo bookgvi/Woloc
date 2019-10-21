@@ -11,7 +11,6 @@ export default {
   methods: {
     async onRequest (pagination, filter) {
       const { page, rowsPerPage } = pagination
-      console.log(filter)
       if ((filter.studio && !filter.rooms) || (filter.studio && filter.rooms.length)) {
         let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
         if (data) {

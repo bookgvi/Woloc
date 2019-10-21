@@ -1,3 +1,5 @@
+import studios from '../../api/studios'
+
 const defaultValues = {
   bookings: {
     studio: 45
@@ -47,12 +49,12 @@ export default {
       }
       this.saveToSession()
     },
-    reset (page) {
+    async reset (page) {
       const { values } = this
-
+      const { items } = await studios.getAll().then(resp => resp.data)
       this.values = {
         ...values,
-        [page]: defaultValues[page]
+        [page]: { studio: items[0].id }
       }
       this.saveToSession()
     }
