@@ -10,6 +10,7 @@ import login from './login'
 import studios from './studios'
 import promo from './promo'
 import discounts from './discounts'
+import jswidget from './jswidget'
 
 export default {
   rooms,
@@ -23,5 +24,6 @@ export default {
   refunds,
   documents,
   promo,
-  discounts
+  discounts,
+  jswidget
 }
