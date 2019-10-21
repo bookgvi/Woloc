@@ -24,6 +24,7 @@ import columns from './columns'
 import details from './details'
 import DataTable from 'components/DataTable'
 import BookingsDialog from './BookingsDialog'
+
 import { BOOKING_STATUSES } from 'src/common/constants'
 
 export default {
@@ -34,6 +35,5 @@ export default {
     details,
     disabledStatus: BOOKING_STATUSES.CANCELED
   })
-
 }
 </script>

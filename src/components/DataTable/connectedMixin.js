@@ -11,14 +11,17 @@ export default {
   methods: {
     async onRequest (pagination, filter) {
       const { page, rowsPerPage } = pagination
-      let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
-      if (data) {
-        this.account.amount = data.account.amount
-        items = data.transactions.items
-        total = data.transactions.total
+      console.log(filter)
+      if ((filter.studio && !filter.rooms) || (filter.studio && filter.rooms.length)) {
+        let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
+        if (data) {
+          this.account.amount = data.account.amount
+          items = data.transactions.items
+          total = data.transactions.total
+        }
+        this.data = items
+        Object.assign(this.pagination, pagination, { rowsNumber: total })
       }
-      this.data = items
-      Object.assign(this.pagination, pagination, { rowsNumber: total })
     },
     setPagination (prop, value) {
       const { pagination, filter } = this
