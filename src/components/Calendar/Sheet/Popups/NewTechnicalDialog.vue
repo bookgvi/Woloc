@@ -88,8 +88,8 @@ export default {
       this.newBooking = Object.assign({}, {
         room: v.room,
         managerComment: v.managerComment,
-        reservedFrom: v.reservedFrom.format('YYYY-MM-DDTHH:mm:ss+03:00'),
-        reservedTo: v.reservedTo.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        reservedFrom: this.$moment(v.reservedFrom).format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        reservedTo: this.$moment(v.reservedTo).format('YYYY-MM-DDTHH:mm:ss+03:00'),
         technical: true
       })
     }
