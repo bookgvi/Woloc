@@ -8,6 +8,7 @@
     )
     nav-bar(
       :startPeriod="period"
+      @studioChange="studio = $event"
       @periodChange="period = $event"
       @dateChange="date = $event"
     )
@@ -23,71 +24,15 @@ import Options from './Modules/Options'
 import NameSlot from '../CommonModules/NameSlot'
 import StandartCard from '../CommonModules/StandartCard'
 
-const rawData = {
-  week: [
-    {
-      room: 'Зал 11',
-      total: 4600
-    },
-    {
-      room: 'Зал 12',
-      total: 3600
-    },
-    {
-      room: 'Зал 13',
-      total: 2700
-    },
-    {
-      room: 'Зал 14',
-      total: 5800
-    }
-  ],
-  month: [
-    {
-      room: 'Зал 11',
-      total: 46000
-    },
-    {
-      room: 'Зал 12',
-      total: 57000
-    },
-    {
-      room: 'Зал 13',
-      total: 69000
-    },
-    {
-      room: 'Зал 14',
-      total: 36000
-    }
-  ],
-  quarter: [
-    {
-      room: 'Зал 11',
-      total: 148000
-    },
-    {
-      room: 'Зал 12',
-      total: 127000
-    },
-    {
-      room: 'Зал 13',
-      total: 157000
-    },
-    {
-      room: 'Зал 14',
-      total: 181000
-    }
-  ]
-}
-
 export default {
   name: 'PartsCard',
   data () {
     return {
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
       period: 'month',
       date: {
-        from: '',
-        to: ''
+        from: this.$moment().subtract(1, 'month'),
+        to: this.$moment()
       }
     }
   },
@@ -101,10 +46,13 @@ export default {
   computed: {
     options () {
       let sum = 0
-      rawData[this.period].forEach((item) => {
-        sum += item.total
-      })
-      return rawData[this.period].map((item, index) => {
+      console.log(this.studio)
+      if (!this.$app.bookings.dashboardBookingsShareList) return
+      const listForStudio = this.$app.bookings.dashboardBookingsShareList.find(item =>
+        item.id === this.studio)
+      console.log(this.studio, listForStudio)
+      if (!listForStudio) return
+      return listForStudio.map((item, index) => {
         const point = {
           name: item.room,
           total: item.total,
@@ -119,6 +67,24 @@ export default {
       return `${this.$moment(this.date.from).format('D MMMM, YYYY')} — ${this.$moment(this.date.to).format('D MMMM, YYYY')}`
     }
   },
+  methods: {
+    async loadData () {
+      console.log(this.$moment(this.date.from).format('YYYY-MM-DD'))
+      await this.$app.bookings.dashboardBookingsShare({
+        dateFrom: this.$moment(this.date.from).format('YYYY-MM-DD'),
+        dateTo: this.$moment(this.date.to).format('YYYY-MM-DD'),
+      })
+    },
+  },
+  watch: {
+    date: {
+      async handler (v) {
+        await this.loadData()
+      },
+      deep: true,
+      immediate: true
+    }
+  }
 }
 </script>
 
