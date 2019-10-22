@@ -38,10 +38,11 @@ export default {
       details,
       disabledStatus: BOOKING_STATUSES.CANCELED,
       position: {
-        position: 'absolute',
+        position: 'fixed',
         top: 0,
         left: 0,
-        fontSize: '1rem'
+        fontSize: '0.8rem',
+        width: '600px'
       },
       extras: []
     }
@@ -50,7 +51,7 @@ export default {
     hTooltip (extras, event) {
       this.extras = extras
       this.position.left = event.clientX + 'px'
-      this.position.top = event.clientY - 130 + 'px'
+      this.position.top = event.clientY + 'px'
     }
   }
 }
