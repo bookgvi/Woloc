@@ -5,6 +5,7 @@
       v-for="{ name, value, active, discount } of cols"
       v-bind="getColProps(name)"
       @click.native="active && rowDialog(row, discount)"
+      @mouseover.native="hTooltip(row, $event)"
     )
       template(v-if="name === 'room'")
         q-chip(
@@ -114,6 +115,11 @@ export default {
         }
       } else {
         this.$emit('toggleDialogRow', row.id)
+      }
+    },
+    hTooltip (row, event) {
+      if (this.$route.path === '/bookings') {
+        this.$emit('hTooltip', row.extras.items, event)
       }
     }
   }
