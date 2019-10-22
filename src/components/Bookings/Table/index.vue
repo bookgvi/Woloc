@@ -3,7 +3,7 @@
     title="Бронирования"
     :getDialogTitle="({ id }) => `Бронь ${id}`"
     :loadData="$app.bookings.getAll"
-    :filter="returnFilter"
+    :filter="$app.filters.getValues('bookings')"
     :columns="columns"
     :details="details"
     :isRowDisabled="({ status }) => status === disabledStatus"
@@ -46,8 +46,8 @@ export default {
     async filter () {
       let filter = {}
       let { studio } = this.$app.filters.getValues('bookings')
+      const { items } = await studios.getAll().then(resp => resp.data)
       if (!studio) {
-        const { items } = await studios.getAll().then(resp => resp.data)
         let [{ rooms }] = items.filter(item => item.id === items[0].id)
         rooms = rooms.map(item => item.id)
         filter = Object.assign({}, {
