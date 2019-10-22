@@ -234,9 +234,27 @@ export default {
       item.isResize = false
       this.indexResize = -1
     },
-    acceptResize (item) {
-      // const from = this.$moment(item.reservedFrom).hour().format('YYYY-MM-DDTHH:mm:ss+03:00')
-      // const to = this.$moment(item.reservedTo).hour().format('YYYY-MM-DDTHH:mm:ss+03:00')
+    async acceptResize (item) {
+      const booking = this.bookings.find(booking => booking.id === item.id)
+      const from = this.$moment(booking.reservedFrom).hour(this.fromInProcessResize).format('YYYY-MM-DDTHH:mm:ss+03:00')
+      const to = this.$moment(booking.reservedFrom).hour(this.toInProcessResize).format('YYYY-MM-DDTHH:mm:ss+03:00')
+      if (!booking) return
+      const newBooking = Object.assign({}, {
+        roomId: booking.room.id,
+        reserveFrom: from,
+        reserveTo: to,
+        priceType: booking.eventType,
+        extras: [],
+        seats: 1,
+        description: booking.managerComment || '',
+        technical: booking.technical,
+      })
+      if (newBooking) {
+        const id = booking.id
+        await this.$app.bookings.updateOne(id, newBooking)
+      }
+      item.isResize = false
+      await this.loadData()
     },
     createAvailaibleZone (timeStartPos, timeDurationHeight) {
       if (!this.borders) return {}
@@ -260,7 +278,6 @@ export default {
         h = timeDurationHeight(to - from) * 60
         s = Object.assign({}, s, { 'height': h + 'px' })
       }
-      console.log(t, h)
       this.borders = Object.assign(this.borders, { top: t, height: h })
       return s
     },
@@ -408,6 +425,8 @@ export default {
       }
     },
     async loadData () {
+      this.isResizeNow = false
+      this.indexResize = -1
       await this.$app.bookings.getForCalendar({
         ...this.filter,
         dateFrom: this.range.from,
