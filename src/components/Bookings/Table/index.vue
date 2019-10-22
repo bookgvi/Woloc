@@ -3,7 +3,7 @@
     title="Бронирования"
     :getDialogTitle="({ id }) => `Бронь ${id}`"
     :loadData="$app.bookings.getAll"
-    :filter="$app.filters.getValues('bookings')"
+    :filter="returnFilter"
     :columns="columns"
     :details="details"
     :isRowDisabled="({ status }) => status === disabledStatus"
@@ -24,6 +24,7 @@ import columns from './columns'
 import details from './details'
 import DataTable from 'components/DataTable'
 import BookingsDialog from './BookingsDialog'
+import studios from '../../../api/studios'
 
 import { BOOKING_STATUSES } from 'src/common/constants'
 
@@ -34,6 +35,32 @@ export default {
     columns,
     details,
     disabledStatus: BOOKING_STATUSES.CANCELED
-  })
+  }),
+  computed: {
+    returnFilter () {
+      this.filter()
+      return this.$app.filters.getValues('bookings')
+    }
+  },
+  methods: {
+    async filter () {
+      let filter = {}
+      let { studio } = this.$app.filters.getValues('bookings')
+      if (!studio) {
+        const { items } = await studios.getAll().then(resp => resp.data)
+        let [{ rooms }] = items.filter(item => item.id === items[0].id)
+        rooms = rooms.map(item => item.id)
+        filter = Object.assign({}, {
+          studio: items[0].id,
+          rooms: rooms
+        })
+        this.$app.filters.setValue('bookings', 'studio', filter.studio)
+        this.$app.filters.setValue('bookings', 'rooms', filter.rooms)
+      }
+    }
+  },
+  created () {
+    this.filter()
+  }
 }
 </script>

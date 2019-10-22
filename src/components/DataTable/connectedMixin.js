@@ -11,22 +11,6 @@ export default {
   methods: {
     async onRequest (pagination, filter) {
       const { page, rowsPerPage } = pagination
-      console.log(`we're on page`, this.$route.path)
-      if (this.$route.path === '/bookings') {
-        if ((filter.studio && !filter.rooms) || (filter.studio && filter.rooms.length)) {
-          this.fetchData(page, rowsPerPage, filter, pagination)
-        }
-      } else {
-        this.fetchData(page, rowsPerPage, filter, pagination)
-      }
-    },
-    setPagination (prop, value) {
-      const { pagination, filter } = this
-      if (pagination[prop] === value) return
-
-      this.onRequest({ ...pagination, [prop]: value }, filter)
-    },
-    async fetchData (page, rowsPerPage, filter, pagination) {
       let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       if (data) {
         this.account.amount = data.account.amount
@@ -35,6 +19,12 @@ export default {
       }
       this.data = items
       Object.assign(this.pagination, pagination, { rowsNumber: total })
+    },
+    setPagination (prop, value) {
+      const { pagination, filter } = this
+      if (pagination[prop] === value) return
+
+      this.onRequest({ ...pagination, [prop]: value }, filter)
     }
   },
   mounted () {

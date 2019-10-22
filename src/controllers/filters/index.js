@@ -2,7 +2,7 @@ import studios from '../../api/studios'
 
 const defaultValues = {
   bookings: {
-    studio: 45
+    studio: undefined
   },
   settings: {
     studio: undefined
@@ -52,9 +52,11 @@ export default {
     async reset (page) {
       const { values } = this
       const { items } = await studios.getAll().then(resp => resp.data)
+      let [{ rooms }] = items.filter(item => item.id === items[0].id)
+      rooms = rooms.map(item => item.id)
       this.values = {
         ...values,
-        [page]: { studio: items[0].id }
+        [page]: { studio: items[0].id, rooms: rooms }
       }
       this.saveToSession()
     }
