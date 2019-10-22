@@ -284,21 +284,29 @@ export default {
     resizerMouseMove (e) {
       if (this.isResizeNow) {
         if (this.up) {
-          css(this.target, {
-            top: `${this.top + e.y - this.mouseStart}px`,
-            height: `${this.height - e.y + this.mouseStart}px`,
-          })
+          let offsetTop = this.top + e.y - this.mouseStart
+          let offsetHeight = this.height - e.y + this.mouseStart
           const first = +style(this.target, 'top').replace('px', '')
-          if (first < this.borders.top || first > this.borders.top + this.borders.height) {
-            this.isResizeNow = false
+          if (first >= this.borders.top && first <= this.borders.top + this.borders.height) {
+            if (offsetTop % 40 < 5 || offsetTop % 40 > 35) {
+              offsetTop = Math.round(offsetTop / 40) * 40
+              offsetHeight = Math.round(offsetHeight / 40) * 40
+              css(this.target, {
+                top: `${offsetTop}px`,
+                height: `${offsetHeight}px`,
+              })
+            }
           }
         } else {
-          css(this.target, {
-            height: `${this.height + e.y - this.mouseStart}px`,
-          })
+          let offsetHeight = this.height + e.y - this.mouseStart
           const second = +style(this.target, 'top').replace('px', '') + height(this.target)
-          if (second < this.borders.top || second > this.borders.top + this.borders.height) {
-            this.isResizeNow = false
+          if (second >= this.borders.top && second <= this.borders.top + this.borders.height) {
+            if (offsetHeight % 40 < 5 || offsetHeight % 40 > 35) {
+              offsetHeight = Math.round(offsetHeight / 40) * 40
+              css(this.target, {
+                height: `${offsetHeight}px`,
+              })
+            }
           }
         }
       }
@@ -401,7 +409,7 @@ export default {
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
       let s = {
-        'z-index': 1,
+        'z-index': 2,
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
         'font-size': '13px',
         'background-color': `${event.bgcolor}40`,
@@ -590,7 +598,7 @@ export default {
     padding-top 10px
     padding-bottom 10px
     background-color: inherit
-    opacity: .6
+    opacity: .9
   .resizer:before
     content: " "
     background-color inherit
