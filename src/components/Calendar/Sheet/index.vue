@@ -105,27 +105,35 @@
                   span.row.col-12.text-booking.wrap {{ item.details }}
                 .row.col-12(v-else)
                   span.row.col-12.text-booking.wrap {{ item.managerComment }}
-            .resizer.absolute(
+            q-badge.resizer.absolute(
+              :key="index + 100000"
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
               @mousedown="resizerMouseDown(item, index, $event)"
             )
-              q-tooltip(
-                v-if="isResizeNow"
+              q-popup-proxy.absolute(
+                no-parent-event
+                persistent
+                style="margin-left: 75px; min-width: 70px; opacity:1"
+                v-model="item.isResize"
                 anchor="center right"
                 self="center left"
-                :offset="[10, 10]"
               )
-                span.row.text-body2 от {{ item.from + ":00" }}
-                span.row.text-body2 до {{ item.to + ":00" }}
-                .row.col-12.justify-between.q-py-md
-                  q-btn.col-5(
-                    icon="fa fa-check"
-                    color="positive"
-                  )
-                  q-btn.col-5(
-                    icon="fa fa-ban"
-                    color="negative"
-                  )
+                .row
+                  .col-12.text-center.q-py-xs
+                    span.text-body2 от {{ item.from + ":00" }}
+                  .col-12.text-center
+                    span.text-body2 до {{ item.to + ":00" }}
+                  .row.col-12.justify-between.q-py-md
+                    .col-6.q-px-xs
+                      q-btn.fit(
+                        icon="fa fa-check"
+                        color="positive"
+                      )
+                    .col-6.q-px-xs
+                      q-btn.fit(
+                        icon="fa fa-ban"
+                        color="negative"
+                      )
           .q-badge.absolute.block.q-pa-none(
             :style="createAvailaibleZone(timeStartPos, timeDurationHeight)"
             v-if="borders.date === date && isResizeNow"
@@ -171,6 +179,7 @@ export default {
         to: 24,
         date: ''
       },
+      isResizeStopped: false,
       isResizeNow: false,
       target: {},
       top: 0,
@@ -215,7 +224,7 @@ export default {
       const { from, to } = this.borders
       let s = {
         'z-index': 0,
-        'background-color': `#666666`,
+        'background-color': `#aaa`,
         'opacity': '.2',
         'width': `100%`,
         'left': `0px`
@@ -258,6 +267,7 @@ export default {
       return { from, to, date: params.date }
     },
     resizerMouseDown (item, index, e) {
+      if (this.isResizeNow) return
       const params = Object.assign({}, {
         date: item.date,
         from: item.from,
@@ -267,9 +277,12 @@ export default {
       this.top = +style(e.target, 'top').replace('px', '')
       this.height = height(e.target)
       if (e.offsetY < 10 || this.height - e.offsetY < 10) {
+        this.events.forEach(item => { item.isResize = false })
+        item.isResize = true
         this.up = (e.offsetY < 10)
         this.mouseStart = +e.y
         this.borders = this.getAvailableTime(params)
+        this.isResizeStopped = false
         this.isResizeNow = true
         this.target = e.target
       } else {
@@ -277,12 +290,12 @@ export default {
       }
     },
     resizerMouseUp () {
-      this.isResizeNow = false
-      this.top = 0
-      this.height = 0
+      this.isResizeStopped = true
+      // this.top = 0
+      // this.height = 0
     },
     resizerMouseMove (e) {
-      if (this.isResizeNow) {
+      if (this.isResizeNow && !this.isResizeStopped) {
         if (this.up) {
           let offsetTop = this.top + e.y - this.mouseStart
           let offsetHeight = this.height - e.y + this.mouseStart
@@ -316,6 +329,7 @@ export default {
       return fixed.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
     },
     setNewBooking (date, time) {
+      if (this.isResizeNow) return
       this.isCreate = true
       this.selectedBooking = Object.assign({}, {
         id: -1,
@@ -334,6 +348,7 @@ export default {
       this.dialogState = true
     },
     async findBooking (index) {
+      if (this.isResizeNow) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
       this.dialogState = true
@@ -472,6 +487,7 @@ export default {
               title = booking.customer.firstName
             }
             const event = {
+              isResize: false,
               id: booking.id,
               isNotFullVisible,
               isExtras: (booking.extras && booking.extras.length > 0),
@@ -598,20 +614,19 @@ export default {
     padding-top 10px
     padding-bottom 10px
     background-color: inherit
-    opacity: .9
   .resizer:before
+    margin-left -5px
     content: " "
     background-color inherit
-    opacity: 1
     position absolute
     top 0
     width 100%
     height 10px
     cursor: n-resize
   .resizer:after
+    margin-left -5px
     content: " "
     background-color inherit
-    opacity: 1
     position absolute
     bottom 0
     width 100%
