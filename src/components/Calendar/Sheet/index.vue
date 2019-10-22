@@ -106,7 +106,7 @@
                 .row.col-12(v-else)
                   span.row.col-12.text-booking.wrap {{ item.managerComment }}
             q-badge.resizer.absolute(
-              :key="index + 100000"
+              :class="{ 'is-resize': item.isResize }"
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
               @mousedown="resizerMouseDown(item, index, $event)"
             )
@@ -128,11 +128,13 @@
                       q-btn.fit(
                         icon="fa fa-check"
                         color="positive"
+                        @click="AcceptResize(item)"
                       )
                     .col-6.q-px-xs
                       q-btn.fit(
                         icon="fa fa-ban"
                         color="negative"
+                        @click="closePopupResize(item)"
                       )
           .q-badge.absolute.block.q-pa-none(
             :style="createAvailaibleZone(timeStartPos, timeDurationHeight)"
@@ -179,9 +181,11 @@ export default {
         to: 24,
         date: ''
       },
+      indexResize: -1,
       isResizeStopped: false,
       isResizeNow: false,
       target: {},
+      targetStartParams: {},
       top: 0,
       mouseStart: 0,
       height: 0,
@@ -219,6 +223,18 @@ export default {
     }
   },
   methods: {
+    closePopupResize (item) {
+      css(this.target, {
+        top: this.targetStartParams.top + 'px',
+        height: this.targetStartParams.height + 'px',
+      })
+      this.isResizeNow = false
+      item.isResize = false
+      this.indexResize = -1
+    },
+    AcceptResize (item) {
+
+    },
     createAvailaibleZone (timeStartPos, timeDurationHeight) {
       if (!this.borders) return {}
       const { from, to } = this.borders
@@ -267,7 +283,7 @@ export default {
       return { from, to, date: params.date }
     },
     resizerMouseDown (item, index, e) {
-      if (this.isResizeNow) return
+      if (this.isResizeNow && index !== this.indexResize) return
       const params = Object.assign({}, {
         date: item.date,
         from: item.from,
@@ -277,6 +293,14 @@ export default {
       this.top = +style(e.target, 'top').replace('px', '')
       this.height = height(e.target)
       if (e.offsetY < 10 || this.height - e.offsetY < 10) {
+        if (this.indexResize === -1) {
+          this.indexResize = index
+          this.target = e.target
+          this.targetStartParams = Object.assign({}, {
+            top: this.top,
+            height: this.height
+          })
+        }
         this.events.forEach(item => { item.isResize = false })
         item.isResize = true
         this.up = (e.offsetY < 10)
@@ -284,15 +308,12 @@ export default {
         this.borders = this.getAvailableTime(params)
         this.isResizeStopped = false
         this.isResizeNow = true
-        this.target = e.target
       } else {
         this.findBooking(index)
       }
     },
     resizerMouseUp () {
       this.isResizeStopped = true
-      // this.top = 0
-      // this.height = 0
     },
     resizerMouseMove (e) {
       if (this.isResizeNow && !this.isResizeStopped) {
@@ -300,27 +321,38 @@ export default {
           let offsetTop = this.top + e.y - this.mouseStart
           let offsetHeight = this.height - e.y + this.mouseStart
           const first = +style(this.target, 'top').replace('px', '')
-          if (first >= this.borders.top && first <= this.borders.top + this.borders.height) {
-            if (offsetTop % 40 < 5 || offsetTop % 40 > 35) {
-              offsetTop = Math.round(offsetTop / 40) * 40
-              offsetHeight = Math.round(offsetHeight / 40) * 40
-              css(this.target, {
-                top: `${offsetTop}px`,
-                height: `${offsetHeight}px`,
-              })
-            }
+          if (first < this.borders.top || first > this.borders.top + this.borders.height) {
+            return
           }
+          if (offsetHeight % 40 < 30 && offsetHeight % 40 > 5) {
+            return
+          }
+          offsetTop = Math.round(offsetTop / 40) * 40
+          offsetHeight = Math.round(offsetHeight / 40) * 40
+          if (offsetTop < this.borders.top || offsetTop > this.borders.top + this.borders.height) {
+            return
+          }
+          css(this.target, {
+            top: offsetTop + 'px',
+            height: offsetHeight + 'px',
+          })
         } else {
+          let offsetTop = +style(this.target, 'top').replace('px', '')
           let offsetHeight = this.height + e.y - this.mouseStart
-          const second = +style(this.target, 'top').replace('px', '') + height(this.target)
-          if (second >= this.borders.top && second <= this.borders.top + this.borders.height) {
-            if (offsetHeight % 40 < 5 || offsetHeight % 40 > 35) {
-              offsetHeight = Math.round(offsetHeight / 40) * 40
-              css(this.target, {
-                height: `${offsetHeight}px`,
-              })
-            }
+          const second = offsetTop + height(this.target)
+          if (second < this.borders.top || second > this.borders.top + this.borders.height) {
+            return
           }
+          if (offsetHeight % 40 < 30 && offsetHeight % 40 > 5) {
+            return
+          }
+          offsetHeight = Math.round(offsetHeight / 40) * 40
+          if (offsetHeight + offsetTop < this.borders.top || offsetHeight + offsetTop > this.borders.top + this.borders.height) {
+            return
+          }
+          css(this.target, {
+            height: offsetHeight + 'px',
+          })
         }
       }
     },
@@ -607,6 +639,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .is-resize
+    background-color: green !important
+    opacity: 0.5 !important
   .resizer
     position absolute
     height 100%
