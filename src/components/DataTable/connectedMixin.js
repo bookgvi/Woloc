@@ -12,8 +12,6 @@ export default {
     async onRequest (pagination, filter) {
       const { page, rowsPerPage } = pagination
       let isEmpty = 0
-      console.log(`we're on page`, this.$route.path)
-      console.log('filter', filter)
       if (this.$route.path === '/bookings') {
         if ((filter.studio && !filter.rooms) || (filter.studio && filter.rooms.length)) {
           isEmpty = false
