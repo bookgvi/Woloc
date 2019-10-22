@@ -120,15 +120,15 @@
               )
                 .row
                   .col-12.text-center.q-py-xs
-                    span.text-body2 от {{ item.from + ":00" }}
+                    span.text-body2 от {{ fromInProcessResize + ":00" }}
                   .col-12.text-center
-                    span.text-body2 до {{ item.to + ":00" }}
+                    span.text-body2 до {{ toInProcessResize + ":00" }}
                   .row.col-12.justify-between.q-py-md
                     .col-6.q-px-xs
                       q-btn.fit(
                         icon="fa fa-check"
                         color="positive"
-                        @click="AcceptResize(item)"
+                        @click="acceptResize(item)"
                       )
                     .col-6.q-px-xs
                       q-btn.fit(
@@ -181,6 +181,8 @@ export default {
         to: 24,
         date: ''
       },
+      fromInProcessResize: 0,
+      toInProcessResize: 0,
       indexResize: -1,
       isResizeStopped: false,
       isResizeNow: false,
@@ -232,8 +234,9 @@ export default {
       item.isResize = false
       this.indexResize = -1
     },
-    AcceptResize (item) {
-
+    acceptResize (item) {
+      // const from = this.$moment(item.reservedFrom).hour().format('YYYY-MM-DDTHH:mm:ss+03:00')
+      // const to = this.$moment(item.reservedTo).hour().format('YYYY-MM-DDTHH:mm:ss+03:00')
     },
     createAvailaibleZone (timeStartPos, timeDurationHeight) {
       if (!this.borders) return {}
@@ -293,6 +296,7 @@ export default {
       this.top = +style(e.target, 'top').replace('px', '')
       this.height = height(e.target)
       if (e.offsetY < 10 || this.height - e.offsetY < 10) {
+        this.hourProtector(this.top, this.top + this.height)
         if (this.indexResize === -1) {
           this.indexResize = index
           this.target = e.target
@@ -315,6 +319,11 @@ export default {
     resizerMouseUp () {
       this.isResizeStopped = true
     },
+    hourProtector (cordFrom, cordTo) {
+      const pluser = (this.isAllDay) ? 0 : 8
+      this.fromInProcessResize = Math.round(cordFrom / 40) + pluser
+      this.toInProcessResize = Math.round(cordTo / 40) + pluser
+    },
     resizerMouseMove (e) {
       if (this.isResizeNow && !this.isResizeStopped) {
         if (this.up) {
@@ -336,6 +345,7 @@ export default {
             top: offsetTop + 'px',
             height: offsetHeight + 'px',
           })
+          this.hourProtector(offsetTop, offsetTop + offsetHeight)
         } else {
           let offsetTop = +style(this.target, 'top').replace('px', '')
           let offsetHeight = this.height + e.y - this.mouseStart
@@ -353,6 +363,7 @@ export default {
           css(this.target, {
             height: offsetHeight + 'px',
           })
+          this.hourProtector(offsetTop, offsetTop + offsetHeight)
         }
       }
     },
