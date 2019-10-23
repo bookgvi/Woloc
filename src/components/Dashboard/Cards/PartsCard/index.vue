@@ -28,7 +28,7 @@ export default {
   name: 'PartsCard',
   data () {
     return {
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 326,
       period: 'month',
       date: {
         from: this.$moment().subtract(1, 'month'),
@@ -45,18 +45,15 @@ export default {
   },
   computed: {
     options () {
-      let sum = 0
-      console.log(this.studio)
       if (!this.$app.bookings.dashboardBookingsShareList) return
       const listForStudio = this.$app.bookings.dashboardBookingsShareList.find(item =>
         item.id === this.studio)
-      console.log(this.studio, listForStudio)
-      if (!listForStudio) return
-      return listForStudio.map((item, index) => {
+      if (!listForStudio || !listForStudio.rooms) return
+      return listForStudio.rooms.map((item, index) => {
         const point = {
-          name: item.room,
-          total: item.total,
-          percents: (item.total / sum * 100).toFixed(2),
+          name: item.name,
+          total: item.totalProfit,
+          percents: (item.totalProfit / listForStudio.totalProfit * 100).toFixed(2),
           color: '#' + ((1 << 24) * Math.random() | 0).toString(16)
         }
         return point
@@ -69,7 +66,6 @@ export default {
   },
   methods: {
     async loadData () {
-      console.log(this.$moment(this.date.from).format('YYYY-MM-DD'))
       await this.$app.bookings.dashboardBookingsShare({
         dateFrom: this.$moment(this.date.from).format('YYYY-MM-DD'),
         dateTo: this.$moment(this.date.to).format('YYYY-MM-DD'),
@@ -78,7 +74,7 @@ export default {
   },
   watch: {
     date: {
-      async handler (v) {
+      async handler () {
         await this.loadData()
       },
       deep: true,
