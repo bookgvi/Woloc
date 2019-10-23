@@ -11,7 +11,12 @@ export default [
   {
     name: 'customer',
     label: 'Клиент',
-    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`,
+    field: ({ customer = {} }) => {
+      if (!customer) {
+        return
+      }
+      return `${customer.firstName} ${customer.lastName}`
+    },
     active: true,
   },
   {
