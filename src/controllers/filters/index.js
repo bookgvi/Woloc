@@ -3,7 +3,7 @@ const defaultValues = {
     studio: 37
   },
   settings: {
-    studio: 37
+    studio: undefined
   },
   calendar: {
     studio: 37,
