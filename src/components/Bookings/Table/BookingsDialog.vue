@@ -2,7 +2,7 @@
   .bookingDialog.q-pa-lg
     .row.justify-between.q-pb-md
       .col
-        .text-h5 Бронь {{ row.id }}
+        .text-h5.text-bold Бронь {{ row.id }}
       .col-1
         q-btn.q-mr-md(icon="close" flat v-close-popup)
     .row
@@ -37,7 +37,7 @@
             .data {{  }}
     .row
       .col
-        .text-h5 Данные клиента
+        .text-h5.text-bold Данные клиента
     .row
       .col
         q-input.readonly(label="Имя" readonly borderless)
@@ -55,7 +55,7 @@
             .data(v-if="row.customer") {{ row.customer.email }}
     .row
       .col
-        .text-h5 Оплата
+        .text-h5.text-bold Оплата
     .row
       .col
         q-input.readonly(label="4 ч. • 1200 р." readonly borderless)
@@ -83,7 +83,7 @@
             .data {{ 5600 }}
     .row
       .col
-        .text-h5 Комментарий
+        .text-h5.text-bold Комментарий
     .row.q-pb-md
       .col
         q-input.readonly(readonly borderless type="textarea")

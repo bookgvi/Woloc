@@ -1,24 +1,28 @@
 <template lang="pug">
-  DataTable(
-    title="Клиенты"
-    :getDialogTitle="() => 'Личные данные'"
-    :loadData="$app.customers.getAll"
-    :filter="$app.filters.getValues('customers')"
-    :columns="columns"
-    :details="details"
-  )
-    template(#table-controls)
-      q-btn.q-ml-md(color="primary" label="Добавить пользователя")
+  .customer
+    DataTable(
+      title="Клиенты"
+      :getDialogTitle="() => 'Личные данные'"
+      :loadData="$app.customers.getAll"
+      :filter="$app.filters.getValues('customers')"
+      :columns="columns"
+      :details="details"
+      @toggleDialogRow="toggleDialogRow"
+    )
+      template(#table-controls)
+        q-btn.q-ml-md(color="primary" label="Добавить пользователя")
 
-    template(#row-dialog="props")
-      CustomersDialog(v-bind="props")
+      template(#row-dialog="props")
+        CustomersDialog(v-bind="props")
 
-    template(#row-controls="props")
-      q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
-      q-btn(flat round icon="phone" title="Позвонить")
-      q-btn(flat round icon="email" title="Отправить E-mail")
-      q-btn(flat round icon="comment" title="Открыть чат")
-
+      template(#row-controls="props")
+        q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
+        q-btn(flat round icon="phone" title="Позвонить")
+        q-btn(flat round icon="email" title="Отправить E-mail")
+        q-btn(flat round icon="comment" title="Открыть чат")
+    q-dialog(v-model="isModal")
+      q-card(style="min-width: 680px;")
+        CustomersDialog(:row="customerData")
 </template>
 
 <script>
@@ -33,7 +37,18 @@ export default {
   data: () => ({
     columns,
     details,
-  })
+    customerData: {},
+    isModal: false
+  }),
+  methods: {
+    toggleDialogRow (row) {
+      this.customerData = row
+      console.log(this.customerData)
+      this.$nextTick(_ => {
+        this.isModal = true
+      })
+    }
+  }
 }
 </script>
 

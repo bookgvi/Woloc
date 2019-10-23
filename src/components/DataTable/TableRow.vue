@@ -56,6 +56,9 @@
       template(v-else-if="name === 'expiredAt'")
         span(v-if="value") {{ value }}
         span(v-else) нет
+      template(v-else-if="name === 'chat'")
+        div.q-py-sm(style="width: 90%; white-space: normal;") {{ value }}
+
       template(v-else) {{ value }}
 </template>
 
