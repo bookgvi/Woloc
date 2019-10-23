@@ -4,14 +4,14 @@
       .column.col-4
         profit-card
         finances-card
-        locations-card
-        rooms-cards-creator
+        // locations-card эти блоки давайте пока тоже уберем, только сохраните их куда-нибудь
+        // rooms-cards-creator
         documents-card
         notifications-card
       .column.col-4
         parts-card
         bookings-card
-        requests-card
+        // requests-card
         refunds-card
         promocodes-card
         notes-card
