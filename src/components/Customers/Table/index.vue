@@ -43,7 +43,6 @@ export default {
   methods: {
     toggleDialogRow (row) {
       this.customerData = row
-      console.log(this.customerData)
       this.$nextTick(_ => {
         this.isModal = true
       })
