@@ -1,22 +1,27 @@
 <template lang="pug">
-  data-table(
-    title="Бронирования"
-    :getDialogTitle="({ id }) => `Бронь ${id}`"
-    :loadData="$app.bookings.getAll"
-    :filter="$app.filters.getValues('bookings')"
-    :columns="columns"
-    :details="details"
-    :isRowDisabled="({ status }) => status === disabledStatus"
-  )
-    template(#row-dialog="props")
-      bookings-dialog(v-bind="props")
-
-    template(#row-controls="props")
-      q-btn(flat round icon="comment" title="Открыть чат")
-      q-btn(flat round icon="delete" title="Удалить")
-      q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
-      q-btn(flat round icon="thumb_up")
-
+  .bookings
+    data-table(
+      title="Бронирования"
+      :loadData="$app.bookings.getAll"
+      :filter="$app.filters.getValues('bookings')"
+      :columns="columns"
+      :details="details"
+      :isRowDisabled="({ status }) => status === disabledStatus"
+      @toggleDialogRow="toggleDialogRow"
+    )
+      template(#row-dialog="props")
+        bookings-dialog(v-bind="props")
+      template(#row-controls="props")
+        q-btn(flat round icon="comment" title="Открыть чат")
+        q-btn(flat round icon="delete" title="Удалить")
+        q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
+        q-btn(flat round icon="thumb_up")
+    q-dialog(v-model="isModal")
+      q-card(style="min-width: 680px;")
+        BookingsDialog(
+          :row="bookingRowData"
+          @hasModal="isModal = false"
+        )
 </template>
 
 <script>
@@ -34,7 +39,10 @@ export default {
   data: () => ({
     columns,
     details,
-    disabledStatus: BOOKING_STATUSES.CANCELED
+    disabledStatus: BOOKING_STATUSES.CANCELED,
+    isModal: false,
+    bookingRowData: {},
+    room: {}
   }),
   computed: {
     returnFilter () {
@@ -57,6 +65,12 @@ export default {
         this.$app.filters.setValue('bookings', 'studio', filter.studio)
         this.$app.filters.setValue('bookings', 'rooms', filter.rooms)
       }
+    },
+    toggleDialogRow (row) {
+      this.bookingRowData = row
+      this.$nextTick(_ => {
+        this.isModal = true
+      })
     }
   },
   created () {

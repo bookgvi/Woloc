@@ -1,14 +1,5 @@
 <template lang="pug">
   .q-pa-none
-    slot(
-      name="row-dialog"
-      readonly
-      :row="dialogRow"
-      :details="normalizedDetails"
-      :getTitle="getDialogTitle"
-      @toggleDialogRow="toggleDialogRow"
-    )
-
     q-table.shadow-0.data-table(
       row-key="id"
       hide-bottom
@@ -50,11 +41,10 @@
 import TableControls from './TableControls'
 import TableRow from './TableRow'
 import connected from './connectedMixin'
-import RowDialog from './RowDialog'
 
 export default {
   name: 'DataTable',
-  components: { RowDialog, TableControls, TableRow },
+  components: { TableControls, TableRow },
   mixins: [connected],
   props: {
     title: String,
@@ -76,9 +66,8 @@ export default {
     toggleControlsRow (id) {
       this.controlsRowId = this.controlsRowId === id ? undefined : id
     },
-    toggleDialogRow (id) {
-      this.dialogRowId = this.dialogRowId === id ? undefined : id
-      this.$emit('toggleDialogRow', id)
+    toggleDialogRow (row) {
+      this.$emit('toggleDialogRow', row)
     },
   },
   computed: {
