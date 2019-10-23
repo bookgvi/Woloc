@@ -39,7 +39,7 @@ export default {
     buttonTitle () {
       const studio = this.controller.getFiltered(this.values)
 
-      return studio ? studio.name : 'Студия'
+      return studio ? studio.name : 'Локация'
     },
   },
   methods: {
