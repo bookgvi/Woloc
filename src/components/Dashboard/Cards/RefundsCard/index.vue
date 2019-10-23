@@ -87,7 +87,6 @@ export default {
           returnedAt: item.returnedAt
         }
       })
-      console.log(this.$app.refunds.dashboardRefundsList, refundsList)
       return refundsList
     },
   },
