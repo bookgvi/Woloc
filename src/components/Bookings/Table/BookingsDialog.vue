@@ -1,5 +1,5 @@
 <template lang="pug">
-  .bookingDialog.q-pa-md
+  .bookingDialog.q-pa-lg
     .row.justify-between.q-pb-md
       .col
         .text-h5 Бронь {{ row.id }}
@@ -48,12 +48,51 @@
         q-input.readonly(label="Телефон" readonly borderless)
           template(#append)
             .data(v-if="row.customer") {{ row.customer.phone }}
-    .row
+    .row.q-pb-lg
       .col
         q-input.readonly(label="Эл. почта" readonly borderless)
           template(#append)
             .data(v-if="row.customer") {{ row.customer.email }}
-
+    .row
+      .col
+        .text-h5 Оплата
+    .row
+      .col
+        q-input.readonly(label="4 ч. • 1200 р." readonly borderless)
+          template(#append)
+            .data {{ 4800 }}
+    .row
+      .col
+        q-input.readonly(label="Покраска циклорамы, р." readonly borderless)
+          template(#append)
+            .data {{ 500 }}
+    .row
+      .col
+        q-input.readonly(label="Набор ванны водой, р." readonly borderless)
+          template(#append)
+            .data {{ 300 }}
+    .row
+      .col
+        q-input.readonly(label="Предоплата 100%, р." readonly borderless)
+          template(#append)
+            .data {{ 4800 }}
+    .row.q-pb-lg
+      .col
+        q-input.readonly(label="Итого, р." readonly borderless)
+          template(#append)
+            .data {{ 5600 }}
+    .row
+      .col
+        .text-h5 Комментарий
+    .row.q-pb-md
+      .col
+        q-input.readonly(readonly borderless type="textarea")
+          template(#append)
+            .data {{ row.managerComment }}
+    .row
+      q-btn.q-mr-md(icon="close" outline v-close-popup)
+      q-btn.q-mr-md(icon="delete" outline)
+      q-btn.col-grow(label="Редактировать в календаре" color="primary" unelevated)
 </template>
 <script>
 import { date } from 'quasar'
