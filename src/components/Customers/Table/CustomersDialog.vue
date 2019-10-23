@@ -54,7 +54,7 @@
     .row.q-py-md
       .col
         .text-h6.text-bold Бронирования
-    .row(v-for="(item, index) in row.bookings.items" :key="index")
+    .row.readonly.q-pb-sm(v-for="(item, index) in row.bookings.items" :key="index")
       .row.items-center
         .data {{ formatDate(item.reservedFrom) }}
         q-chip
@@ -63,10 +63,20 @@
       .row.items-center
           .row
             .data {{ item.duration }} ч. * {{ money(item.price, true) }}
+    .row.q-py-md
+      span.cursor-pointer.data.text-primary Посмотреть все в таблице
+    .row.q-pb-sm
+      .col
+        .text-h6.text-bold Рейтинг &nbsp;
+          i.text-primary(v-for="(item, i) in 5" class="fa-star" :class="i < row.rating ? 'fas' : 'far' ")
     .row
       .col
-        span.readonly.cursor-pointer Посмотреть все в таблице
-
+        .data Оставьте комментарий о пользователе
+    .row.q-py-sm
+      .col.q-mr-md
+        q-btn.bg-primary.text-white(label="Редактировать" no-caps style="width: 100%;")
+      .col
+        q-btn.bg-primary.text-white(label="Открыть чат" no-caps style="width: 100%;")
 </template>
 
 <script>
