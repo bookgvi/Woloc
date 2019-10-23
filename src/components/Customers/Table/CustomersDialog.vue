@@ -54,10 +54,23 @@
     .row.q-py-md
       .col
         .text-h6.text-bold Бронирования
+    .row(v-for="(item, index) in row.bookings.items" :key="index")
+      .row.items-center
+        .data {{ formatDate(item.reservedFrom) }}
+        q-chip
+          .data Зал {{ item.room.name }}
+      q-space
+      .row.items-center
+          .row
+            .data {{ item.duration }} ч. * {{ money(item.price, true) }}
+    .row
+      .col
+        span.readonly.cursor-pointer Посмотреть все в таблице
 
 </template>
 
 <script>
+import { date } from 'quasar'
 export default {
   name: 'CustomersDialog',
   props: {
@@ -71,6 +84,15 @@ export default {
   },
   created () {
     console.log(this.row)
+  },
+  methods: {
+    formatDate (value) {
+      return date.formatDate(value, 'D MMM YYYY')
+    },
+    money (val, sign = false) {
+      const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 0 })
+      return value + (sign ? ' ₽' : '')
+    }
   }
 }
 </script>
