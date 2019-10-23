@@ -63,6 +63,8 @@
         hour24-format
         short-weekday-label
         column-header-before
+        no-default-header-btn
+        no-default-header-text
       )
         template.row(#interval="{ time, date }")
           .row.fit.q-pa-none(
