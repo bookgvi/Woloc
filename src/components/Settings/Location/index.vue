@@ -70,12 +70,6 @@ export default {
       this.vendors = this.singleStudio.vendors
     },
     async updateStudio (services, vendors) {
-      this.singleStudio.services = services.map(item => {
-        return { id1: item.id }
-      })
-      this.singleStudio.vendors = vendors.map(item => {
-        return { id: item.id }
-      })
       let { studio } = this.$app.filters.getValues('settings')
       if (!studio) {
         studio = this.currentStudio
