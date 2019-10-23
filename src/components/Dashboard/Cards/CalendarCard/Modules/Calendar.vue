@@ -221,7 +221,6 @@ export default {
                 posx: this.setOrder(booking.room.id),
                 countInRow: this.rooms.length
               }
-              console.log(booking, event)
               bookings.push(event)
             }
           })

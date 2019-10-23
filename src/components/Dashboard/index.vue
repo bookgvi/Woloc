@@ -4,7 +4,8 @@
       .column.col-4
         profit-card
         finances-card
-        // locations-card эти блоки давайте пока тоже уберем, только сохраните их куда-нибудь
+        // эти блоки давайте пока тоже уберем, только сохраните их куда-нибудь
+        // locations-card
         // rooms-cards-creator
         documents-card
         notifications-card
