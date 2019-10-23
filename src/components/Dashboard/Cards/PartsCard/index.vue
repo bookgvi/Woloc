@@ -28,7 +28,7 @@ export default {
   name: 'PartsCard',
   data () {
     return {
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 326,
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
       period: 'month',
       date: {
         from: this.$moment().subtract(1, 'month'),
@@ -45,7 +45,8 @@ export default {
   },
   computed: {
     options () {
-      if (!this.$app.bookings.dashboardBookingsShareList) return
+      if (this.studio === 0) return []
+      if (!this.$app.bookings.dashboardBookingsShareList) return []
       const listForStudio = this.$app.bookings.dashboardBookingsShareList.find(item =>
         item.id === this.studio)
       if (!listForStudio || !listForStudio.rooms) return
@@ -53,7 +54,7 @@ export default {
         const point = {
           name: item.name,
           total: item.totalProfit,
-          percents: (item.totalProfit / listForStudio.totalProfit * 100).toFixed(2),
+          percents: (item.totalProfit / listForStudio.totalProfit * 100).toFixed(),
           color: '#' + ((1 << 24) * Math.random() | 0).toString(16)
         }
         return point
