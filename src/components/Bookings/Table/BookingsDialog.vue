@@ -4,7 +4,7 @@
       .col
         .text-h5 Бронь {{ row.id }}
       .col-1
-        q-icon.cursor-pointer(name="close" @click="$emit('hasModal')" style="font-size: 20px;")
+        q-btn.q-mr-md(icon="close" flat v-close-popup)
     .row
       .col
         q-input.readonly(label="Зал" readonly=true borderless)
@@ -29,7 +29,7 @@
       .col
         q-input.readonly(label="Количество гостей" readonly borderless)
           template(#append)
-            .data {{  }}
+            .data {{ row.seats }}
     .row.q-pb-lg
       .col
         q-input.readonly(label="Источник брони" readonly borderless)
@@ -114,9 +114,6 @@ export default {
       ).join(' — ')
       return time
     }
-  },
-  created () {
-    console.log('Created BookingDialog', this.row)
   }
 }
 </script>

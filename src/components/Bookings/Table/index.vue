@@ -20,7 +20,6 @@
       q-card(style="min-width: 680px;")
         BookingsDialog(
           :row="bookingRowData"
-          @hasModal="isModal = false"
         )
 </template>
 
