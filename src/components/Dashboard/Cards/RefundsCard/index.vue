@@ -24,16 +24,16 @@
               span &nbsp {{ item.name }}
             td.text-right
               q-icon(
-                v-if="item.status.id !== 0"
+                v-if="item.status.id === 2"
                 size="7px"
                 color="red"
                 name="fas fa-circle"
                 style="cursor: pointer"
               )
                 q-tooltip
-                  span.row.text-body2 {{ firstDateSlot(item.createdAt) }}
+                  span.row.text-body2 {{ dateSlot(item.from, item.to) }}
                   span.row &nbsp
-                  span.row.text-body2.text-red {{ firstDateSlot(item.returnedAt) }}
+                  span.row.text-body2.text-red Возврат {{ expiredDateSlot(item.from) }}
             td.text-right
               span.text-black.text-body2 {{ item.value.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true }) }} р.
     q-card-actions.q-pl-md.q-pb-md
@@ -83,15 +83,20 @@ export default {
           check: false,
           value: item.amount,
           status: item.status,
-          createdAt: item.createdAt,
-          returnedAt: item.returnedAt
+          returnedAt: item.returnedAt,
+          from: item.booking.reservedFrom,
+          to: item.booking.reservedTo
         }
       })
       return refundsList
     },
   },
   methods: {
-    firstDateSlot (dt) {
+    dateSlot (from, to) {
+      return this.$moment(from).format('DD MMMM hh:mm') +
+        '-' + this.$moment(to).format('hh:mm')
+    },
+    expiredDateSlot (dt) {
       return this.$moment(dt).format('DD MMMM hh:mm')
     },
     async loadData () {
