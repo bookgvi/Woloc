@@ -64,7 +64,7 @@
           .row
             .data {{ item.duration }} ч. * {{ money(item.price, true) }}
     .row.q-py-md
-      span.cursor-pointer.data.text-primary Посмотреть все в таблице
+      span.cursor-pointer.data.text-primary(v-if="row.bookings.items.length") Посмотреть все в таблице
     .row.q-pb-sm
       .col
         .text-h6.text-bold Рейтинг &nbsp;
@@ -87,13 +87,10 @@ export default {
     getTitle: Function,
     row: {
       type: Object,
-      default: () => ({}),
+      default: () => ({})
     },
     details: Array,
-    readonly: Boolean,
-  },
-  created () {
-    console.log(this.row)
+    readonly: Boolean
   },
   methods: {
     formatDate (value) {
