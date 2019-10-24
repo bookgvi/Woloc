@@ -63,6 +63,7 @@ export default {
         })
         this.$app.filters.setValue('bookings', 'studio', filter.studio)
         this.$app.filters.setValue('bookings', 'rooms', filter.rooms)
+        this.$app.filters.setValue('bookings', 'statuses', [0, 1, 2, 3, 4])
       }
     },
     toggleDialogRow (row) {

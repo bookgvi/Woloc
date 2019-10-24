@@ -10,6 +10,7 @@ export default {
   },
   methods: {
     async onRequest (pagination, filter) {
+      console.log('connectedMixin', filter)
       const { page, rowsPerPage } = pagination
       let isEmpty = 0
       if (this.$route.path === '/bookings') {

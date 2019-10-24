@@ -1,9 +1,10 @@
 <template lang="pug">
   filter-select(
+    selectAllLabel="Все статусы"
     :title="buttonTitle"
     :options="options"
     :value="value"
-    @change="event => onChange('status', event)"
+    @change="event => onChange('statuses', event)"
   )
 </template>
 
@@ -25,7 +26,7 @@ export default {
   }),
   computed: {
     value () {
-      return this.values.status || []
+      return this.values.statuses || []
     },
     buttonTitle () {
       return `Статус ${this.value.length || ''}`
