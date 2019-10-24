@@ -63,7 +63,7 @@ export default {
   },
   computed: {
     bookings () {
-      let bookingsList = []
+      const bookingsList = []
       this.$app.bookings.dashboardBookingsList.forEach(item => {
         if (!item.technical) {
           bookingsList.push(item)
@@ -98,12 +98,12 @@ export default {
   },
   watch: {
     async selectedDate () {
-      await this.loadData()
+      this.loadData()
     },
     studio: {
       async handler () {
         if (this.studio !== 0) {
-          await this.loadData()
+          this.loadData()
         }
       },
       immediate: true
