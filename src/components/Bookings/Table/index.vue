@@ -18,8 +18,8 @@
         q-btn(flat round icon="delete" title="Удалить")
         q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
         q-btn(flat round icon="thumb_up")
-    .div(:style="position")
-      span.bg-primary.text-white.q-pa-md(v-for="item in extras" :key="item.id") {{ item.name }}: {{ item. price }}
+    .div(:style="position" v-if="isTooltip")
+      span.bg-primary.text-white.q-pa-md(v-for="item in extras" :key="item.id") {{ item.name }} {{ item. price }}
 </template>
 
 <script>
@@ -37,21 +37,27 @@ export default {
       columns,
       details,
       disabledStatus: BOOKING_STATUSES.CANCELED,
+      isTooltip: true,
       position: {
         position: 'fixed',
         top: 0,
         left: 0,
         fontSize: '0.8rem',
-        width: '600px'
+        width: '600px',
+        opacity: '0.5'
       },
       extras: []
     }
   },
   methods: {
     hTooltip (extras, event) {
+      if (!extras) {
+        this.isTooltip = false
+      }
       this.extras = extras
       this.position.left = event.clientX + 'px'
       this.position.top = event.clientY + 'px'
+      this.isTooltip = true
     }
   }
 }

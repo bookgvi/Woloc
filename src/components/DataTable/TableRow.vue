@@ -120,6 +120,8 @@ export default {
     hTooltip (row, name, event) {
       if (this.$route.path === '/bookings' && name === 'extras') {
         this.$emit('hTooltip', row.extras.items, event)
+      } else {
+        this.$emit('hTooltip', false, event)
       }
     }
   }
