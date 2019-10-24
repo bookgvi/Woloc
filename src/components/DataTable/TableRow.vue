@@ -107,7 +107,9 @@ export default {
       }
 
       return {
-        backgroundColor: usedColors[id].color,
+        width: '90%',
+        whiteSpace: 'normal',
+        backgroundColor: usedColors[id].color
       }
     },
     rowDialog (row) {
