@@ -42,7 +42,7 @@ export default {
   },
   computed: {
     options () {
-      return this.$app.documents.list
+      return this.$app.documents.list.slice(0, 3)
     }
   },
   methods: {

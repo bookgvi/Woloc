@@ -34,7 +34,9 @@
       class="cursor-pointer"
       @click="isMiniTable = false"
     )
-      span.row.text-body2.text-blue-5.q-pt-md  Ещё {{ $app.bookings.dashboardList.length - 3 }}
+      span.row.text-body2.text-blue-5.q-pt-md(
+        v-if="bookings.length > 3"
+      )  Ещё {{ bookings.length - 3 }}
     q-card-section(
       v-else
       class="cursor-pointer"
@@ -61,7 +63,13 @@ export default {
   },
   computed: {
     bookings () {
-      return (this.isMiniTable) ? this.$app.bookings.dashboardList.slice(0, 3) : this.$app.bookings.dashboardList
+      const bookingsList = []
+      this.$app.bookings.dashboardBookingsList.forEach(item => {
+        if (!item.technical) {
+          bookingsList.push(item)
+        }
+      })
+      return (this.isMiniTable) ? bookingsList.slice(0, 3) : bookingsList
     }
   },
   methods: {
@@ -90,12 +98,12 @@ export default {
   },
   watch: {
     async selectedDate () {
-      await this.loadData()
+      this.loadData()
     },
     studio: {
       async handler () {
         if (this.studio !== 0) {
-          await this.loadData()
+          this.loadData()
         }
       },
       immediate: true
