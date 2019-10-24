@@ -3,8 +3,21 @@ import { stringify } from 'qs'
 import { LocalStorage, Notify } from 'quasar'
 
 // create an axios instance
+const currentURL = (_ => {
+  const currentURL = window.location
+  let baseURL = currentURL.hostname
+  let isCabinet = currentURL.hostname.split('.')
+  if (baseURL === 'localhost') {
+    baseURL = 'https://pre.ugoloc.ucann.ru'
+  } else if (isCabinet[0] === `cabinet`) {
+    isCabinet.shift()
+    baseURL = `https://${isCabinet.join('.')}`
+  }
+  return `${baseURL}/api`
+})()
 const instance = axios.create({
-  baseURL: process.env.API_BASE_URL || '/api', // api base_url
+  // baseURL: process.env.API_BASE_URL || '/api', // api base_url
+  baseURL: currentURL, // api base_url
   paramsSerializer: function (params) {
     return stringify(params, { arrayFormat: 'brackets' })
   },
