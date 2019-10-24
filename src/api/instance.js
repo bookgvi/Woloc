@@ -7,8 +7,6 @@ const currentURL = (_ => {
   const currentURL = window.location
   let baseURL = currentURL.hostname
   let isCabinet = currentURL.hostname.split('.')
-  console.log(isCabinet)
-  console.log(currentURL)
   if (baseURL === 'localhost') {
     baseURL = 'https://pre.ugoloc.ucann.ru'
   } else if (isCabinet[0] === `cabinet`) {
