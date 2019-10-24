@@ -165,8 +165,8 @@ export default {
         this.$nextTick(function () {
           v.map((booking) => {
             if (this.$moment(this.selectedDate).isSame(booking.reservedFrom, 'day')) {
-              let from = this.$moment(booking.reservedFrom).parseZone()
-              let to = this.$moment(booking.reservedTo).parseZone()
+              const from = this.$moment(booking.reservedFrom).parseZone()
+              const to = this.$moment(booking.reservedTo).parseZone()
               let isNotFullVisible = false
               if (!this.isAllDay) {
                 if (from.hour() < 8) {
@@ -178,23 +178,20 @@ export default {
                 }
               }
               const diff = to.diff(from, 'minutes')
-              let fullNameSlot = ''
-              let phoneSlot = ''
-              let eventSlot = ''
-              let priceSlot = ''
+              const slot = {
+                fullName: 'техническая бронь',
+                phone: '',
+                eventSlot: '',
+                priceSlot: ''
+              }
               if (!booking.technical) {
-                fullNameSlot = (booking.customer && booking.customer.fullName)
+                slot.fullName = (booking.customer && booking.customer.fullName)
                   ? booking.customer.fullName : ''
-                phoneSlot = (booking.customer && booking.customer.phone)
+                slot.phone = (booking.customer && booking.customer.phone)
                   ? '+' + booking.customer.phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '$1 $2-$3-$4') : ''
-                eventSlot = (booking.eventType) ? booking.eventType : ''
-                priceSlot = (booking.amount && booking.price)
+                slot.event = (booking.eventType) ? booking.eventType : ''
+                slot.price = (booking.amount && booking.price)
                   ? `${formatPrice(booking.amount)} • ${formatPrice(booking.price)}` : ''
-              } else if (booking.technical) {
-                fullNameSlot = 'техническая бронь'
-                phoneSlot = ''
-                eventSlot = ''
-                priceSlot = ''
               }
               const event = {
                 id: booking.id,
@@ -202,10 +199,10 @@ export default {
                 isExtras: (booking.extras && booking.extras.length > 0),
                 roomNameSlot: 'Зал ' + booking.room.name,
                 roomColorSlot: '#' + ((1 << 24) * Math.random() | 0).toString(16),
-                fullNameSlot: fullNameSlot,
-                phoneSlot: phoneSlot,
-                eventSlot: eventSlot,
-                priceSlot: priceSlot,
+                fullNameSlot: slot.fullName,
+                phoneSlot: slot.phone,
+                eventSlot: slot.event,
+                priceSlot: slot.price,
                 date: getDate(from),
                 time: getTime(from),
                 duration: diff,
