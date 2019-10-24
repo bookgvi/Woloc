@@ -45,7 +45,7 @@
              )
     template(
       style="width: 100%"
-      )
+    )
       first-column(
         :isAllDay ="isAllDay"
         @allDayChange="isAllDay=$event"
@@ -67,8 +67,10 @@
         no-default-header-text
       )
         template.row(#interval="{ time, date }")
-          .row.fit.q-pa-none(
-            @click="setNewBooking(date, time)"
+          .row.fit.q-pa-none
+            booking-type-menu(
+              @fastClick="setNewTechnical(date, time)"
+              @commonClick="setNewBooking(date, time)"
             )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md(
@@ -149,6 +151,12 @@
         :booking="selectedBooking"
         @setQueryState="setQueryState($event)"
       )
+      new-technical-dialog(
+        :dialogState="technicalDialogState"
+        :filter="filter"
+        :booking="selectedBooking"
+        @setQueryState="setTechnicalQueryState($event)"
+      )
  </template>
 
 <script>
@@ -158,6 +166,8 @@ import roomsColors from 'src/common/rooms/colors'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
 import Timeline from './Modules/Timeline'
+import BookingTypeMenu from './Popups/BookingTypeMenu'
+import NewTechnicalDialog from './Popups/NewTechnicalDialog'
 
 const { height, css, style } = dom
 
@@ -165,7 +175,7 @@ const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
-  components: { FirstColumn, UpdateEventDialog, Timeline },
+  components: { NewTechnicalDialog, BookingTypeMenu, FirstColumn, UpdateEventDialog, Timeline },
   props: {
     filter: Object,
     bookings: Array
@@ -200,6 +210,7 @@ export default {
       events: [],
       selectedDate: '',
       dialogState: false,
+      technicalDialogState: false,
       selectedBooking: {},
     }
   },
@@ -214,7 +225,7 @@ export default {
       return this.isAllDay ? 24 : 16
     },
     selectedStudioLabel () {
-      return this.studio ? this.studio.name : 'Студия не выбрана'
+      return this.studio ? this.studio.name : 'Локация не выбрана'
     },
     studio () {
       return this.$app.studios.getFiltered(this.filter)
@@ -409,6 +420,17 @@ export default {
       // console.log(1111, this.selectedBooking)
       this.dialogState = true
     },
+    setNewTechnical (date, time) {
+      this.selectedBooking = Object.assign({}, {
+        id: -1,
+        managerComment: '',
+        reservedFrom: this.$moment(`${date}T${time}`),
+        reservedTo: this.$moment(`${date}T${time}`).add(1, 'hours'),
+        room: this.filter.rooms[0] || '',
+        technical: true
+      })
+      this.technicalDialogState = true
+    },
     async findBooking (index) {
       if (this.isResizeNow) return
       this.isCreate = false
@@ -523,6 +545,13 @@ export default {
       }
       this.dialogState = false
     },
+    async setTechnicalQueryState (state = true) {
+      // console.log(999, state)
+      if (state === true) {
+        await this.placeEvents()
+      }
+      this.technicalDialogState = false
+    }
   },
   watch: {
     bookings: {

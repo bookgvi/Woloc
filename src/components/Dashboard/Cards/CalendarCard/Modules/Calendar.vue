@@ -23,8 +23,24 @@
           :key="index"
           :style="badgeStyles(e, 'body', timeStartPos, timeDurationHeight)"
         )
+          q-tooltip(
+            anchor="center right"
+            self="center left"
+            :offset="[10, 10]"
+          )
+            .row.col-12.items-center.q-pb-xs
+              .col-2
+                q-icon(
+                  :style="{color: e.roomColorSlot}"
+                  name="fas fa-circle"
+                )
+              .col
+                span.row.text-body2 {{ e.roomNameSlot }}
+            span.row.text-body2.q-pb-xs {{ e.fullNameSlot }}
+            span.row.text-body2.q-pb-xs {{ e.phoneSlot }}
+            span.row.text-body2.q-pb-xs {{ e.eventSlot }}
+            span.row.text-body2.q-pb-xs {{ e.priceSlot }}
           .row.col-12.justify-start.q-pl-xs
-            q-icon.col-1.row.justify-start(v-if="e.icon", :name="e.icon")
             .q-pa-none.col-1.offset-4(
               v-if="e.isNotFullVisible"
               :style="arrowUpStyles(e)"
@@ -33,10 +49,6 @@
               v-if="e.isExtras"
               :style="triangleStyles(e)"
             )
-            .row.col-12
-              span.row.text-booking.wrap {{ e.title }}
-            .row.col-12
-              span.row.text-booking.wrap {{ e.details }}
 
 </template>
 
@@ -153,8 +165,8 @@ export default {
         this.$nextTick(function () {
           v.map((booking) => {
             if (this.$moment(this.selectedDate).isSame(booking.reservedFrom, 'day')) {
-              let from = this.$moment(booking.reservedFrom).parseZone()
-              let to = this.$moment(booking.reservedTo).parseZone()
+              const from = this.$moment(booking.reservedFrom).parseZone()
+              const to = this.$moment(booking.reservedTo).parseZone()
               let isNotFullVisible = false
               if (!this.isAllDay) {
                 if (from.hour() < 8) {
@@ -166,16 +178,31 @@ export default {
                 }
               }
               const diff = to.diff(from, 'minutes')
-              let title = ''
-              if (booking.customer && booking.customer.firstName) {
-                title = booking.customer.firstName
+              const slot = {
+                fullName: 'техническая бронь',
+                phone: '',
+                eventSlot: '',
+                priceSlot: ''
+              }
+              if (!booking.technical) {
+                slot.fullName = (booking.customer && booking.customer.fullName)
+                  ? booking.customer.fullName : ''
+                slot.phone = (booking.customer && booking.customer.phone)
+                  ? '+' + booking.customer.phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, '$1 $2-$3-$4') : ''
+                slot.event = (booking.eventType) ? booking.eventType : ''
+                slot.price = (booking.amount && booking.price)
+                  ? `${formatPrice(booking.amount)} • ${formatPrice(booking.price)}` : ''
               }
               const event = {
                 id: booking.id,
                 isNotFullVisible,
                 isExtras: (booking.extras && booking.extras.length > 0),
-                title: title,
-                details: `${formatPrice(booking.amount)}/${formatPrice(booking.price)}`,
+                roomNameSlot: 'Зал ' + booking.room.name,
+                roomColorSlot: '#' + ((1 << 24) * Math.random() | 0).toString(16),
+                fullNameSlot: slot.fullName,
+                phoneSlot: slot.phone,
+                eventSlot: slot.event,
+                priceSlot: slot.price,
                 date: getDate(from),
                 time: getTime(from),
                 duration: diff,

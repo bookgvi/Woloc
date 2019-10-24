@@ -1,5 +1,7 @@
 <template lang="pug">
   standart-card
+    .q-pa-none
+    name-slot(name="Заметки")
     template(v-if="!isNoteEditMode")
       q-card-section.q-pb-none
         q-card.text-body2.q-mb-md(
@@ -78,11 +80,12 @@
 <script>
 
 import StandartCard from '../CommonModules/StandartCard'
+import NameSlot from '../CommonModules/NameSlot'
 const colors = ['#B6E1FD', '#F9FAB2', '#FF9EC8', '#BAFFBF']
 
 export default {
   name: 'NotesCard',
-  components: { StandartCard },
+  components: { NameSlot, StandartCard },
   data () {
     return {
       isNoteEditMode: false,

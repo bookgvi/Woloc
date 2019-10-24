@@ -6,7 +6,7 @@
       q-btn.q-mr-xs.col-3(
         outline
         size="sm"
-        label="Студия"
+        label="Локация"
         no-caps
         @click="today"
         color="secondary"
