@@ -2,8 +2,6 @@
   standart-card
     .q-pa-none
       name-slot(name="Финансы")
-      q-tooltip
-        span.text-body2 Будущие брони
     q-card-section.q-pa-none.q-pb-md
       q-markup-table(
         style="min-width: 400px"
@@ -21,11 +19,6 @@
               span.text-grey На счету:
             td.text-right
               span.text-bold.text-h6 {{ accountSlot }}
-          tr
-            td
-              span.text-grey Ожидается:
-            td.text-right
-              span.text-grey {{ waitingSlot }}
     q-card-section.q-pa-none.q-pb-md
       q-markup-table(
         style="min-width: 400px"

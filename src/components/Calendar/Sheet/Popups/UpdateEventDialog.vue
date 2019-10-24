@@ -115,6 +115,7 @@
             label="Коммент"
           )
             calendar-comment.q-pa-md(
+              :isTechnical="false"
               @customerCommentChange="newBooking.customerComment = $event"
               :startCustomerComment="newBooking.customerComment"
               @managerCommentChange="newBooking.managerComment = $event"
@@ -294,7 +295,6 @@ export default {
         consumerId: this.newBooking.customer.id,
         reserveFrom: this.newBooking.reservedFrom,
         reserveTo: this.newBooking.reservedTo,
-        // userComment: this.newBooking.customerComment || '',
         priceType: this.newBooking.eventType,
         extras: [],
         seats: 1,

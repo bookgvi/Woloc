@@ -1,7 +1,7 @@
 <template lang="pug">
   q-card-section.row.col-12
     q-btn.q-mr-md.col-2(
-      label="Студия"
+      label="Локация"
       size="sm"
       no-caps
       outline

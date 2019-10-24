@@ -102,7 +102,7 @@ export default {
           text: 'Договорились. Соберем все заранее запланированные необходимые вещи',
           rating: 3,
           date: this.$moment().subtract(6, 'days').format('DD MMMM YYYY'),
-          studio: 'Студия1',
+          studio: 'Локация1',
           room: 'Зал 2'
         },
       ],
