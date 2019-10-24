@@ -11,7 +11,7 @@ const currentURL = (_ => {
   console.log(currentURL)
   if (baseURL === 'localhost') {
     baseURL = 'https://pre.ugoloc.ucann.ru'
-  } else if (isCabinet[0] === `https://cabinet`) {
+  } else if (isCabinet[0] === `cabinet`) {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
   }
