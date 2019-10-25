@@ -14,14 +14,14 @@
           images
           addressBlock(:singleStudio="singleStudio")
           services(:services="services")
-          equipment(:vendors="vendors")
+          equipment(:facilities="facilities")
           rooms(:rooms="rooms")
           .row.col-12.justify-center.q-pt-md
             .col-6.q-pr-sm
               q-btn.fit.bg-primary.text-white(
                 label="Сохранить"
                 no-caps
-                @click="$emit('updateStudio', services, vendors)"
+                @click="$emit('updateStudio', services, facilities)"
                 :disable='isSave'
               )
             .col-6.q-pl-sm
@@ -59,7 +59,7 @@ export default {
   props: {
     singleStudio: Object,
     services: Array,
-    vendors: Array,
+    facilities: Array,
     rooms: Array,
     studioID: Number,
     isSave: Boolean
