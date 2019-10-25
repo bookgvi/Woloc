@@ -1,6 +1,7 @@
 const defaultValues = {
   bookings: {
-    studio: 37
+    studio: 37,
+    technical: false
   },
   settings: {
     studio: undefined
