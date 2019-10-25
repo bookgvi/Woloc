@@ -38,6 +38,7 @@
           :disabled="isRowDisabled && isRowDisabled(props.row)"
           @toggleControls="toggleControlsRow"
           @toggleDialogRow="toggleDialogRow"
+          @hTooltip="hTooltip"
         )
           slot(
             name="row-controls"
@@ -80,6 +81,9 @@ export default {
       this.dialogRowId = this.dialogRowId === id ? undefined : id
       this.$emit('toggleDialogRow', id)
     },
+    hTooltip (extras, event) {
+      this.$emit('hTooltip', extras, event)
+    }
   },
   computed: {
     dialogRow () {
