@@ -1,7 +1,7 @@
 <template lang="pug">
   .bookings
     .menu
-      filters-list(name="bookings") {{ props }}
+      filters-list(name="bookings")
         template(#prepend="props")
           studio-filter(v-bind="props")
           rooms-filter(v-bind="props")
