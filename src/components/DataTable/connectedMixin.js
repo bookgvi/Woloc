@@ -14,7 +14,12 @@ export default {
       if (this.$route.path === '/bookings') {
         if (!filter.studio) {
           const { items } = await studios.getAll().then(resp => resp.data)
+          console.log(items)
           filter = Object.assign({}, { studio: items[0].id })
+        } else if (!filter.rooms.length) {
+          console.warn('В локации нет залов')
+          this.data = []
+          return
         }
       }
       const { page, rowsPerPage } = pagination
