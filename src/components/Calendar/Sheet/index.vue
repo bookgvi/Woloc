@@ -67,7 +67,11 @@
         no-default-header-text
       )
         template.row(#interval="{ time, date }")
-          .row.fit.q-pa-none
+          q-badge.resizer.absolute(
+            v-if="isNewBookingRange(time, date)"
+            style="width: 100%; height: 100%; background-color: #aaa"
+          )
+          .interval-hover
             booking-type-menu(
               @fastClick="setNewTechnical(date, time)"
               @commonClick="setNewBooking(date, time)"
@@ -193,6 +197,11 @@ export default {
         to: 24,
         date: ''
       },
+      forNewBooking: {
+        from: '',
+        to: '',
+        date: ''
+      },
       fromInProcessResize: 0,
       toInProcessResize: 0,
       indexResize: -1,
@@ -238,6 +247,13 @@ export default {
     }
   },
   methods: {
+    isNewBookingRange (time, date) {
+      if (date !== this.forNewBooking.date) return false
+      const from = +this.forNewBooking.from.slice(0, 2)
+      const to = +this.forNewBooking.to.slice(0, 2)
+      const interval = +time.slice(0, 2)
+      return (interval >= from && interval <= to)
+    },
     closePopupResize (item) {
       css(this.target, {
         top: this.targetStartParams.top + 'px',
@@ -700,6 +716,13 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .interval-hover
+    background-color inherit
+    width 100%
+    height 100%
+  .interval-hover:hover
+    background-color #aaa
+    opacity 0.1
   .is-resize
     background-color: green !important
     opacity: 0.5 !important
