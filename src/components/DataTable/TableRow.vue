@@ -108,6 +108,7 @@ export default {
 
       return {
         width: '90%',
+        height: '80%',
         whiteSpace: 'normal',
         backgroundColor: usedColors[id].color
       }
