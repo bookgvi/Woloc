@@ -35,7 +35,7 @@ export default {
   methods: {
     technicalFilter () {
       this.isTechnical = !this.isTechnical
-      this.onChange('techical', this.isTechnical)
+      this.onChange('technical', this.isTechnical)
     }
   }
 }
