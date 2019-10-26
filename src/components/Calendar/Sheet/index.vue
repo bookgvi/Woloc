@@ -67,11 +67,13 @@
         no-default-header-text
       )
         template.row(#interval="{ time, date }")
-          q-badge.resizer.absolute(
+          q-badge(
             v-if="isNewBookingRange(time, date)"
             style="width: 100%; height: 100%; background-color: #aaa"
           )
-          .interval-hover
+          .interval-hover(
+            @click="initNewBookingRange(time, date)"
+          )
             booking-type-menu(
               @fastClick="setNewTechnical(date, time)"
               @commonClick="setNewBooking(date, time)"
@@ -198,9 +200,10 @@ export default {
         date: ''
       },
       forNewBooking: {
-        from: '',
-        to: '',
-        date: ''
+        from: 12,
+        to: 16,
+        date: '2019-10-22',
+        isResizeNow: false,
       },
       fromInProcessResize: 0,
       toInProcessResize: 0,
@@ -247,12 +250,20 @@ export default {
     }
   },
   methods: {
+    initNewBookingRange (time, date) {
+      console.log(this.forNewBooking)
+      const interval = +time.slice(0, 2)
+      this.forNewBooking.date = date
+      if (interval < this.forNewBooking.from) {
+        this.forNewBooking.from = interval
+      } else if (interval > this.forNewBooking.to) {
+        this.forNewBooking.to = interval
+      }
+    },
     isNewBookingRange (time, date) {
       if (date !== this.forNewBooking.date) return false
-      const from = +this.forNewBooking.from.slice(0, 2)
-      const to = +this.forNewBooking.to.slice(0, 2)
       const interval = +time.slice(0, 2)
-      return (interval >= from && interval <= to)
+      return interval >= this.forNewBooking.from && interval <= this.forNewBooking.to
     },
     closePopupResize (item) {
       css(this.target, {
