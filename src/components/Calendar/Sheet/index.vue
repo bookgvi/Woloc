@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none(
-    @mouseup="resizerMouseUp"
+    @mouseup="mouseUp"
     @mousemove="resizerMouseMove"
   )
     .row.justify-start.items-center.q-px-none.no-wrap
@@ -73,7 +73,34 @@
           )
           .interval-hover(
             @click="initNewBookingRange(time, date)"
+            @mousedown="intervalMouseDown(time, date)"
+            @mousemove="intervalMouseMove(time, date)"
           )
+            q-popup-proxy.absolute(
+              no-parent-event
+              persistent
+              style="margin-left: 75px; min-width: 70px; opacity:1"
+              anchor="center right"
+              self="center left"
+            )
+              .row
+                .col-12.text-center.q-py-xs
+                  span.text-body2 от {{ forNewBooking.from + ":00" }}
+                .col-12.text-center
+                  span.text-body2 до {{ forNewBooking.to + ":00" }}
+                .row.col-12.justify-between.q-py-md
+                  .col-6.q-px-xs
+                    q-btn.fit(
+                      icon="fa fa-check"
+                      color="positive"
+                      @click="acceptResize(item)"
+                    )
+                  .col-6.q-px-xs
+                    q-btn.fit(
+                      icon="fa fa-ban"
+                      color="negative"
+                      @click="closePopupResize(item)"
+                    )
             booking-type-menu(
               @fastClick="setNewTechnical(date, time)"
               @commonClick="setNewBooking(date, time)"
@@ -200,9 +227,9 @@ export default {
         date: ''
       },
       forNewBooking: {
-        from: 12,
-        to: 16,
-        date: '2019-10-22',
+        from: 0,
+        to: 0,
+        date: '',
         isResizeNow: false,
       },
       fromInProcessResize: 0,
@@ -250,10 +277,38 @@ export default {
     }
   },
   methods: {
+    intervalMouseDown (time, date) {
+      this.forNewBooking.isResizeNow = true
+      const interval = +time.slice(0, 2)
+      if (this.forNewBooking.date !== date) {
+        this.forNewBooking.date = date
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+      }
+    },
+    intervalMouseMove (time) {
+      if (!this.forNewBooking.isResizeNow) return
+      const interval = +time.slice(0, 2)
+      if (interval < this.forNewBooking.from) {
+        this.forNewBooking.from = interval
+      } else if (interval > this.forNewBooking.to) {
+        this.forNewBooking.to = interval
+      }
+    },
     initNewBookingRange (time, date) {
       console.log(this.forNewBooking)
       const interval = +time.slice(0, 2)
-      this.forNewBooking.date = date
+      if (this.forNewBooking.date !== date) {
+        this.forNewBooking.date = date
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+        return
+      }
+      if (this.forNewBooking.from === 0 && this.forNewBooking.to === 0) {
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+        return
+      }
       if (interval < this.forNewBooking.from) {
         this.forNewBooking.from = interval
       } else if (interval > this.forNewBooking.to) {
@@ -373,8 +428,9 @@ export default {
         this.findBooking(index)
       }
     },
-    resizerMouseUp () {
+    mouseUp () {
       this.isResizeStopped = true
+      this.forNewBooking.isResizeNow = false
     },
     hourProtector (cordFrom, cordTo) {
       const pluser = (this.isAllDay) ? 0 : 8
