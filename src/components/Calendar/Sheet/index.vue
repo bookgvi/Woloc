@@ -257,6 +257,10 @@ export default {
     this.calendarToday()
   },
   computed: {
+    duration () {
+      console.log(this.forNewBooking.to - this.forNewBooking.from)
+      return this.forNewBooking.to - this.forNewBooking.from
+    },
     intervalStartCalendar () {
       return this.isAllDay ? 0 : 8
     },
@@ -493,8 +497,8 @@ export default {
         customerComment: '',
         managerComment: '',
         price: 0,
-        reservedFrom: this.$moment(`${date}T${time}`),
-        reservedTo: this.$moment(`${date}T00:00`),
+        reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
+        reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: this.filter.rooms[0] || '',
         eventType: '',
         studio: this.studio,
@@ -507,8 +511,8 @@ export default {
       this.selectedBooking = Object.assign({}, {
         id: -1,
         managerComment: '',
-        reservedFrom: this.$moment(`${date}T${time}`),
-        reservedTo: this.$moment(`${date}T${time}`).add(1, 'hours'),
+        reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
+        reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: this.filter.rooms[0] || '',
         technical: true
       })
