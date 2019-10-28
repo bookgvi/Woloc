@@ -15,6 +15,9 @@
         ) {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
+      template(v-else-if="name ==='bookingStatus'")
+        span(v-if="['Отменено', 'Просрочено'].includes(value.title)")
+        span(v-else)
       template(v-else-if="name === 'isPaid'")
         q-icon(size="sm" name="check" color="green" v-if="value === paidStatus")
       template(v-else-if="['customerComment', 'promo'].includes(name)")
