@@ -140,10 +140,16 @@
                   :style="triangleStyles(item)"
                 )
                 .row.col-12(v-if="!item.technical")
-                  span.row.col-12.text-booking.wrap {{ item.title }}
-                  span.row.col-12.text-booking.wrap {{ item.details }}
+                  .row.col-12
+                    span.text-booking.wrap {{ item.title }}
+                  .row.col-12
+                    span.text-booking.wrap {{ item.details }}
+                  .row.col-12
+                    span.text-booking.ellipsis {{ item.managerComment }}
+                  .row.col-12
+                    span.text-booking.ellipsis {{ item.customerComment }}
                 .row.col-12(v-else)
-                  span.row.col-12.text-booking.wrap {{ item.comment }}
+                  span.row.col-12.text-booking.wrap {{ item.managerComment }}
             q-badge.resizer.absolute(
               :class="{ 'is-resize': item.isResize }"
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
@@ -692,8 +698,9 @@ export default {
               isNotFullVisible,
               isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
-              comment: booking.managerComment,
-              details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
+              customerComment: booking.customerComment,
+              managerComment: booking.managerComment,
+              details: `${this.formatPrice(booking.prepayment)}/${this.formatPrice(booking.amount)}`,
               date: this.getDate(from),
               time: this.getTime(from),
               duration: diff,
