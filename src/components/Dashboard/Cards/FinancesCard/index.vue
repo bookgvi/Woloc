@@ -61,21 +61,46 @@ export default {
     }
   },
   computed: {
-    accountSlot () {
-      return (18600).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+    date () {
+      return this.$moment().format('YYYY-MM-DD')
     },
-    waitingSlot () {
-      return '+ ' + (2500).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+    options () {
+      console.log(this.$app.finances.dashboardFinancesList)
+      if (!this.$app.finances) return []
+      return this.$app.finances.dashboardFinancesList
+    },
+    accountSlot () {
+      console.log(this.options)
+      if (!this.options || !this.options.accountSum) return 0
+      return (this.options.accountSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     },
     prepaymentSlot () {
-      return (4200).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      if (!this.options || !this.options.prepaymentsSum) return 0
+      return (this.options.prepaymentsSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     },
     refundSlot () {
-      return (6300).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      if (!this.options || !this.options.refundsSum) return 0
+      return (this.options.refundsSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     },
     fineSlot () {
-      return (500).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true })
+      if (!this.options || !this.options.finesSum) return 0
+      return (this.options.finesSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     }
+  },
+  methods: {
+    async loadData () {
+      await this.$app.finances.dashboardFinances({
+        date: this.date
+      })
+    },
+  },
+  watch: {
+    date: {
+      async handler () {
+        this.loadData()
+      },
+      immediate: true
+    },
   }
 }
 </script>
