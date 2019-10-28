@@ -65,26 +65,24 @@ export default {
       return this.$moment().format('YYYY-MM-DD')
     },
     options () {
-      console.log(this.$app.finances.dashboardFinancesList)
       if (!this.$app.finances) return []
       return this.$app.finances.dashboardFinancesList
     },
     accountSlot () {
-      console.log(this.options)
       if (!this.options || !this.options.accountSum) return 0
-      return (this.options.accountSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
+      return Number(this.options.accountSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     },
     prepaymentSlot () {
       if (!this.options || !this.options.prepaymentsSum) return 0
-      return (this.options.prepaymentsSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
+      return Number(this.options.prepaymentsSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     },
     refundSlot () {
       if (!this.options || !this.options.refundsSum) return 0
-      return (this.options.refundsSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
+      return Number(this.options.refundsSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     },
     fineSlot () {
       if (!this.options || !this.options.finesSum) return 0
-      return (this.options.finesSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
+      return Number(this.options.finesSum).toLocaleString('ru-RU', { style: 'decimal', useGrouping: true, maximumFractionDigits: 0 })
     }
   },
   methods: {

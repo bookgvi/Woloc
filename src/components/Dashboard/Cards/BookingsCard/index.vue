@@ -21,24 +21,21 @@
               span.text-bold.text-black.text-body2 Оплата, р.
         tbody
           tr(
-            v-for="(booking, index) in bookings"
+            v-for="(booking, index) in slicedBookings"
             :key="index"
           )
             td {{ clientSlot(index) }}
             td.text-right
-              span.text-grey.text-caption {{ prepaymentSlot(index) }}
-              span &nbsp
+              span.text-grey.text-caption.q-mr-md {{ prepaymentSlot(index) }}
               span.text-body1 {{ paymentSlot(index) }}
     q-card-section(
-      v-if="isMiniTable"
+      v-if="isMiniTable && bookings.length > 3"
       class="cursor-pointer"
       @click="isMiniTable = false"
     )
-      span.row.text-body2.text-blue-5.q-pt-md(
-        v-if="bookings.length > 3"
-      )  Ещё {{ bookings.length - 3 }}
+      span.row.text-body2.text-blue-5.q-pt-md Ещё {{ bookings.length - 3 }}
     q-card-section(
-      v-else
+      v-if="!isMiniTable"
       class="cursor-pointer"
       @click="isMiniTable = true"
     )
@@ -69,7 +66,10 @@ export default {
           bookingsList.push(item)
         }
       })
-      return (this.isMiniTable) ? bookingsList.slice(0, 3) : bookingsList
+      return bookingsList
+    },
+    slicedBookings () {
+      return (this.isMiniTable) ? this.bookings.slice(0, 3) : this.bookings
     }
   },
   methods: {
