@@ -28,10 +28,10 @@ export default {
   name: 'PartsCard',
   data () {
     return {
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
-      period: 'month',
+      studio: 0,
+      period: 'week',
       date: {
-        from: this.$moment().subtract(1, 'month'),
+        from: this.$moment().subtract(7, 'days'),
         to: this.$moment()
       }
     }
@@ -44,11 +44,16 @@ export default {
     Options
   },
   computed: {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
     options () {
-      if (this.studio === 0) return []
+      const studio = (this.studio === 0) ? this.firstStudio : this.studio
+      if (studio === 0) return []
       if (!this.$app.bookings.dashboardBookingsShareList) return []
       const listForStudio = this.$app.bookings.dashboardBookingsShareList.find(item =>
-        item.id === this.studio)
+        item.id === studio)
       if (!listForStudio || !listForStudio.rooms) return
       return listForStudio.rooms.map((item, index) => {
         const point = {
@@ -61,7 +66,7 @@ export default {
       })
     },
     dateFormatForLabel () {
-      if (this.date.from === '') return '23-29 сентября, 2019'
+      if (this.date.from === '') return '31 июня'
       return `${this.$moment(this.date.from).format('D MMMM, YYYY')} — ${this.$moment(this.date.to).format('D MMMM, YYYY')}`
     }
   },
@@ -81,7 +86,7 @@ export default {
       deep: true,
       immediate: true
     }
-  }
+  },
 }
 </script>
 

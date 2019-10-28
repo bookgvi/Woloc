@@ -42,13 +42,6 @@ export default {
         tooltip: {
           trigger: 'axis'
         },
-        dataZoom: [
-          {
-            type: 'slider',
-            start: 0,
-            end: 100
-          }
-        ],
         series: [{
           data: [100],
           type: 'line',

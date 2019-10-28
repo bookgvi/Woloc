@@ -42,8 +42,8 @@ export default {
     return {
       period: 'week',
       date: {
-        from: '',
-        to: ''
+        from: this.$moment().subtract(7, 'days'),
+        to: this.$moment()
       },
       checked: []
     }
@@ -123,6 +123,23 @@ export default {
         return point
       })
       return points
+    },
+    async loadData () {
+      const interval = (this.period !== 'year') ? 'day' : 'month'
+      await this.$app.bookings.dashboardBookingsProfit({
+        dateFrom: this.$moment(this.date.from).format('YYYY-MM-DD'),
+        dateTo: this.$moment(this.date.to).format('YYYY-MM-DD'),
+        interval
+      })
+    },
+  },
+  watch: {
+    date: {
+      async handler () {
+        // await this.loadData()
+      },
+      deep: true,
+      immediate: true
     }
   }
 }

@@ -19,7 +19,7 @@
     )
       span.row.text-body2.text-blue-5 {{ "Скрыть 00:00-08:00"}}
     calendar.q-pl-none(
-      :studio="studio"
+      :studio="initStudio"
       :startDate="date"
       :isAllDay="isAllDay"
       :bookings="$app.bookings.calendarList"
@@ -44,10 +44,17 @@ export default {
     return {
       date: this.$moment({ hour: 0 }).parseZone(),
       isAllDay: false,
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0
+      studio: 0
     }
   },
   computed: {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
+    initStudio () {
+      return (this.studio === 0) ? this.studio : this.firstStudio
+    },
     dateFormatForLabel () {
       if (this.date === '') return '23 сентября, 2019'
       return `${this.$moment(this.date).format('D MMMM, YYYY')}`

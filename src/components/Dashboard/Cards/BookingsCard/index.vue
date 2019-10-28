@@ -59,6 +59,10 @@ export default {
     }
   },
   computed: {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
     bookings () {
       const bookingsList = []
       this.$app.bookings.dashboardBookingsList.forEach(item => {
@@ -74,6 +78,8 @@ export default {
   },
   methods: {
     async loadData () {
+      const studio = (this.studio === 0) ? this.firstStudio : this.studio
+      if (studio === 0) return []
       const filter = {
         studio: this.studio,
       }

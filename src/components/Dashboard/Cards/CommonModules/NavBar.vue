@@ -53,10 +53,14 @@ export default {
   data () {
     return {
       date: this.startDate || '',
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 37
+      studio: 0
     }
   },
   computed: {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
     dateFormatForLabel () {
       if (this.date === '') return '23 сентября, 2019'
       return `${this.$moment(this.date).format('D MMMM, YYYY')}`
@@ -82,6 +86,8 @@ export default {
       this.$emit('dateChange', this.date)
     },
     studioChange () {
+      this.studio = (this.studio === 0) ? this.firstStudio : this.studio
+      if (this.studio === 0) return
       this.$emit('studioChange', this.studio)
     },
   },

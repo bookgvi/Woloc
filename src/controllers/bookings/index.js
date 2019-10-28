@@ -8,7 +8,8 @@ export default {
       calendarList: [],
       dashboardBookingsList: [],
       idOfJustAdded: 0,
-      dashboardBookingsShareList: []
+      dashboardBookingsShareList: [],
+      dashboardBookingsProfitList: []
     }
   },
   mixins: [crudMixin],
@@ -34,6 +35,7 @@ export default {
     },
     async getForDashBoard (filter) {
       this.loading.list = true
+      console.log(filter)
       const res = await api.bookings.getForCalendar(filter)
       if (res) {
         this.dashboardBookingsList = res.data.items
