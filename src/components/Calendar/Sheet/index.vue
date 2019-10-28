@@ -562,6 +562,7 @@ export default {
       }
     },
     async loadData () {
+      this.closePopupForNewBooking()
       this.isResizeNow = false
       this.indexResize = -1
       await this.$app.bookings.getForCalendar({
@@ -657,6 +658,7 @@ export default {
         await this.placeEvents()
       }
       this.dialogState = false
+      this.closePopupForNewBooking()
     },
     async setTechnicalQueryState (state = true) {
       // console.log(999, state)
@@ -664,6 +666,7 @@ export default {
         await this.placeEvents()
       }
       this.technicalDialogState = false
+      this.closePopupForNewBooking()
     }
   },
   watch: {
