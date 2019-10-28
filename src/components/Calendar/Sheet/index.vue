@@ -136,14 +136,14 @@
                   :style="arrowUpStyles(item)"
                 )
                 .q-pa-none.col-1(
-                  v-if="item.isExtras"
+                  v-if="item.isExtras && !item.technical"
                   :style="triangleStyles(item)"
                 )
                 .row.col-12(v-if="!item.technical")
                   span.row.col-12.text-booking.wrap {{ item.title }}
                   span.row.col-12.text-booking.wrap {{ item.details }}
                 .row.col-12(v-else)
-                  span.row.col-12.text-booking.wrap {{ item.managerComment }}
+                  span.row.col-12.text-booking.wrap {{ item.comment }}
             q-badge.resizer.absolute(
               :class="{ 'is-resize': item.isResize }"
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
@@ -663,7 +663,7 @@ export default {
   watch: {
     bookings: {
       handler (v) {
-        // console.log('watch bookings', v)
+        console.log('watch bookings', v)
         this.events = []
         let allEvents = []
         let bookings = []
@@ -692,7 +692,7 @@ export default {
               isNotFullVisible,
               isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
-              // comment: booking.managerComment,
+              comment: booking.managerComment,
               details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
               date: this.getDate(from),
               time: this.getTime(from),
