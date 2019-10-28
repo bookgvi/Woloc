@@ -5,6 +5,7 @@
       v-for="{ name, value, active } of cols"
       v-bind="getColProps(name)"
       @click.native="active && rowDialog(row)"
+      @mouseover.native="hTooltip(row, name, $event)"
     )
       template(v-if="name === 'room'")
         q-chip(
@@ -64,10 +65,6 @@
 
 <script>
 import { BOOKING_STATUSES } from 'src/common/constants'
-import roomsColors from 'src/common/rooms/colors'
-
-const usedColors = {}
-
 export default {
   name: 'TableRow',
   inheritAttrs: false,
@@ -99,22 +96,31 @@ export default {
         style
       }
     },
-    // TODO: get color from API
-    getRoomStyle ({ id }) {
-      if (!(id in usedColors)) {
-        const i = Object.keys(usedColors).length
-        usedColors[id] = roomsColors[i < roomsColors.length ? i : 0]
-      }
-
+    getRoomStyle ({ color }) {
       return {
-        width: '90%',
         height: '80%',
-        whiteSpace: 'normal',
-        backgroundColor: usedColors[id].color
+        color: this.hexTOrgb(color, 1),
+        backgroundColor: this.hexTOrgb(color, 30)
       }
+    },
+    hexTOrgb (color, opacity) {
+      if (color[0] === '#') {
+        color = color.slice(1, color.length)
+      }
+      const r = parseInt(color.slice(0, 2), 16)
+      const g = parseInt(color.slice(2, 4), 16)
+      const b = parseInt(color.slice(4, 6), 16)
+      return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     },
     rowDialog (row) {
       this.$emit('toggleDialogRow', row)
+    },
+    hTooltip (row, name, event) {
+      if (this.$route.path === '/bookings' && name === 'extras') {
+        this.$emit('hTooltip', row.extras.items, event)
+      } else {
+        this.$emit('hTooltip', false, event)
+      }
     }
   }
 }
@@ -130,10 +136,9 @@ export default {
       width 100px
       border-radius 3px
       .q-chip__content
-        opacity .4
         width 100%
+        white-space normal
         overflow hidden
-        text-overflow ellipsis
     .eventType-col
       font-size 1.6em
     .comment-col

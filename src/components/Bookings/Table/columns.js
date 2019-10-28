@@ -54,10 +54,11 @@ export default [
     width: 60
   },
   {
-    name: 'servicesCount',
+    name: 'extras',
     label: 'Допы',
-    format: value => value || '—',
     active: true,
+    format: value => value.items.length || '—',
+    align: 'center',
     width: 60
   },
   {
