@@ -1,23 +1,35 @@
 [
   {
-    "color": "#feb3cc"
+    "color": "#ff0000"
   },
   {
-    "color": "#ffedb6"
+    "color": "#808080"
   },
   {
-    "color": "#bae7fd"
+    "color": "#FF00FF"
   },
   {
-    "color": "#cdf3bf"
+    "color": "#FF69B4"
   },
   {
-    "color": "#d6ccf9"
+    "color": "#556B2F"
   },
   {
-    "color": "#cfd8dc"
+    "color": "#4682B4"
   },
   {
-    "color": "#c5cae9"
+    "color": "#FFA500"
+  },
+  {
+    "color": "#8A2BE2"
+  },
+  {
+    "color": "#DAA520"
+  },
+  {
+    "color": "#808000"
+  },
+  {
+    "color": "#C0C0C0"
   }
 ]
