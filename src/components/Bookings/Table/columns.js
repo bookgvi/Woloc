@@ -70,8 +70,8 @@ export default [
     label: 'Промо',
   },
   {
-    name: 'comment',
-    label: 'Коммент',
+    name: 'customerComment',
+    label: 'Коммент'
   },
   {
     name: 'controls',

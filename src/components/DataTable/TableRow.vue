@@ -17,7 +17,7 @@
         q-icon(:name='value.icon')
       template(v-else-if="name === 'isPaid'")
         q-icon(size="sm" name="check" color="green" v-if="value === paidStatus")
-      template(v-else-if="['comment', 'promo'].includes(name)")
+      template(v-else-if="['customerComment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
           leave-active-class="animated fadeOut"
@@ -145,7 +145,7 @@ export default {
         white-space normal
     .eventType-col
       font-size 1.6em
-    .comment-col
+    .customerComment-col
       max-width 100px
       overflow hidden
       text-overflow ellipsis
