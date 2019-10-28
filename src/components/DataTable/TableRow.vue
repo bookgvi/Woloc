@@ -96,8 +96,8 @@ export default {
     },
     getRoomStyle (room) {
       return {
+        height: '80%',
         color: this.convertHex(room.color, 100),
-        // fontWeight: 'bold',
         backgroundColor: this.convertHex(room.color, 30)
       }
     },
@@ -142,6 +142,7 @@ export default {
         width 100%
         overflow hidden
         text-overflow ellipsis
+        white-space normal
     .eventType-col
       font-size 1.6em
     .comment-col
