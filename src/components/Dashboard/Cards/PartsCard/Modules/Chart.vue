@@ -37,7 +37,7 @@ export default {
       const chartOptions = {
         series: [{
           type: 'pie',
-          center: ['50%', '50%'],
+          radius: ['40%', '90%'],
           data: [
             { value: 100, itemStyle: { color: 'black' } },
           ].sort(function (a, b) {
@@ -46,7 +46,9 @@ export default {
           label: {
             normal: {
               textStyle: {
-                color: 'rgba(255, 255, 255, 0.3)'
+                color: 'rgba(255, 255, 255, 0.3)',
+                show: false,
+                position: 'center'
               }
             }
           },
@@ -58,13 +60,6 @@ export default {
               smooth: 0.2,
               length: 10,
               length2: 20
-            }
-          },
-          itemStyle: {
-            normal: {
-              color: '#c23531',
-              shadowBlur: 200,
-              shadowColor: 'rgba(0, 0, 0, 0.5)'
             }
           },
         }]
