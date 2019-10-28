@@ -50,7 +50,7 @@
         :isAllDay ="isAllDay"
         @allDayChange="isAllDay=$event"
       )
-      q-calendar.row.col-12(
+      q-calendar.bg-white.row.col-12(
         style="width: 100%; padding-left: 68px"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
@@ -557,7 +557,7 @@ export default {
       if (this.$moment(dt).isSame(this.$moment(), 'day')) {
         return {
           color: '#fff',
-          'background-color': '#8F7CC2',
+          'background-color': '#8791c3',
         }
       }
     },
