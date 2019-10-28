@@ -1,12 +1,18 @@
 <template lang="pug">
   q-card-section.row.col-12
     q-btn.q-mr-md.col-2(
-      label="Локация"
       size="sm"
-      no-caps
+      label="Локация"
       outline
+      no-caps
       color="secondary"
     )
+      q-popup-proxy
+        q-option-group.text-body2.q-px-md.q-pt-md(
+          color="black"
+          :options="$app.studios.forOptions"
+          v-model="studio"
+        )
     q-btn.q-mr-xs.col-2(
       label="Неделя"
       no-caps
@@ -47,7 +53,7 @@
         size="sm"
         icon="chevron_right"
         color="secondary"
-      ) {{ periodComp }}
+      ) {{ periodComp }} {{ studioComp }}
     span {{ dateComp }}
 </template>
 
@@ -60,6 +66,7 @@ export default {
   },
   data () {
     return {
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
       period: this.startPeriod || '',
       from: '',
       to: ''
@@ -78,6 +85,9 @@ export default {
         this.from = from
         this.to = to
       }
+    },
+    studioComp () {
+      return this.studioChange()
     },
     periodComp () {
       return this.periodChange()
@@ -114,7 +124,7 @@ export default {
       }
     },
     setPeriod (e) {
-      switch (e.srcElement.innerText) {
+      switch (e.target.innerText) {
         case 'Неделя':
           this.period = 'week'
           break
@@ -126,6 +136,9 @@ export default {
           break
       }
       this.date = this.$moment(this.date.from).startOf(this.period)
+    },
+    studioChange () {
+      this.$emit('studioChange', this.studio)
     },
     periodChange () {
       this.$emit('periodChange', this.period)
