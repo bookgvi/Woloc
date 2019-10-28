@@ -97,7 +97,7 @@
                       color="positive"
                     )
                       booking-type-menu.fit(
-                        @fastClick="setNewTechnical(date, time)"
+                        @fastClick="setNewTechnical(date)"
                         @commonClick="setNewBooking(date, time)"
                       )
                   .col-6.q-px-xs
@@ -290,8 +290,7 @@ export default {
     isPopupForNewBookingCell (time, date) {
       if (date !== this.forNewBooking.date) return false
       const interval = +time.slice(0, 2)
-      if (interval !== this.forNewBooking.to) return false
-      return true
+      return (interval === this.forNewBooking.to)
     },
     intervalMouseDown (time, date) {
       if (this.isResizeNow) return
@@ -421,6 +420,7 @@ export default {
       return { from, to, date: params.date }
     },
     resizerMouseDown (item, index, e) {
+      if (this.forNewBooking.date !== '') return
       if (this.isResizeNow && index !== this.indexResize) return
       const params = Object.assign({}, {
         date: item.date,
@@ -526,7 +526,7 @@ export default {
       // console.log(1111, this.selectedBooking)
       this.dialogState = true
     },
-    setNewTechnical (date, time) {
+    setNewTechnical (date) {
       this.selectedBooking = Object.assign({}, {
         id: -1,
         managerComment: '',
@@ -538,6 +538,7 @@ export default {
       this.technicalDialogState = true
     },
     async findBooking (index) {
+      if (this.forNewBooking.date !== '') return
       if (this.isResizeNow) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
