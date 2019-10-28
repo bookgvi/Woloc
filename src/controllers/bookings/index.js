@@ -50,6 +50,15 @@ export default {
       this.loading.list = false
     },
 
+    async dashboardBookingsProfit (payload) {
+      this.loading.list = true
+      const res = await api.bookings.dashboardBookingsProfit(payload)
+      if (res) {
+        this.dashboardBookingsShareList = res.data
+      }
+      this.loading.list = false
+    },
+
     async addNew (payload) {
       this.loading.one = true
       this.idOfJustAdded = 0

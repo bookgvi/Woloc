@@ -1,6 +1,6 @@
 <template lang="pug">
   q-card-section
-    q-calendar(
+    q-calendar.bg-white(
       :interval-start="intervalStartCalendar"
       :interval-count="intervalCountCalendar"
       v-model="selectedDate"
