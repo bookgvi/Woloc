@@ -837,7 +837,6 @@ export default {
   .resizer:before
     margin-left -5px
     content: " "
-    background-color inherit
     position absolute
     top 0
     width 100%
@@ -846,7 +845,6 @@ export default {
   .resizer:after
     margin-left -5px
     content: " "
-    background-color inherit
     position absolute
     bottom 0
     width 100%
