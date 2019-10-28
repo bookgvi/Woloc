@@ -68,6 +68,7 @@
       )
         template.row(#interval="{ time, date }")
           q-badge(
+            @click="initNewBookingRange(time, date)"
             v-if="isNewBookingRange(time, date)"
             style="width: 100%; height: 100%; background-color: #aaa"
           )
@@ -77,6 +78,7 @@
             @mousemove="intervalMouseMove(time, date)"
           )
             q-popup-proxy.absolute(
+              :value="isPopupForNewBookingCell(time, date)"
               no-parent-event
               persistent
               style="margin-left: 75px; min-width: 70px; opacity:1"
@@ -87,24 +89,24 @@
                 .col-12.text-center.q-py-xs
                   span.text-body2 от {{ forNewBooking.from + ":00" }}
                 .col-12.text-center
-                  span.text-body2 до {{ forNewBooking.to + ":00" }}
+                  span.text-body2 до {{ forNewBooking.to + 1 + ":00" }}
                 .row.col-12.justify-between.q-py-md
                   .col-6.q-px-xs
                     q-btn.fit(
                       icon="fa fa-check"
                       color="positive"
-                      @click="acceptResize(item)"
                     )
+                      booking-type-menu.fit(
+                        @fastClick="setNewTechnical(date, time)"
+                        @commonClick="setNewBooking(date, time)"
+                      )
                   .col-6.q-px-xs
                     q-btn.fit(
                       icon="fa fa-ban"
                       color="negative"
-                      @click="closePopupResize(item)"
+                      v-close-popup
+                      @click="closePopupForNewBooking()"
                     )
-            booking-type-menu(
-              @fastClick="setNewTechnical(date, time)"
-              @commonClick="setNewBooking(date, time)"
-            )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md(
             :style="dayHeaderStyle(date)"
@@ -258,7 +260,6 @@ export default {
   },
   computed: {
     duration () {
-      console.log(this.forNewBooking.to - this.forNewBooking.from)
       return this.forNewBooking.to - this.forNewBooking.from
     },
     intervalStartCalendar () {
@@ -281,7 +282,19 @@ export default {
     }
   },
   methods: {
+    closePopupForNewBooking () {
+      this.forNewBooking.date = ''
+      this.forNewBooking.from = 0
+      this.forNewBooking.to = 0
+    },
+    isPopupForNewBookingCell (time, date) {
+      if (date !== this.forNewBooking.date) return false
+      const interval = +time.slice(0, 2)
+      if (interval !== this.forNewBooking.to) return false
+      return true
+    },
     intervalMouseDown (time, date) {
+      if (this.isResizeNow) return
       this.forNewBooking.isResizeNow = true
       const interval = +time.slice(0, 2)
       if (this.forNewBooking.date !== date) {
@@ -291,6 +304,7 @@ export default {
       }
     },
     intervalMouseMove (time) {
+      if (this.isResizeNow) return
       if (!this.forNewBooking.isResizeNow) return
       const interval = +time.slice(0, 2)
       if (interval < this.forNewBooking.from) {
@@ -300,7 +314,7 @@ export default {
       }
     },
     initNewBookingRange (time, date) {
-      console.log(this.forNewBooking)
+      if (this.isResizeNow) return
       const interval = +time.slice(0, 2)
       if (this.forNewBooking.date !== date) {
         this.forNewBooking.date = date
@@ -309,6 +323,11 @@ export default {
         return
       }
       if (this.forNewBooking.from === 0 && this.forNewBooking.to === 0) {
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+        return
+      }
+      if (interval >= this.forNewBooking.from && interval <= this.forNewBooking.to) {
         this.forNewBooking.from = interval
         this.forNewBooking.to = interval
         return
@@ -792,7 +811,7 @@ export default {
     width 100%
     height 100%
   .interval-hover:hover
-    background-color #aaa
+    background-color #ccc
     opacity 0.1
   .is-resize
     background-color: green !important
