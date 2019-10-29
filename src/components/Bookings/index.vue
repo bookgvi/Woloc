@@ -6,6 +6,7 @@
           studio-filter(v-bind="props")
           rooms-filter(v-bind="props")
           status-filter(v-bind="props")
+          span
     .content
       bookings-table
 

@@ -80,7 +80,6 @@
 
 <script>
 import { date } from 'quasar'
-import RowDialog from '../../../DataTable/RowDialog'
 import { DateRange } from 'vue-date-range'
 export default {
   props: {
@@ -94,7 +93,6 @@ export default {
     singleStudio: Object
   },
   components: {
-    RowDialog,
     DateRange,
     date
   },
