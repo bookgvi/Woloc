@@ -22,8 +22,8 @@
         BookingsDialog(
           :row="bookingRowData"
         )
-    .div(:style="position" v-if="isTooltip")
-      div.bg-primary.q-pa-md(
+    .div(:style="position" v-if="isTooltip" ref="tooltip")
+      div.bg-primary.q-py-xs.q-px-md(
         v-for="item in extras"
         :key="item.id"
       ) {{ item.title }} {{ money(item. amount, true) }}
@@ -51,10 +51,8 @@ export default {
     isTooltip: true,
     position: {
       position: 'fixed',
-      top: 0,
-      left: 0,
       fontSize: '0.8rem',
-      width: '600px',
+      width: '15rem',
       color: '#000'
     },
     extras: []
@@ -89,12 +87,18 @@ export default {
       })
     },
     hTooltip (extras, event) {
+      let tooltipTop, tooltipRight
       if (!extras) {
         this.isTooltip = false
       }
       this.extras = extras
-      this.position.left = event.clientX + 'px'
-      this.position.top = event.clientY + 'px'
+      this.$nextTick(_ => {
+        tooltipTop = Math.min(document.body.clientHeight - this.$refs.tooltip.clientHeight - 15, event.pageY - window.pageYOffset)
+        tooltipRight = Math.min(document.body.clientWidth - this.$refs.tooltip.clientWidth - 15, event.pageX - window.pageXOffset)
+        tooltipRight = Math.min(event.pageX - this.$refs.tooltip.clientWidth, tooltipRight)
+        this.$refs.tooltip.style.top = tooltipTop + 'px'
+        this.$refs.tooltip.style.left = tooltipRight + 'px'
+      })
       this.isTooltip = true
     },
     money (val, sign = false) {

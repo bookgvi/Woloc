@@ -80,7 +80,11 @@ export default [
   },
   {
     name: 'promo',
-    field: ({ name } = {}) => name,
+    field: ({ promo }) => {
+      if (promo) {
+        return promo.name
+      }
+    },
     active: true,
     label: 'Промо',
   },
