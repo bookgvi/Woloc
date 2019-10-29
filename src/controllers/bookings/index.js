@@ -50,6 +50,17 @@ export default {
       this.loading.one = false
     },
 
+    async addNewTechnical (payload) {
+      this.loading.one = true
+      console.log(payload)
+      this.idOfJustAdded = 0
+      const res = await api.bookings.addNewTechnical(payload)
+      if (res) {
+        this.idOfJustAdded = res.id
+      }
+      this.loading.one = false
+    },
+
     async updateOne (id, data) {
       this.loading.one = true
       const res = await api.bookings.updateOne({ id, data })
