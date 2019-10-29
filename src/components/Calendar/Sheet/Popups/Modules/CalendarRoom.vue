@@ -24,6 +24,7 @@ export default {
       return this.$app.rooms.getAvailable(this.filter).find(item => item.name === this.room)
     },
     rooms () {
+      console.log(roomsColors[0].color)
       if (this.filter && this.$app.rooms.getAvailable(this.filter).length > 0) {
         const arr = this.$app.rooms.getAvailable(this.filter).map((item, index) => {
           const room = Object.assign({}, {

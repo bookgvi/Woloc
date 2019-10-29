@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-pa-none(
-    @mouseup="resizerMouseUp"
+    @mouseup="mouseUp"
     @mousemove="resizerMouseMove"
   )
     .row.justify-start.items-center.q-px-none.no-wrap
@@ -50,7 +50,7 @@
         :isAllDay ="isAllDay"
         @allDayChange="isAllDay=$event"
       )
-      q-calendar.row.col-12(
+      q-calendar.bg-white.row.col-12(
         style="width: 100%; padding-left: 68px"
         ref="calendar"
         :weekdays=[1, 2, 3, 4, 5, 6, 0]
@@ -67,11 +67,46 @@
         no-default-header-text
       )
         template.row(#interval="{ time, date }")
-          .row.fit.q-pa-none
-            booking-type-menu(
-              @fastClick="setNewTechnical(date, time)"
-              @commonClick="setNewBooking(date, time)"
+          q-badge(
+            @click="initNewBookingRange(time, date)"
+            v-if="isNewBookingRange(time, date)"
+            style="width: 100%; height: 100%; background-color: #aaa"
+          )
+          .interval-hover(
+            @click="initNewBookingRange(time, date)"
+            @mousedown="intervalMouseDown(time, date)"
+            @mousemove="intervalMouseMove(time, date)"
+          )
+            q-popup-proxy.absolute(
+              :value="isPopupForNewBookingCell(time, date)"
+              no-parent-event
+              persistent
+              style="margin-left: 75px; min-width: 70px; opacity:1"
+              anchor="center right"
+              self="center left"
             )
+              .row
+                .col-12.text-center.q-py-xs
+                  span.text-body2 от {{ forNewBooking.from + ":00" }}
+                .col-12.text-center
+                  span.text-body2 до {{ forNewBooking.to + 1 + ":00" }}
+                .row.col-12.justify-between.q-py-md
+                  .col-6.q-px-xs
+                    q-btn.fit(
+                      icon="fa fa-check"
+                      color="positive"
+                    )
+                      booking-type-menu.fit(
+                        @fastClick="setNewTechnical(date)"
+                        @commonClick="setNewBooking(date, time)"
+                      )
+                  .col-6.q-px-xs
+                    q-btn.fit(
+                      icon="fa fa-ban"
+                      color="negative"
+                      v-close-popup
+                      @click="closePopupForNewBooking()"
+                    )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md(
             :style="dayHeaderStyle(date)"
@@ -101,12 +136,18 @@
                   :style="arrowUpStyles(item)"
                 )
                 .q-pa-none.col-1(
-                  v-if="item.isExtras"
+                  v-if="item.isExtras && !item.technical"
                   :style="triangleStyles(item)"
                 )
                 .row.col-12(v-if="!item.technical")
-                  span.row.col-12.text-booking.wrap {{ item.title }}
-                  span.row.col-12.text-booking.wrap {{ item.details }}
+                  .row.col-12
+                    span.text-booking.wrap {{ item.title }}
+                  .row.col-12
+                    span.text-booking.wrap {{ item.details }}
+                  .row.col-12
+                    span.text-booking.ellipsis {{ item.managerComment }}
+                  .row.col-12
+                    span.text-booking.ellipsis {{ item.customerComment }}
                 .row.col-12(v-else)
                   span.row.col-12.text-booking.wrap {{ item.managerComment }}
             q-badge.resizer.absolute(
@@ -193,6 +234,12 @@ export default {
         to: 24,
         date: ''
       },
+      forNewBooking: {
+        from: 0,
+        to: 0,
+        date: '',
+        isResizeNow: false,
+      },
       fromInProcessResize: 0,
       toInProcessResize: 0,
       indexResize: -1,
@@ -218,6 +265,9 @@ export default {
     this.calendarToday()
   },
   computed: {
+    duration () {
+      return this.forNewBooking.to - this.forNewBooking.from
+    },
     intervalStartCalendar () {
       return this.isAllDay ? 0 : 8
     },
@@ -238,6 +288,66 @@ export default {
     }
   },
   methods: {
+    closePopupForNewBooking () {
+      this.forNewBooking.date = ''
+      this.forNewBooking.from = 0
+      this.forNewBooking.to = 0
+    },
+    isPopupForNewBookingCell (time, date) {
+      if (date !== this.forNewBooking.date) return false
+      const interval = +time.slice(0, 2)
+      return (interval === this.forNewBooking.to)
+    },
+    intervalMouseDown (time, date) {
+      if (this.isResizeNow) return
+      this.forNewBooking.isResizeNow = true
+      const interval = +time.slice(0, 2)
+      if (this.forNewBooking.date !== date) {
+        this.forNewBooking.date = date
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+      }
+    },
+    intervalMouseMove (time) {
+      if (this.isResizeNow) return
+      if (!this.forNewBooking.isResizeNow) return
+      const interval = +time.slice(0, 2)
+      if (interval < this.forNewBooking.from) {
+        this.forNewBooking.from = interval
+      } else if (interval > this.forNewBooking.to) {
+        this.forNewBooking.to = interval
+      }
+    },
+    initNewBookingRange (time, date) {
+      if (this.isResizeNow) return
+      const interval = +time.slice(0, 2)
+      if (this.forNewBooking.date !== date) {
+        this.forNewBooking.date = date
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+        return
+      }
+      if (this.forNewBooking.from === 0 && this.forNewBooking.to === 0) {
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+        return
+      }
+      if (interval >= this.forNewBooking.from && interval <= this.forNewBooking.to) {
+        this.forNewBooking.from = interval
+        this.forNewBooking.to = interval
+        return
+      }
+      if (interval < this.forNewBooking.from) {
+        this.forNewBooking.from = interval
+      } else if (interval > this.forNewBooking.to) {
+        this.forNewBooking.to = interval
+      }
+    },
+    isNewBookingRange (time, date) {
+      if (date !== this.forNewBooking.date) return false
+      const interval = +time.slice(0, 2)
+      return interval >= this.forNewBooking.from && interval <= this.forNewBooking.to
+    },
     closePopupResize (item) {
       css(this.target, {
         top: this.targetStartParams.top + 'px',
@@ -316,6 +426,7 @@ export default {
       return { from, to, date: params.date }
     },
     resizerMouseDown (item, index, e) {
+      if (this.forNewBooking.date !== '') return
       if (this.isResizeNow && index !== this.indexResize) return
       const params = Object.assign({}, {
         date: item.date,
@@ -346,8 +457,9 @@ export default {
         this.findBooking(index)
       }
     },
-    resizerMouseUp () {
+    mouseUp () {
       this.isResizeStopped = true
+      this.forNewBooking.isResizeNow = false
     },
     hourProtector (cordFrom, cordTo) {
       const pluser = (this.isAllDay) ? 0 : 8
@@ -410,8 +522,8 @@ export default {
         customerComment: '',
         managerComment: '',
         price: 0,
-        reservedFrom: this.$moment(`${date}T${time}`),
-        reservedTo: this.$moment(`${date}T00:00`),
+        reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
+        reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: this.filter.rooms[0] || '',
         eventType: '',
         studio: this.studio,
@@ -420,18 +532,19 @@ export default {
       // console.log(1111, this.selectedBooking)
       this.dialogState = true
     },
-    setNewTechnical (date, time) {
+    setNewTechnical (date) {
       this.selectedBooking = Object.assign({}, {
         id: -1,
         managerComment: '',
-        reservedFrom: this.$moment(`${date}T${time}`),
-        reservedTo: this.$moment(`${date}T${time}`).add(1, 'hours'),
+        reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
+        reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: this.filter.rooms[0] || '',
         technical: true
       })
       this.technicalDialogState = true
     },
     async findBooking (index) {
+      if (this.forNewBooking.date !== '') return
       if (this.isResizeNow) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
@@ -444,13 +557,15 @@ export default {
       if (this.$moment(dt).isSame(this.$moment(), 'day')) {
         return {
           color: '#fff',
-          'background-color': '#8F7CC2',
+          'background-color': '#8791c3',
         }
       }
     },
     async loadData () {
+      this.closePopupForNewBooking()
       this.isResizeNow = false
       this.indexResize = -1
+      if (this.filter.studio === 0) return
       await this.$app.bookings.getForCalendar({
         ...this.filter,
         dateFrom: this.range.from,
@@ -544,6 +659,7 @@ export default {
         await this.placeEvents()
       }
       this.dialogState = false
+      this.closePopupForNewBooking()
     },
     async setTechnicalQueryState (state = true) {
       // console.log(999, state)
@@ -551,12 +667,13 @@ export default {
         await this.placeEvents()
       }
       this.technicalDialogState = false
+      this.closePopupForNewBooking()
     }
   },
   watch: {
     bookings: {
       handler (v) {
-        // console.log('watch bookings', v)
+        console.log('watch bookings', v)
         this.events = []
         let allEvents = []
         let bookings = []
@@ -585,8 +702,9 @@ export default {
               isNotFullVisible,
               isExtras: (booking.extras && booking.extras.length > 0),
               title: title,
-              // comment: booking.managerComment,
-              details: `${this.formatPrice(booking.amount)}/${this.formatPrice(booking.price)}`,
+              customerComment: booking.customerComment,
+              managerComment: booking.managerComment,
+              details: `${this.formatPrice(booking.prepayment)}/${this.formatPrice(booking.amount)}`,
               date: this.getDate(from),
               time: this.getTime(from),
               duration: diff,
@@ -700,6 +818,13 @@ export default {
 </script>
 
 <style scoped lang="stylus">
+  .interval-hover
+    background-color inherit
+    width 100%
+    height 100%
+  .interval-hover:hover
+    background-color #ccc
+    opacity 0.1
   .is-resize
     background-color: green !important
     opacity: 0.5 !important
@@ -713,7 +838,6 @@ export default {
   .resizer:before
     margin-left -5px
     content: " "
-    background-color inherit
     position absolute
     top 0
     width 100%
@@ -722,7 +846,6 @@ export default {
   .resizer:after
     margin-left -5px
     content: " "
-    background-color inherit
     position absolute
     bottom 0
     width 100%

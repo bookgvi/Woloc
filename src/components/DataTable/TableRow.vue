@@ -2,9 +2,9 @@
   q-tr(:class="{ disabled }")
     q-td(
       :key="name"
-      v-for="{ name, value, active, discount } of cols"
+      v-for="{ name, value, active } of cols"
       v-bind="getColProps(name)"
-      @click.native="active && rowDialog(row, discount)"
+      @click.native="active && rowDialog(row)"
       @mouseover.native="hTooltip(row, name, $event)"
     )
       template(v-if="name === 'room'")
@@ -60,12 +60,14 @@
       template(v-else-if="name === 'expiredAt'")
         span(v-if="value") {{ value }}
         span(v-else) нет
+      template(v-else-if="name === 'chat'")
+        div.q-py-sm(style="width: 90%; white-space: normal;") {{ value }}
+
       template(v-else) {{ value }}
 </template>
 
 <script>
 import { BOOKING_STATUSES } from 'src/common/constants'
-
 export default {
   name: 'TableRow',
   inheritAttrs: false,
@@ -97,21 +99,24 @@ export default {
         style
       }
     },
-    getRoomStyle (room) {
+    getRoomStyle ({ color }) {
       return {
         height: '80%',
-        color: this.convertHex(room.color, 100),
-        backgroundColor: this.convertHex(room.color, 30)
+        color: this.hexTOrgb(color, 1),
+        backgroundColor: this.hexTOrgb(color, 30)
       }
     },
-    rowDialog (row, discount) {
-      if (discount) {
-        if (row.expiredAt) {
-          this.$emit('toggleDialogRow', row)
-        }
-      } else {
-        this.$emit('toggleDialogRow', row.id)
+    hexTOrgb (color, opacity) {
+      if (color[0] === '#') {
+        color = color.slice(1, color.length)
       }
+      const r = parseInt(color.slice(0, 2), 16)
+      const g = parseInt(color.slice(2, 4), 16)
+      const b = parseInt(color.slice(4, 6), 16)
+      return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
+    },
+    rowDialog (row) {
+      this.$emit('toggleDialogRow', row)
     },
     hTooltip (row, name, event) {
       if (this.$route.path === '/bookings' && name === 'extras') {
@@ -119,14 +124,6 @@ export default {
       } else {
         this.$emit('hTooltip', false, event)
       }
-    },
-    convertHex (hex, opacity) {
-      hex = hex.replace('#', '')
-      const r = parseInt(hex.substring(0, 2), 16)
-      const g = parseInt(hex.substring(2, 4), 16)
-      const b = parseInt(hex.substring(4, 6), 16)
-      const result = `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
-      return result
     }
   }
 }
@@ -143,9 +140,8 @@ export default {
       border-radius 3px
       .q-chip__content
         width 100%
-        overflow hidden
-        text-overflow ellipsis
         white-space normal
+        overflow hidden
     .eventType-col
       font-size 1.6em
     .customerComment-col

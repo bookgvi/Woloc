@@ -107,7 +107,7 @@ export default {
       }
     },
     setPeriod (e) {
-      switch (e.srcElement.innerText) {
+      switch (e.target.innerText) {
         case 'Неделя':
           this.period = 'week'
           break

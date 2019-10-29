@@ -10,6 +10,7 @@ export default {
         one: false
       },
       list: [],
+      dashboardFinancesList: [],
     }
   },
   created () {
@@ -28,6 +29,14 @@ export default {
         this.loading.list = false
       }
       return data
+    },
+    async dashboardFinances (payload) {
+      this.loading.list = true
+      const res = await api.finances.dashboardFinances(payload)
+      if (res) {
+        this.dashboardFinancesList = res.data
+      }
+      this.loading.list = false
     },
   },
   watch: {

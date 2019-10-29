@@ -2,54 +2,92 @@
   .bookings
     data-table(
       title="Бронирования"
-      :getDialogTitle="({ id }) => `Бронь ${id}`"
       :loadData="$app.bookings.getAll"
       :filter="$app.filters.getValues('bookings')"
       :columns="columns"
       :details="details"
       :isRowDisabled="({ status }) => status === disabledStatus"
+      @toggleDialogRow="toggleDialogRow"
       @hTooltip="hTooltip"
     )
       template(#row-dialog="props")
         bookings-dialog(v-bind="props")
-
       template(#row-controls="props")
         q-btn(flat round icon="comment" title="Открыть чат")
         q-btn(flat round icon="delete" title="Удалить")
         q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
         q-btn(flat round icon="thumb_up")
+    q-dialog(v-model="isModal")
+      q-card(style="min-width: 680px;")
+        BookingsDialog(
+          :row="bookingRowData"
+        )
     .div(:style="position" v-if="isTooltip")
-      span.bg-primary.text-white.q-pa-md(v-for="item in extras" :key="item.id") {{ item.name }} {{ item. price }}
+      div.bg-primary.q-pa-md(
+        v-for="item in extras"
+        :key="item.id"
+      ) {{ item.title }} {{ money(item. amount, true) }}
 </template>
 
 <script>
-import columns from './columns'
+import columns from './columns.js'
 import details from './details'
 import DataTable from 'components/DataTable'
 import BookingsDialog from './BookingsDialog'
+import studios from '../../../api/studios'
+
 import { BOOKING_STATUSES } from 'src/common/constants'
 
 export default {
   name: 'bookings-table',
   components: { DataTable, BookingsDialog },
-  data () {
-    return {
-      columns,
-      details,
-      disabledStatus: BOOKING_STATUSES.CANCELED,
-      isTooltip: true,
-      position: {
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        fontSize: '0.8rem',
-        width: '600px',
-        opacity: '0.5'
-      },
-      extras: []
+  data: () => ({
+    columns,
+    details,
+    disabledStatus: BOOKING_STATUSES.CANCELED,
+    isModal: false,
+    bookingRowData: {},
+    room: {},
+    isTooltip: true,
+    position: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      fontSize: '0.8rem',
+      width: '600px',
+      color: '#000'
+    },
+    extras: []
+  }),
+  computed: {
+    returnFilter () {
+      this.filter()
+      return this.$app.filters.getValues('bookings')
     }
   },
   methods: {
+    async filter () {
+      let filter = {}
+      let { studio } = this.$app.filters.getValues('bookings')
+      const { items } = await studios.getAll().then(resp => resp.data)
+      if (!studio) {
+        let [{ rooms }] = items.filter(item => item.id === items[0].id)
+        rooms = rooms.map(item => item.id)
+        filter = Object.assign({}, {
+          studio: items[0].id,
+          rooms: rooms
+        })
+        this.$app.filters.setValue('bookings', 'studio', filter.studio)
+        this.$app.filters.setValue('bookings', 'rooms', filter.rooms)
+        this.$app.filters.setValue('bookings', 'statuses', [0, 1, 2, 3, 4])
+      }
+    },
+    toggleDialogRow (row) {
+      this.bookingRowData = row
+      this.$nextTick(_ => {
+        this.isModal = true
+      })
+    },
     hTooltip (extras, event) {
       if (!extras) {
         this.isTooltip = false
@@ -58,7 +96,14 @@ export default {
       this.position.left = event.clientX + 'px'
       this.position.top = event.clientY + 'px'
       this.isTooltip = true
+    },
+    money (val, sign = false) {
+      const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 2 })
+      return '(' + value + (sign ? ' ₽' : '') + ')'
     }
+  },
+  created () {
+    this.filter()
   }
 }
 </script>

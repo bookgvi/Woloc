@@ -1,6 +1,6 @@
 <template lang="pug">
   q-card-section
-    q-calendar(
+    q-calendar.bg-white(
       :interval-start="intervalStartCalendar"
       :interval-count="intervalCountCalendar"
       v-model="selectedDate"
@@ -46,7 +46,7 @@
               :style="arrowUpStyles(e)"
             )
             .q-pa-none.col-1(
-              v-if="e.isExtras"
+              v-if="e.isExtras && !e.technical"
               :style="triangleStyles(e)"
             )
 
@@ -132,6 +132,7 @@ export default {
       return order
     },
     async loadData () {
+      if (this.studio === 0) return
       const filter = {
         studio: this.studio,
       }
@@ -197,6 +198,7 @@ export default {
                 id: booking.id,
                 isNotFullVisible,
                 isExtras: (booking.extras && booking.extras.length > 0),
+                technical: booking.technical,
                 roomNameSlot: 'Зал ' + booking.room.name,
                 roomColorSlot: '#' + ((1 << 24) * Math.random() | 0).toString(16),
                 fullNameSlot: slot.fullName,
