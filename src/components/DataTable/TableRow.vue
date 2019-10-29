@@ -115,7 +115,7 @@ export default {
       this.$emit('toggleDialogRow', row)
     },
     extrasM (extras) {
-      let titles = extras.items.map(item => `${item.title}, ${this.money(item.amount, true)}`)
+      let titles = extras.items.map(item => `${item.title}, ${this.money(item.amount, true)} \n`)
       console.log(titles)
       return titles.join('')
     },
