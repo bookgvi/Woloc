@@ -11,7 +11,7 @@
           price-filter(v-bind="props")
     .content
       CalendarSheet(
-        :filter="filter"
+        :filter="filterComp"
         :bookings="$app.bookings.calendarList"
         @isAllDayChange="isAllDay = $event"
       )
@@ -34,27 +34,32 @@ export default {
     }
   },
   computed: {
-    filter () {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
+    filterComp () {
       return this.filterInit()
     }
   },
   methods: {
     filterInit () {
-      if (!this.$app.studios.list || this.$app.studios.list.length === 0) {
+      if (this.$app.filters.getValues('calendar').studio !== 0) {
         return this.$app.filters.getValues('calendar')
       }
-      const studio = this.$app.studios.list[0].id
-      const rooms = this.$app.rooms.getAvailable({ studio: studio }).map(item => {
-        return item.id
-      })
-      this.$app.filters.setValue('calendar', 'studio', studio)
-      this.$app.filters.setValue('calendar', 'rooms', rooms)
-      return {
-        studio: studio,
-        rooms: rooms,
+      const params = {
+        studio: this.firstStudio,
+        rooms: this.$app.rooms.getAvailable({ studio: this.firstStudio }).map(item => {
+          return item.id
+        }),
         events: ['photo', 'video', 'event'],
         price: { min: 0, max: 10000 }
       }
+      this.$app.filters.setValue('calendar', 'studio', params.studio)
+      this.$app.filters.setValue('calendar', 'rooms', params.rooms)
+      this.$app.filters.setValue('calendar', 'events', params.events)
+      this.$app.filters.setValue('calendar', 'price', params.price)
+      return this.$app.filters.getValues('calendar')
     }
   },
   components: { EventsFilter, FiltersList, RoomsFilter, StudioFilter, PriceFilter, CalendarSheet }

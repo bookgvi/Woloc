@@ -132,7 +132,6 @@ export default {
       return order
     },
     async loadData () {
-      console.log(666, this.studio)
       if (this.studio === 0) return
       const filter = {
         studio: this.studio,
