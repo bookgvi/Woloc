@@ -548,6 +548,7 @@ export default {
       if (this.isResizeNow) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
@@ -673,7 +674,8 @@ export default {
   watch: {
     bookings: {
       handler (v) {
-        console.log('watch bookings', v)
+        const l = [...v]
+        console.log('watch bookings', l.sort())
         this.events = []
         let allEvents = []
         let bookings = []

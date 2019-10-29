@@ -1,11 +1,13 @@
 <template lang="pug">
   .col-12.flex.justify-left.items-center
     q-option-group.text-body2(
+      v-if="$app.extras.extrasForRoom.length > 0"
       v-model="checkedExtras"
       :options="options"
       color="green"
       type="checkbox"
     ) {{ extrasComp }}
+    span.text-body2 В этом зале нет доп. услуг
 </template>
 
 <script>
@@ -24,13 +26,12 @@ export default {
     },
     options () {
       let arr = []
-      this.$app.extras.list.forEach(({ title, room }) => {
-        if (room.id === this.roomId) {
-          arr.push({
-            label: title,
-            value: title
-          })
-        }
+      this.$app.extras.extrasForRoom.forEach(({ title, amount }) => {
+        arr.push({
+          label: title,
+          value: title,
+          amount
+        })
       })
       return arr
     }
@@ -54,6 +55,7 @@ export default {
   watch: {
     roomId: {
       async handler (v) {
+        if (v === 0) return
         await this.$app.extras.getForCalendar({ room: v })
         console.log(this.$app.extras.extrasForRoom)
       },

@@ -15,7 +15,7 @@ export default {
       this.loading.list = true
       const res = await api.extras.getForCalendar(payload)
       if (res) {
-        this.extrasForRoom = res.data.items
+        this.extrasForRoom = res.data
       }
       this.loading.list = false
     },
