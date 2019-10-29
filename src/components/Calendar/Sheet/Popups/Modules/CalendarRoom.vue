@@ -12,7 +12,7 @@ export default {
   name: 'CalendarRoom',
   data () {
     return {
-      room: '11'
+      room: ''
     }
   },
   computed: {

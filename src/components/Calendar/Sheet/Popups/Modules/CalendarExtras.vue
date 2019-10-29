@@ -51,15 +51,15 @@ export default {
       type: Number
     }
   },
-/*  watch: {
-    startExtras: {
-      handler (v) {
-        console.log(this.checkedExtras)
-        this.checkedExtras = Object.assign(this.checkedExtras, v)
+  watch: {
+    roomId: {
+      async handler (v) {
+        await this.$app.extras.getForCalendar({ room: v })
+        console.log(this.$app.extras.extrasForRoom)
       },
       immediate: true
     }
-  } */
+  }
 }
 </script>
 
