@@ -5,7 +5,6 @@
       v-for="{ name, value, active } of cols"
       v-bind="getColProps(name)"
       @click.native="active && rowDialog(row)"
-      @mouseover.native="hTooltip(row, name, $event)"
     )
       template(v-if="name === 'customer'")
         div(style="width: 100%; white-space: normal;") {{ value }}
@@ -17,6 +16,8 @@
         ) {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
+      template(v-else-if="name === 'extras'")
+        div(:title="extrasM(value)") {{ value.items.length || '—' }}
       template(v-else-if="['customerComment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
@@ -113,12 +114,14 @@ export default {
     rowDialog (row) {
       this.$emit('toggleDialogRow', row)
     },
-    hTooltip (row, name, event) {
-      if (this.$route.path === '/bookings' && name === 'extras') {
-        this.$emit('hTooltip', row.extras.items, event)
-      } else {
-        this.$emit('hTooltip', false, event)
-      }
+    extrasM (extras) {
+      let titles = extras.items.map(item => `${item.title}, ${this.money(item.amount, true)}`)
+      console.log(titles)
+      return titles.join('')
+    },
+    money (val, sign = false) {
+      const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 0 })
+      return value + (sign ? ' ₽' : '')
     }
   }
 }

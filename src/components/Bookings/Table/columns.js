@@ -52,7 +52,6 @@ export default [
     name: 'extras',
     label: 'Допы',
     active: true,
-    format: value => value.items.length || '—',
     align: 'center',
     width: 60
   },

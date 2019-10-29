@@ -8,7 +8,6 @@
       :details="details"
       :isRowDisabled="({ status }) => status === disabledStatus"
       @toggleDialogRow="toggleDialogRow"
-      @hTooltip="hTooltip"
     )
       template(#row-dialog="props")
         bookings-dialog(v-bind="props")
@@ -22,11 +21,6 @@
         BookingsDialog(
           :row="bookingRowData"
         )
-    .div(:style="position" v-if="isTooltip" ref="tooltip")
-      div.bg-primary.q-py-xs.q-px-md(
-        v-for="item in extras"
-        :key="item.id"
-      ) {{ item.title }} {{ money(item. amount, true) }}
 </template>
 
 <script>
@@ -47,15 +41,7 @@ export default {
     disabledStatus: BOOKING_STATUSES.CANCELED,
     isModal: false,
     bookingRowData: {},
-    room: {},
-    isTooltip: true,
-    position: {
-      position: 'fixed',
-      fontSize: '0.8rem',
-      width: '15rem',
-      color: '#000'
-    },
-    extras: []
+    room: {}
   }),
   computed: {
     returnFilter () {
@@ -85,25 +71,6 @@ export default {
       this.$nextTick(_ => {
         this.isModal = true
       })
-    },
-    hTooltip (extras, event) {
-      let tooltipTop, tooltipRight
-      if (!extras) {
-        this.isTooltip = false
-      }
-      this.extras = extras
-      this.$nextTick(_ => {
-        tooltipTop = Math.min(document.body.clientHeight - this.$refs.tooltip.clientHeight - 15, event.pageY - window.pageYOffset)
-        tooltipRight = Math.min(document.body.clientWidth - this.$refs.tooltip.clientWidth - 15, event.pageX - window.pageXOffset)
-        tooltipRight = Math.min(event.pageX - this.$refs.tooltip.clientWidth, tooltipRight)
-        this.$refs.tooltip.style.top = tooltipTop + 'px'
-        this.$refs.tooltip.style.left = tooltipRight + 'px'
-      })
-      this.isTooltip = true
-    },
-    money (val, sign = false) {
-      const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 2 })
-      return '(' + value + (sign ? ' ₽' : '') + ')'
     }
   },
   created () {
