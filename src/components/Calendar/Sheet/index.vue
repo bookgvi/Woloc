@@ -686,7 +686,7 @@ export default {
       },
       deep: true
     },
-    async filter (v) {
+    async filter () {
       await this.loadData()
     },
     async isAllDay (v) {
