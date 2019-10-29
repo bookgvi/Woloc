@@ -23,6 +23,7 @@ import Chart from './Modules/Chart'
 import Options from './Modules/Options'
 import NameSlot from '../CommonModules/NameSlot'
 import StandartCard from '../CommonModules/StandartCard'
+import colors from 'src/common/rooms/colors'
 
 export default {
   name: 'ProfitCard',
@@ -41,8 +42,8 @@ export default {
     return {
       period: 'week',
       date: {
-        from: '',
-        to: ''
+        from: this.$moment().subtract(7, 'days'),
+        to: this.$moment()
       },
       checked: []
     }
@@ -85,15 +86,16 @@ export default {
       let arr = []
       if (!this.$app.studios.list) return []
       this.$app.studios.list.forEach((item, index) => {
+        const color = colors[index].color
         const total = {
           label: `${item.name} - Предоплата`,
           value: index * 2,
-          color: '#' + ((1 << 24) * Math.random() | 0).toString(16),
+          color: color + '40',
         }
         const prepayment = {
           label: `${item.name} - Бронирования`,
           value: index * 2 + 1,
-          color: '#' + ((1 << 24) * Math.random() | 0).toString(16),
+          color: color,
         }
         arr.push(total)
         arr.push(prepayment)
@@ -121,6 +123,23 @@ export default {
         return point
       })
       return points
+    },
+    async loadData () {
+      const interval = (this.period !== 'year') ? 'day' : 'month'
+      await this.$app.bookings.dashboardBookingsProfit({
+        dateFrom: this.$moment(this.date.from).format('YYYY-MM-DD'),
+        dateTo: this.$moment(this.date.to).format('YYYY-MM-DD'),
+        interval
+      })
+    },
+  },
+  watch: {
+    date: {
+      async handler () {
+        // await this.loadData()
+      },
+      deep: true,
+      immediate: true
     }
   }
 }

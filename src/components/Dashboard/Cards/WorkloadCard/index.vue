@@ -50,12 +50,18 @@ export default {
   data () {
     return {
       selectedDate: this.$moment({ hour: 0 }).parseZone(),
-      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
+      studio: 0,
     }
   },
   computed: {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
     rooms () {
-      return this.$app.rooms.getAvailable({ studio: this.studio })
+      const studio = (this.studio === 0) ? this.firstStudio : this.studio
+      if (studio === 0) return []
+      return this.$app.rooms.getAvailable({ studio: studio })
     },
     options () {
       if (!this.rooms) return []

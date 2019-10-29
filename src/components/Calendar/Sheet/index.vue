@@ -565,6 +565,7 @@ export default {
       this.closePopupForNewBooking()
       this.isResizeNow = false
       this.indexResize = -1
+      if (this.filter.studio === 0) return
       await this.$app.bookings.getForCalendar({
         ...this.filter,
         dateFrom: this.range.from,
