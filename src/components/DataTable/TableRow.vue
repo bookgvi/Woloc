@@ -7,7 +7,9 @@
       @click.native="active && rowDialog(row)"
       @mouseover.native="hTooltip(row, name, $event)"
     )
-      template(v-if="name === 'room'")
+      template(v-if="name === 'customer'")
+        div(style="width: 100%; white-space: normal;") {{ value }}
+      template(v-else-if="name === 'room'")
         q-chip(
           dense
           :style="getRoomStyle(value)"
@@ -15,11 +17,6 @@
         ) {{value.name}}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
-      template(v-else-if="name ==='bookingStatus'")
-        span(v-if="['Отменено', 'Просрочено'].includes(value.title)")
-        span(v-else)
-      template(v-else-if="name === 'isPaid'")
-        q-icon(size="sm" name="check" color="green" v-if="value === paidStatus")
       template(v-else-if="['customerComment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
@@ -67,7 +64,6 @@
 </template>
 
 <script>
-import { BOOKING_STATUSES } from 'src/common/constants'
 export default {
   name: 'TableRow',
   inheritAttrs: false,
@@ -81,7 +77,6 @@ export default {
     disabled: Boolean,
   },
   data: () => ({
-    paidStatus: BOOKING_STATUSES.PAID,
   }),
   methods: {
     controlsAreVisible (row) {
@@ -131,7 +126,7 @@ export default {
 
 <style lang="stylus">
   tr.disabled
-    opacity: .2
+    opacity .2
   .q-table tbody tr
     .active
       cursor: pointer

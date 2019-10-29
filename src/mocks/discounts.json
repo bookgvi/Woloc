@@ -22,7 +22,7 @@
       "hourTo": 14,
       "percent": 20,
       "deletedAt": "2016-06-23 22:25:35",
-      "expiredAt": "2018-08-31 23:59:59",
+      "expiredAt": null,
       "updatedAt": null,
       "createdAt": "2015-12-31 21:00:00",
       "startedAt": null

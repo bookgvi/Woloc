@@ -18,6 +18,7 @@ export default [
       return `${customer.firstName} ${customer.lastName}`
     },
     active: true,
+    width: 180
   },
   {
     name: 'room',
@@ -40,12 +41,6 @@ export default [
     field: ({ amount, price }) => `${amount} / ${price}`,
     active: true,
     width: 100
-  },
-  {
-    name: 'bookingStatus',
-    field: 'status',
-    active: true,
-    width: 10,
   },
   {
     name: 'guestsCount',
