@@ -26,6 +26,7 @@ export default {
     rooms () {
       if (this.filter && this.$app.rooms.getAvailable(this.filter).length > 0) {
         const arr = this.$app.rooms.getAvailable(this.filter).map((item, index) => {
+          console.log(index)
           const room = Object.assign({}, {
             id: item.id,
             value: item.name,
