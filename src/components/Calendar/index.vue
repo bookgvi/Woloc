@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     filterInit () {
-      if (this.$app.filters.getValues('calendar').studio !== 0) {
+      if (this.$app.filters.getValues('calendar').studio && this.$app.filters.getValues('calendar').studio !== 0) {
         return this.$app.filters.getValues('calendar')
       }
       const params = {
