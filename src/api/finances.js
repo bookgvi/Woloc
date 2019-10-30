@@ -13,5 +13,18 @@ export default {
     } catch (e) {
       console.warn('catch :: finances :: getAll', e)
     }
+  },
+  dashboardFinances: async (payload) => {
+    const { date } = payload
+    try {
+      const r = await api.get(`${API_URL}/dashboard/finances`, {
+        params: {
+          date
+        }
+      })
+      return r.data
+    } catch (e) {
+      console.warn('catch :: finances :: dashboard/finances', e)
+    }
   }
 }

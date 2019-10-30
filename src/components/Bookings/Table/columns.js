@@ -11,13 +11,20 @@ export default [
   {
     name: 'customer',
     label: 'Клиент',
-    field: ({ customer: { firstName, lastName } = {} }) => `${firstName} ${lastName}`,
+    field: ({ customer = {} }) => {
+      if (!customer) {
+        return
+      }
+      return `${customer.firstName} ${customer.lastName}`
+    },
     active: true,
+    width: 180
   },
   {
     name: 'room',
     label: 'Зал',
     field: 'room',
+    active: true,
     width: 120
   },
   {
@@ -25,28 +32,26 @@ export default [
     label: 'Цель',
     field: 'eventType',
     format: (value) => value && EVENT_TYPES[value],
+    active: true,
     width: 50,
   },
   {
     name: 'amount',
     label: 'Оплата, р.',
     field: ({ amount, price }) => `${amount} / ${price}`,
+    active: true,
     width: 100
-  },
-  {
-    name: 'isPaid',
-    field: 'status',
-    width: 10,
   },
   {
     name: 'guestsCount',
     label: 'Гости',
+    active: true,
     width: 60
   },
   {
     name: 'extras',
     label: 'Допы',
-    format: value => value.items.length || '—',
+    active: true,
     align: 'center',
     width: 60
   },
@@ -54,7 +59,8 @@ export default [
     name: 'date',
     label: 'Дата',
     field: 'reservedFrom',
-    format: value => date.formatDate(value, 'D MMM'),
+    format: value => date.formatDate(value, 'D MMM YYYY'),
+    active: true,
     width: 60
   },
   {
@@ -63,15 +69,27 @@ export default [
     format: (value, { reservedFrom, reservedTo }) => [reservedFrom, reservedTo].map(
       part => date.formatDate(part, 'H:mm')
     ).join(' — '),
+    active: true,
     width: 120
   },
   {
     name: 'promo',
+    field: ({ promo }) => {
+      if (promo) {
+        return promo.name
+      }
+    },
+    active: true,
     label: 'Промо',
   },
   {
-    name: 'comment',
+    name: 'customerComment',
+    active: true,
     label: 'Коммент',
+  },
+  {
+    name: 'bookingStatus',
+    field: 'status'
   },
   {
     name: 'controls',

@@ -4,6 +4,9 @@ export default {
   name: 'studios',
   mixins: [crudMixin],
   computed: {
+    firstStudio () {
+      return this.list[0]
+    },
     forOptions () {
       return this.list.map(item => {
         return {

@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-menu
+  q-menu(fit)
     q-list(style="min-width: 100px")
       q-item(
         clickable

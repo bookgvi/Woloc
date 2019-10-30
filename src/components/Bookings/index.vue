@@ -6,6 +6,7 @@
           studio-filter(v-bind="props")
           rooms-filter(v-bind="props")
           status-filter(v-bind="props")
+          technical-bookings-filter(v-bind="props")
     .content
       bookings-table
 
@@ -17,10 +18,17 @@ import FiltersList from 'components/Filters/FiltersList'
 import RoomsFilter from 'components/Filters/RoomsFilter'
 import BookingsTable from './Table'
 import StatusFilter from '../Filters/StatusFilter'
-
+import TechnicalBookingsFilter from '../Filters/TechnicalBookingsFilter'
 export default {
   name: 'Calendar',
-  components: { StatusFilter, StudioFilter, RoomsFilter, FiltersList, BookingsTable }
+  components: {
+    StatusFilter,
+    StudioFilter,
+    RoomsFilter,
+    FiltersList,
+    BookingsTable,
+    TechnicalBookingsFilter
+  }
 }
 </script>
 

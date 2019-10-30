@@ -47,7 +47,7 @@ export default {
       if (!this.options) {
         return [{
           name: 'Зал',
-          total: 100,
+          total: 0,
           percents: 100,
           color: 'black'
         }]

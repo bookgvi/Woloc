@@ -1,5 +1,6 @@
 <template lang="pug">
   filter-select(
+    selectAllLabel="Все статусы"
     :title="buttonTitle"
     :options="options"
     :value="value"
