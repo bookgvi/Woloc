@@ -46,8 +46,6 @@
           )
       template(v-else-if="name === 'refundsControls'")
         slot(v-if="row.status")
-      template(v-else-if="name === 'status'")
-        .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
       template(v-else-if="name === 'link'")
         slot
       template(v-else-if="name === 'purpose'")
@@ -114,7 +112,7 @@ export default {
       return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     },
     rowDialog (row) {
-      if (['Отменено', 'Просрочено'].includes(this.row.status.title)) { return }
+      if (this.row.status && ['Отменено', 'Просрочено'].includes(this.row.status.title)) { return }
       this.$emit('toggleDialogRow', row)
     },
     extrasM (extras) {
