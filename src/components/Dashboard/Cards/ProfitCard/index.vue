@@ -49,12 +49,6 @@ export default {
     }
   },
   computed: {
-    periodFactor () {
-      if (this.period === 'week') return 1000
-      if (this.period === 'month') return 4000
-      if (this.period === 'year') return 52000
-      return 100
-    },
     dateArray () {
       let arr = []
       switch (this.period) {
@@ -89,6 +83,8 @@ export default {
         const color = colors[index].color
         const total = {
           label: `${item.name} - Бронирования`,
+          studio: item.name,
+          labelChart: 'Брони',
           index: index,
           value: index * 2,
           color: color,
@@ -96,6 +92,8 @@ export default {
         }
         const prepayment = {
           label: `${item.name} - Предоплата`,
+          studio: item.name,
+          labelChart: 'Предоп.',
           index: index,
           value: index * 2 + 1,
           color: color + '40',
