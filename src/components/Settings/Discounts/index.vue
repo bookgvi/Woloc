@@ -6,7 +6,10 @@
           studio-filter(v-bind="props")
     .content--content2
       .row
-        discountsTable(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :rooms="rooms")
+        discountsTable(
+          :singleStudio="singleStudio"
+          :allStudiosName="allStudiosName"
+          :rooms="rooms")
 </template>
 
 <script>
@@ -30,23 +33,28 @@ export default {
     }
   },
   methods: {
-    async singleStudioM () {
-      let { studio } = this.$app.filters.getValues('settings')
+    async filter () {
+      let filter = {}
       const { items } = await studios.getAll().then(resp => resp.data)
+      let { studio } = this.$app.filters.getValues('settings')
       if (!studio) {
+        let [{ rooms }] = items.filter(item => item.id === items[0].id)
+        rooms = rooms.map(item => item.id)
+        filter = Object.assign({}, {
+          studio: items[0].id,
+          rooms: rooms
+        })
+        this.$app.filters.setValue('settings', 'studio', filter.studio)
         studio = items[0].id
       }
-      this.currentStudio = 'settings'
-      const [{ rooms }] = items.filter(item => item.id === studio)
+      let { rooms } = this.$app.filters.getValues('settings')
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
       this.allStudiosName = items.map(item => item.name)
-      this.services = this.singleStudio.services
-      this.vendors = this.singleStudio.vendors
     }
   },
-  async mounted () {
-    this.singleStudioM()
+  async created () {
+    this.filter()
   }
 }
 </script>

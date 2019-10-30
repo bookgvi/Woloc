@@ -1,15 +1,19 @@
-// import api from './instance'
-import discounts from 'src/mocks/discounts'
+import api from './instance'
+const API_URL = process.env.API_CABINET_URL
 
 export default {
-  getAll: async () => {
+  getAll: async (id, page, filter) => {
+    console.log(...filter)
     try {
-      const r = {
-        data: discounts
-      }
-      return r
+      const r = await api.get(`${API_URL}/rooms/discounts`, {
+        params: {
+          page,
+          ...filter
+        }
+      })
+      return r.data
     } catch (e) {
-      console.warn('catch :: discount :: getAll', e)
+      console.warn('catch :: discounts :: getAll', e)
     }
   }
 }

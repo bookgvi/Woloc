@@ -4,8 +4,8 @@
       title="Скидки"
       :getDialogTitle="({ id }) => `Скидка № ${id}`"
       :loadData="$app.discounts.getAll"
+      :filter="$app.filters.getValues('settings')"
       :columns="columns"
-      :details="details"
       @toggleDialogRow="toggleDialogRow"
       :isRowDisabled="({ expiredAt }) => !expiredAt"
     )
@@ -24,7 +24,6 @@
 
 <script>
 import columns from './columns'
-import details from './details'
 import DataTable from 'components/DataTable'
 import editDiscount from '../editDiscount/editDiscount'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
@@ -40,7 +39,6 @@ export default {
   components: { DataTable, editDiscount, VueCtkDateTimePicker },
   data: () => ({
     columns,
-    details,
     dataset: {},
     isModal: false,
     row: {}

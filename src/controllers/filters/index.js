@@ -8,7 +8,8 @@ const defaultValues = {
     statuses: undefined
   },
   settings: {
-    studio: undefined
+    studio: undefined,
+    rooms: undefined
   },
   calendar: {
     studio: 0,
