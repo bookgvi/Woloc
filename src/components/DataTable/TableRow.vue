@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-tr(:class="{ disabled }")
+  q-tr(ref="qtr" :class="{ disabled }")
     q-td(
       :key="name"
       v-for="{ name, value, active } of cols"
@@ -14,6 +14,8 @@
           :style="getRoomStyle(value)"
           :title="value.name"
         ) {{value.name}}
+      template(v-else-if="name === 'bookingStatus'")
+        span(v-bind="bookingsStyle(value.title)")
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'extras'")
@@ -112,16 +114,23 @@ export default {
       return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     },
     rowDialog (row) {
+      if (['Отменено', 'Просрочено'].includes(this.row.status.title)) { return }
       this.$emit('toggleDialogRow', row)
     },
     extrasM (extras) {
       let titles = extras.items.map(item => `${item.title}, ${this.money(item.amount, true)} \n`)
-      console.log(titles)
       return titles.join('')
     },
     money (val, sign = false) {
       const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 0 })
       return value + (sign ? ' ₽' : '')
+    },
+    bookingsStyle (status) {
+      this.$nextTick(_ => {
+        if (['Отменено', 'Просрочено'].includes(status)) {
+          this.$refs.qtr.$el.classList.add('disabled')
+        }
+      })
     }
   }
 }

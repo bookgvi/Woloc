@@ -88,6 +88,10 @@ export default [
     label: 'Коммент',
   },
   {
+    name: 'bookingStatus',
+    field: 'status'
+  },
+  {
     name: 'controls',
     width: 40
   }
