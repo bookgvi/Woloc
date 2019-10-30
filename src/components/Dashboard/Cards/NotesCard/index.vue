@@ -50,31 +50,47 @@
             outlined
             dense
           )
-        q-card-actions.q-pb-md
-          .row.col-12.justify-between.items-center.q-px-sm
-            q-btn.text-body2.text-black.col-3(
-              outline
-              size="sm"
-              label="Отменить"
-              no-caps
-              @click="isNoteEditMode = false"
-              color="secondary"
-            )
-            q-btn.text-body2.text-black.col-3(
-              outline
-              size="sm"
-              label="Сохранить"
-              no-caps
-              @click="save"
-              color="secondary"
-            )
-            q-btn.col-1(
-              size="sm"
-              v-for="(color, index) in colors"
-              @click="itemBuffer.color = color"
-              :style="{ 'background-color': color }"
-              :key="index"
-            )
+        q-card-actions.q-px-md.q-pb-md
+          .row.col-12
+            .col-8.row.justify-between.items-center.q-pr-sm
+              q-btn.text-body2.text-black(
+                outline
+                size="sm"
+                label="Отменить"
+                no-caps
+                style="width: 70px"
+                @click="isNoteEditMode = false"
+                color="secondary"
+              )
+              q-btn.text-body2.text-black(
+                outline
+                size="sm"
+                label="Сохранить"
+                no-caps
+                style="width: 70px"
+                @click="save"
+                color="secondary"
+              )
+              q-btn.text-body2.text-black(
+                outline
+                v-if="itemBuffer.id && itemBuffer.id > 0"
+                size="sm"
+                style="width: 70px"
+                label="Удалить"
+                no-caps
+                @click="save"
+                color="secondary"
+              )
+            .col.row.justify-between.items-center.q-pl-sm
+              q-btn(
+                size="sm"
+                flat
+                v-for="(color, index) in colors"
+                style="width: 25px"
+                @click="itemBuffer.color = color"
+                :style="{ 'background-color': color }"
+                :key="index"
+              )
 </template>
 
 <script>
@@ -95,12 +111,14 @@ export default {
       itemBuffer: {},
       notes: [
         {
+          id: 1,
           title: 'Подготовить доп. штатив',
           text: '27 мая, к 12:00, зал 12',
           date: this.$moment().subtract(5, 'days').format('DD MMMM'),
           color: colors[0]
         },
         {
+          id: 2,
           title: 'Скидка постоянникам',
           text: 'Подарить скидку 10% постоянным клиентам с неограниченным периодом действия',
           date: this.$moment().subtract(2, 'days').format('DD MMMM'),
@@ -115,7 +133,7 @@ export default {
   computed: {
     options () {
       console.log(this.$app.organizationNotes.list)
-      return this.$app.organizationNotes.list
+      return this.notes
     }
   },
   methods: {
@@ -132,8 +150,15 @@ export default {
       this.itemBuffer = Object.assign({}, item)
       this.isNoteEditMode = true
     },
-    save () {
-      if (this.indexBuffer !== -1) {
+    async save () {
+      if (this.itemBuffer && this.itemBuffer.id > 0) {
+        const id = this.itemBuffer.id
+        const params = {
+          title: this.itemBuffer.title,
+          text: this.itemBuffer.text,
+          color: this.itemBuffer.color
+        }
+        console.log(id, params)
         this.notes[this.indexBuffer] = Object.assign({}, this.itemBuffer)
       } else {
         this.notes.push(this.itemBuffer)
@@ -142,9 +167,13 @@ export default {
       this.indexBuffer = -1
       this.itemBuffer = Object.assign({})
     },
+    delete () {
+      //
+    },
     add () {
       this.indexBuffer = -1
       this.itemBuffer = Object.assign({
+        id: 0,
         title: '',
         text: '',
         date: this.$moment().format('DD MMMM'),
@@ -152,7 +181,7 @@ export default {
       })
       this.isNoteEditMode = true
     }
-  }
+  },
 }
 </script>
 
