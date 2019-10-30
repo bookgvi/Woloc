@@ -1,23 +1,29 @@
 <template lang="pug">
-  q-tr(:class="{ disabled }")
+  q-tr(ref="qtr" :class="{ disabled }")
     q-td(
       :key="name"
       v-for="{ name, value, active } of cols"
       v-bind="getColProps(name)"
       @click.native="active && rowDialog(row)"
-      @mouseover.native="hTooltip(row, name, $event)"
     )
-      template(v-if="name === 'room'")
+      template(v-if="name === 'customer'")
+        div(style="width: 100%; white-space: normal;") {{ value }}
+      template(v-else-if="name === 'room'")
         q-chip(
           dense
           :style="getRoomStyle(value)"
           :title="value.name"
         ) {{value.name}}
+      template(v-else-if="name === 'bookingStatus'")
+        span(v-bind="bookingsStyle(value.title)")
+      template(v-else-if="name === 'refundStatus'")
+        span(v-bind="refundsStyle(value.title)")
+        span(v-if="value.title !== 'Новый'") {{ value.title }}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
-      template(v-else-if="name === 'isPaid'")
-        q-icon(size="sm" name="check" color="green" v-if="value === paidStatus")
-      template(v-else-if="['comment', 'promo'].includes(name)")
+      template(v-else-if="name === 'extras'")
+        div(:title="extrasM(value)") {{ value.items.length || '—' }}
+      template(v-else-if="['customerComment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
           leave-active-class="animated fadeOut"
@@ -42,9 +48,7 @@
             :disable="disabled"
           )
       template(v-else-if="name === 'refundsControls'")
-        slot(v-if="row.status")
-      template(v-else-if="name === 'status'")
-        .inline-block(v-if="!value" title="13 ок. 20:47") Ожидает зачисление
+        slot(v-if="row.status.title === 'Новый'")
       template(v-else-if="name === 'link'")
         slot
       template(v-else-if="name === 'purpose'")
@@ -64,7 +68,6 @@
 </template>
 
 <script>
-import { BOOKING_STATUSES } from 'src/common/constants'
 export default {
   name: 'TableRow',
   inheritAttrs: false,
@@ -78,7 +81,6 @@ export default {
     disabled: Boolean,
   },
   data: () => ({
-    paidStatus: BOOKING_STATUSES.PAID,
   }),
   methods: {
     controlsAreVisible (row) {
@@ -113,14 +115,30 @@ export default {
       return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     },
     rowDialog (row) {
+      if (this.row.status && ['Отменено', 'Просрочено'].includes(this.row.status.title)) { return }
       this.$emit('toggleDialogRow', row)
     },
-    hTooltip (row, name, event) {
-      if (this.$route.path === '/bookings' && name === 'extras') {
-        this.$emit('hTooltip', row.extras.items, event)
-      } else {
-        this.$emit('hTooltip', false, event)
-      }
+    extrasM (extras) {
+      let titles = extras.items.map(item => `${item.title}, ${this.money(item.amount, true)} \n`)
+      return titles.join('')
+    },
+    money (val, sign = false) {
+      const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 0 })
+      return value + (sign ? ' ₽' : '')
+    },
+    bookingsStyle (status) {
+      this.$nextTick(_ => {
+        if (['Отменено', 'Просрочено'].includes(status)) {
+          this.$refs.qtr.$el.classList.add('disabled')
+        }
+      })
+    },
+    refundsStyle (status) {
+      this.$nextTick(_ => {
+        if (!['Новый'].includes(status)) {
+          this.$refs.qtr.$el.classList.add('disabled')
+        }
+      })
     }
   }
 }
@@ -128,7 +146,7 @@ export default {
 
 <style lang="stylus">
   tr.disabled
-    opacity: .2
+    opacity .2
   .q-table tbody tr
     .active
       cursor: pointer
@@ -141,7 +159,7 @@ export default {
         overflow hidden
     .eventType-col
       font-size 1.6em
-    .comment-col
+    .customerComment-col
       max-width 100px
       overflow hidden
       text-overflow ellipsis

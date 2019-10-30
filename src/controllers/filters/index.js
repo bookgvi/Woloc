@@ -1,6 +1,7 @@
 import studios from '../../api/studios'
 
 const defaultValues = {
+  customers: {},
   bookings: {
     studio: undefined,
     rooms: undefined,
