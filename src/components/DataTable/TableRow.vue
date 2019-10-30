@@ -16,6 +16,9 @@
         ) {{value.name}}
       template(v-else-if="name === 'bookingStatus'")
         span(v-bind="bookingsStyle(value.title)")
+      template(v-else-if="name === 'refundStatus'")
+        span(v-bind="refundsStyle(value.title)")
+        span(v-if="value.title !== 'Новый'") {{ value.title }}
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'extras'")
@@ -45,7 +48,7 @@
             :disable="disabled"
           )
       template(v-else-if="name === 'refundsControls'")
-        slot(v-if="row.status")
+        slot(v-if="row.status.title === 'Новый'")
       template(v-else-if="name === 'link'")
         slot
       template(v-else-if="name === 'purpose'")
@@ -126,6 +129,13 @@ export default {
     bookingsStyle (status) {
       this.$nextTick(_ => {
         if (['Отменено', 'Просрочено'].includes(status)) {
+          this.$refs.qtr.$el.classList.add('disabled')
+        }
+      })
+    },
+    refundsStyle (status) {
+      this.$nextTick(_ => {
+        if (!['Новый'].includes(status)) {
           this.$refs.qtr.$el.classList.add('disabled')
         }
       })

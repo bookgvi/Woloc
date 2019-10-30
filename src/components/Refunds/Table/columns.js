@@ -11,7 +11,13 @@ export default [
   {
     name: 'customer',
     label: 'Клиент',
-    field: ({ booking: { customer = {} } }) => `${customer.firstName} ${customer.lastName}`,
+    field: ({ booking = {} }) => {
+      const { customer } = booking
+      if (!customer) {
+        return
+      }
+      return `${customer.firstName} ${customer.lastName}`
+    },
     width: 150,
   },
   {
@@ -49,7 +55,8 @@ export default [
     width: 120
   },
   {
-    name: 'status',
+    name: 'refundStatus',
+    field: 'status',
     label: 'Статус возврата',
     width: 250
   },
