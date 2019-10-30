@@ -548,6 +548,7 @@ export default {
       if (this.isResizeNow) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {

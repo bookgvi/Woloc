@@ -114,7 +114,8 @@ export default {
   },
   computed: {
     options () {
-      return this.notes
+      console.log(this.$app.organizationNotes.list)
+      return this.$app.organizationNotes.list
     }
   },
   methods: {
