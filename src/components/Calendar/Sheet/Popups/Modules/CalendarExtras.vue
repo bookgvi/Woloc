@@ -7,7 +7,7 @@
       color="green"
       type="checkbox"
     ) {{ extrasComp }}
-    span.text-body2 В этом зале нет доп. услуг
+    span.text-body2(v-else) В этом зале нет доп. услуг
 </template>
 
 <script>
@@ -57,7 +57,6 @@ export default {
       async handler (v) {
         if (v === 0) return
         await this.$app.extras.getForCalendar({ room: v })
-        console.log(this.$app.extras.extrasForRoom)
       },
       immediate: true
     }
