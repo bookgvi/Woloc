@@ -48,7 +48,6 @@ export default {
           },
           backgroundColor: '#262626',
           formatter: (args) => {
-            console.log(args)
             let tooltip = `<p style="margin-bottom: 3px">${args[0].axisValue}</p> `
             let studioBuffer = ''
             args.forEach(({ marker, seriesName, value }) => {
