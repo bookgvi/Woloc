@@ -2,7 +2,7 @@ import api from './instance'
 const API_URL = process.env.API_CABINET_URL
 
 export default {
-  getAll: async (id, page, filter) => {
+  getAll: async (page, filter) => {
     console.log(...filter)
     try {
       const r = await api.get(`${API_URL}/rooms/discounts`, {
