@@ -23,7 +23,8 @@ import Chart from './Modules/Chart'
 import Options from './Modules/Options'
 import NameSlot from '../CommonModules/NameSlot'
 import StandartCard from '../CommonModules/StandartCard'
-import colors from 'src/common/rooms/colors'
+import colorsMock from 'src/common/rooms/colors'
+import { colors } from 'quasar'
 
 export default {
   name: 'ProfitCard',
@@ -80,7 +81,7 @@ export default {
       let arr = []
       if (!this.$app.studios.list) return []
       this.$app.studios.list.forEach((item, index) => {
-        const color = colors[index].color
+        const color = colorsMock[index].color
         const total = {
           label: `${item.name} - Бронирования`,
           studio: item.name,
@@ -96,7 +97,7 @@ export default {
           labelChart: 'Предоп.',
           index: index,
           value: index * 2 + 1,
-          color: color + '40',
+          color: colors.lighten(color, 80),
           isTotal: false,
         }
         arr.push(total)
