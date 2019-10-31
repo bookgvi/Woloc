@@ -72,7 +72,6 @@ export default {
 
     async addNewTechnical (payload) {
       this.loading.one = true
-      console.log(payload)
       this.idOfJustAdded = 0
       const res = await api.bookings.addNewTechnical(payload)
       if (res) {
