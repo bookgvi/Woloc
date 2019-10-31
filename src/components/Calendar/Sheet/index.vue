@@ -673,7 +673,7 @@ export default {
   watch: {
     bookings: {
       handler (v) {
-        console.log('watch bookings', v)
+        // console.log('watch bookings', v)
         this.events = []
         let allEvents = []
         let bookings = []

@@ -55,7 +55,7 @@ export default {
       this.loading.list = true
       const res = await api.bookings.dashboardBookingsProfit(payload)
       if (res) {
-        this.dashboardBookingsShareList = res.data
+        this.dashboardBookingsProfitList = res.data
       }
       this.loading.list = false
     },

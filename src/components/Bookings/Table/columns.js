@@ -18,6 +18,7 @@ export default [
       return `${customer.firstName} ${customer.lastName}`
     },
     active: true,
+    width: 180
   },
   {
     name: 'room',
@@ -42,12 +43,6 @@ export default [
     width: 100
   },
   {
-    name: 'isPaid',
-    field: 'status',
-    active: true,
-    width: 10,
-  },
-  {
     name: 'guestsCount',
     label: 'Гости',
     active: true,
@@ -57,7 +52,6 @@ export default [
     name: 'extras',
     label: 'Допы',
     active: true,
-    format: value => value.items.length || '—',
     align: 'center',
     width: 60
   },
@@ -80,13 +74,22 @@ export default [
   },
   {
     name: 'promo',
+    field: ({ promo }) => {
+      if (promo) {
+        return promo.name
+      }
+    },
     active: true,
     label: 'Промо',
   },
   {
-    name: 'comment',
+    name: 'customerComment',
     active: true,
     label: 'Коммент',
+  },
+  {
+    name: 'bookingStatus',
+    field: 'status'
   },
   {
     name: 'controls',
