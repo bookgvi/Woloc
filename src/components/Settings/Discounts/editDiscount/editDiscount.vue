@@ -142,6 +142,7 @@ export default {
   },
   async created () {
     await this.$nextTick()
+    this.currentDayOfWeek = this.row.daysOfWeek
     this.dateRange = `${date.formatDate(this.row.startedAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM YYYY')}`
   },
   methods: {
