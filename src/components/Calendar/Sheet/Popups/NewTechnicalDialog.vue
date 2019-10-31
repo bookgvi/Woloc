@@ -62,7 +62,7 @@ export default {
         room: { id: this.newBooking.room.id },
         reserveFrom: this.newBooking.reservedFrom,
         reserveTo: this.newBooking.reservedTo,
-        managerComment: this.newBooking.managerComment || '',
+        managerComment: this.newBooking.managerComment || ''
       }
       return params
     },
