@@ -3,7 +3,6 @@ const API_URL = process.env.API_CABINET_URL
 
 export default {
   getAll: async (page, filter) => {
-    console.log(...filter)
     try {
       const r = await api.get(`${API_URL}/rooms/discounts`, {
         params: {
@@ -14,6 +13,14 @@ export default {
       return r.data
     } catch (e) {
       console.warn('catch :: discounts :: getAll', e)
+    }
+  },
+  addNew: async (payload) => {
+    try {
+      const r = await api.post(`${API_URL}/rooms/discounts`, payload)
+      return r.data
+    } catch (e) {
+      console.warn('catch :: discounts :: addNew', e)
     }
   }
 }

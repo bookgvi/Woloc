@@ -14,7 +14,7 @@
       .col.q-pr-sm
         q-select(v-model="singleStudio.name" :options="allStudiosName" outlined dense)
       .col
-        q-select(v-model="rooms[0].name" :options="rooms.map(item => item.name)" outlined dense)
+        q-select(v-model="roomName" :options="rooms.map(item => item.name)" outlined dense)
     .row
       .col.q-pr-sm
         span Процент скидки
@@ -32,20 +32,20 @@
     .row.q-pb-sm
       .col.q-pr-sm
         .row
-          q-checkbox(label="Понедельник" v-model="week.mon")
+          q-checkbox(label="Понедельник" v-model="daysOfWeek[0]")
         .row
-          q-checkbox(label="Вторник" v-model="week.tue")
+          q-checkbox(label="Вторник" v-model="daysOfWeek[1]")
         .row
-          q-checkbox(label="Среда" v-model="week.wed")
+          q-checkbox(label="Среда" v-model="daysOfWeek[2]")
         .row
-          q-checkbox(label="Четверг" v-model="week.thu")
+          q-checkbox(label="Четверг" v-model="daysOfWeek[3]")
       .col
         .row
-          q-checkbox(label="Пятница" v-model="week.fri")
+          q-checkbox(label="Пятница" v-model="daysOfWeek[4]")
         .row
-          q-checkbox(label="Суббота" v-model="week.sat")
+          q-checkbox(label="Суббота" v-model="daysOfWeek[5]")
         .row
-          q-checkbox(label="Воскресенье" v-model="week.sun")
+          q-checkbox(label="Воскресенье" v-model="daysOfWeek[6]")
     .row
       .col.q-pr-sm
         span Период действия
@@ -90,7 +90,7 @@
       .col.q-mr-sm
         q-btn.q-py-md(label="Удалить" no-caps style="width: 100%")
       .col
-        q-btn.q-py-md.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%")
+        q-btn.q-py-md.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%" @click="createUpdate")
 </template>
 
 <script>
@@ -115,15 +115,8 @@ export default {
   },
   data () {
     return {
-      week: {
-        mon: true,
-        tue: false,
-        wed: false,
-        thu: false,
-        fri: false,
-        sat: false,
-        sun: false
-      },
+      roomName: this.rooms[0].name,
+      daysOfWeek: [true, false, false, false, false, false, false],
       dateRange: '',
       dateLabel: '',
       isTimeRange: false,
@@ -135,7 +128,7 @@ export default {
   },
   computed: {
     showDateRange () {
-      return `${date.formatDate(this.row.expiredAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM')}`
+      return `${date.formatDate(this.row.startedAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM')}`
     }
   },
   methods: {
@@ -151,6 +144,26 @@ export default {
       this.isTimeRange = false
       this.row.hourFrom = this.rangeTime.min
       this.row.hourTo = this.rangeTime.max
+    },
+    createUpdate () {
+      const [{ id }] = this.rooms.filter(item => item.name === this.roomName)
+      let { start } = this.dateRange
+      let { end } = this.dateRange
+      if (start) { start = `${start.split(' ').shift()}` }
+      if (end) { end = `${end.split(' ').shift()}` }
+      console.log(start)
+      const newDiscount = {
+        'id': id,
+        'percent': this.row.percent,
+        'minHours': this.row.minHours,
+        'daysOfWeek': this.daysOfWeek,
+        'startedAt': start,
+        'expiredAt': end,
+        'hourFrom': this.row.hourFrom,
+        'hourTo': this.row.hourTo
+      }
+      console.log(newDiscount)
+      this.$emit('createUpdate', newDiscount)
     }
   }
 }

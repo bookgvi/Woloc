@@ -37,17 +37,16 @@ export default {
       let filter = {}
       const { items } = await studios.getAll().then(resp => resp.data)
       let { studio } = this.$app.filters.getValues('settings')
+      let [{ rooms }] = items.filter(item => item.id === items[0].id)
       if (!studio) {
-        let [{ rooms }] = items.filter(item => item.id === items[0].id)
-        rooms = rooms.map(item => item.id)
+        const roomsID = rooms.map(item => item.id)
         filter = Object.assign({}, {
           studio: items[0].id,
-          rooms: rooms
+          rooms: roomsID
         })
         this.$app.filters.setValue('settings', 'studio', filter.studio)
         studio = items[0].id
       }
-      let { rooms } = this.$app.filters.getValues('settings')
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
       this.allStudiosName = items.map(item => item.name)

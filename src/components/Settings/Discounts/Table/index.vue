@@ -10,7 +10,7 @@
       :isRowDisabled="({ expiredAt }) => !expiredAt"
     )
       template(#table-controls-append)
-        q-btn.q-ml-md.text-white.bg-primary(label="Добавить скидку" no-caps)
+        q-btn.q-ml-md.text-white.bg-primary(label="Добавить скидку" no-caps @click="addDiscount")
     q-dialog(v-model="isModal")
       q-card(style="min-width: 680px;")
         edit-discount(
@@ -19,6 +19,7 @@
           :rooms="rooms"
           :allStudiosName="allStudiosName"
           @hasModal="hasModal"
+          @createUpdate="createUpdate"
         )
 </template>
 
@@ -50,6 +51,12 @@ export default {
     },
     hasModal () {
       this.isModal = false
+    },
+    addDiscount () {
+      this.isModal = true
+    },
+    createUpdate (value) {
+      this.$app.discounts.addNew(value)
     }
   }
 }
