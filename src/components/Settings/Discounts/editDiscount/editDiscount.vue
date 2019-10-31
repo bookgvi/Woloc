@@ -29,7 +29,7 @@
         q-input(v-model="row.minHours" outlined dense)
     .row
       span День недели
-    .row.q-pb-sm
+    .row.q-pb-sm(v-if="!row.id")
       .col.q-pr-sm
         .row
           q-checkbox(label="Понедельник" v-model="daysOfWeek[0]")
@@ -46,6 +46,10 @@
           q-checkbox(label="Суббота" v-model="daysOfWeek[5]")
         .row
           q-checkbox(label="Воскресенье" v-model="daysOfWeek[6]")
+    .row.q-pb-sm(v-if="row.id")
+      .col.q-pr-sm
+        .row
+          q-option-group(label="Понедельник" v-model="currentDayOfWeek" :options="daysOfWeekRadio")
     .row
       .col.q-pr-sm
         span Период действия
@@ -54,7 +58,7 @@
     .row.q-pb-md
       .col.q-pr-sm
         VueCtkDateTimePicker.q-pt-sm(
-          v-model="dateRange"
+          v-model="row.startedAt"
           color="#81AEB6"
           formatted="D MMMM Y"
           range
@@ -115,8 +119,18 @@ export default {
   },
   data () {
     return {
+      currentDayOfWeek: this.row.daysOfWeek,
       roomName: this.rooms[0].name,
-      daysOfWeek: [true, false, false, false, false, false, false],
+      daysOfWeekRadio: [
+        { label: 'Понедельник', value: 1 },
+        { label: 'Вторник', value: 2 },
+        { label: 'Среда', value: 3 },
+        { label: 'Четверг', value: 4 },
+        { label: 'Пятница', value: 5 },
+        { label: 'Суббота', value: 6 },
+        { label: 'Воскресенье', value: 7 }
+      ],
+      daysOfWeek: [false, false, false, false, false, false, false],
       dateRange: '',
       dateLabel: '',
       isTimeRange: false,
@@ -145,23 +159,28 @@ export default {
       this.row.hourTo = this.rangeTime.max
     },
     createUpdate () {
+      let { start } = this.row.startedAt
+      if (!start) { start = this.row.startedAt }
+      let { end } = this.row.startedAt
       const [{ id }] = this.rooms.filter(item => item.name === this.roomName)
-      let { start } = this.dateRange
-      let { end } = this.dateRange
-      if (start) { start = `${start.split(' ').shift()}` }
-      if (end) { end = `${end.split(' ').shift()}` }
+      let value = typeof this.currentDayOfWeek
+      if (value === 'number') {
+        value = this.currentDayOfWeek
+      } else {
+        value = this.daysOfWeek
+      }
       const newDiscount = {
         'room': id,
         'isActive': 1,
         'percent': this.row.percent,
         'minHours': this.row.minHours,
-        'daysOfWeek': this.daysOfWeek,
+        'daysOfWeek': value,
         'startedAt': start,
         'expiredAt': end,
         'hourFrom': this.row.hourFrom,
         'hourTo': this.row.hourTo
       }
-      this.$emit('createUpdate', newDiscount)
+      this.$emit('createUpdate', this.row.id, newDiscount)
     },
     discountDelete () {
       this.$emit('discountDelete', this.row.id)

@@ -18,7 +18,7 @@ export default [
     discount: true
   },
   {
-    name: 'dayOfWeek',
+    name: 'daysOfWeek',
     format: value => {
       if (!value) { return }
       const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']

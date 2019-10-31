@@ -19,6 +19,15 @@ export default {
       console.warn('catch :: discounts :: addNew', e)
     }
   },
+  updateOne: async (payload) => {
+    const { id, data } = payload
+    try {
+      const r = await api.put(`${API_URL}/rooms/discounts/${id}`, data)
+      return r.data
+    } catch (e) {
+      console.warn('catch :: discounts :: updateOne', e)
+    }
+  },
   deleteOne: async (payload) => {
     const { id } = payload
     try {

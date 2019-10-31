@@ -5,6 +5,14 @@ export default {
   name: 'discounts',
   mixins: [crudMixin],
   methods: {
+    async updateOne (id, data) {
+      this.loading.one = true
+      const res = await api.discounts.updateOne({ id, data })
+      if (res) {
+        this.idOfJustAdded = res.id
+      }
+      this.loading.one = false
+    },
     async addNew (payload) {
       this.loading.one = true
       this.idOfJustAdded = 0

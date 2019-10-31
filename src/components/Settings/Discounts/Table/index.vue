@@ -73,14 +73,25 @@ export default {
       this.row = row
       this.isModal = true
     },
-    hasModal () {
+    async hasModal () {
+      await this.$nextTick()
       this.isModal = false
     },
     addDiscount () {
+      this.row = {
+        hourFrom: 0,
+        hourTo: 23,
+        startedAt: '2019-10-31T16:22:04+03:00',
+        expiredAt: '2019-10-31T16:22:04+03:00'
+      }
       this.isModal = true
     },
-    createUpdate (value) {
-      this.$app.discounts.addNew(value)
+    createUpdate (id, value) {
+      if (!id) {
+        this.$app.discounts.addNew(value)
+      } else {
+        this.$app.discounts.updateOne(id, value)
+      }
       this.isModal = false
       this.keyNumber++
     },
