@@ -19,14 +19,12 @@ export default [
   },
   {
     name: 'dayOfWeek',
-    label: 'день',
     format: value => {
+      if (!value) { return }
       const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
-      const shortDaysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
-      const getDays = value.map(item => daysOfWeek[item - 1])
-      const getShortDays = value.map(item => shortDaysOfWeek[item - 1])
-      return getDays.length > 1 ? getShortDays.join(', ') : getDays.join(', ')
+      return daysOfWeek[value - 1]
     },
+    label: 'день',
     align: 'center',
     active: true,
     discount: true

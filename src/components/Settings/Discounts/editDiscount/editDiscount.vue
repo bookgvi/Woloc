@@ -60,7 +60,7 @@
           range
           no-shortcuts
           no-label
-          :label="showDateRange"
+          :label="String(dateRange)"
         )
       .col
         q-input.q-pt-sm.q-pb-md.cursor-pointer(:value="`${row.hourFrom}:00 — ${row.hourTo}:00`" @click="isTimeRange = !isTimeRange" outlined dense)
@@ -88,7 +88,7 @@
         span Заполните только дату начала, если срок действия должен быть неограничен.
     .row.justify-center
       .col.q-mr-sm
-        q-btn.q-py-md(label="Удалить" no-caps style="width: 100%")
+        q-btn.q-py-md(label="Удалить" no-caps style="width: 100%" @click="discountDelete")
       .col
         q-btn.q-py-md.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%" @click="createUpdate")
 </template>
@@ -126,10 +126,9 @@ export default {
       }
     }
   },
-  computed: {
-    showDateRange () {
-      return `${date.formatDate(this.row.startedAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM')}`
-    }
+  async created () {
+    await this.$nextTick()
+    this.dateRange = `${date.formatDate(this.row.startedAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM YYYY')}`
   },
   methods: {
     hasModal () {
@@ -151,9 +150,9 @@ export default {
       let { end } = this.dateRange
       if (start) { start = `${start.split(' ').shift()}` }
       if (end) { end = `${end.split(' ').shift()}` }
-      console.log(start)
       const newDiscount = {
-        'id': id,
+        'room': id,
+        'isActive': 1,
         'percent': this.row.percent,
         'minHours': this.row.minHours,
         'daysOfWeek': this.daysOfWeek,
@@ -162,8 +161,10 @@ export default {
         'hourFrom': this.row.hourFrom,
         'hourTo': this.row.hourTo
       }
-      console.log(newDiscount)
       this.$emit('createUpdate', newDiscount)
+    },
+    discountDelete () {
+      this.$emit('discountDelete', this.row.id)
     }
   }
 }

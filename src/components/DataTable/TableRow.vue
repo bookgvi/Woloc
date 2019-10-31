@@ -11,9 +11,9 @@
       template(v-else-if="name === 'room'")
         q-chip(
           dense
-          :style="getRoomStyle(value)"
-          :title="value.name"
-        ) {{value.name}}
+          :style="getRoomStyle(value, value)"
+          :title="value.name || value.title"
+        ) {{value.name || value.title}}
       template(v-else-if="name === 'bookingStatus'")
         span(v-bind="bookingsStyle(value.title)")
       template(v-else-if="name === 'refundStatus'")
@@ -98,7 +98,7 @@ export default {
         style
       }
     },
-    getRoomStyle ({ color }) {
+    getRoomStyle ({ color }, value) {
       return {
         height: '80%',
         color: this.hexTOrgb(color, 1),

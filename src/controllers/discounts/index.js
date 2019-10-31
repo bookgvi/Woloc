@@ -2,9 +2,6 @@ import crudMixin from '../crudMixin'
 import api from '../../api'
 
 export default {
-  created () {
-    this.getAll()
-  },
   name: 'discounts',
   mixins: [crudMixin],
   methods: {
@@ -16,6 +13,15 @@ export default {
         this.idOfJustAdded = res.id
       }
       this.loading.one = false
-    }
+    },
+    async deleteOne (id) {
+      this.loading.one = true
+      const res = await api.discounts.deleteOne({ id: id })
+      if (res) {
+        // console.log(res)
+      }
+      this.loading.one = false
+    },
+
   }
 }

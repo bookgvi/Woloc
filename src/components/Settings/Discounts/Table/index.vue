@@ -1,11 +1,9 @@
 <template lang="pug">
-  .table.wrapper.wrapper--header
+  .table.wrapper.wrapper--header(:key="keyNumber")
     DataTable(
-      title="Скидки"
-      :getDialogTitle="({ id }) => `Скидка № ${id}`"
       :loadData="$app.discounts.getAll"
-      :filter="$app.filters.getValues('settings')"
       :columns="columns"
+      :filter="$app.filters.getValues('settings')"
       @toggleDialogRow="toggleDialogRow"
       :isRowDisabled="({ expiredAt }) => !expiredAt"
     )
@@ -20,6 +18,7 @@
           :allStudiosName="allStudiosName"
           @hasModal="hasModal"
           @createUpdate="createUpdate"
+          @discountDelete="discountDelete"
         )
 </template>
 
@@ -28,24 +27,49 @@ import columns from './columns'
 import DataTable from 'components/DataTable'
 import editDiscount from '../editDiscount/editDiscount'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
+import studios from '../../../../api/studios'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
 
 export default {
-  props: {
-    singleStudio: Object,
-    rooms: Array,
-    allStudiosName: Array
-  },
   name: 'promoTable',
   components: { DataTable, editDiscount, VueCtkDateTimePicker },
-  data: () => ({
-    columns,
-    dataset: {},
-    isModal: false,
-    row: {}
-  }),
+  data () {
+    return {
+      columns,
+      keyNumber: 0,
+      dataset: {},
+      isModal: false,
+      row: {},
+      id: this.$app.filters.getValues('settings').studio,
+      allStudiosName: [],
+      rooms: [],
+      singleStudio: {}
+    }
+  },
+  async created () {
+    this.filter()
+  },
   methods: {
-    toggleDialogRow (row) {
+    async filter () {
+      let filter = {}
+      const { items } = await studios.getAll().then(resp => resp.data)
+      let { studio } = this.$app.filters.getValues('settings')
+      let [{ rooms }] = items.filter(item => item.id === items[0].id)
+      if (!studio) {
+        const roomsID = rooms.map(item => item.id)
+        filter = Object.assign({}, {
+          studio: items[0].id,
+          rooms: roomsID
+        })
+        this.$app.filters.setValue('settings', 'studio', filter.studio)
+        this.$app.filters.setValue('settings', 'rooms', filter.rooms)
+        studio = items[0].id
+      }
+      this.rooms = rooms
+      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
+      this.allStudiosName = items.map(item => item.name)
+    },
+    async toggleDialogRow (row) {
       this.row = row
       this.isModal = true
     },
@@ -57,6 +81,13 @@ export default {
     },
     createUpdate (value) {
       this.$app.discounts.addNew(value)
+      this.isModal = false
+      this.keyNumber++
+    },
+    async discountDelete (id) {
+      await this.$app.discounts.deleteOne(id)
+      this.isModal = false
+      this.keyNumber++
     }
   }
 }
