@@ -6,7 +6,7 @@
       q-card-section.q-pb-none
         q-card.text-body2.q-mb-md(
           v-for="(item, index) in options"
-          :style="{ 'background-color': item.color }"
+          :style="{ 'background-color':  '#' + item.color }"
           :key="index"
         )
           q-card-section
@@ -34,7 +34,7 @@
     template(v-else)
       .q-pt-md.q-pa-none
         q-card-section.q-pa-none.q-mx-md(
-          :style="{ 'background-color': itemBuffer.color }"
+          :style="{ 'background-color': '#' + itemBuffer.color }"
           style="min-width: 370px"
         )
           q-input.text-body2(
@@ -60,7 +60,6 @@
                 no-caps
                 style="width: 70px"
                 @click="isNoteEditMode = false"
-                color="secondary"
               )
               q-btn.text-body2.text-black(
                 outline
@@ -69,7 +68,6 @@
                 no-caps
                 style="width: 70px"
                 @click="save"
-                color="secondary"
               )
               q-btn.text-body2.text-black(
                 outline
@@ -79,7 +77,6 @@
                 label="Удалить"
                 no-caps
                 @click="dialog=!dialog"
-                color="secondary"
               )
                 q-dialog(
                   persistent
@@ -108,7 +105,7 @@
                 v-for="(color, index) in colors"
                 style="width: 25px"
                 @click="itemBuffer.color = color"
-                :style="{ 'background-color': color }"
+                :style="{ 'background-color':  '#' + color }"
                 :key="index"
               )
 </template>
@@ -117,7 +114,7 @@
 
 import StandartCard from '../CommonModules/StandartCard'
 import NameSlot from '../CommonModules/NameSlot'
-const colors = ['#B6E1FD', '#F9FAB2', '#FF9EC8', '#BAFFBF']
+const colors = ['B6E1FD', 'F9FAB2', 'FF9EC8', 'BAFFBF']
 
 export default {
   name: 'NotesCard',
@@ -137,7 +134,6 @@ export default {
   },
   computed: {
     options () {
-      console.log(this.$app.organizationNotes.list)
       return this.$app.organizationNotes.list
     }
   },
