@@ -162,6 +162,7 @@ export default {
     createUpdate () {
       let { start } = this.row.startedAt
       if (!start) { start = this.row.startedAt }
+      start = date.formatDate(this.row.startedAt, 'YYYY-MM-DD')
       let { end } = this.row.startedAt
       const [{ id }] = this.rooms.filter(item => item.name === this.roomName)
       let value = typeof this.currentDayOfWeek
