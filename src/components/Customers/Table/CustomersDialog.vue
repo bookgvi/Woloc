@@ -84,12 +84,10 @@ import { date } from 'quasar'
 export default {
   name: 'CustomersDialog',
   props: {
-    getTitle: Function,
     row: {
       type: Object,
       default: () => ({})
     },
-    details: Array,
     readonly: Boolean
   },
   methods: {
