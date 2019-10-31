@@ -10,7 +10,17 @@ export default {
   },
   mixins: [crudMixin],
   methods: {
+    async getAll (page, filter) {
+      this.loading.list = true
+      const { name } = this.$options
+      const { data } = await api[name].getAll(page, filter)
+      if (data) {
+        this.list = data
+        this.loading.list = false
+      }
 
+      return data
+    },
     async addNew (payload) {
       this.loading.one = true
       this.idOfJustAdded = 0

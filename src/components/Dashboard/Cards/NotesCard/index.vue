@@ -19,7 +19,7 @@
                   @click="noteEditMode(item, index)"
                   @mouseover="mouseOver"
                   @mouseleave="mouseLeave"
-                ) {{ item.date }}
+                ) {{ formatDate(item.date) }}
           q-card-section
             span {{ item.text }}
       q-card-actions.q-pt-none.q-pl-md.q-pb-md
@@ -78,9 +78,29 @@
                 style="width: 70px"
                 label="Удалить"
                 no-caps
-                @click="save"
+                @click="dialog=!dialog"
                 color="secondary"
               )
+                q-dialog(
+                  persistent
+                  v-model="dialog"
+                )
+                  q-card
+                    q-card-section.col-12.flex.justify-center.items-center
+                      span Вы уверены, что хотите удалить заметку?
+                    q-card-actions.col-12.flex.justify-center.items-center
+                      q-btn(
+                        color="black"
+                        label="Отмена"
+                        flat
+                        v-close-popup
+                      )
+                      q-btn(
+                        @click="deleteNote"
+                        color="negative"
+                        label="Удалить"
+                        v-close-popup
+                      )
             .col.row.justify-between.items-center.q-pl-sm
               q-btn(
                 size="sm"
@@ -104,36 +124,21 @@ export default {
   components: { NameSlot, StandartCard },
   data () {
     return {
+      dialog: false,
       isNoteEditMode: false,
       colors: [],
       targetTextBuffer: '',
-      indexBuffer: -1,
       itemBuffer: {},
-      notes: [
-        {
-          id: 1,
-          title: 'Подготовить доп. штатив',
-          text: '27 мая, к 12:00, зал 12',
-          date: this.$moment().subtract(5, 'days').format('DD MMMM'),
-          color: colors[0]
-        },
-        {
-          id: 2,
-          title: 'Скидка постоянникам',
-          text: 'Подарить скидку 10% постоянным клиентам с неограниченным периодом действия',
-          date: this.$moment().subtract(2, 'days').format('DD MMMM'),
-          color: colors[1]
-        },
-      ]
     }
   },
-  created () {
+  async created () {
     this.colors = [...colors]
+    this.loadData()
   },
   computed: {
     options () {
       console.log(this.$app.organizationNotes.list)
-      return this.notes
+      return this.$app.organizationNotes.list
     }
   },
   methods: {
@@ -141,45 +146,52 @@ export default {
       this.targetTextBuffer = e.target.innerText
       e.target.innerText = 'Редактировать'
     },
+    async loadData () {
+      await this.$app.organizationNotes.getAll()
+    },
     mouseLeave (e) {
       e.target.innerText = this.targetTextBuffer
       this.targetTextBuffer = ''
     },
-    noteEditMode (item, index) {
-      this.indexBuffer = index
+    noteEditMode (item) {
       this.itemBuffer = Object.assign({}, item)
       this.isNoteEditMode = true
     },
     async save () {
-      if (this.itemBuffer && this.itemBuffer.id > 0) {
+      if (!this.itemBuffer) return
+      const params = {
+        title: this.itemBuffer.title,
+        text: this.itemBuffer.text,
+        color: this.itemBuffer.color
+      }
+      if (this.itemBuffer.id > 0) {
         const id = this.itemBuffer.id
-        const params = {
-          title: this.itemBuffer.title,
-          text: this.itemBuffer.text,
-          color: this.itemBuffer.color
-        }
-        console.log(id, params)
-        this.notes[this.indexBuffer] = Object.assign({}, this.itemBuffer)
+        await this.$app.organizationNotes.updateOne(id, params)
       } else {
-        this.notes.push(this.itemBuffer)
+        await this.$app.organizationNotes.addNew(params)
       }
       this.isNoteEditMode = false
-      this.indexBuffer = -1
       this.itemBuffer = Object.assign({})
+      await this.loadData()
     },
-    delete () {
-      //
+    async deleteNote () {
+      if (!this.itemBuffer || this.itemBuffer.id === 0) return
+      await this.$app.organizationNotes.deleteOne(this.itemBuffer.id)
+      this.isNoteEditMode = false
+      this.itemBuffer = Object.assign({})
+      await this.loadData()
     },
     add () {
-      this.indexBuffer = -1
       this.itemBuffer = Object.assign({
         id: 0,
         title: '',
         text: '',
-        date: this.$moment().format('DD MMMM'),
         color: this.colors[0]
       })
       this.isNoteEditMode = true
+    },
+    formatDate (date) {
+      return this.$moment(date).format('DD MMMM')
     }
   },
 }
