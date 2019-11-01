@@ -156,11 +156,20 @@ export default {
   },
   computed: {
     isDisabled () {
-      let isDisabled = false
-      // const [{ id }] = this.roomsOptions.filter(item => item === this.roomName)
-      // if (id) {
-      //   isDisabled = false
-      // }
+      let isDisabled = true
+      let value = typeof this.currentDayOfWeek
+      let daysOfWeek = this.daysOfWeek.forEach(item => { if (item) { return true } return false })
+      daysOfWeek || value === 'number' ? value = true : value = false
+      if (
+        this.roomName &&
+        this.row.percent &&
+        this.row.minHours &&
+        value &&
+        this.row.startedAt &&
+        this.rangeTime
+      ) {
+        isDisabled = false
+      }
       return isDisabled
     }
   },
@@ -210,16 +219,18 @@ export default {
       this.row.hourTo = this.rangeTime.max
     },
     createUpdate () {
+      let expiredDate
       let { start } = this.row.startedAt
       let { end } = this.row.startedAt
-      console.log('this.row.startedAt', this.row.startedAt, 'start', start, 'end', end)
       if (start) {
         start = start.split(' ').shift()
       } else {
         start = date.formatDate(this.row.startedAt, 'YYYY-MM-DD')
       }
       if (end) {
-        end = end.split(' ').shift()
+        expiredDate = end.split(' ').shift()
+      } else {
+        expiredDate = this.row.expiredDate
       }
       const [{ id }] = this.roomsOptions.filter(item => item.name === this.roomName)
       let value = typeof this.currentDayOfWeek
@@ -234,8 +245,8 @@ export default {
         'percent': this.row.percent,
         'minHours': this.row.minHours,
         'daysOfWeek': value,
-        'startedAt': this.startedAt,
-        'expiredAt': this.expiredAt,
+        'startedAt': start,
+        'expiredAt': expiredDate,
         'hourFrom': this.row.hourFrom,
         'hourTo': this.row.hourTo
       }
