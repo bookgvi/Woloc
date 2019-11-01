@@ -29,7 +29,6 @@ import editDiscount from '../editDiscount/editDiscount'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
 import studios from '../../../../api/studios'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
-
 export default {
   name: 'promoTable',
   components: { DataTable, editDiscount, VueCtkDateTimePicker },
@@ -81,8 +80,8 @@ export default {
       this.row = {
         hourFrom: 0,
         hourTo: 23,
-        startedAt: '2019-10-31T16:22:04+03:00',
-        expiredAt: '2019-10-31T16:22:04+03:00',
+        startedAt: new Date(),
+        expiredAt: new Date(),
         new: true
       }
       this.isModal = true
