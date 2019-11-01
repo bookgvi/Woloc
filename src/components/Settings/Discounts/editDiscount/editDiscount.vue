@@ -10,11 +10,11 @@
         span Локация
       .col
         span Зал
-    .row.q-pb-md
+    .row.q-pb-md(:key="modalKey")
       .col.q-pr-sm
-        q-select(v-model="singleStudio.name" :options="allStudiosName" outlined dense)
+        q-select(v-model="singleStudio.name" :options="allStudiosName" @input="getRooms(singleStudio.name)" outlined dense)
       .col
-        q-select(v-model="roomName" :options="rooms.map(item => item.name)" outlined dense)
+        q-select(v-model="roomName" :options="roomsOptions || []" outlined dense)
     .row
       .col.q-pr-sm
         span Процент скидки
@@ -101,6 +101,7 @@
 import { date } from 'quasar'
 import { DateRange } from 'vue-date-range'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
+import studios from '../../../../api/studios'
 export default {
   props: {
     getTitle: Function,
@@ -119,8 +120,10 @@ export default {
   },
   data () {
     return {
+      modalKey: 0,
       currentDayOfWeek: this.row.daysOfWeek,
       roomName: this.rooms[0].name,
+      roomsOptions: this.rooms.map(item => item.name),
       daysOfWeekRadio: [
         { label: 'Понедельник', value: 1 },
         { label: 'Вторник', value: 2 },
@@ -148,6 +151,17 @@ export default {
   methods: {
     hasModal () {
       this.$emit('hasModal')
+    },
+    async getRooms (studioName) {
+      const { items } = await studios.getAll().then(resp => resp.data)
+      const studio = items.filter(item => item.name === studioName).pop()
+      this.roomName = ''
+      this.roomsOptions = []
+      if (studio.rooms[0]) {
+        this.roomName = studio.rooms[0].name
+        this.roomsOptions = studio.rooms.map(item => item.name)
+      }
+      this.modalKey++
     },
     timeRangeReset () {
       this.isTimeRange = false
