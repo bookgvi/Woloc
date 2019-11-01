@@ -101,7 +101,7 @@
       q-checkbox(v-else label="Скидка не активна" v-model="isActive")
     .row.justify-center
       .col.q-mr-sm
-        q-btn.q-py-md(label="Удалить" no-caps style="width: 100%" @click="discountDelete")
+        q-btn.q-py-md(v-if="!row.new" label="Удалить" no-caps style="width: 100%" @click="discountDelete" :disable="row.new")
       .col
         q-btn.q-py-md.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%" @click="createUpdate" :disable="isDisabled")
 </template>

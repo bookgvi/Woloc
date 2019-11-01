@@ -5,7 +5,7 @@
       :columns="columns"
       :filter="$app.filters.getValues('settings')"
       @toggleDialogRow="toggleDialogRow"
-      :isRowDisabled="({ isActive }) => Boolean(isActive)"
+      :isRowDisabled="({ isActive } = row) => !Boolean(isActive)"
     )
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить скидку" no-caps @click="addDiscount")
@@ -82,7 +82,8 @@ export default {
         hourFrom: 0,
         hourTo: 23,
         startedAt: '2019-10-31T16:22:04+03:00',
-        expiredAt: '2019-10-31T16:22:04+03:00'
+        expiredAt: '2019-10-31T16:22:04+03:00',
+        new: true
       }
       this.isModal = true
     },
