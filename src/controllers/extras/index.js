@@ -4,7 +4,8 @@ import api from '../../api'
 export default {
   data () {
     return {
-      extrasForRoom: {}
+      extrasForRoom: {},
+      extrasForBooking: []
     }
   },
   created () {

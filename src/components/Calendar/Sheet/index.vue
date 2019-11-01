@@ -367,8 +367,8 @@ export default {
         reserveFrom: from,
         reserveTo: to,
         priceType: booking.eventType,
-        extras: [],
-        seats: 1,
+        extras: booking.extras,
+        seats: booking.seats,
         description: booking.managerComment || '',
         technical: booking.technical,
       })
@@ -525,6 +525,7 @@ export default {
         reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
         reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: this.filter.rooms[0] || '',
+        extras: [],
         eventType: '',
         studio: this.studio,
         filter: this.filter

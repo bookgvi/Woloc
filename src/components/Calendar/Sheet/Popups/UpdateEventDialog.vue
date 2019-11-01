@@ -91,8 +91,6 @@
               .col-7.q-py-sm
                 span.text-grey {{ extrasSlot }}
             calendar-extras.q-pa-md(
-              @extrasChange="helpers.checkedExtras = [...$event]"
-              :startExtras="[...helpers.checkedExtras]"
               :roomId="roomId"
             )
           q-expansion-item(
@@ -173,7 +171,6 @@ export default {
       newBooking: {},
       helpers: {
         date: '',
-        checkedExtras: [],
         time: {
           from: 0,
           to: 0
@@ -200,17 +197,10 @@ export default {
       return this.room.id || 0
     },
     extras () {
-      if (!this.helpers.checkedExtras) {
+      if (!this.$app.extras.extrasForBooking || this.$app.extras.extrasForBooking.length === 0) {
         return []
       } else {
-        return this.helpers.checkedExtras.map(item => {
-          const extra = this.$app.extras.list.find(extra => extra.name === item)
-          if (!extra) return { name: item, price: 0 }
-          return {
-            name: item,
-            price: extra.price
-          }
-        })
+        return this.$app.extras.extrasForBooking
       }
     },
     customerSlot () {
@@ -242,8 +232,8 @@ export default {
       }
     },
     extrasSlot () {
-      if (!this.helpers.checkedExtras) return 0
-      return this.helpers.checkedExtras.length
+      if (!this.$app.extras.extrasForBooking) return 0
+      return this.$app.extras.extrasForBooking.length
     },
     membersSlot () {
       return this.newBooking.members.length
@@ -261,6 +251,7 @@ export default {
   methods: {
     setQueryState (state) {
       this.$emit('setQueryState', state)
+      this.$app.extras.extrasForBooking = []
     },
     setParamsForPost () {
       if (!this.newBooking.customer || !this.newBooking.customer.id) {
@@ -290,13 +281,22 @@ export default {
         })
         return null
       }
+      let extras = []
+      if (this.$app.extras.extrasForBooking || this.$app.extras.extrasForBooking.length > 0) {
+        this.$app.extras.extrasForBooking.map(item => {
+          return {
+            id: item.id,
+            count: item.count
+          }
+        })
+      }
       const params = {
         roomId: this.newBooking.room.id,
         consumerId: this.newBooking.customer.id,
         reserveFrom: this.newBooking.reservedFrom,
         reserveTo: this.newBooking.reservedTo,
         priceType: this.newBooking.eventType,
-        extras: [],
+        extras: extras,
         seats: 1,
         description: this.newBooking.managerComment || ''
       }
@@ -331,12 +331,21 @@ export default {
         })
         return null
       }
+      let extras = []
+      if (this.$app.extras.extrasForBooking || this.$app.extras.extrasForBooking.length > 0) {
+        this.$app.extras.extrasForBooking.map(item => {
+          return {
+            id: item.id,
+            count: item.count
+          }
+        })
+      }
       const params = {
         roomId: this.newBooking.room.id,
         reserveFrom: this.newBooking.reservedFrom,
         reserveTo: this.newBooking.reservedTo,
         priceType: this.newBooking.eventType,
-        extras: [],
+        extras: extras,
         seats: 1,
         description: this.newBooking.managerComment || ''
       }
@@ -358,6 +367,7 @@ export default {
             this.$emit('setQueryState', true)
           }
         }
+        this.$app.extras.extrasForBooking = []
       } else {
         const payload = this.setParamsForPut()
         if (payload) {
@@ -367,6 +377,7 @@ export default {
           }
         }
       }
+      this.$app.extras.extrasForBooking = []
       // console.log(9, this.newBooking.id, index)
     }
   },
@@ -384,9 +395,9 @@ export default {
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
-        let checkedExtras = []
         if (this.newBooking.extras && this.newBooking.extras.items) {
-          checkedExtras = this.newBooking.extras.items.map(item => item.name)
+          this.$app.extras.extrasForBooking = this.newBooking.extras.items
+          console.log(666, this.$app.extras.extrasForBooking, this.newBooking.extras.items)
         }
         this.helpers = Object.assign(this.helpers, {
           date: hDate,
@@ -394,7 +405,6 @@ export default {
             from: hFrom,
             to: hTo
           },
-          checkedExtras: [...checkedExtras]
         })
       })
     }

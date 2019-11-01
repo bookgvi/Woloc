@@ -2,6 +2,7 @@
   q-option-group.col-12.justify-left.items-center.text-body2(
     v-model="room"
     :options="rooms"
+    :dense="rooms.length > 9"
     keep-color
   ) {{ roomComp }}
 </template>
