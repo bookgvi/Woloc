@@ -160,10 +160,18 @@ export default {
       this.row.hourTo = this.rangeTime.max
     },
     createUpdate () {
-      let { start } = this.row.startedAt
-      if (!start) { start = this.row.startedAt }
-      start = date.formatDate(this.row.startedAt, 'YYYY-MM-DD')
-      let { end } = this.row.startedAt
+      let start = date.formatDate(this.row.startedAt, 'YYYY-MM-DD')
+      let end = date.formatDate(this.row.startedAt, 'YYYY-MM-DD')
+      if (!start) {
+        ({ start } = this.row.startedAt)
+        start = start.split(' ').shift()
+      }
+      if (!end) {
+        ({ end } = this.row.startedAt)
+        try {
+          end = end.split(' ').shift()
+        } catch {}
+      }
       const [{ id }] = this.rooms.filter(item => item.name === this.roomName)
       let value = typeof this.currentDayOfWeek
       if (value === 'number') {

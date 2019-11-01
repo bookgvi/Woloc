@@ -86,11 +86,11 @@ export default {
       }
       this.isModal = true
     },
-    createUpdate (id, value) {
+    async createUpdate (id, value) {
       if (!id) {
-        this.$app.discounts.addNew(value)
+        await this.$app.discounts.addNew(value)
       } else {
-        this.$app.discounts.updateOne(id, value)
+        await this.$app.discounts.updateOne(id, value)
       }
       this.isModal = false
       this.keyNumber++
@@ -103,9 +103,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-  .q-card {
-    overflow: visible;
-  }
-</style>
