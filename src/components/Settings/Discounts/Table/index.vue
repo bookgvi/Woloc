@@ -5,7 +5,7 @@
       :columns="columns"
       :filter="$app.filters.getValues('settings')"
       @toggleDialogRow="toggleDialogRow"
-      :isRowDisabled="({ expiredAt }) => !expiredAt"
+      :isRowDisabled="({ isActive }) => Boolean(isActive)"
     )
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить скидку" no-caps @click="addDiscount")
