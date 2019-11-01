@@ -1,23 +1,35 @@
 <template lang="pug">
-  .col-12.flex.justify-left.items-center
-    q-option-group.text-body2(
+  .row.justify-left.items-center
+    q-list.q-pa-md.text-body2(
       v-if="$app.extras.extrasForRoom.length > 0"
-      v-model="checkedExtras"
-      :options="options"
-      color="green"
-      type="checkbox"
     ) {{ extrasComp }}
+      q-item.q-pa-none(
+        v-for="(item, index) in options"
+        :key="index"
+      )
+        q-item-section(thumbnail)
+          q-checkbox(v-model="tru" dense)
+        q-item-section
+          q-item-label {{ item.title }}
+          q-input.q-pb-md(
+            dense
+            v-model.number="model"
+            type="number"
+          )
+        q-item-section(side)
+          q-item-label(caption) {{ item.amount }} р.
     span.text-body2(v-else) В этом зале нет доп. услуг
 </template>
 
 <script>
-// import sortBy from 'lodash/sortBy'
 
 export default {
   name: 'CalendarExtras',
   data () {
     return {
-      checkedExtras: [...this.startExtras]
+      checkedExtras: [...this.startExtras],
+      tru: false,
+      model: 1,
     }
   },
   computed: {
@@ -25,15 +37,8 @@ export default {
       return this.extrasChange()
     },
     options () {
-      let arr = []
-      this.$app.extras.extrasForRoom.forEach(({ title, amount }) => {
-        arr.push({
-          label: title,
-          value: title,
-          amount
-        })
-      })
-      return arr
+      if (!this.$app.extras.extrasForRoom) return []
+      return this.$app.extras.extrasForRoom
     }
   },
   methods: {
