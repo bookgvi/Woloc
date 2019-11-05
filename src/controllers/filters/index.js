@@ -3,12 +3,16 @@ import studios from '../../api/studios'
 const defaultValues = {
   customers: {},
   bookings: {
-    studio: undefined,
-    rooms: undefined,
-    statuses: undefined
+    studio: null,
+    rooms: null,
+    statuses: null
+  },
+  refunds: {
+    studio: null,
+    rooms: null
   },
   settings: {
-    studio: undefined
+    studio: null
   },
   calendar: {
     studio: 0,
