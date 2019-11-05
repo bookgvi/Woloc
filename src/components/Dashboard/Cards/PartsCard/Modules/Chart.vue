@@ -26,6 +26,7 @@ export default {
       return this.options.map((item) => {
         const piece = {
           value: item.total,
+          name: item.name,
           itemStyle: { color: item.color }
         }
         return piece
@@ -35,6 +36,19 @@ export default {
     },
     chartOptions () {
       const chartOptions = {
+        tooltip: {
+          trigger: 'item',
+          textStyle: {
+            color: '#fff',
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+          },
+          backgroundColor: '#262626',
+          formatter: ({ marker, name, percent, value, data }) => {
+            let tooltip = `<p style="margin-bottom: 3px; color: #B8B8B8"">${marker} ${data.name}</p><p style="margin-bottom: 3px">${percent}% • ${value} p.</p>`
+            return tooltip
+          },
+        },
         series: [{
           type: 'pie',
           radius: ['40%', '90%'],

@@ -40,7 +40,26 @@ export default {
           }
         },
         tooltip: {
-          trigger: 'axis'
+          trigger: 'axis',
+          textStyle: {
+            color: '#fff',
+            fontFamily: 'Montserrat',
+            fontSize: 12,
+          },
+          backgroundColor: '#262626',
+          formatter: (args) => {
+            let tooltip = `<p style="margin-bottom: 3px">${args[0].axisValue}</p> `
+            let studioBuffer = ''
+            args.forEach(({ marker, seriesName, value }) => {
+              const studioAndLabel = seriesName.split('|::|')
+              const studio = (studioAndLabel[0] === studioBuffer) ? ''
+                : `<p style="margin-bottom: 3px; color: #B8B8B8"">${studioAndLabel[0]}</p>`
+              value = value || [0, 0]
+              tooltip += `${studio}<p style="margin-bottom: 3px">${marker} ${studioAndLabel[1]} • ${value[1]} p.</p>`
+              studioBuffer = studioAndLabel[0]
+            })
+            return tooltip
+          },
         },
         series: [{
           data: [100],
@@ -51,6 +70,7 @@ export default {
       if (this.chartData) {
         this.chartData.forEach((item, index) => {
           chartOptions.series[index] = Object.assign({
+            name: item.studio + '|::|' + item.labelChart,
             type: 'line',
             color: item.color
           })
