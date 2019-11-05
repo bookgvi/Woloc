@@ -56,10 +56,11 @@ export default {
         item.id === studio)
       if (!listForStudio || !listForStudio.rooms) return
       return listForStudio.rooms.map((item, index) => {
+        const percents = (listForStudio.totalProfit === 0) ? 0 : (item.totalProfit / listForStudio.totalProfit * 100).toFixed()
         const point = {
           name: item.name,
           total: item.totalProfit,
-          percents: (item.totalProfit / listForStudio.totalProfit * 100).toFixed(),
+          percents: percents,
           color: '#' + ((1 << 24) * Math.random() | 0).toString(16)
         }
         return point

@@ -2,11 +2,9 @@
   .customer
     DataTable(
       title="Клиенты"
-      :getDialogTitle="() => 'Личные данные'"
       :loadData="$app.customers.getAll"
       :filter="$app.filters.getValues('customers')"
       :columns="columns"
-      :details="details"
       @toggleDialogRow="toggleDialogRow"
     )
       template(#table-controls)
@@ -27,7 +25,6 @@
 
 <script>
 import columns from './columns'
-import details from './details'
 import DataTable from 'components/DataTable'
 import CustomersDialog from './CustomersDialog'
 
@@ -36,16 +33,14 @@ export default {
   components: { DataTable, CustomersDialog },
   data: () => ({
     columns,
-    details,
     customerData: {},
     isModal: false
   }),
   methods: {
-    toggleDialogRow (row) {
+    async toggleDialogRow (row) {
       this.customerData = row
-      this.$nextTick(_ => {
-        this.isModal = true
-      })
+      await this.$nextTick()
+      this.isModal = true
     }
   }
 }

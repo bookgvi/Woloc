@@ -55,7 +55,7 @@ export default {
       this.loading.list = true
       const res = await api.bookings.dashboardBookingsProfit(payload)
       if (res) {
-        this.dashboardBookingsShareList = res.data
+        this.dashboardBookingsProfitList = res.data
       }
       this.loading.list = false
     },
@@ -64,6 +64,16 @@ export default {
       this.loading.one = true
       this.idOfJustAdded = 0
       const res = await api.bookings.addNew(payload)
+      if (res) {
+        this.idOfJustAdded = res.id
+      }
+      this.loading.one = false
+    },
+
+    async addNewTechnical (payload) {
+      this.loading.one = true
+      this.idOfJustAdded = 0
+      const res = await api.bookings.addNewTechnical(payload)
       if (res) {
         this.idOfJustAdded = res.id
       }
