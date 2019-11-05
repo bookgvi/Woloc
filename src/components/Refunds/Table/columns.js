@@ -4,6 +4,7 @@ export default [
   {
     name: 'id',
     label: 'Бронь',
+    field: ({ booking = {} }) => booking.id,
     width: 70,
     classes: 'text-primary',
     align: 'right',
@@ -52,6 +53,8 @@ export default [
   {
     name: 'amount',
     label: 'Сумма, Р.',
+    align: 'right',
+    headerStyle: 'text-align: right;',
     width: 120
   },
   {
