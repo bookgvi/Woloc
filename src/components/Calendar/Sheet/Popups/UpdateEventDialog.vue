@@ -233,7 +233,13 @@ export default {
     },
     extrasSlot () {
       if (!this.$app.extras.extrasForRoom) return 0
-      return this.$app.extras.extrasForRoom.length
+      let count = 0
+      this.$app.extras.extrasForRoom.forEach(item => {
+        if (item.count > 0) {
+          count++
+        }
+      })
+      return count
     },
     membersSlot () {
       return this.newBooking.members.length
@@ -300,7 +306,7 @@ export default {
         seats: 1,
         managerComment: this.newBooking.managerComment || ''
       }
-      console.log('post', params)
+      // console.log('post', params)
       return params
     },
     setParamsForPut () {
