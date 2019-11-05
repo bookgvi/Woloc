@@ -4,8 +4,7 @@ import api from '../../api'
 export default {
   data () {
     return {
-      extrasForRoom: {},
-      extrasForBooking: []
+      extrasForRoom: []
     }
   },
   created () {
@@ -16,7 +15,12 @@ export default {
       this.loading.list = true
       const res = await api.extras.getForCalendar(payload)
       if (res) {
-        this.extrasForRoom = res.data
+        this.extrasForRoom = res.data.map(item => {
+          return {
+            ...item,
+            count: 0
+          }
+        })
       }
       this.loading.list = false
     },

@@ -20,11 +20,12 @@
             span.row.text-caption.text-bold {{ item.amount }} р.
           .col.justify-right.q-pa-none
             q-input.q-pb-md(
+              :rules="[val => (val >= 0) || 'Введите число, не меньшее нуля']"
               dense
               clear-icon="close"
               style="width: 70px"
-              @input="onInput"
-              @keydown="keyHandler"
+              @input="onInput(index, $event)"
+              @keydown="keyHandler(item.count, index, $event)"
               v-model.number="item.count"
               type="number"
             )
@@ -49,28 +50,22 @@ export default {
   },
   computed: {
     options () {
-      console.log(this.extrasForBooking, this.$app.extras.extrasForRoom)
       if (!this.$app.extras.extrasForRoom) return []
-      return this.$app.extras.extrasForRoom.map(item => {
-        return {
-          ...item,
-          count: 0
-        }
-      })
+      return this.$app.extras.extrasForRoom
     }
   },
   methods: {
-    onInput (val) {
-      this.model = val
-      if (val && val < 0) {
-        this.model = 0
+    onInput (index, val) {
+      if (!val || val === '') {
+        if (!this.$app.extras.extrasForRoom || !this.$app.extras.extrasForRoom[index]) return
+        this.$app.extras.extrasForRoom[index].count = 0
       }
     },
-    keyHandler (evt) {
-      if (this.model < 1 && evt.key === 'ArrowDown') {
+    keyHandler (val, index, evt) {
+      if (val < 1 && evt.key === 'ArrowDown') {
         evt.preventDefault()
       }
-      if (evt.key === '-') {
+      if (evt.key === '-' || evt.key === 'e') {
         evt.preventDefault()
       }
     }
@@ -84,7 +79,7 @@ export default {
     roomId: {
       async handler (v) {
         if (v === 0) return
-        await this.$app.extras.getForCalendar({ room: 961 })
+        await this.$app.extras.getForCalendar({ room: v })
       },
       immediate: true
     }

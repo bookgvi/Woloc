@@ -197,10 +197,10 @@ export default {
       return this.room.id || 0
     },
     extras () {
-      if (!this.$app.extras.extrasForBooking || this.$app.extras.extrasForBooking.length === 0) {
+      if (!this.$app.extras.extrasForRoom || this.$app.extras.extrasForRoom.length === 0) {
         return []
       } else {
-        return this.$app.extras.extrasForBooking
+        return this.$app.extras.extrasForRoom
       }
     },
     customerSlot () {
@@ -232,8 +232,8 @@ export default {
       }
     },
     extrasSlot () {
-      if (!this.$app.extras.extrasForBooking) return 0
-      return this.$app.extras.extrasForBooking.length
+      if (!this.$app.extras.extrasForRoom) return 0
+      return this.$app.extras.extrasForRoom.length
     },
     membersSlot () {
       return this.newBooking.members.length
@@ -251,7 +251,6 @@ export default {
   methods: {
     setQueryState (state) {
       this.$emit('setQueryState', state)
-      this.$app.extras.extrasForBooking = []
     },
     setParamsForPost () {
       if (!this.newBooking.customer || !this.newBooking.customer.id) {
@@ -282,12 +281,13 @@ export default {
         return null
       }
       let extras = []
-      if (this.$app.extras.extrasForBooking || this.$app.extras.extrasForBooking.length > 0) {
-        this.$app.extras.extrasForBooking.map(item => {
-          return {
+      if (this.$app.extras.extrasForRoom || this.$app.extras.extrasForRoom.length > 0) {
+        this.$app.extras.extrasForRoom.forEach(item => {
+          if (item.count === 0) return
+          extras.push({
             id: item.id,
             count: item.count
-          }
+          })
         })
       }
       const params = {
@@ -300,7 +300,7 @@ export default {
         seats: 1,
         description: this.newBooking.managerComment || ''
       }
-      // console.log('post', params)
+      console.log('post', params)
       return params
     },
     setParamsForPut () {
@@ -332,12 +332,13 @@ export default {
         return null
       }
       let extras = []
-      if (this.$app.extras.extrasForBooking || this.$app.extras.extrasForBooking.length > 0) {
-        this.$app.extras.extrasForBooking.map(item => {
-          return {
+      if (this.$app.extras.extrasForRoom || this.$app.extras.extrasForRoom.length > 0) {
+        this.$app.extras.extrasForRoom.forEach(item => {
+          if (!Number.isInteger(item.count) || item.count === 0) return
+          extras.push({
             id: item.id,
             count: item.count
-          }
+          })
         })
       }
       const params = {
@@ -365,19 +366,19 @@ export default {
           await this.$app.bookings.addNew(payload)
           if (this.$app.bookings.idOfJustAdded !== 0) {
             this.$emit('setQueryState', true)
+            this.$app.extras.extrasForRoom = []
           }
         }
-        this.$app.extras.extrasForBooking = []
       } else {
         const payload = this.setParamsForPut()
         if (payload) {
           await this.$app.bookings.updateOne(payload.id, payload.data)
           if (this.$app.bookings.idOfJustAdded !== 0) {
             this.$emit('setQueryState', true)
+            this.$app.extras.extrasForRoom = []
           }
         }
       }
-      this.$app.extras.extrasForBooking = []
       // console.log(9, this.newBooking.id, index)
     }
   },
@@ -396,8 +397,7 @@ export default {
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
         if (this.newBooking.extras && this.newBooking.extras.items) {
-          this.$app.extras.extrasForBooking = this.newBooking.extras.items
-          console.log(666, this.$app.extras.extrasForBooking, this.newBooking.extras.items)
+          this.$app.extras.extrasForRoom = this.newBooking.extras.items
         }
         this.helpers = Object.assign(this.helpers, {
           date: hDate,
