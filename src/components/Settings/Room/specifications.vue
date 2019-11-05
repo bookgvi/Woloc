@@ -6,7 +6,12 @@
     .row.q-pb-lg
       .col
         span Описание зала
-        q-input.q-pt-sm(v-model="description" type="textarea" rows=5 outlined dense)
+          textarea.q-pa-sm.text-grey-8(
+            v-model="description"
+            type="textarea"
+            rows=5
+            style="width: 100%;"
+          )
     .row.q-pb-lg
       .col.q-pr-sm
         span Высота потолков, м
