@@ -80,6 +80,8 @@ export default {
       this.row = {
         hourFrom: 0,
         hourTo: 23,
+        percent: 0,
+        minHours: 1,
         startedAt: new Date(),
         expiredAt: new Date(),
         new: true
