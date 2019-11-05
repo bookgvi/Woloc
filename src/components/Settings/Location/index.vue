@@ -57,20 +57,9 @@ export default {
   },
   methods: {
     async singleStudioM () {
-      let filter = {}
       const { items } = await studios.getAll().then(resp => resp.data)
       let { studio } = this.$app.filters.getValues('settings')
       const rooms = items[0].rooms
-      if (!studio) {
-        const roomsID = rooms.map(item => item.id)
-        filter = Object.assign({}, {
-          studio: items[0].id,
-          rooms: roomsID
-        })
-        this.$app.filters.setValue('settings', 'studio', filter.studio)
-        this.$app.filters.setValue('settings', 'rooms', filter.rooms)
-        studio = items[0].id
-      }
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
       this.allStudiosName = items.map(item => item.name)
@@ -124,6 +113,7 @@ export default {
     }
   },
   async mounted () {
+    await this.$app.filters.filterDefault('settings')
     this.singleStudioM()
   }
 }
