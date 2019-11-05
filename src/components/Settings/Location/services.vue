@@ -4,7 +4,7 @@
     .col.q-pl-md
       .row.q-pb-md(v-for="(item, index) in services" :key="index")
         q-checkbox(
-          v-model="isChecked[index]"
+          v-model="item.presentsInStudio"
           :label="item.name"
           dense
         )
