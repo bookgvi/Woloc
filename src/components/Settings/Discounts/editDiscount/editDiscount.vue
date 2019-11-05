@@ -4,7 +4,7 @@
       .col
         .text-h5 Скидка № {{ row.id }}
       .col-1
-        q-icon.cursor-pointer(name="close" @click="hasModal" style="font-size: 1.5rem;")
+        q-icon.cursor-pointer(name="close" v-close-popup style="font-size: 1.5rem;")
     .row
       .col.q-pr-sm
         span Локация
@@ -15,7 +15,13 @@
       .col.q-pr-sm
         q-select(v-model="singleStudioName" :options="allStudiosName" @input="getRooms(singleStudioName)" outlined dense)
       .col
-        q-select(v-model="roomName" :options="roomsOptions.map(item => item.name) || []" outlined dense)
+        q-select(
+          v-model="roomName"
+          :options="roomsOptions.map(item => item.name) || []"
+          :rules="[val => !!val || 'Поле обязательно для заполнения']"
+          outlined
+          dense
+        )
     .row
       .col.q-pr-sm
         span Процент скидки
@@ -25,11 +31,11 @@
         span.text-red &nbsp*
     .row.q-pb-md
       .col.q-pr-sm
-        q-input(v-model="row.percent" outlined dense)
+        q-input(v-model="row.percent" mask="###" :rules="[val => !!val || 'Поле обязательно для заполнения']" outlined dense)
           template(#append)
             span(style="font-size: 75%") %
       .col
-        q-input(v-model="row.minHours" outlined dense)
+        q-input(v-model="row.minHours" mask="##" :rules="[val => !!val || 'Поле обязательно для заполнения']" outlined dense)
     .row
       span День недели
       span.text-red &nbsp*
@@ -73,7 +79,13 @@
           :label="dateLabel"
         )
       .col
-        q-input.q-pt-sm.q-pb-md.cursor-pointer(:value="`${row.hourFrom}:00 — ${row.hourTo}:00`" @click="isTimeRange = !isTimeRange" outlined dense)
+        q-input.q-pt-sm.q-pb-md.cursor-pointer(
+          :value="`${rangeTime.min}:00 — ${rangeTime.max}:00`"
+          @click="isTimeRange = !isTimeRange"
+          @keydown.enter="timeRangeSave"
+          outlined
+          dense
+        )
         .timeRange(v-if="isTimeRange" style="width: 100%;")
           q-range(
             v-model="rangeTime"
@@ -149,8 +161,8 @@ export default {
       dateLabel: '',
       isTimeRange: false,
       rangeTime: {
-        min: 0,
-        max: 23
+        min: '',
+        max: ''
       }
     }
   },
@@ -198,6 +210,8 @@ export default {
       'end': date.formatDate(this.row.expiredAt, 'YYYY-MM-DD')
     }
     this.dateLabel = `${date.formatDate(this.row.startedAt, 'D MMM')} — ${date.formatDate(this.row.expiredAt, 'D MMM YYYY')}`
+    this.rangeTime.min = this.row.hourFrom
+    this.rangeTime.max = this.row.hourTo
   },
   methods: {
     hasModal () {
@@ -246,7 +260,7 @@ export default {
         'minHours': this.row.minHours,
         'daysOfWeek': value,
         'startedAt': this.dateRange.start,
-        'expiredAt': this.dateRange.end,
+        'expiredAt': this.dateRange.end || null,
         'hourFrom': this.row.hourFrom,
         'hourTo': this.row.hourTo
       }
