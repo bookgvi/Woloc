@@ -151,8 +151,9 @@ export default {
       await this.loadData()
     },
     studio: {
-      async handler () {
-        if (this.studio !== 0) {
+      async handler (v) {
+        console.log(555, v)
+        if (v !== 0) {
           await this.loadData()
         }
       },
