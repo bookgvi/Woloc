@@ -22,7 +22,8 @@
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'extras'")
-        div(:title="extrasM(value)") {{ value.items.length || '—' }}
+        div(v-if="value" :title="extrasM(value)") {{ value.items.length }}
+        div(v-else) &mdash;
       template(v-else-if="['customerComment', 'promo'].includes(name)")
         transition(
           enter-active-class="animated fadeIn"
