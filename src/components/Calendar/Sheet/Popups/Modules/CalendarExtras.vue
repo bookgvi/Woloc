@@ -78,7 +78,10 @@ export default {
   watch: {
     roomId: {
       async handler (v) {
-        if (v === 0) return
+        if (v === 0) {
+          this.$app.extras.extrasForRoom = []
+          return
+        }
         await this.$app.extras.getForCalendar({ room: v })
       },
       immediate: true

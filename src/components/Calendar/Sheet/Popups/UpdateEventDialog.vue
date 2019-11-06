@@ -396,6 +396,7 @@ export default {
   },
   watch: {
     booking (v) {
+      this.newBooking = {}
       this.$nextTick(function () {
         // console.log(v)
         this.$app.extras.extrasForRoom = []
