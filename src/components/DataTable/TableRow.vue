@@ -15,6 +15,8 @@
           :style="getRoomStyle(value)"
           :title="value.name"
         ) {{ value.name }}
+      template(v-else-if="name === 'bookingId'")
+        div(:title="row.status.title") {{ value }}
       template(v-else-if="name === 'bookingStatus'")
         span(v-bind="bookingsStyle(value.title)")
       template(v-else-if="name === 'refundStatus'")
