@@ -15,10 +15,13 @@ export default {
       this.loading.list = true
       const res = await api.extras.getForCalendar(payload)
       if (res) {
+        const oldExtras = [...this.extrasForRoom]
         this.extrasForRoom = res.data.map(item => {
+          const elem = oldExtras.find(extra => extra.id === item.id)
+          const count = (!elem) ? 0 : elem.count
           return {
             ...item,
-            count: 0
+            count
           }
         })
       }
