@@ -64,7 +64,10 @@
           .row
             .data {{ item.duration }} ч. * {{ money(item.price, true) }}
     .row.q-py-md
-      span.cursor-pointer.data.text-primary(v-if="row.bookings.items.length") Посмотреть все в таблице
+      span.cursor-pointer.data.text-primary(
+        v-if="row.bookings.items.length"
+        @click="$router.push({ path: 'bookings', query: { customer: `${row.id}` } })"
+      ) Посмотреть все в таблице
     .row.q-pb-sm
       .col
         .text-h6.text-bold Рейтинг &nbsp;

@@ -56,8 +56,16 @@ export default {
       }
       this.saveToSession()
     },
+    filterCustomer (id) {
+      this.readFromSession()
+      this.values.bookings = { customer: id }
+      this.saveToSession()
+    },
     async filterDefault (page) {
       let filter = {}
+      this.readFromSession()
+      this.values.bookings = {}
+      this.saveToSession()
       let { studio } = this.getValues(page)
       const { items } = await studios.getAll().then(resp => resp.data)
       if (!studio) {
@@ -75,6 +83,9 @@ export default {
       }
     },
     async reset (page) {
+      this.readFromSession()
+      this.values.bookings = {}
+      this.saveToSession()
       const { values } = this
       const { items } = await studios.getAll().then(resp => resp.data)
       let [{ rooms }] = items.filter(item => item.id === items[0].id)

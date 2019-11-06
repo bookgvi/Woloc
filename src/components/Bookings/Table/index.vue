@@ -6,7 +6,6 @@
       :filter="$app.filters.getValues('bookings')"
       :columns="columns"
       :details="details"
-      :isRowDisabled="({ status }) => status === disabledStatus"
       @toggleDialogRow="toggleDialogRow"
     )
       template(#row-dialog="props")
@@ -28,7 +27,6 @@ import columns from './columns.js'
 import details from './details'
 import DataTable from 'components/DataTable'
 import BookingsDialog from './BookingsDialog'
-import { BOOKING_STATUSES } from 'src/common/constants'
 
 export default {
   name: 'bookings-table',
@@ -36,7 +34,6 @@ export default {
   data: () => ({
     columns,
     details,
-    disabledStatus: BOOKING_STATUSES.CANCELED,
     isModal: false,
     bookingRowData: {},
     room: {}
@@ -50,7 +47,11 @@ export default {
     }
   },
   created () {
-    this.$app.filters.filterDefault('bookings')
+    if (this.$route.query.customer) {
+      this.$app.filters.filterCustomer(this.$route.query.customer)
+    } else {
+      this.$app.filters.filterDefault('bookings')
+    }
   }
 }
 </script>

@@ -11,6 +11,10 @@ export default {
   },
   methods: {
     async onRequest (pagination, filter) {
+      if (this.$route.path === '/bookings' && filter.customer) {
+        await this.getRawData(pagination, filter)
+        return
+      }
       if (
         this.$route.path === '/bookings' ||
         this.$route.path === '/refunds') {
@@ -20,9 +24,11 @@ export default {
         } else if (!filter.rooms.length) {
           console.warn('В локации нет залов')
           this.data = []
-          return
         }
       }
+      await this.getRawData(pagination, filter)
+    },
+    async getRawData (pagination, filter) {
       const { page, rowsPerPage } = pagination
       let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       if (data) {
