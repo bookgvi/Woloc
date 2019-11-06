@@ -10,10 +10,11 @@
         div(style="width: 100%; white-space: normal;") {{ value }}
       template(v-else-if="name === 'room'")
         q-chip(
+          v-if="value"
           dense
           :style="getRoomStyle(value)"
           :title="value.name"
-        ) {{value.name}}
+        ) {{ value.name }}
       template(v-else-if="name === 'bookingStatus'")
         span(v-bind="bookingsStyle(value.title)")
       template(v-else-if="name === 'refundStatus'")
