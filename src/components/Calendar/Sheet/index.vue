@@ -549,6 +549,7 @@ export default {
       if (this.isResizeNow) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      // console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
@@ -702,11 +703,17 @@ export default {
             if (booking.customer && booking.customer.firstName) {
               title = booking.customer.firstName
             }
+            let isExtras = false
+            if (booking.extras && booking.extras.length > 0) {
+              isExtras = booking.extras.some(item => {
+                return (item.count > 0)
+              })
+            }
             const event = {
               isResize: false,
               id: booking.id,
               isNotFullVisible,
-              isExtras: (booking.extras && booking.extras.length > 0),
+              isExtras: isExtras,
               title: title,
               customerComment: booking.customerComment,
               managerComment: booking.managerComment,

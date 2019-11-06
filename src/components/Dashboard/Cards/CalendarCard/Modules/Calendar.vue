@@ -152,7 +152,6 @@ export default {
     },
     studio: {
       async handler (v) {
-        console.log(555, v)
         if (v !== 0) {
           await this.loadData()
         }
@@ -166,7 +165,7 @@ export default {
         let bookings = []
         this.$nextTick(function () {
           v.map((booking) => {
-            if (this.$moment(this.selectedDate).isSame(booking.reservedFrom, 'day')) {
+            if (this.$moment(this.selectedDate).parseZone().isSame(booking.reservedFrom, 'day')) {
               const from = this.$moment(booking.reservedFrom).parseZone()
               const to = this.$moment(booking.reservedTo).parseZone()
               let isNotFullVisible = false
@@ -195,10 +194,16 @@ export default {
                 slot.price = (booking.amount && booking.price)
                   ? `${formatPrice(booking.amount)} • ${formatPrice(booking.price)}` : ''
               }
+              let isExtras = false
+              if (booking.extras && booking.extras.length > 0) {
+                isExtras = booking.extras.some(item => {
+                  return (item.count > 0)
+                })
+              }
               const event = {
                 id: booking.id,
                 isNotFullVisible,
-                isExtras: (booking.extras && booking.extras.length > 0),
+                isExtras: isExtras,
                 technical: booking.technical,
                 roomNameSlot: 'Зал ' + booking.room.name,
                 roomColorSlot: '#' + ((1 << 24) * Math.random() | 0).toString(16),
