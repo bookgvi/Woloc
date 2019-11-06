@@ -398,12 +398,13 @@ export default {
     booking (v) {
       this.$nextTick(function () {
         // console.log(v)
+        this.$app.extras.extrasForRoom = []
         this.newBooking = Object.assign(v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
         if (this.newBooking.extras && this.newBooking.extras.items) {
-          this.$app.extras.extrasForRoom = this.newBooking.extras.items
+          this.$app.extras.extrasForRoom = [...this.newBooking.extras.items]
         }
         this.helpers = Object.assign(this.helpers, {
           date: hDate,
