@@ -87,12 +87,11 @@ export default {
       this.values.bookings = {}
       this.saveToSession()
       const { values } = this
-      const { items } = await studios.getAll().then(resp => resp.data)
-      let [{ rooms }] = items.filter(item => item.id === items[0].id)
-      rooms = rooms.map(item => item.id)
       this.values = {
         ...values,
-        [page]: { studio: items[0].id, rooms: rooms, statuses: [0, 1, 2, 3, 4] }
+        [page]: {
+          ...(values[page] || []),
+        }
       }
       this.saveToSession()
     }

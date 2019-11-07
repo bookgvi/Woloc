@@ -11,25 +11,32 @@ export default {
   },
   methods: {
     async onRequest (pagination, filter) {
-      if (filter.customer) {
-        await this.getRawData(pagination, filter)
-        return
-      } else {
-        console.warn('Нет данных по клиенту')
-        this.data = []
-      }
-      if (
-        this.$route.path === '/bookings' ||
-        this.$route.path === '/refunds') {
-        if (!filter.studio) {
-          const { items } = await studios.getAll().then(resp => resp.data)
-          filter = Object.assign({}, { studio: items[0].id })
-        } else if (!filter.rooms.length) {
-          console.warn('В локации нет залов')
+      if (this.$route.path === '/bookings') {
+        if (filter.customer) {
+          await this.getRawData(pagination, filter)
+          return
+        } else {
+          console.warn('Нет данных по клиенту')
           this.data = []
         }
+        await this.hasStudioFilter(filter)
+        await this.getRawData(pagination, filter)
+        return
+      }
+      if (
+        this.$route.path === '/refunds') {
+        await this.hasStudioFilter(filter)
       }
       await this.getRawData(pagination, filter)
+    },
+    async hasStudioFilter (filter) {
+      if (!filter.studio) {
+        const { items } = await studios.getAll().then(resp => resp.data)
+        filter = Object.assign({}, { studio: items[0].id })
+      } else if (!filter.rooms.length) {
+        console.warn('В локации нет залов')
+        this.data = []
+      }
     },
     async getRawData (pagination, filter) {
       const { page, rowsPerPage } = pagination
