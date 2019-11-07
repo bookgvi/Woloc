@@ -22,6 +22,8 @@
             q-input.q-pb-md(
               :rules="[val => (val >= 0) || 'Введите число, не меньшее нуля']"
               dense
+              min="0"
+              placeholder="0"
               clear-icon="close"
               style="width: 70px"
               @input="onInput(index, $event)"
