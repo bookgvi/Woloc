@@ -15,9 +15,6 @@ export default {
         if (filter.customer) {
           await this.getRawData(pagination, filter)
           return
-        } else {
-          console.warn('Нет данных по клиенту')
-          this.data = []
         }
         await this.hasStudioFilter(filter)
         await this.getRawData(pagination, filter)
