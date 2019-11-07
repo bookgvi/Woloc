@@ -53,7 +53,7 @@ export default {
       return this.$app.studios.firstStudio.id
     },
     initStudio () {
-      return (this.studio === 0) ? this.studio : this.firstStudio
+      return (this.studio !== 0) ? this.studio : this.firstStudio
     },
     dateFormatForLabel () {
       if (this.date === '') return '23 сентября, 2019'
