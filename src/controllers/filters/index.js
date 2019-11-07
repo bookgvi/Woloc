@@ -62,9 +62,8 @@ export default {
       this.saveToSession()
     },
     async filterDefault (page) {
-      const { filters } = sessionStorage
-      if (filters) this.values = JSON.parse(filters)
-      else {
+      this.readFromSession()
+      if (!this.values[page].studio) {
         let filter = {}
         this.readFromSession()
         this.values.bookings = {}
