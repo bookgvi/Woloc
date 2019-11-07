@@ -367,8 +367,8 @@ export default {
         reserveFrom: from,
         reserveTo: to,
         priceType: booking.eventType,
-        extras: [],
-        seats: 1,
+        extras: booking.extras,
+        seats: booking.seats,
         description: booking.managerComment || '',
         technical: booking.technical,
       })
@@ -525,6 +525,7 @@ export default {
         reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
         reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: this.filter.rooms[0] || '',
+        extras: [],
         eventType: '',
         studio: this.studio,
         filter: this.filter
@@ -548,6 +549,7 @@ export default {
       if (this.isResizeNow) return
       this.isCreate = false
       this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+      // console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
@@ -624,11 +626,15 @@ export default {
       return s
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
+      let bgcolor = '#d3d3d340'
+      if (!event.technical) {
+        bgcolor = `${event.bgcolor}40`
+      }
       let s = {
         'z-index': 2,
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
         'font-size': '13px',
-        'background-color': `${event.bgcolor}40`,
+        'background-color': bgcolor,
         'color': colors.lighten(event.bgcolor, -30),
         'align-items': 'flex-start'
       }
@@ -673,7 +679,8 @@ export default {
   watch: {
     bookings: {
       handler (v) {
-        // console.log('watch bookings', v)
+        // const l = [...v]
+        // console.log('watch bookings', l.sort())
         this.events = []
         let allEvents = []
         let bookings = []
@@ -696,11 +703,17 @@ export default {
             if (booking.customer && booking.customer.firstName) {
               title = booking.customer.firstName
             }
+            let isExtras = false
+            if (booking.extras && booking.extras.length > 0) {
+              isExtras = booking.extras.some(item => {
+                return (item.count > 0)
+              })
+            }
             const event = {
               isResize: false,
               id: booking.id,
               isNotFullVisible,
-              isExtras: (booking.extras && booking.extras.length > 0),
+              isExtras: isExtras,
               title: title,
               customerComment: booking.customerComment,
               managerComment: booking.managerComment,
