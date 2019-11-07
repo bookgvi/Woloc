@@ -57,8 +57,8 @@
     .row.readonly.q-pb-sm(v-for="(item, index) in row.bookings.items" :key="index")
       .row.items-center
         .data {{ formatDate(item.reservedFrom) }}
-        q-chip
-          .data Зал {{ item.room.name }}
+        q-chip(:style="getRoomStyle(item.room)")
+          .data {{ item.room.name }}
       q-space
       .row.items-center
           .row
@@ -100,6 +100,24 @@ export default {
     money (val, sign = false) {
       const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 0 })
       return value + (sign ? ' ₽' : '')
+    },
+    getRoomStyle ({ color }) {
+      return {
+        height: '80%',
+        color: this.hexTOrgb(color, 1),
+        backgroundColor: this.hexTOrgb(color, 30),
+        whiteSpace: 'normal',
+        overflow: 'hidden'
+      }
+    },
+    hexTOrgb (color, opacity) {
+      if (color[0] === '#') {
+        color = color.slice(1, color.length)
+      }
+      const r = parseInt(color.slice(0, 2), 16)
+      const g = parseInt(color.slice(2, 4), 16)
+      const b = parseInt(color.slice(4, 6), 16)
+      return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     }
   }
 }
