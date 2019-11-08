@@ -57,7 +57,7 @@
     .row.readonly.q-pb-sm(v-for="(item, index) in row.bookings.items" :key="index")
       .row.items-center
         .data {{ formatDate(item.reservedFrom) }}
-        q-chip(v-if="item.room" :style="getRoomStyle(item.room)")
+        q-chip(v-if="item.room.color" :style="getRoomStyle(item.room)")
           .data {{ item.room.name }}
       q-space
       .row.items-center
