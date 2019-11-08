@@ -22,6 +22,8 @@
             q-input.q-pb-md(
               :rules="[val => (val >= 0) || 'Введите число, не меньшее нуля']"
               dense
+              min="0"
+              placeholder="0"
               clear-icon="close"
               style="width: 70px"
               @input="onInput(index, $event)"
@@ -78,7 +80,10 @@ export default {
   watch: {
     roomId: {
       async handler (v) {
-        if (v === 0) return
+        if (v === 0) {
+          this.$app.extras.extrasForRoom = []
+          return
+        }
         await this.$app.extras.getForCalendar({ room: v })
       },
       immediate: true
