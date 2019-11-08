@@ -193,6 +193,9 @@ export default {
                 slot.event = (booking.eventType) ? booking.eventType : ''
                 slot.price = (booking.amount && booking.price)
                   ? `${formatPrice(booking.amount)} • ${formatPrice(booking.price)}` : ''
+              } else {
+                slot.fullName = (booking.managerComment)
+                  ? booking.managerComment : 'техническая бронь'
               }
               let isExtras = false
               if (booking.extras && booking.extras.length > 0) {
