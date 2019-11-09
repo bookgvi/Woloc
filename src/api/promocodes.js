@@ -4,7 +4,7 @@ const API_URL = process.env.API_CABINET_URL
 export default {
   getAll: async () => {
     try {
-      const r = await api.get(`${API_URL}/dashboard/promocodes`)
+      const r = await api.get(`${API_URL}/rooms/promocodes`)
       return r.data
     } catch (e) {
       console.warn('catch :: promocodes :: getAll', e)
@@ -13,7 +13,7 @@ export default {
 
   addNew: async (payload) => {
     try {
-      const r = await api.post(`${API_URL}/dashboard/promocodes`, payload)
+      const r = await api.post(`${API_URL}/rooms/promocodes`, payload)
       return r.data
     } catch (e) {
       console.warn('catch :: promocodes :: addNew', e)

@@ -22,11 +22,11 @@
           )
             td {{ nameSlot(index) }} &nbsp
               span.text-body2.bg-cyan-3.q-pa-xs(
-                v-if="!item.isActive"
+                v-if="item.isPublic === 0"
               ) ugoloc
             td.text-right
               span.text-black.text-body2(
-                v-if="item.isActive"
+                v-if="item.isPublic === 1"
               ) {{ dateSlot(index) }}
               span.text-cyan-3.text-body2(
                 v-else
@@ -47,10 +47,14 @@ import StandartCard from '../CommonModules/StandartCard'
 export default {
   name: 'PromocodesCard',
   components: { StandartCard, PromoDialog, NameSlot },
+  async created () {
+    this.loadData()
+  },
   data () {
     return {
+      studio: 41,
       isPromoDialog: false,
-      options: [
+      xoptions: [
         {
           name: 'Весна',
           discount: 5,
@@ -75,12 +79,26 @@ export default {
   computed: {
     promoDialog () {
       return this.isPromoDialog
+    },
+    options () {
+      return this.$app.promocodes.list
     }
   },
   methods: {
+    async loadData () {
+      const studio = (this.studio === 0) ? this.firstStudio : this.studio
+      if (studio === 0) return []
+      const filter = {
+        studio: this.studio,
+      }
+      await this.$app.promocodes.getAll({
+        ...filter
+      })
+    },
     nameSlot (index) {
       const item = this.options[index]
-      return `${item.name} • ${item.discount}%`
+      const type = (item.type === 'percent') ? '%' : ' руб.'
+      return `${item.alias} • ${item.discount}${type}`
     },
     dateSlot (index) {
       const item = this.options[index]
