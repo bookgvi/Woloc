@@ -1,6 +1,10 @@
 <template lang="pug">
   standart-card
     name-slot(name="Промокоды")
+    nav-bar.q-pb-md(
+      @studioChange="studio = $event"
+      :buttons="{ location: true }"
+    )
     q-card-section.q-pa-none.q-pb-md
       q-markup-table(
         style="min-width: 400px"
@@ -41,12 +45,13 @@
 
 <script>
 
+import NavBar from '../CommonModules/NavBar'
 import NameSlot from '../CommonModules/NameSlot'
 import PromoDialog from './Modules/Dialog'
 import StandartCard from '../CommonModules/StandartCard'
 export default {
   name: 'PromocodesCard',
-  components: { StandartCard, PromoDialog, NameSlot },
+  components: { StandartCard, PromoDialog, NameSlot, NavBar },
   async created () {
     this.loadData()
   },
