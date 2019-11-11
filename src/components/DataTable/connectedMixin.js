@@ -10,6 +10,7 @@ export default {
   },
   methods: {
     async onRequest (pagination, filter) {
+      if (this.$route.path === '/bookings' && !filter.studio && !filter.customer) return
       const { page, rowsPerPage } = pagination
       let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       if (data) {
