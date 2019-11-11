@@ -35,10 +35,12 @@
               span.text-cyan-3.text-body2(
                 v-else
                 class="cursor-pointer"
-                @click="isPromoDialog = true"
+                @click="selectPromocode(item)"
               ) Активировать
       promo-dialog(
         :isPromoDialog="promoDialog"
+        :promocode="selectedPromocode"
+        :studio="studio"
         @dialogStateChange="isPromoDialog = $event"
       )
 </template>
@@ -57,28 +59,9 @@ export default {
   },
   data () {
     return {
-      studio: 41,
+      studio: 0,
       isPromoDialog: false,
-      xoptions: [
-        {
-          name: 'Весна',
-          discount: 5,
-          date: this.$moment().add(99, 'days'),
-          isActive: true
-        },
-        {
-          name: 'Май15',
-          discount: 15,
-          date: this.$moment().add(235, 'days'),
-          isActive: true
-        },
-        {
-          name: 'Подарок10',
-          discount: 10,
-          date: this.$moment().add(235, 'days'),
-          isActive: false
-        }
-      ]
+      selectedPromocode: {}
     }
   },
   computed: {
@@ -90,6 +73,14 @@ export default {
     }
   },
   methods: {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
+    selectPromocode (item) {
+      this.isPromoDialog = true
+      this.selectedPromocode = Object.assign({}, item)
+    },
     async loadData () {
       const studio = (this.studio === 0) ? this.firstStudio : this.studio
       if (studio === 0) return []

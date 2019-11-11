@@ -5,7 +5,7 @@
         .row.items-center.q-py-md
           span.text-bold(
             style="line-height: 24px; font-size: 18px"
-          ) Промокод № 55779
+          ) Промокод № {{ newPromocode.id }}
           q-space
           q-btn(
             icon="close"
@@ -20,7 +20,7 @@
           q-input.text-body2(
             outlined
             dense
-            value="Подарок10"
+            v-model="newPromocode.alias"
             style="width: 100%"
           )
         .row.col-12.q-pb-md.q-col-gutter-md
@@ -29,7 +29,8 @@
             q-select.text-body2(
               outlined
               dense
-              value="Kap's Studios м. Бауманская"
+              v-model="newStudio"
+              :options="$app.studios.forOptions"
               style="width: 100%"
             )
           .col-6
@@ -37,7 +38,8 @@
             q-select.text-body2(
               outlined
               dense
-              value=""
+              v-model="newPromocode.rooms"
+              :options="allRooms"
               style="width: 100%"
             )
         .row.col-12.q-pb-md.q-col-gutter-md
@@ -46,7 +48,7 @@
             q-input.text-body2(
               outlined
               dense
-              value="10"
+              v-model="newPromocode.discount"
               style="width: 100%"
             )
           .col-6
@@ -54,7 +56,8 @@
             q-select.text-body2(
               outlined
               dense
-              value="В процентах"
+              v-model="newPromocode.type"
+              :options="allTypes"
               style="width: 100%"
             )
         .row.col-12.q-pb-md.q-col-gutter-md
@@ -63,7 +66,7 @@
             q-input.text-body2(
               outlined
               dense
-              value="2000"
+              v-model="newPromocode.minPrice"
               style="width: 100%"
             )
           .col-6
@@ -71,7 +74,8 @@
             q-select.text-body2(
               outlined
               dense
-              value="Публичный"
+              v-model="newPromocode.isPublic"
+              :options="allStatuses"
               style="width: 100%"
             )
         .row.col-12.q-pb-md.q-col-gutter-md
@@ -80,7 +84,7 @@
             q-select.text-body2(
               outlined
               dense
-              value="Начало — конец"
+              v-model="newPromocode.startedAt"
               style="width: 100%"
             )
           .col-6
@@ -88,7 +92,7 @@
             q-select.text-body2(
               outlined
               dense
-              value="Начало — конец"
+              v-model="newPromocode.dateFrom"
               style="width: 100%"
             )
         .row
@@ -114,25 +118,129 @@ export default {
   name: 'PromoDialog',
   data () {
     return {
-      dialogState: this.isPromoDialog
+      allTypes: [
+        {
+          value: 'percent',
+          label: 'В процентах'
+        },
+        {
+          value: 'rub',
+          label: 'В рублях'
+        },
+      ],
+      allStatuses: [
+        {
+          value: 0,
+          label: 'Персональный'
+        },
+        {
+          value: 1,
+          label: 'Публичный'
+        },
+      ],
+      dialogState: this.isPromoDialog,
+      fieldPromocode: this.promocode,
+      newStudio: null,
+      dateFrom: '',
+      dateTo: '',
+      startedAt: '',
+      expiredAt: '',
+      rooms: []
     }
   },
   props: {
-    isPromoDialog: Boolean
+    isPromoDialog: Boolean,
+    studio: Number,
+    promocode: Object
   },
   computed: {
+    firstStudio () {
+      if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
+      return this.$app.studios.firstStudio.id
+    },
     dialogStateComp () {
       return this.dialogStateChange()
+    },
+    allRooms () {
+      const studio = (!this.newStudio || this.newStudio.value === 0) ? this.firstStudio : this.newStudio.value
+      if (studio === 0) return []
+      console.log(this.$app.rooms.getAvailable({ studio: studio }))
+      const rooms = this.$app.rooms.getAvailable({ studio: studio })
+      if (!rooms) return []
+      return rooms.map(({ id, name }) => {
+        return {
+          value: id,
+          label: name
+        }
+      })
+    },
+    newPromocode: {
+      get () {
+        return this.fieldPromocode
+      },
+      set () {
+        this.fieldPromocode = Object.assign({}, {
+          ...this.fieldPromocode,
+          datefrom: this.dateFrom,
+          dateTo: this.dateTo,
+          startedAt: this.startedAt,
+          expiredAt: this.expiredAt,
+          rooms: this.rooms,
+        })
+      }
     }
   },
   methods: {
     dialogStateChange () {
       this.$emit('dialogStateChange', this.dialogState)
+    },
+    typeLabelByValue (value) {
+      let label = 'Неизвестный тип'
+      if (value === 'percent') label = 'В процентах'
+      if (value === 'rub') label = 'В рублях'
+      return {
+        value,
+        label
+      }
+    },
+    isPublicLabelByValue (value) {
+      let label = 'Неизвестный тип'
+      if (value === 0) label = 'Персональный'
+      if (value === 1) label = 'Публичный'
+      return {
+        value,
+        label
+      }
     }
   },
   watch: {
     isPromoDialog (v) {
       this.dialogState = v
+    },
+    studio: {
+      handler (v) {
+        console.log(v)
+        this.newStudio = Object.assign({}, { value: v })
+      },
+      immediate: true
+    },
+    promocode: {
+      handler (v) {
+        console.log(v)
+        this.fieldPromocode = Object.assign({}, {
+          alias: v.alias,
+          discount: v.discount,
+          type: this.typeLabelByValue(v.type),
+          minPrice: v.minPrice,
+          isPublic: this.isPublicLabelByValue(v.isPublic)
+        })
+        this.dateFrom = v.dateFrom
+        this.dateTo = v.dateTo
+        this.startedAt = v.startedAt
+        this.expiredAt = v.expiredAt
+        this.rooms = v.rooms
+      },
+      immediate: true
     }
   }
 }
