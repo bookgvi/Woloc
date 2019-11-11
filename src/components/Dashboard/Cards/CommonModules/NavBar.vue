@@ -2,7 +2,7 @@
   q-card-section.row.col-12.items-center
     .col-5(v-if="displayedButtons.dateString")
       span.text-body2.q-py-md {{ dateFormatForLabel }}
-    .row.col.justify-around
+    .row.col.justify-start
       q-btn.q-mr-xs.col-3(
         v-if="displayedButtons.location"
         outline
@@ -27,22 +27,23 @@
         @click="today"
         color="secondary"
       )
-      q-btn-group(outline v-if="displayedButtons.leftRight").col.offset-1
-        q-btn.q-px-sm.q-mx-none(
-          @click="datePrev"
-          outline
-          size="sm"
-          icon="chevron_left"
-          color="secondary"
-        )
-        q-separator(vertical, inset)
-        q-btn.q-px-sm.q-mx-none(
-          @click="dateNext"
-          outline
-          size="sm"
-          icon="chevron_right"
-          color="secondary"
-        ) {{ dateComp }} {{ studioComp }}
+      .row.col.justify-end
+        q-btn-group(outline v-if="displayedButtons.dateString")
+          q-btn.q-px-sm.q-mx-none(
+            @click="datePrev"
+            outline
+            size="sm"
+            icon="chevron_left"
+            color="secondary"
+          )
+          q-separator(vertical, inset)
+          q-btn.q-px-sm.q-mx-none(
+            @click="dateNext"
+            outline
+            size="sm"
+            icon="chevron_right"
+            color="secondary"
+          ) {{ dateComp }} {{ studioComp }}
 </template>
 
 <script>
