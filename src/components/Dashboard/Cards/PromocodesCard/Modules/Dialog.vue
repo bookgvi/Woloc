@@ -194,10 +194,22 @@ export default {
     dialogStateChange () {
       this.$emit('dialogStateChange', this.dialogState)
     },
-    typeLabelByValue (value) {
+    entityLabelByValue (value, allEntities) {
+      console.log(value, allEntities)
       let label = 'Неизвестный тип'
-      if (value === 'percent') label = 'В процентах'
-      if (value === 'rub') label = 'В рублях'
+      if (!allEntities) {
+        return {
+          value: 'Неизвестное значение',
+          label
+        }
+      }
+      for (let i = 0; i < allEntities.length; i++) {
+        const item = allEntities[i]
+        if (value === item.value) {
+          label = item.label
+          break
+        }
+      }
       return {
         value,
         label
@@ -229,10 +241,11 @@ export default {
         console.log(v)
         this.fieldPromocode = Object.assign({}, {
           alias: v.alias,
+          id: v.id,
           discount: v.discount,
-          type: this.typeLabelByValue(v.type),
+          type: this.entityLabelByValue(v.type, this.allTypes),
           minPrice: v.minPrice,
-          isPublic: this.isPublicLabelByValue(v.isPublic)
+          isPublic: this.entityLabelByValue(v.isPublic, this.allStatuses)
         })
         this.dateFrom = v.dateFrom
         this.dateTo = v.dateTo
