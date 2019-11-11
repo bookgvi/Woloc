@@ -18,7 +18,11 @@ export default {
         total = data.transactions.total
       }
       this.data = items
-      Object.assign(this.pagination, pagination, { rowsNumber: total })
+      if (!total) {
+        Object.assign(this.pagination, pagination)
+      } else {
+        Object.assign(this.pagination, pagination, { rowsNumber: total })
+      }
     },
     setPagination (prop, value) {
       const { pagination, filter } = this

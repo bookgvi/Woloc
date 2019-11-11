@@ -30,18 +30,12 @@
           @toggleControls="toggleControlsRow"
           @toggleDialogRow="toggleDialogRow"
         )
-          slot(
-            name="row-controls"
-            :row="props.row"
-            :toggleDialogRow="toggleDialogRow"
-          )
 </template>
 
 <script>
 import TableControls from './TableControls'
 import TableRow from './TableRow'
 import connected from './connectedMixin'
-
 export default {
   name: 'DataTable',
   components: { TableControls, TableRow },
@@ -100,7 +94,6 @@ export default {
     padding-top: 12px
     .q-table__top
       padding 20px 0 !important
-
   thead tr:first-child th
     opacity 1
     background-color $grey-12
