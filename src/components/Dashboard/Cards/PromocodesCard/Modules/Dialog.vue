@@ -38,6 +38,7 @@
             q-select.text-body2(
               outlined
               dense
+              multiple
               v-model="newPromocode.rooms"
               :options="allRooms"
               style="width: 100%"
@@ -84,7 +85,7 @@
             q-select.text-body2(
               outlined
               dense
-              v-model="newPromocode.startedAt"
+              v-model="firstPeriod"
               style="width: 100%"
             )
           .col-6
@@ -92,7 +93,7 @@
             q-select.text-body2(
               outlined
               dense
-              v-model="newPromocode.dateFrom"
+              v-model="secondPeriod"
               style="width: 100%"
             )
         .row
@@ -145,7 +146,6 @@ export default {
       dateTo: '',
       startedAt: '',
       expiredAt: '',
-      rooms: []
     }
   },
   props: {
@@ -154,6 +154,16 @@ export default {
     promocode: Object
   },
   computed: {
+    firstPeriod: {
+      get () {
+        return this.startedAt + ' — ' + this.expiredAt
+      }
+    },
+    secondPeriod: {
+      get () {
+        return this.dateFrom + ' — ' + this.dateTo
+      }
+    },
     firstStudio () {
       if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
       return this.$app.studios.firstStudio.id
@@ -164,7 +174,6 @@ export default {
     allRooms () {
       const studio = (!this.newStudio || this.newStudio.value === 0) ? this.firstStudio : this.newStudio.value
       if (studio === 0) return []
-      console.log(this.$app.rooms.getAvailable({ studio: studio }))
       const rooms = this.$app.rooms.getAvailable({ studio: studio })
       if (!rooms) return []
       return rooms.map(({ id, name }) => {
@@ -195,7 +204,6 @@ export default {
       this.$emit('dialogStateChange', this.dialogState)
     },
     entityLabelByValue (value, allEntities) {
-      console.log(value, allEntities)
       let label = 'Неизвестный тип'
       if (!allEntities) {
         return {
@@ -215,15 +223,6 @@ export default {
         label
       }
     },
-    isPublicLabelByValue (value) {
-      let label = 'Неизвестный тип'
-      if (value === 0) label = 'Персональный'
-      if (value === 1) label = 'Публичный'
-      return {
-        value,
-        label
-      }
-    }
   },
   watch: {
     isPromoDialog (v) {
@@ -231,27 +230,37 @@ export default {
     },
     studio: {
       handler (v) {
-        console.log(v)
-        this.newStudio = Object.assign({}, { value: v })
+        const studio = this.$app.studios.list.find(item => item.id === v)
+        const label = (!studio || !studio.name) ? 'Неопознанная локация' : studio.name
+        this.newStudio = Object.assign({}, { value: v, label })
       },
       immediate: true
     },
     promocode: {
       handler (v) {
-        console.log(v)
+        if (!v) return {}
+        let rooms = []
+        if (v.rooms) {
+          rooms = v.rooms.map(item => {
+            return {
+              value: item.id,
+              label: item.name,
+            }
+          })
+        }
         this.fieldPromocode = Object.assign({}, {
           alias: v.alias,
           id: v.id,
           discount: v.discount,
           type: this.entityLabelByValue(v.type, this.allTypes),
           minPrice: v.minPrice,
-          isPublic: this.entityLabelByValue(v.isPublic, this.allStatuses)
+          isPublic: this.entityLabelByValue(v.isPublic, this.allStatuses),
+          rooms: rooms
         })
         this.dateFrom = v.dateFrom
         this.dateTo = v.dateTo
         this.startedAt = v.startedAt
         this.expiredAt = v.expiredAt
-        this.rooms = v.rooms
       },
       immediate: true
     }

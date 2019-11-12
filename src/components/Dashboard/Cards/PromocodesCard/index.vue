@@ -54,12 +54,9 @@ import StandartCard from '../CommonModules/StandartCard'
 export default {
   name: 'PromocodesCard',
   components: { StandartCard, PromoDialog, NameSlot, NavBar },
-  async created () {
-    this.loadData()
-  },
   data () {
     return {
-      studio: 0,
+      studio: (this.$app.studios.list.length > 0) ? this.$app.studios.list[0].id : 0,
       isPromoDialog: false,
       selectedPromocode: {}
     }
@@ -87,6 +84,7 @@ export default {
       const filter = {
         studio: this.studio,
       }
+      console.log(filter)
       await this.$app.promocodes.getAll({
         ...filter
       })
@@ -101,6 +99,16 @@ export default {
       return `${this.$moment(item.date).format('DD MMMM, hh:mm')}`
     },
   },
+  watch: {
+    studio: {
+      async handler (v) {
+        if (v !== 0) {
+          this.loadData()
+        }
+      },
+      immediate: true
+    },
+  }
 }
 </script>
 

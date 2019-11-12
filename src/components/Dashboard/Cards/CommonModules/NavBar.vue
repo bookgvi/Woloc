@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-card-section.row.col-12.items-center
+  q-card-section.row.col-12.items-center {{ dateComp }} {{ studioComp }}
     .col-5(v-if="displayedButtons.dateString")
       span.text-body2.q-py-md {{ dateFormatForLabel }}
     .row.col.justify-start
@@ -43,7 +43,7 @@
             size="sm"
             icon="chevron_right"
             color="secondary"
-          ) {{ dateComp }} {{ studioComp }}
+          )
 </template>
 
 <script>

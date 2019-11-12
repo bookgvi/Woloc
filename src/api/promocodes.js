@@ -2,9 +2,14 @@ import api from './instance'
 
 const API_URL = process.env.API_CABINET_URL
 export default {
-  getAll: async () => {
+  getAll: async (payload) => {
+    const { studio } = payload
     try {
-      const r = await api.get(`${API_URL}/rooms/promocodes`)
+      const r = await api.get(`${API_URL}/rooms/promocodes/`, {
+        params: {
+          studio
+        }
+      })
       return r.data
     } catch (e) {
       console.warn('catch :: promocodes :: getAll', e)
