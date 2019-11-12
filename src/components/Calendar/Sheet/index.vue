@@ -516,6 +516,8 @@ export default {
     setNewBooking (date, time) {
       if (this.isResizeNow) return
       this.isCreate = true
+      const rooms = this.$app.rooms.getFiltered(this.filter)
+      const room = (rooms) ? rooms[0] : {}
       this.selectedBooking = Object.assign({}, {
         id: -1,
         customer: {},
@@ -524,7 +526,7 @@ export default {
         price: 0,
         reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
         reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
-        room: this.filter.rooms[0] || '',
+        room: room,
         extras: [],
         eventType: '',
         studio: this.studio,
@@ -534,12 +536,14 @@ export default {
       this.dialogState = true
     },
     setNewTechnical (date) {
+      const rooms = this.$app.rooms.getFiltered(this.filter)
+      const room = (rooms) ? rooms[0] : {}
       this.selectedBooking = Object.assign({}, {
         id: -1,
         managerComment: '',
         reservedFrom: this.$moment(`${date}T${String(this.forNewBooking.from).padStart(2, '0')}:00`),
         reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
-        room: this.filter.rooms[0] || '',
+        room: room,
         technical: true
       })
       this.technicalDialogState = true
