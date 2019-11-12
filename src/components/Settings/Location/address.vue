@@ -50,20 +50,20 @@
     .row.q-pb-lg
       .col
         span Инструкция пешком
-        q-input.q-pt-sm(
-          type="textarea"
+        textarea.q-pa-sm.text-grey-8(
           v-model="singleStudio.foot"
           outlined
           rows="4"
+          style="width: 100%;"
         )
     .row.q-pb-lg
       .col
         span Инструкция на машине
-        q-input.q-pt-sm(
-          type="textarea"
+        textarea.q-pa-sm.text-grey-8(
           v-model="singleStudio.car"
           outlined
           rows="4"
+          style="width: 100%;"
         )
 </template>
 

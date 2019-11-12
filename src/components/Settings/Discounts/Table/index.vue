@@ -45,7 +45,7 @@ export default {
       singleStudio: {}
     }
   },
-  async created () {
+  async mounted () {
     await this.$app.filters.filterDefault('settings')
     this.filter()
   },

@@ -4,6 +4,7 @@
     title="Возврат"
     :loadData="$app.refunds.getAll"
     :getDialogTitle="() => 'Возврат'"
+    :filter="$app.filters.getValues('refunds')"
     :columns="columns"
     :details="details"
     :isRowDisabled="({ status }) => !status"
@@ -18,14 +19,16 @@
 import columns from './columns'
 import details from './details'
 import DataTable from 'components/DataTable'
-
 export default {
   name: 'RefundsTable',
   components: { DataTable },
   data: () => ({
     columns,
     details
-  })
+  }),
+  created () {
+    this.$app.filters.filterDefault('refunds')
+  }
 }
 </script>
 

@@ -116,7 +116,6 @@ export default {
     },
     calendarGetIndexById (id) {
       return this.calendarList.findIndex(item => item.id === id)
-    },
-  },
-
+    }
+  }
 }

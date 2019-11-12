@@ -167,7 +167,11 @@
           span Прочие детали
         .row.q-pb-sm
           .col
-            q-input(v-model="someText" type="textarea" rows=3 outlined dense)
+            textarea.q-pa-sm.text-grey-8(
+              v-model="someText"
+              rows=3
+              style="width: 100%;"
+            )
         .row.q-pb-md
           span Укажите в этом поле дополнительные правила. Они не олжны содержать ссылок на другие сайти и номера телефонов. Здесь так же можно указать размер штрмифов за нарушение правил.
         .row.q-pb-xl

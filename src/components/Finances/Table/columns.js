@@ -42,6 +42,7 @@ export default [
       }
       return amount
     },
+    headerStyle: 'text-align: right;',
     align: 'right'
   },
   {

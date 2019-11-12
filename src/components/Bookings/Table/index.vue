@@ -47,7 +47,11 @@ export default {
     }
   },
   created () {
-    this.$app.filters.filterDefault('bookings')
+    if (this.$route.query.customer) {
+      this.$app.filters.filterCustomer(this.$route.query.customer)
+    } else {
+      this.$app.filters.filterDefault('bookings')
+    }
   }
 }
 </script>
