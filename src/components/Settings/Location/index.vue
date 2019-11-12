@@ -1,9 +1,9 @@
 <template lang="pug">
   .settings(:key="pageReload")
-    div(v-show="false") {{ studioID }}
     q-tab-panels(v-model="currentTab")
       q-tab-panel.q-pa-none(name="Локация")
         location(
+          :key="studioID"
           :singleStudio="singleStudio"
           :rooms="rooms"
           :isSave="isSave"
@@ -59,6 +59,7 @@ export default {
     async singleStudioM () {
       const { items } = await studios.getAll().then(resp => resp.data)
       let { studio } = this.$app.filters.getValues('settings')
+      if (!studio) return
       const rooms = items[0].rooms
       this.rooms = rooms
       this.singleStudio = await studios.getOne(studio).then(resp => resp.data)

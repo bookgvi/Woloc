@@ -40,7 +40,7 @@ export default {
     return {
       pagination: {
         rowsPerPage: 10,
-        rowsNumber: 100,
+        rowsNumber: 1,
       }
     }
   }
