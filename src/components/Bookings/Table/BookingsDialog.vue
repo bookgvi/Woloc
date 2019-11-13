@@ -58,29 +58,28 @@
         .text-h5.text-bold Оплата
     .row
       .col
-        q-input.readonly(label="4 ч. • 1200 р." readonly borderless)
+        q-input.readonly(:label="bookingPerHour()" readonly borderless)
           template(#append)
-            .data {{ 4800 }}
-    .row
+            .data {{ money(row.amount*row.duration, true) }}
+    .row(v-if="row.extras")
       .col
-        q-input.readonly(label="Покраска циклорамы, р." readonly borderless)
-          template(#append)
-            .data {{ 500 }}
-    .row
-      .col
-        q-input.readonly(label="Набор ванны водой, р." readonly borderless)
-          template(#append)
-            .data {{ 300 }}
-    .row
-      .col
-        q-input.readonly(label="Предоплата 100%, р." readonly borderless)
-          template(#append)
-            .data {{ 4800 }}
+        div(v-for="(item, index) in row.extras.items" :key="index")
+          q-input.readonly(v-if="item.count" :label="extrasWithCount(item)" readonly borderless)
+            template(#append)
+              .data {{ money(item.amount,true) }}
+          q-input.readonly(v-else :label="item.title" readonly borderless)
+            template(#append)
+              .data {{ money(item.amount,true) }}
     .row.q-pb-lg
       .col
-        q-input.readonly(label="Итого, р." readonly borderless)
+        q-input.readonly(v-if="row.prepayment" :label="prepaymentAmount()" readonly borderless)
           template(#append)
-            .data {{ 5600 }}
+            .data {{ money(row.prepayment, true) }}
+    .row.q-pb-lg
+      .col
+        q-input.readonly(label="Итого: " readonly borderless)
+          template(#append)
+            .data(v-if="row.extras") {{ money(Number(row.extras.total) + Number(row.prepayment), true) }}
     .row
       .col
         .text-h5.text-bold Комментарий
@@ -113,6 +112,25 @@ export default {
         part => date.formatDate(part, 'H:mm')
       ).join(' — ')
       return time
+    },
+  },
+  methods: {
+    money (val, sign = false) {
+      const value = Number(val).toLocaleString('ru-RU', { minimumFractionDigits: 0 })
+      return value + (sign ? ' ₽' : '')
+    },
+    bookingPerHour () {
+      return `${this.row.duration} * ${this.row.amount}`
+    },
+    prepaymentAmount () {
+      let isPrepayment = this.row.prepayment / this.row.amount * 100
+      if (isPrepayment) {
+        return `Предоплата: ${isPrepayment}%`
+      }
+      return `Предоплата:`
+    },
+    extrasWithCount (item) {
+      return `${item.title} (${item.count} шт.)`
     }
   }
 }

@@ -47,8 +47,8 @@
             .text-primary.cursor-pointer(@click="copyWidget" style="text-align: right;") Скопировать
         .row.q-pb-md
           .col
-            q-input.jswidgetArea(v-if="isWidget" type="textarea" rows=3 outlined dense)
-            q-input.jswidgetArea(v-if="!isWidget" v-model="newWidgetCode" type="textarea" rows=30 outlined dense)
+            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-if="isWidget" rows=3 style="width: 100%;")
+            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-if="!isWidget" v-model="newWidgetCode" rows=30 style="width: 100%;")
 
 </template>
 

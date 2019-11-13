@@ -1,5 +1,4 @@
 import api from 'src/api'
-import crudMixin from '../crudMixin'
 
 export default {
   name: 'customers',
@@ -8,7 +7,6 @@ export default {
       searched: []
     }
   },
-  mixins: [crudMixin],
   methods: {
     async getForCalendar (search) {
       this.loading.list = true
@@ -18,6 +16,10 @@ export default {
         this.loading.list = false
       }
       return data
+    },
+    async getAll (page, filter) {
+      const { data } = await api.customers.getAll(page, filter)
+      return data
     }
-  },
+  }
 }

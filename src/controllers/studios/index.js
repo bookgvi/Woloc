@@ -22,8 +22,5 @@ export default {
         return this.list.find(({ id }) => id === filter.studio)
       } else return {}
     },
-  },
-  created () {
-    this.getAll()
-  },
+  }
 }
