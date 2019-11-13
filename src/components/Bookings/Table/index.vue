@@ -1,6 +1,7 @@
 <template lang="pug">
   .bookings
     data-table(
+      :key="reloadPage"
       title="Бронирования"
       :loadData="$app.bookings.getAll"
       :filter="$app.filters.getValues('bookings')"
@@ -19,6 +20,7 @@
       q-card(style="min-width: 680px;")
         BookingsDialog(
           :row="bookingRowData"
+          @closePopup="closePopup"
         )
 </template>
 
@@ -34,6 +36,7 @@ export default {
   data: () => ({
     columns,
     details,
+    reloadPage: 0,
     isModal: false,
     bookingRowData: {},
     room: {}
@@ -44,6 +47,12 @@ export default {
       this.$nextTick(_ => {
         this.isModal = true
       })
+    },
+    closePopup (predicate) {
+      if (predicate === 'false') {
+        this.isModal = false
+      }
+      this.reloadPage++
     }
   },
   created () {
