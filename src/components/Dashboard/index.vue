@@ -45,6 +45,17 @@ import WidgetCard from './Cards/WidgetCard/index'
 
 export default {
   name: 'Dashboard',
+  async mounted () {
+    await this.getStudios()
+  },
+  methods: {
+    async getStudios () {
+      if (this.$app.studios) {
+        if (this.$app.studios.list.length > 0) return
+        await this.$app.studios.getAll()
+      }
+    }
+  },
   components: { WidgetCard, NotesCard, NotificationsCard, DocumentsCard, ReviewsCard, PromocodesCard, RefundsCard, RoomsCardsCreator, ChatCard, RequestsCard, LocationsCard, WorkloadCard, BookingsCard, FinancesCard, CalendarCard, PartsCard, ProfitCard }
 }
 </script>
