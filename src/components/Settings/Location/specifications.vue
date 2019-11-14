@@ -4,7 +4,7 @@
     .row.q-pb-lg
       .col
         span Описание локации
-        q-input.q-pt-sm(v-model="singleStudio.description" type="textarea" rows=5 outlined)
+        textarea.q-pa-sm.text-grey-8(v-model="singleStudio.description" rows=5 style="width: 100%;")
     .row.q-pb-sm.items-end
       .col.q-pr-sm
         span Лимит, недели &nbsp

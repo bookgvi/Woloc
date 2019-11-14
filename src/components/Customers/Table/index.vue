@@ -3,16 +3,9 @@
     DataTable(
       title="Клиенты"
       :loadData="$app.customers.getAll"
-      :filter="$app.filters.getValues('customers')"
       :columns="columns"
       @toggleDialogRow="toggleDialogRow"
     )
-      template(#table-controls)
-        q-btn.q-ml-md(color="primary" label="Добавить пользователя")
-
-      template(#row-dialog="props")
-        CustomersDialog(v-bind="props")
-
       template(#row-controls="props")
         q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
         q-btn(flat round icon="phone" title="Позвонить")
@@ -27,7 +20,6 @@
 import columns from './columns'
 import DataTable from 'components/DataTable'
 import CustomersDialog from './CustomersDialog'
-
 export default {
   name: 'CustomersTable',
   components: { DataTable, CustomersDialog },

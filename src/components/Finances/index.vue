@@ -3,7 +3,6 @@
     .menu
       filters-list(name="finances")
         template(#prepend="props")
-          studio-filter(v-bind="props")
           q-btn.q-py-none.q-px-sm(
             outline
             dense
@@ -22,16 +21,12 @@
 
 <script>
 import FinancesTable from './Table/index'
-import StudioFilter from '../Filters/StudioFilter'
-import RoomsFilter from '../Filters/RoomsFilter'
 import FiltersList from '../Filters/FiltersList'
 export default {
   name: 'RefundsIndex',
   components: {
     FiltersList,
-    RoomsFilter,
-    StudioFilter,
-    FinancesTable,
+    FinancesTable
   }
 }
 </script>

@@ -4,32 +4,30 @@ export default [
   {
     name: 'room',
     label: 'Зал',
-    width: 100,
     active: true,
-    discount: true
+    width: 180,
+    align: 'left',
+    headerStyle: 'text-align: left;',
   },
   {
     name: 'percent',
     label: 'процент',
     align: 'right',
-    width: 200,
     format: value => `${value}%`,
     active: true,
-    discount: true
+    headerStyle: 'text-align: right;',
   },
   {
-    name: 'dayOfWeek',
-    label: 'день',
+    name: 'daysOfWeek',
     format: value => {
+      if (!value) { return }
       const daysOfWeek = ['Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Суббота', 'Воскресенье']
-      const shortDaysOfWeek = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс']
-      const getDays = value.map(item => daysOfWeek[item - 1])
-      const getShortDays = value.map(item => shortDaysOfWeek[item - 1])
-      return getDays.length > 1 ? getShortDays.join(', ') : getDays.join(', ')
+      return daysOfWeek[value - 1]
     },
-    align: 'center',
+    label: 'день',
     active: true,
-    discount: true
+    align: 'center',
+    headerStyle: 'text-align: center;',
   },
   {
     name: 'hourFrom',
@@ -37,26 +35,23 @@ export default [
     format: (value, { hourFrom, hourTo }) => [hourFrom, hourTo].map(
       item => `${item}:00`
     ).join(' — '),
-    width: 100,
-    align: 'center',
     active: true,
-    discount: true
+    align: 'center',
+    headerStyle: 'text-align: center;',
   },
   {
     name: 'minHours',
     label: 'Мин. часы',
-    align: 'right',
-    width: 200,
     active: true,
-    discount: true
+    align: 'center',
+    headerStyle: 'text-align: center;'
   },
   {
     name: 'expiredAt',
     label: 'Активна до',
     format: value => date.formatDate(value, 'D MMMM'),
-    width: 250,
-    align: 'center',
     active: true,
-    discount: true
+    align: 'right',
+    headerStyle: 'text-align: right;'
   }
 ]

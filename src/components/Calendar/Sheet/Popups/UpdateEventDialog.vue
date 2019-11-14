@@ -16,6 +16,7 @@
             group="new-event"
             dense
             default-opened
+            v-if="!booking.technical"
           )
             template(v-slot:header).row.items-center
               .col-4.q-py-sm
@@ -44,6 +45,7 @@
           q-expansion-item(
             group="new-event"
             dense
+            v-if="!booking.technical"
           )
             template(v-slot:header)
               .col-4.q-py-sm
@@ -57,6 +59,7 @@
           q-expansion-item(
             group="new-event"
             dense
+            v-if="!booking.technical"
           )
             template(v-slot:header)
               .col-4.q-py-sm
@@ -71,6 +74,7 @@
           q-expansion-item(
             group="new-event"
             dense
+            v-if="!booking.technical"
           )
             template(v-slot:header)
               .col-4.q-py-sm
@@ -84,6 +88,7 @@
           q-expansion-item(
             group="new-event"
             dense
+            v-if="!booking.technical"
           )
             template(v-slot:header)
               .col-4.q-py-sm
@@ -96,6 +101,7 @@
           q-expansion-item(
             group="new-event"
             dense
+            v-if="!booking.technical"
           )
             template(v-slot:header)
               .col-4.q-py-sm

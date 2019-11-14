@@ -1,4 +1,3 @@
-import studios from '../../api/studios'
 export default {
   props: {
     loadData: Function,
@@ -11,16 +10,8 @@ export default {
   },
   methods: {
     async onRequest (pagination, filter) {
-      if (this.$route.path === '/bookings') {
-        if (!filter.studio) {
-          const { items } = await studios.getAll().then(resp => resp.data)
-          filter = Object.assign({}, { studio: items[0].id })
-        } else if (!filter.rooms.length) {
-          console.warn('В локации нет залов')
-          this.data = []
-          return
-        }
-      }
+      if (this.$route.path.split('/')[1] === 'settings' && !filter.studio) return
+      if (this.$route.path === '/bookings' && !filter.studio && !filter.customer) return
       const { page, rowsPerPage } = pagination
       let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
       if (data) {
@@ -29,7 +20,11 @@ export default {
         total = data.transactions.total
       }
       this.data = items
-      Object.assign(this.pagination, pagination, { rowsNumber: total })
+      if (!total) {
+        Object.assign(this.pagination, pagination)
+      } else {
+        Object.assign(this.pagination, pagination, { rowsNumber: total })
+      }
     },
     setPagination (prop, value) {
       const { pagination, filter } = this
@@ -38,14 +33,14 @@ export default {
       this.onRequest({ ...pagination, [prop]: value }, filter)
     }
   },
-  mounted () {
-    this.onRequest(this.pagination, this.filter)
+  async mounted () {
+    await this.onRequest(this.pagination, this.filter)
   },
   data () {
     return {
       pagination: {
         rowsPerPage: 10,
-        rowsNumber: 100,
+        rowsNumber: 1,
       }
     }
   }

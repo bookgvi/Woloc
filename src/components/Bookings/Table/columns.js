@@ -3,7 +3,8 @@ import { EVENT_TYPES } from 'src/common/constants'
 
 export default [
   {
-    name: 'id',
+    name: 'bookingId',
+    field: 'id',
     label: 'id',
     width: 70,
     active: true,
