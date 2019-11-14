@@ -84,7 +84,6 @@ export default {
       const filter = {
         studio: this.studio,
       }
-      console.log(filter)
       await this.$app.promocodes.getAll({
         ...filter
       })

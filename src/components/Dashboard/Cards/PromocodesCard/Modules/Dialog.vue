@@ -280,16 +280,13 @@ export default {
         startedAt: this.fieldPromocode.startedAt.format('YYYY-MM-DDTHH:mm:ss+03:00'),
         type: this.fieldPromocode.type.value,
       }
-      console.log(id, params)
       await this.$app.promocodes.updateOne(id, params)
     },
     resetRange (range) {
-      console.log(range, this.firstRange)
       range = {
         startDate: this.$moment,
         endDate: this.moment
       }
-      console.log(range, this.firstRange)
     },
     dialogStateChange () {
       this.$emit('dialogStateChange', this.dialogState)
