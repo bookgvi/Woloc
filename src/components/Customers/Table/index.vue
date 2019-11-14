@@ -6,11 +6,12 @@
       :columns="columns"
       @toggleDialogRow="toggleDialogRow"
     )
-      template(#row-controls="props")
-        q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
-        q-btn(flat round icon="phone" title="Позвонить")
-        q-btn(flat round icon="email" title="Отправить E-mail")
-        q-btn(flat round icon="comment" title="Открыть чат")
+      // ---- TODO ---- решение будет принято впоследствии!!!
+      // template(#row-controls="props")
+      //  q-btn(flat round icon="edit" @click="props.toggleDialogRow(props.row.id)" title="Редактировать")
+      //  q-btn(flat round icon="phone" title="Позвонить")
+      //  q-btn(flat round icon="email" title="Отправить E-mail")
+      //  q-btn(flat round icon="comment" title="Открыть чат")
     q-dialog(v-model="isModal")
       q-card(style="min-width: 680px;")
         CustomersDialog(:row="customerData")
