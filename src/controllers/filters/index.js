@@ -5,7 +5,8 @@ const defaultValues = {
   bookings: {
     studio: null,
     rooms: null,
-    statuses: null
+    statuses: null,
+    technical: null
   },
   refunds: {
     studio: null,
@@ -81,6 +82,7 @@ export default {
           this.setValue(page, 'rooms', filter.rooms)
           if (page === 'bookings') {
             this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
+            this.setValue(page, 'technical', false)
           }
         }
       }
