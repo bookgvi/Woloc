@@ -88,6 +88,28 @@
               v-model="firstPeriod"
               style="width: 100%"
             )
+              q-popup-proxy
+                .row(style="max-width: 320px")
+                  .col-12
+                    date-range(
+                      :sync-range.sync="firstRange"
+                      lang="ru"
+                    )
+                  .q-pa-md.row.col-12.justify-between.items-center
+                    .col-6.q-pr-sm
+                      q-btn.fit(
+                        size="13px"
+                        label="Сбросить дату"
+                        no-caps
+                        @click="firstRange = {startDate: $moment(), endDate: $moment()}"
+                      )
+                    .col-6.q-pl-sm
+                      q-btn.fit.bg-primary.text-white(
+                        label="Применить"
+                        size="13px"
+                        no-caps
+                        v-close-popup
+                      )
           .col-6
             span.row.text-caption.q-pb-md Период действия
             q-select.text-body2(
@@ -96,6 +118,29 @@
               v-model="secondPeriod"
               style="width: 100%"
             )
+              q-popup-proxy
+                .row(style="max-width: 320px")
+                  .col-12
+                    date-range(
+                      :sync-range.sync="secondRange"
+                      lang="ru"
+                    )
+                  .q-pa-md.row.col-12.justify-between.items-center
+                    .col-6.q-pr-sm
+                      q-btn.fit(
+                        size="13px"
+                        v-close-popup
+                        label="Сбросить дату"
+                        no-caps
+                        @click="secondRange = {startDate: $moment(), endDate: $moment()}"
+                      )
+                    .col-6.q-pl-sm
+                      q-btn.fit.bg-primary.text-white(
+                        label="Применить"
+                        size="13px"
+                        no-caps
+                        v-close-popup
+                      )
         .row
           span.text-caption Заполните только дату начала, если срок действия должен быть неограничен.
       q-card-actions
@@ -110,15 +155,21 @@
             q-btn.fit(
               no-caps
               color="primary"
+              @click="applyPromocode"
               label="Добавить"
             ) {{ dialogStateComp }}
 </template>
 
 <script>
+import { DateRange } from 'vue-date-range'
+
 export default {
   name: 'PromoDialog',
+  components: { DateRange },
   data () {
     return {
+      isCalendar1: false,
+      isCalendar2: false,
       allTypes: [
         {
           value: 'percent',
@@ -141,11 +192,7 @@ export default {
       ],
       dialogState: this.isPromoDialog,
       fieldPromocode: this.promocode,
-      newStudio: null,
-      dateFrom: '',
-      dateTo: '',
-      startedAt: '',
-      expiredAt: '',
+      newStudio: null
     }
   },
   props: {
@@ -154,14 +201,38 @@ export default {
     promocode: Object
   },
   computed: {
+    firstRange: {
+      get () {
+        return {
+          startDate: this.$moment(this.fieldPromocode.startedAt),
+          endDate: this.$moment(this.fieldPromocode.expiredAt)
+        }
+      },
+      set (v) {
+        this.fieldPromocode.startedAt = v.startDate
+        this.fieldPromocode.expiredAt = v.endDate
+      }
+    },
+    secondRange: {
+      get () {
+        return {
+          startDate: this.$moment(this.fieldPromocode.dateFrom),
+          endDate: this.$moment(this.fieldPromocode.dateTo)
+        }
+      },
+      set (v) {
+        this.fieldPromocode.dateFrom = v.startDate
+        this.fieldPromocode.dateTo = v.endDate
+      }
+    },
     firstPeriod: {
       get () {
-        return this.startedAt + ' — ' + this.expiredAt
+        return this.fieldPromocode.startedAt.format('DD MMM YYYY') + ' — ' + this.fieldPromocode.expiredAt.format('DD MMM YYYY')
       }
     },
     secondPeriod: {
       get () {
-        return this.dateFrom + ' — ' + this.dateTo
+        return this.fieldPromocode.dateFrom.format('DD MMM YYYY') + ' — ' + this.fieldPromocode.dateTo.format('DD MMM YYYY')
       }
     },
     firstStudio () {
@@ -189,17 +260,37 @@ export default {
       },
       set () {
         this.fieldPromocode = Object.assign({}, {
-          ...this.fieldPromocode,
-          datefrom: this.dateFrom,
-          dateTo: this.dateTo,
-          startedAt: this.startedAt,
-          expiredAt: this.expiredAt,
-          rooms: this.rooms,
+          ...this.fieldPromocode
         })
       }
     }
   },
   methods: {
+    async applyPromocode () {
+      const id = this.fieldPromocode.id
+      const params = {
+        alias: this.fieldPromocode.alias,
+        dateFrom: this.fieldPromocode.dateFrom.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        dateTo: this.fieldPromocode.dateTo.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        discount: this.fieldPromocode.discount,
+        expiredAt: this.fieldPromocode.expiredAt.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        isPublic: this.fieldPromocode.isPublic.value,
+        minPrice: this.fieldPromocode.minPrice,
+        rooms: this.fieldPromocode.rooms,
+        startedAt: this.fieldPromocode.startedAt.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        type: this.fieldPromocode.type.value,
+      }
+      console.log(id, params)
+      await this.$app.promocodes.updateOne(id, params)
+    },
+    resetRange (range) {
+      console.log(range, this.firstRange)
+      range = {
+        startDate: this.$moment,
+        endDate: this.moment
+      }
+      console.log(range, this.firstRange)
+    },
     dialogStateChange () {
       this.$emit('dialogStateChange', this.dialogState)
     },
@@ -255,12 +346,12 @@ export default {
           type: this.entityLabelByValue(v.type, this.allTypes),
           minPrice: v.minPrice,
           isPublic: this.entityLabelByValue(v.isPublic, this.allStatuses),
-          rooms: rooms
+          rooms: rooms,
+          dateFrom: this.$moment(v.dateFrom),
+          dateTo: this.$moment(v.dateTo),
+          startedAt: this.$moment(v.startedAt),
+          expiredAt: this.$moment(v.expiredAt),
         })
-        this.dateFrom = v.dateFrom
-        this.dateTo = v.dateTo
-        this.startedAt = v.startedAt
-        this.expiredAt = v.expiredAt
       },
       immediate: true
     }
