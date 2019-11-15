@@ -154,9 +154,10 @@
           .col-6.q-px-sm
             q-btn.fit(
               no-caps
+              v-close-popup
               color="primary"
               @click="applyPromocode"
-              label="Добавить"
+              label="Сохранить"
             ) {{ dialogStateComp }}
 </template>
 
@@ -270,17 +271,20 @@ export default {
       const id = this.fieldPromocode.id
       const params = {
         alias: this.fieldPromocode.alias,
-        dateFrom: this.fieldPromocode.dateFrom.format('YYYY-MM-DDTHH:mm:ss+03:00'),
-        dateTo: this.fieldPromocode.dateTo.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        dateFrom: this.fieldPromocode.dateFrom.format('YYYY-MM-DD'),
+        dateTo: this.fieldPromocode.dateTo.format('YYYY-MM-DD'),
         discount: this.fieldPromocode.discount,
-        expiredAt: this.fieldPromocode.expiredAt.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        expiredAt: this.fieldPromocode.expiredAt.format('YYYY-MM-DD'),
         isPublic: this.fieldPromocode.isPublic.value,
         minPrice: this.fieldPromocode.minPrice,
-        rooms: this.fieldPromocode.rooms,
-        startedAt: this.fieldPromocode.startedAt.format('YYYY-MM-DDTHH:mm:ss+03:00'),
+        rooms: this.fieldPromocode.rooms.map(item => {
+          return item.value
+        }),
+        startedAt: this.fieldPromocode.startedAt.format('YYYY-MM-DD'),
         type: this.fieldPromocode.type.value,
       }
       await this.$app.promocodes.updateOne(id, params)
+      await this.$app.promocodes.getAll({ studio: this.studio })
     },
     resetRange (range) {
       range = {
@@ -326,6 +330,7 @@ export default {
     },
     promocode: {
       handler (v) {
+        // console.log(v)
         if (!v) return {}
         let rooms = []
         if (v.rooms) {
