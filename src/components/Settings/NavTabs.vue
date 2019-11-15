@@ -36,7 +36,8 @@ export default {
         { to: '/settings/promo', label: 'Промокоды' },
         { to: '/settings/rules', label: 'Правила' },
         { to: '/settings/organization', label: 'Данные организации' },
-        { to: '/settings/jswidget', label: 'JSWidget' }
+        { to: '/settings/jswidget', label: 'JSWidget' },
+        { to: '/settings/notifications', label: 'E-mail уведомления' }
       ]
     }
   }

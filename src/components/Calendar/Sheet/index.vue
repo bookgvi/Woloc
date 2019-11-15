@@ -262,6 +262,13 @@ export default {
     }
   },
   created: async function () {
+    if (this.$route.query.updateBookings) {
+      this.selectedBooking = await this.$app.bookings.getOne(this.$route.query.updateBookings)
+      this.$nextTick(_ => {
+        this.isCreate = false
+        this.dialogState = true
+      })
+    }
     this.calendarToday()
   },
   computed: {
