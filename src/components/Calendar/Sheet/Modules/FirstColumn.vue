@@ -17,28 +17,15 @@
           q-icon(
             name="fas fa-chevron-down"
           )
-      tr.text-body1.text-weight-medium.items-center(
-      )
-        td.row.col-12.items-center(
-          style="height: 41px"
-        )
-          span {{ firstRowForView }}
       tr.text-body1.text-weight-medium(
-        style="height: 40px;"
         v-for="(t, index) in timeIntervalForView"
         :key="index"
         :value="t"
       )
         td.row.col-12.items-center(
-          style="height: 40px;"
+          :style="rowStyle(index)"
         )
-          span {{ t }}
-      tr.text-body1.text-weight-medium.items-center(
-      )
-        td.row.col-12.items-center(
-          style="height: 38px"
-        )
-          span {{ "23:00-00:00" }} {{ allDayComp }}
+          span {{ t }} {{ allDayComp }}
 </template>
 
 <script>
@@ -46,30 +33,11 @@ export default {
   name: 'FirstColumn',
   data () {
     return {
-      times: [
-        '01:00-02:00',
-        '02:00-03:00',
-        '03:00-04:00',
-        '04:00-05:00',
-        '05:00-06:00',
-        '06:00-07:00',
-        '07:00-08:00',
-        '08:00-09:00',
-        '09:00-10:00',
-        '10:00-11:00',
-        '11:00-12:00',
-        '12:00-13:00',
-        '13:00-14:00',
-        '14:00-15:00',
-        '15:00-16:00',
-        '16:00-17:00',
-        '17:00-18:00',
-        '18:00-19:00',
-        '19:00-20:00',
-        '20:00-21:00',
-        '21:00-22:00',
-        '22:00-23:00'
-      ],
+      times: Array.from(new Array(24), (item, index) => index).map(item => {
+        const hour = String(item).padStart(2, '0')
+        const hour1 = item + 1 === 24 ? '00' : String(item + 1).padStart(2, '0')
+        return `${hour}:00–${hour1}:00`
+      }),
       allDay: false
     }
   },
@@ -85,6 +53,17 @@ export default {
     }
   },
   methods: {
+    rowStyle (index) {
+      let height = 40
+      if (index === 0) {
+        height = 41
+      } else if (index === this.timeIntervalForView.length - 1) {
+        height = 38
+      }
+      return {
+        height: height + 'px'
+      }
+    },
     allDayChange () {
       this.$emit('allDayChange', this.allDay || false)
     }
