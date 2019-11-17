@@ -572,6 +572,11 @@ export default {
           color: '#fff',
           'background-color': '#8791c3',
         }
+      } else {
+        return {
+          'background-color': '#fff',
+          color: '#000'
+        }
       }
     },
     async loadData () {
