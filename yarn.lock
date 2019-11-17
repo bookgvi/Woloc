@@ -833,10 +833,10 @@
   resolved "https://registry.yarnpkg.com/@positron/stack-trace/-/stack-trace-1.0.0.tgz#14fcc712a530038ef9be1ce6952315a839f466a8"
   integrity sha1-FPzHEqUwA475vhzmlSMVqDn0Zqg=
 
-"@quasar/app@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.2.3.tgz#da67dd62b35568e2dca6d406276e72b485bf6f38"
-  integrity sha512-CngV2kti6ngQEw8Jn0fFFIsIJ/rUMCGQ214aLzUk7lVYzHPYtrVjZQSCFT+tdaPWNRjEw0CYtozdQskpRuwv8Q==
+"@quasar/app@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@quasar/app/-/app-1.2.4.tgz#f7288d802d590bf384f59ab4bd7555991a931706"
+  integrity sha512-dxNile93EluJo84OJ9p20E/ep8vQTqDU5pzJJxBdsmW03vqCn/+f2BIXp/al6EWfnOM6S8HdQ/LfBDj7tqjTeg==
   dependencies:
     "@quasar/babel-preset-app" "1.1.6"
     "@quasar/fastclick" "1.1.4"
@@ -937,20 +937,20 @@
   resolved "https://registry.yarnpkg.com/@quasar/fastclick/-/fastclick-1.1.4.tgz#21ed3e9a4387dcb43022a08af4ef08a5f1abf159"
   integrity sha512-i9wbyV4iT+v4KhtHJynUFhH5LiEPvAEgSnwMqPN4hf/8uRe82nDl5qP5agrp2el1h0HzyBpbvHaW7NB0BPrtvA==
 
-"@quasar/quasar-app-extension-qcalendar@^1.0.16":
-  version "1.0.16"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qcalendar/-/quasar-app-extension-qcalendar-1.0.16.tgz#c3d525afa36932cd1e7deed833b5d94677496d4d"
-  integrity sha512-F6oyUUdgOOaqiEFE1js5Rq78WAeqQYTELtEgEGr7lwHXTlqOYJ0ayarSJlfMZLf1O0nwVxgHgoH9Ik5A5wtyFg==
+"@quasar/quasar-app-extension-qcalendar@^1.0.24":
+  version "1.0.24"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qcalendar/-/quasar-app-extension-qcalendar-1.0.24.tgz#45ed7ff51efa169946d6122e0cef7462e2b2f90d"
+  integrity sha512-W/VRpqxOylvTI5FBfVn42yc4ukXjiSSat1f2WNCrDBzZ3LgJHCFkfBjVoGivdNsnDo0TjjZ+YtP9lq6qhIqS9Q==
   dependencies:
-    "@quasar/quasar-ui-qcalendar" "^1.0.7"
+    "@quasar/quasar-ui-qcalendar" "^1.0.17"
 
-"@quasar/quasar-ui-qcalendar@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qcalendar/-/quasar-ui-qcalendar-1.0.7.tgz#b61858956ad2bc45208d9b0b23661ce591251017"
-  integrity sha512-46t404Oc+kejsL55A2Unqe1aaQtD9NCQtofoJ7drST/YteF3B0T5Wc6wvdnHy7vwgWrABh4WDiMwAvbnEbMWXg==
+"@quasar/quasar-ui-qcalendar@^1.0.17":
+  version "1.0.17"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qcalendar/-/quasar-ui-qcalendar-1.0.17.tgz#bc8636a009b4e61a054ddf6f0c36b137baf350cf"
+  integrity sha512-OkIeGR6Fng67mdOF1OEsfa/i25XxvOTv3i5fUgtDpvqzpA1M5KDMKa5ksze3Kb1UMBl6tt+lWHrKe+yb746+hA==
   dependencies:
-    q-colorize-mixin "^1.0.0-alpha.2"
-    q-theme-mixin "^1.0.0-alpha.1"
+    q-colorize-mixin "^1.0.3"
+    q-theme-mixin "^1.0.0"
 
 "@types/babel-types@*", "@types/babel-types@^7.0.0":
   version "7.0.7"
@@ -7246,15 +7246,15 @@ punycode@^2.1.0:
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
   integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
 
-q-colorize-mixin@^1.0.0-alpha.2:
-  version "1.0.0-alpha.3"
-  resolved "https://registry.yarnpkg.com/q-colorize-mixin/-/q-colorize-mixin-1.0.0-alpha.3.tgz#0b9c16091d44d3328c73afa835000869f28f7a33"
-  integrity sha512-W2aIrhBZB3EoZdC41bk4/ywjIibFWfgptHbldDb7MP5CdLsM5WkfRDvvqezJKcMWzkoy6ONU+h/ogqH9IHdelQ==
+q-colorize-mixin@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/q-colorize-mixin/-/q-colorize-mixin-1.0.3.tgz#08690707faf4beb4ae3085504d4b5a5f213fa259"
+  integrity sha512-rux6iG9HFMV8EaNPL/SXZ70toJvic6EHHsTtyVZk3F4DCyWnDBshtYpJ03JAKr+kIToLl0aFV8ihD1E114xHdA==
 
-q-theme-mixin@^1.0.0-alpha.1:
-  version "1.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/q-theme-mixin/-/q-theme-mixin-1.0.0-alpha.2.tgz#c9811c95a2ab38af138115ab3d7a32ed7e4369ef"
-  integrity sha512-VsUJNRA2qx6XfLWjllfxUdSpw9eSTqO1kO9bE9KwgiwbvotTTNLXsfpyxrzf4EQ+X4RKHUU90iQoVW2qP9YwmQ==
+q-theme-mixin@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/q-theme-mixin/-/q-theme-mixin-1.0.0.tgz#3ee4db2101b787dcf49c02f1d8a9a54d483a551d"
+  integrity sha512-ShXH255+KMYwlU7FygmzxEvi7xwcDO9DUkWQM35LG57Js5fqLPi8IS7ELoyMgcZMi7t4kOpL5I/j5+NQNw7tnw==
 
 q@^1.1.2:
   version "1.5.1"
@@ -7271,10 +7271,10 @@ qs@~6.5.2:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
   integrity sha512-N5ZAX4/LxJmF+7wN74pUD6qAh9/wnvdQcjq9TZjevvXzSUo7bfmw91saqMjzGS2xq91/odN2dW/WOl7qQHNDGA==
 
-quasar@^1.4.1:
-  version "1.4.1"
-  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.4.1.tgz#834198a3b2d53d88825d4dc5e7c9171b52048c79"
-  integrity sha512-+uzDt2C6K+iZx8S6eohzPXhrf7vwzC5QLoBfLwmC/JHowZ4GLNIrFY2bayScR9AzMtw1Ll9hzILmHfsJwieDOA==
+quasar@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/quasar/-/quasar-1.4.3.tgz#c7d52eeeac2c4f507038368d18897fd62a49c365"
+  integrity sha512-0647iJgyF52R35RWQcIHfWz8phA5XbCb46TM2R93JnyguYxoxBpG7vIU5ltgc8huKcRYpvlz+DHUd317WjsMPw==
 
 query-string@^4.1.0:
   version "4.3.4"
