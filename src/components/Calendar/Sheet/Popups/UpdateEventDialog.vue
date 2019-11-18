@@ -119,7 +119,7 @@
             label="Коммент"
           )
             calendar-comment.q-pa-md(
-              :isTechnical="false"
+              :isTechnical="booking.technical"
               @customerCommentChange="newBooking.customerComment = $event"
               :startCustomerComment="newBooking.customerComment"
               @managerCommentChange="newBooking.managerComment = $event"
