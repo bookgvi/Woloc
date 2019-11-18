@@ -15,6 +15,23 @@
             no-caps
             label="Тип записи"
           )
+          q-space
+          q-btn.q-py-none.q-px-sm.bg-primary.text-white(
+            no-caps
+            label="Сделать предоплату"
+            @click="isPrepayment = true"
+          )
+          q-btn.q-py-none.q-px-sm.bg-primary.text-white(
+            no-caps
+            label="Сделать возврат"
+            @click="isRefund = true"
+          )
+    q-dialog(v-model="isPrepayment")
+      q-card(style="min-width: 640px;")
+        prepayment
+    q-dialog(v-model="isRefund")
+      q-card(style="min-width: 640px;")
+        refund
     .content
       FinancesTable
 </template>
@@ -22,12 +39,20 @@
 <script>
 import FinancesTable from './Table/index'
 import FiltersList from '../Filters/FiltersList'
+import refund from './Table/refundModal'
+import prepayment from './Table/prepaymentModal'
 export default {
   name: 'RefundsIndex',
   components: {
     FiltersList,
-    FinancesTable
-  }
+    FinancesTable,
+    refund,
+    prepayment
+  },
+  data: () => ({
+    isRefund: false,
+    isPrepayment: false
+  })
 }
 </script>
 
