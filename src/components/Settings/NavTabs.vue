@@ -29,15 +29,15 @@ export default {
   data () {
     return {
       settings: [
-        { to: '/settings/location', label: 'Локация' },
-        { to: '/settings/room', label: 'Залы' },
-        { to: '/settings/extras', label: 'Доп. услуги' },
+        // { to: '/settings/location', label: 'Локация' },
+        // { to: '/settings/room', label: 'Залы' },
+        // { to: '/settings/extras', label: 'Доп. услуги' },
         { to: '/settings/discounts', label: 'Скидки' },
-        { to: '/settings/promo', label: 'Промокоды' },
-        { to: '/settings/rules', label: 'Правила' },
-        { to: '/settings/organization', label: 'Данные организации' },
-        { to: '/settings/jswidget', label: 'JSWidget' },
-        { to: '/settings/notifications', label: 'E-mail уведомления' }
+        // { to: '/settings/promo', label: 'Промокоды' },
+        // { to: '/settings/rules', label: 'Правила' },
+        // { to: '/settings/organization', label: 'Данные организации' },
+        // { to: '/settings/jswidget', label: 'JSWidget' },
+        // { to: '/settings/notifications', label: 'E-mail уведомления' }
       ]
     }
   }
