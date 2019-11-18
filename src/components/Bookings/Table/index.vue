@@ -10,6 +10,7 @@
     )
       template(#row-dialog="props")
         bookings-dialog(v-bind="props")
+    //-
       template(#row-controls="props")
         q-btn(flat round icon="comment" title="Открыть чат")
         q-btn(flat round icon="delete" title="Удалить")

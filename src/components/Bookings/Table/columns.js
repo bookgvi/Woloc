@@ -92,8 +92,8 @@ export default [
     name: 'bookingStatus',
     field: 'status'
   },
-  {
+/*  {
     name: 'controls',
     width: 40
-  }
+  } */
 ]
