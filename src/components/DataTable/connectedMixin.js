@@ -13,11 +13,11 @@ export default {
       if (this.$route.path.split('/')[1] === 'settings' && !filter.studio) return
       if (this.$route.path === '/bookings' && !filter.studio && !filter.customer) return
       const { page, rowsPerPage } = pagination
-      let { items, total, data } = await this.loadData({ number: page, size: rowsPerPage }, filter)
-      if (data) {
-        this.account.amount = data.account.amount
-        items = data.transactions.items
-        total = data.transactions.total
+      let { items, total, transactions, account } = await this.loadData({ number: page, size: rowsPerPage }, filter)
+      if (transactions) {
+        this.account.amount = account.amount
+        items = transactions.items
+        total = transactions.total
       }
       this.data = items
       if (!total) {
