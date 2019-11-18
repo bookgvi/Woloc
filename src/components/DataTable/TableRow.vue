@@ -119,7 +119,7 @@ export default {
       return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     },
     rowDialog (row) {
-      if (this.row.status && ['Отменено', 'Просрочено'].includes(this.row.status.title)) { return }
+      // if (this.row.status && ['Отменено', 'Просрочено'].includes(this.row.status.title)) { return }
       this.$emit('toggleDialogRow', row)
     },
     extrasM (extras) {
@@ -133,7 +133,7 @@ export default {
     bookingsStyle (status) {
       this.$nextTick(_ => {
         if (['Отменено', 'Просрочено'].includes(status)) {
-          this.$refs.qtr.$el.classList.add('disabled')
+          this.$refs.qtr.$el.classList.add('text-grey-7')
         }
       })
     },
