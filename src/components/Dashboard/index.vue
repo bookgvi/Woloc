@@ -8,20 +8,20 @@
         // locations-card
         // rooms-cards-creator
         documents-card
-        notifications-card
+        // notifications-card
       .column.col-4
         parts-card
         bookings-card
         // requests-card
-        refunds-card
+        // refunds-card
         promocodes-card
-        notes-card
       .column.col-4
         calendar-card
-        workload-card
-        chat-card
-        reviews-card
-        widget-card
+        notes-card
+        // workload-card
+        // chat-card
+        // reviews-card
+        // widget-card
 </template>
 
 <script>
