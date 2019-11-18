@@ -39,8 +39,8 @@
 <script>
 import FinancesTable from './Table/index'
 import FiltersList from '../Filters/FiltersList'
-import refund from './Table/refundModal'
-import prepayment from './Table/prepaymentModal'
+import refund from './Actions/refundModal'
+import prepayment from './Actions/prepaymentModal'
 export default {
   name: 'RefundsIndex',
   components: {
