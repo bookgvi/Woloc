@@ -457,7 +457,7 @@ export default {
         this.isResizeStopped = false
         this.isResizeNow = true
       } else {
-        this.findBooking(index)
+        this.findBooking(index, item.id)
       }
     },
     mouseUp () {
