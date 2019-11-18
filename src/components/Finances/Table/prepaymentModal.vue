@@ -13,6 +13,14 @@
           outlined
           dense
         )
+    .row.q-pb-md
+      .col
+        .text-h6 Сумма, ₽
+      .col
+        q-input(
+          outlined
+          dense
+        )
     .row.justify-center
       .col-1
         q-btn.bg-primary.text-white(label="Done" @click="createPrepayment" v-close-popup)
