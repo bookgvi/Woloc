@@ -372,7 +372,7 @@ export default {
         reserveTo: to,
         priceType: booking.eventType,
         extras: booking.extras,
-        seats: booking.seats,
+        members: [...booking.members],
         description: booking.managerComment || '',
         technical: booking.technical,
       })
@@ -532,6 +532,7 @@ export default {
         reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: room,
         extras: [],
+        members: [],
         eventType: '',
         studio: this.studio,
         filter: this.filter
@@ -559,9 +560,8 @@ export default {
       if (!index) {
         this.selectedBooking = await this.$app.bookings.getOne(id)
       } else {
-        this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+        this.selectedBooking = await this.$app.bookings.getOne(id)
       }
-      // console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
