@@ -59,6 +59,7 @@ export default {
   data () {
     return {
       data: [],
+      total: 0,
       account: { amount: 0 },
       controlsRowId: undefined,
       dialogRowId: undefined,
@@ -72,10 +73,8 @@ export default {
       this.$emit('toggleDialogRow', row)
     },
     async search (page, searchStr) {
-      const { data } = await this.$app.search.search(page, searchStr)
-      if (data) {
-        this.data = data.items
-      }
+      page = page.split('/')[1]
+      this.$app.filters.setValue(page, 'search', searchStr)
     }
   },
   computed: {

@@ -1,17 +1,27 @@
 import studios from '../../api/studios'
 
 const defaultValues = {
-  customers: {},
+  customers: {
+    search: null
+  },
   bookings: {
     studio: null,
     rooms: null,
     statuses: null,
-    technical: null
+    technical: null,
+    search: null
+  },
+  finances: {
+    search: null
   },
   refunds: {
     studio: null,
     rooms: null,
-    statuses: null
+    statuses: null,
+    search: null
+  },
+  documents: {
+    search: null
   },
   settings: {
     studio: null
