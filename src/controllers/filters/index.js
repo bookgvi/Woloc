@@ -102,7 +102,6 @@ export default {
         [page]: { studio: items[0].id, rooms: rooms }
       }
       this.saveToSession()
-      // TODO - переделать проверку!!!
       if (page === 'refunds') {
         this.setValue(page, 'statuses', [0, 1, 2, 3])
       } else if (page === 'bookings') {

@@ -9,8 +9,6 @@
       )
     .col-12.row.justify-left.items-center(v-if="!isTechnical")
       span.q-py-md.row.text-body2 Админ
-    .col-12.row.justify-left.items-center(v-else)
-      span.q-py-md.row.text-body2 Комментарий
     .col-12.row.justify-left.items-center
       q-input.col-12.text-body2(
         v-model="managerComment"
