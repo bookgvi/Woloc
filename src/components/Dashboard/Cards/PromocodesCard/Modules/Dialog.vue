@@ -211,6 +211,7 @@ export default {
   },
   computed: {
     unitSlot () {
+      if (!this.fieldPromocode || !this.fieldPromocode.type || !this.fieldPromocode.type.value) return ''
       return (this.fieldPromocode.type.value === 'percent') ? '%' : ' р.'
     },
     firstRange: {
@@ -340,8 +341,10 @@ export default {
     },
   },
   watch: {
-    unitSlot () {
-      this.newPromocode.discount = 0
+    unitSlot (v, old) {
+      if (v === '%' && old !== '') {
+        this.fieldPromocode.discount = 0
+      }
     },
     isPromoDialog (v) {
       this.dialogState = v
