@@ -37,4 +37,19 @@ const BOOKING_STATUSES = {
   },
 }
 
-export { EVENT_TYPES, BOOKING_STATUSES }
+const REFUNDS_STATUSES = {
+  NEW: {
+    value: 0, label: 'Новый'
+  },
+  DONE: {
+    value: 1, label: 'Возврат осуществлен'
+  },
+  CANCELED: {
+    value: 2, label: 'Возврат отменен'
+  },
+  ACCEPTED: {
+    value: 3, label: 'Ожидает зачисления'
+  }
+}
+
+export { EVENT_TYPES, BOOKING_STATUSES, REFUNDS_STATUSES }
