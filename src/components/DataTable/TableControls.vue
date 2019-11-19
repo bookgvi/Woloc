@@ -1,6 +1,7 @@
 <template lang="pug">
   .table-controls.row.q-px-none
     q-input.q-mr-sm(
+      v-if="hasFind"
       dense
       square
       outlined
@@ -70,6 +71,12 @@ export default {
   mounted () {
     const page = this.$route.path.split('/')[1]
     this.inputValue = this.$app.filters.getValues(page).search
+  },
+  computed: {
+    hasFind () {
+      const isFind = (this.$route.path !== '/settings') ^ (this.$route.path !== '/settings/discounts')
+      return !isFind
+    }
   },
   methods: {
     hNextPage (val) {
