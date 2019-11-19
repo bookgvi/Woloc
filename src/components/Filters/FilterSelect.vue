@@ -8,15 +8,16 @@
   )
     q-popup-proxy(ref="QPopupProxy")
       slot
-      q-field.row.col-12.text-body2.q-px-md.q-pt-lg(
+      q-field.row.col-12.text-body2.q-ml-sm.q-px-md.q-pt-lg(
         v-if="isRange"
         borderless
-        style="width: 80%; margin: auto;"
+        style="width: 80%;"
         )
         q-range(
           v-model="currentValue"
           label-always
           markers
+          :right-label-value="rightLabel"
           :min="0"
           :max="10000"
           :step="500"
@@ -82,6 +83,9 @@ export default {
     },
   },
   computed: {
+    rightLabel () {
+      return (this.currentValue.max < 10000) ? this.currentValue.max : 'максимум'
+    },
     listOptions () {
       if (this.isRange === true) return {}
       return this.options || this.models.map(({ id, name }) => ({

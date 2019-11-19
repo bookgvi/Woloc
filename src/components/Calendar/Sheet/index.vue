@@ -839,7 +839,8 @@ export default {
       this.$emit('isAllDayChange', v)
       await this.placeEvents()
     },
-    async selectedDate () {
+    async selectedDate (v, old) {
+      if (!old || !v || this.$moment(old).isSame(v, 'week')) return
       await this.placeEvents()
     }
   }
