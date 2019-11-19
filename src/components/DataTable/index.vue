@@ -19,7 +19,10 @@
 
       template(#top-right="props")
         slot(name="table-controls-prepend")
-        TableControls(v-bind="props" :setPagination="setPagination")
+        TableControls(v-bind="props"
+          :setPagination="setPagination"
+          @search="search"
+        )
           slot(name="table-controls-append")
 
       template(#body="props")
@@ -67,6 +70,12 @@ export default {
     },
     toggleDialogRow (row) {
       this.$emit('toggleDialogRow', row)
+    },
+    async search (page, searchStr) {
+      const { data } = await this.$app.search.search(page, searchStr)
+      if (data) {
+        this.data = data.items
+      }
     }
   },
   computed: {

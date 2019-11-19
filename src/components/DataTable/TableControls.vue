@@ -7,6 +7,7 @@
       type="search"
       placeholder="Поиск"
       style="width: 290px"
+      @input="search"
     )
       template(#prepend)
         q-icon(name="search")
@@ -70,6 +71,10 @@ export default {
     },
     hPrevPage (val) {
       this.setPagination('page', val.page - 1)
+    },
+    search (e) {
+      const page = this.$route.path
+      this.$emit('search', page, e)
     }
   }
 }
