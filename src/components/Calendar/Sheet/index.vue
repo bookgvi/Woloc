@@ -265,6 +265,7 @@ export default {
     if (this.$route.query.updateBookings) {
       this.findBooking(null, this.$route.query.updateBookings)
     }
+    this.$app.filters.filterDefault('calendar')
     this.calendarToday()
   },
   computed: {
