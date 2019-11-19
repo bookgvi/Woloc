@@ -45,11 +45,15 @@
             )
         .row.col-12.q-pb-md.q-col-gutter-md
           .col-6
-            span.row.text-caption.q-pb-md Скидка
+            span.row.text-caption.q-pb-md Скидка, {{ unitSlot }}
             q-input.text-body2(
               outlined
+              min="0"
+              placeholder="0"
               dense
-              v-model="newPromocode.discount"
+              @keydown="keyHandler($event)"
+              type="number"
+              v-model.number="newPromocode.discount"
               style="width: 100%"
             )
           .col-6
@@ -63,11 +67,15 @@
             )
         .row.col-12.q-pb-md.q-col-gutter-md
           .col-6
-            span.row.text-caption.q-pb-md Минимальная сумма заказа, р.
+            span.row.text-caption.q-pb-md Минимальная сумма заказа, p.
             q-input.text-body2(
               outlined
+              min="0"
+              placeholder="0"
               dense
-              v-model="newPromocode.minPrice"
+              @keydown="keyHandler($event)"
+              type="number"
+              v-model.number="newPromocode.minPrice"
               style="width: 100%"
             )
           .col-6
@@ -202,6 +210,9 @@ export default {
     promocode: Object
   },
   computed: {
+    unitSlot () {
+      return (this.fieldPromocode.type.value === 'percent') ? '%' : ' р.'
+    },
     firstRange: {
       get () {
         return {
@@ -267,6 +278,18 @@ export default {
     }
   },
   methods: {
+    keyHandler (evt) {
+      if (evt.key === '-' || evt.key === '+' || evt.key === 'e') {
+        evt.preventDefault()
+      }
+      if (Number.isNaN(evt.key)) {
+        evt.preventDefault()
+      }
+      if (Number(this.fieldPromocode.discount + evt.key) > 100 &&
+        this.fieldPromocode.type.value === 'percent') {
+        evt.preventDefault()
+      }
+    },
     async applyPromocode () {
       const id = this.fieldPromocode.id
       const params = {
@@ -317,6 +340,9 @@ export default {
     },
   },
   watch: {
+    unitSlot () {
+      this.newPromocode.discount = 0
+    },
     isPromoDialog (v) {
       this.dialogState = v
     },
