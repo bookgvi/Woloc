@@ -21,7 +21,6 @@ export default {
   },
   watch: {
     '$route.path' (newPath, oldPath) {
-      console.log(oldPath)
       if (newPath) {
         this.setUserData()
       }
