@@ -68,10 +68,6 @@ export default {
       inputValue: '',
     }
   },
-  mounted () {
-    const page = this.$route.path.split('/')[1]
-    this.inputValue = this.$app.filters.getValues(page).search
-  },
   computed: {
     hasFind () {
       const isFind = (this.$route.path !== '/settings') ^ (this.$route.path !== '/settings/discounts')

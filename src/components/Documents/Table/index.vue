@@ -26,6 +26,9 @@ export default {
     link: '',
     alert: false
   }),
+  created () {
+    this.$app.filters.filterDefault('documents')
+  }
 }
 </script>
 

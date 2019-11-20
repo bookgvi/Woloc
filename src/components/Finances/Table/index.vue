@@ -25,7 +25,10 @@ export default {
   data: () => ({
     columns,
     details
-  })
+  }),
+  created () {
+    this.$app.filters.filterDefault('finances')
+  }
 }
 </script>
 

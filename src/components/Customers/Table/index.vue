@@ -30,6 +30,9 @@ export default {
     customerData: {},
     isModal: false
   }),
+  created () {
+    this.$app.filters.filterDefault('customers')
+  },
   methods: {
     async toggleDialogRow (row) {
       this.customerData = row
