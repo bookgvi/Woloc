@@ -35,7 +35,10 @@
           q-input(
             square
             filled
-            v-model="discount"
+            v-model.number="discount"
+            placeholder="0"
+            @keydown="keyHandler($event)"
+            type="number"
           ) {{ priceComp }}
     .col-12.row.justify-left.items-center
       .row.col-12.q-py-sm
@@ -86,6 +89,14 @@ export default {
     }
   },
   methods: {
+    keyHandler (evt) {
+      if (evt.key === '-' || evt.key === '+' || evt.key === 'e') {
+        evt.preventDefault()
+      }
+      if (Number.isNaN(evt.key)) {
+        evt.preventDefault()
+      }
+    },
     priceChange () {
       this.$emit('priceChange', this.price)
     },

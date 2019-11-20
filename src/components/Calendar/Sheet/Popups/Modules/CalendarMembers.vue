@@ -1,28 +1,39 @@
 <template lang="pug">
-  .q-py-xs
+  .q-py-none
     .col-12.row.justify-left.items-center
-      q-list(dense)
-        q-item.text-body2(
+      q-list(style="width: 100%")
+        q-item.text-body2.q-px-none(
           v-for="(member, index) in members"
           :key="index"
-          )
-          .text-body2 {{ member }}
-          q-separator
+        )
+          .col-12
+            q-input.text-body2(
+              dense
+              color="#B5B5B5"
+              v-model="members[index]"
+            )
+              template(v-slot:append)
+                q-btn(
+                  flat
+                  @click="removeMember(index)"
+                  color="#B5B5B5"
+                  icon="remove"
+                )
     .col-12.row.justify-around.items-center
-      .col-9.q-py-md
+      .col-12.q-py-md
+        span.text-body2 Добавить нового участника
         q-input.text-body2(
           dense
-          outlined
+          color="#B5B5B5"
           v-model="newMember"
         )
-      .col-1.q-py-md
-        q-btn(
-          @click="addNewMember"
-          color="#B5B5B5"
-          text-color="$primary"
-          icon="add"
-          dense
-        ) {{ membersComp }}
+          template(v-slot:append)
+            q-btn(
+              flat
+              @click="addNewMember"
+              color="#B5B5B5"
+              icon="add"
+            ) {{ membersComp }}
 </template>
 
 <script>
@@ -30,7 +41,7 @@ export default {
   name: 'CalendarMembers',
   data () {
     return {
-      members: [],
+      members: this.startMembers,
       newMember: ''
     }
   },
@@ -40,6 +51,9 @@ export default {
     }
   },
   methods: {
+    removeMember (index) {
+      this.members.splice(index, 1)
+    },
     addNewMember () {
       this.members.push(this.newMember)
       this.newMember = ''
@@ -48,7 +62,14 @@ export default {
       this.$emit('membersChange', this.members)
     }
   },
-  props: ['startMembers']
+  props: {
+    startMembers: Array
+  },
+  watch: {
+    startMembers (v) {
+      this.members = v
+    }
+  }
 }
 </script>
 

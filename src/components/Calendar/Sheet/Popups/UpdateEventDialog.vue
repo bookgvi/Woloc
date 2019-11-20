@@ -105,6 +105,20 @@
           )
             template(v-slot:header)
               .col-4.q-py-sm
+                span {{ "Участники" }}
+              .col-7.q-py-sm
+                span.text-grey {{ membersSlot }}
+            calendar-members.q-pa-md(
+              :startMembers="newBooking.members"
+              @membersChange="newBooking.members = $event"
+            )
+          q-expansion-item(
+            group="new-event"
+            dense
+            v-if="!booking.technical"
+          )
+            template(v-slot:header)
+              .col-4.q-py-sm
                 span {{ "Оплата" }}
               .col-7.q-py-sm
                 span.text-grey {{priceSlot }}
@@ -248,6 +262,7 @@ export default {
       return count
     },
     membersSlot () {
+      if (!this.newBooking.members) return 0
       return this.newBooking.members.length
     },
     priceSlot () {
@@ -309,7 +324,7 @@ export default {
         reserveTo: this.newBooking.reservedTo,
         priceType: this.newBooking.eventType,
         extras: extras,
-        seats: 1,
+        members: this.newBooking.members,
         managerComment: this.newBooking.managerComment || ''
       }
       // console.log('post', params)
@@ -359,7 +374,7 @@ export default {
         reserveTo: this.newBooking.reservedTo,
         priceType: this.newBooking.eventType,
         extras: extras,
-        seats: 1,
+        members: this.newBooking.members,
         managerComment: this.newBooking.managerComment || ''
       }
       // console.log('put', params)
@@ -404,9 +419,8 @@ export default {
     booking (v) {
       this.newBooking = {}
       this.$nextTick(function () {
-        // console.log(v)
         this.$app.extras.extrasForRoom = []
-        this.newBooking = Object.assign(v)
+        this.newBooking = Object.assign({}, v)
         const hDate = this.$moment.parseZone(this.newBooking.reservedFrom).format('YYYY-MM-DD')
         const hFrom = +this.$moment.parseZone(this.newBooking.reservedFrom).format('H')
         let hTo = +this.$moment.parseZone(this.newBooking.reservedTo).format('k')
