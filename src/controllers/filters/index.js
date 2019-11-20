@@ -75,24 +75,8 @@ export default {
     },
     async filterDefault (page) {
       this.readFromSession()
-      if (!this.values[page].studio) {
-        let filter = {}
-        this.readFromSession()
-        this.values.bookings = {}
-        this.saveToSession()
-        let { studio } = this.getValues(page)
-        const { items } = await studios.getAll().then(resp => resp.data)
-        if (!studio) {
-          let [{ rooms }] = items.filter(item => item.id === items[0].id)
-          rooms = rooms.map(item => item.id)
-          filter = Object.assign({}, {
-            studio: items[0].id,
-            rooms: rooms
-          })
-          this.setValue(page, 'studio', filter.studio)
-          this.setValue(page, 'rooms', filter.rooms)
-        }
-      }
+      this.reset(page)
+      return this.values[page]
     },
     async reset (page) {
       const { values } = this
@@ -101,7 +85,11 @@ export default {
       rooms = rooms.map(item => item.id)
       this.values = {
         ...values,
-        [page]: { studio: items[0].id, rooms: rooms }
+        [page]: defaultValues[page]
+      }
+      if (values[page].hasOwnProperty('studio')) {
+        this.setValue(page, 'studio', items[0].id)
+        this.setValue(page, 'rooms', rooms)
       }
       this.saveToSession()
     }
