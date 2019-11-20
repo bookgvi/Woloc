@@ -51,7 +51,8 @@ export default {
   },
   methods: {
     async filter () {
-      let { studio } = this.$app.filters.getValues('settings')
+      let { studio } = await this.$app.filters.getValues('settings')
+      if (!studio) return
       const { items } = await studios.getAll().then(resp => resp.data)
       const rooms = items[0].rooms
       this.rooms = rooms

@@ -74,7 +74,6 @@ export default {
       this.saveToSession()
     },
     async filterDefault (page) {
-      this.readFromSession()
       this.reset(page)
       return this.values[page]
     },
