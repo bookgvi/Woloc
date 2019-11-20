@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-px-md.justify-end
-    q-list
+    q-list(v-if="isAuthorized")
       q-item.col-12
         q-item-section.col-9
           span {{ userName }}
@@ -15,6 +15,7 @@ export default {
   name: 'User',
   data () {
     return {
+      isAuthorized: false,
       userName: 'user',
       avatar: 'https://cdn.quasar.dev/img/avatar.png'
     }
@@ -37,6 +38,7 @@ export default {
       if (window.location.hostname === 'localhost') {
         this.avatar = 'https://pre.ugoloc.ucann.ru' + this.avatar
       }
+      this.isAuthorized = true
     }
   }
 }
