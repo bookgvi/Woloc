@@ -75,11 +75,12 @@
     .row
       .col
         .data Оставьте комментарий о пользователе
-    .row.q-py-sm
-      .col.q-mr-md
-        q-btn.bg-primary.text-white(label="Редактировать" no-caps style="width: 100%;")
-      .col
-        q-btn.bg-primary.text-white(label="Открыть чат" no-caps style="width: 100%;")
+    // ---- TODO ---- решение будет принято впоследствии!!!
+    // .row.q-py-sm
+    //  .col.q-mr-md
+    //    q-btn.bg-primary.text-white(label="Редактировать" no-caps style="width: 100%;")
+    //  .col
+    //    q-btn.bg-primary.text-white(label="Открыть чат" no-caps style="width: 100%;")
 </template>
 
 <script>

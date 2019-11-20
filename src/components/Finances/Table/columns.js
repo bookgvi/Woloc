@@ -6,7 +6,7 @@ export default [
     field: ({ purpose } = {}) => purpose.name,
     label: 'Описание',
     align: 'right',
-    width: 250
+    width: 100
   },
   {
     name: 'purposeComment',
@@ -17,7 +17,12 @@ export default [
   {
     name: 'booking_id',
     label: 'ID брони',
-    field: ({ booking = {} }) => booking.id,
+    headerStyle: 'text-align: center;',
+    align: 'center',
+    field: ({ booking = {} }) => {
+      if (!booking) { return '—' }
+      return booking.id
+    },
   },
   {
     name: 'createdAtDay',
@@ -49,14 +54,10 @@ export default [
     name: 'commission',
     label: 'Комиссия, ₽',
     field: ({ commission, amount, purpose } = {}) => {
-      if (purpose.id === 8 || purpose.id === 11) {
-        commission = amount
-        commission = `${commission} ₽`
-      }
       if (!commission) {
         commission = '—'
       }
-      return commission
+      return `${commission} ₽`
     },
     align: 'right',
     width: 9

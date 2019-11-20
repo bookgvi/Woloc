@@ -12,6 +12,7 @@ import promo from './promo'
 import discounts from './discounts'
 import jswidget from './jswidget'
 import organizationNotes from './organizationNotes'
+import promocodes from './promocodes'
 
 export default {
   rooms,
@@ -27,5 +28,6 @@ export default {
   promo,
   discounts,
   jswidget,
-  organizationNotes
+  organizationNotes,
+  promocodes
 }

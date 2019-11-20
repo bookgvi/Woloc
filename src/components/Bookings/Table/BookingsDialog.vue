@@ -91,7 +91,12 @@
     .row
       q-btn.q-mr-md(icon="close" outline v-close-popup)
       q-btn.q-mr-md(icon="delete" outline @click="deleteBooking(row.id)")
-      q-btn.col-grow(label="Редактировать в календаре" color="primary" unelevated)
+      q-btn.col-grow(
+        label="Редактировать в календаре"
+        color="primary"
+        unelevated
+        @click="$router.push({ path: 'calendar', query: { updateBookings: `${row.id}` } })"
+      )
 </template>
 <script>
 import { date } from 'quasar'

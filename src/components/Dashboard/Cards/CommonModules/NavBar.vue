@@ -1,9 +1,10 @@
 <template lang="pug">
-  q-card-section.row.col-12.items-center
-    .col-5
+  q-card-section.row.col-12.items-center {{ dateComp }} {{ studioComp }}
+    .col-5(v-if="displayedButtons.dateString")
       span.text-body2.q-py-md {{ dateFormatForLabel }}
-    .row.col.justify-around
+    .row.col.justify-start
       q-btn.q-mr-xs.col-3(
+        v-if="displayedButtons.location"
         outline
         size="sm"
         label="Локация"
@@ -18,6 +19,7 @@
             v-model="studio"
           )
       q-btn.q-mr-xs.col-3(
+        v-if="displayedButtons.today"
         outline
         size="sm"
         label="Сегодня"
@@ -25,22 +27,23 @@
         @click="today"
         color="secondary"
       )
-      q-btn-group(outline).col.offset-1
-        q-btn.q-px-sm.q-mx-none(
-          @click="datePrev"
-          outline
-          size="sm"
-          icon="chevron_left"
-          color="secondary"
-        )
-        q-separator(vertical, inset)
-        q-btn.q-px-sm.q-mx-none(
-          @click="dateNext"
-          outline
-          size="sm"
-          icon="chevron_right"
-          color="secondary"
-        ) {{ dateComp }} {{ studioComp }}
+      .row.col.justify-end
+        q-btn-group(outline v-if="displayedButtons.dateString")
+          q-btn.q-px-sm.q-mx-none(
+            @click="datePrev"
+            outline
+            size="sm"
+            icon="chevron_left"
+            color="secondary"
+          )
+          q-separator(vertical, inset)
+          q-btn.q-px-sm.q-mx-none(
+            @click="dateNext"
+            outline
+            size="sm"
+            icon="chevron_right"
+            color="secondary"
+          )
 </template>
 
 <script>
@@ -57,6 +60,23 @@ export default {
     }
   },
   computed: {
+    displayedButtons () {
+      if (!this.buttons) {
+        return {
+          dateString: true,
+          location: true,
+          today: true,
+          leftRight: true
+        }
+      } else {
+        return {
+          dateString: this.buttons.dateString || false,
+          location: this.buttons.location || false,
+          today: this.buttons.today || false,
+          leftRight: this.buttons.leftRight || false
+        }
+      }
+    },
     firstStudio () {
       if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
       return this.$app.studios.firstStudio.id
@@ -91,7 +111,10 @@ export default {
       this.$emit('studioChange', this.studio)
     },
   },
-  props: ['startDate'],
+  props: {
+    startDate: Object,
+    buttons: Object
+  },
   watch: {
     startDate (v) {
       this.date = v

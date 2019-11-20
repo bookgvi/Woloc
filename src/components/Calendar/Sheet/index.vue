@@ -201,7 +201,7 @@
  </template>
 
 <script>
-import { colors, dom } from 'quasar'
+import { colors, dom, date } from 'quasar'
 import { EVENT_TYPES } from 'src/common/constants'
 import roomsColors from 'src/common/rooms/colors'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
@@ -262,6 +262,11 @@ export default {
     }
   },
   created: async function () {
+    if (this.$route.query.updateBookings) {
+      this.findBooking(null, this.$route.query.updateBookings)
+    }
+    this.setWeekRange()
+    this.$app.filters.filterDefault('calendar')
     this.calendarToday()
   },
   computed: {
@@ -288,6 +293,16 @@ export default {
     }
   },
   methods: {
+    setWeekRange () {
+      const currentDate = new Date()
+      const fromMonday = currentDate.getDay() - 1
+      const toSunday = 7 - currentDate.getDay()
+      const currentDateMS = +currentDate
+      const fromMondayMS = currentDateMS - 24 * fromMonday * 1000 * 3600
+      const toSundayMS = currentDateMS + 24 * toSunday * 1000 * 3600
+      this.range.from = date.formatDate(new Date(fromMondayMS), 'YYYY-MM-DD')
+      this.range.to = date.formatDate(new Date(toSundayMS), 'YYYY-MM-DD')
+    },
     closePopupForNewBooking () {
       this.forNewBooking.date = ''
       this.forNewBooking.from = 0
@@ -368,7 +383,7 @@ export default {
         reserveTo: to,
         priceType: booking.eventType,
         extras: booking.extras,
-        seats: booking.seats,
+        members: [...booking.members],
         description: booking.managerComment || '',
         technical: booking.technical,
       })
@@ -454,7 +469,7 @@ export default {
         this.isResizeStopped = false
         this.isResizeNow = true
       } else {
-        this.findBooking(index)
+        this.findBooking(index, item.id)
       }
     },
     mouseUp () {
@@ -528,6 +543,7 @@ export default {
         reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: room,
         extras: [],
+        members: [],
         eventType: '',
         studio: this.studio,
         filter: this.filter
@@ -548,12 +564,15 @@ export default {
       })
       this.technicalDialogState = true
     },
-    async findBooking (index) {
+    async findBooking (index, id) {
       if (this.forNewBooking.date !== '') return
       if (this.isResizeNow) return
       this.isCreate = false
-      this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
-      // console.log(this.selectedBooking)
+      if (!index) {
+        this.selectedBooking = await this.$app.bookings.getOne(id)
+      } else {
+        this.selectedBooking = await this.$app.bookings.getOne(id)
+      }
       this.dialogState = true
     },
     dayHeader (dt) {
@@ -564,6 +583,11 @@ export default {
         return {
           color: '#fff',
           'background-color': '#8791c3',
+        }
+      } else {
+        return {
+          'background-color': '#fff',
+          color: '#000'
         }
       }
     },
@@ -827,7 +851,8 @@ export default {
       this.$emit('isAllDayChange', v)
       await this.placeEvents()
     },
-    async selectedDate () {
+    async selectedDate (v, old) {
+      if (!old || !v || this.$moment(old).isSame(v, 'week')) return
       await this.placeEvents()
     }
   }

@@ -18,9 +18,10 @@ export default [
     name: 'chat',
     label: 'Чат',
     sortable: true,
-  },
-  {
-    name: 'controls',
-    width: 40
   }
+  // ---- TODO ---- решение будет принято впоследствии!!!
+  // {
+  //   name: 'controls',
+  //   width: 40
+  // }
 ]

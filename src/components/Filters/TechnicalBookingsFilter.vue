@@ -1,7 +1,7 @@
 <template lang="pug">
   .technicalBooking
     q-btn.q-py-none(
-      :label="title"
+      :label="label"
       @click="technicalFilter"
       dense
       no-caps
@@ -27,14 +27,18 @@ export default {
       isTechnical: false
     }
   },
+  mounted () {
+    this.isTechnical = this.$app.filters.getValues('bookings').technical
+  },
   computed: {
-    title () {
+    label () {
       return this.isTechnical ? 'Скрыть технические брони' : 'Показать технические брони'
     }
   },
   methods: {
     technicalFilter () {
-      this.isTechnical = !this.isTechnical
+      const { technical } = this.$app.filters.getValues('bookings')
+      this.isTechnical = !technical
       this.onChange('technical', this.isTechnical)
     }
   }

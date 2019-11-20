@@ -4,7 +4,11 @@ export default {
   name: 'customers',
   data () {
     return {
-      searched: []
+      searched: [],
+      loading: {
+        list: false,
+        one: false
+      },
     }
   },
   methods: {
