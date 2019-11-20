@@ -49,6 +49,7 @@
             q-input.text-body2(
               outlined
               min="0"
+              :max="maxDiscountField"
               placeholder="0"
               dense
               @keydown="keyHandler($event)"
@@ -210,6 +211,10 @@ export default {
     promocode: Object
   },
   computed: {
+    maxDiscountField () {
+      if (!this.fieldPromocode || !this.fieldPromocode.type || !this.fieldPromocode.type.value) return 100
+      return (this.fieldPromocode.type.value === 'percent') ? 100 : Infinity
+    },
     unitSlot () {
       if (!this.fieldPromocode || !this.fieldPromocode.type || !this.fieldPromocode.type.value) return ''
       return (this.fieldPromocode.type.value === 'percent') ? '%' : ' р.'
