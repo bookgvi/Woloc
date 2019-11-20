@@ -90,7 +90,7 @@
             .data {{ row.managerComment }}
     .row
       q-btn.q-mr-md(icon="close" outline v-close-popup)
-      q-btn.q-mr-md(icon="delete" outline)
+      q-btn.q-mr-md(icon="delete" outline @click="deleteBooking(row.id)")
       q-btn.col-grow(
         label="Редактировать в календаре"
         color="primary"
@@ -136,6 +136,10 @@ export default {
     },
     extrasWithCount (item) {
       return `${item.title} (${item.count} шт.)`
+    },
+    async deleteBooking (id) {
+      await this.$app.bookings.deleteOne(id)
+      this.$emit('closePopup', 'false')
     }
   }
 }
