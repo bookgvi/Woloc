@@ -3,6 +3,7 @@
     DataTable(
       title="Документы"
       :columns="columns"
+      :filter="$app.filters.getValues('documents')"
       :details="details"
       :getDialogTitle="() => 'Документы'"
       :loadData="$app.documents.getAll"
@@ -24,7 +25,7 @@ export default {
     details,
     link: '',
     alert: false
-  }),
+  })
 }
 </script>
 

@@ -19,7 +19,11 @@
 
       template(#top-right="props")
         slot(name="table-controls-prepend")
-        TableControls(v-bind="props" :setPagination="setPagination")
+        TableControls(v-bind="props"
+          :setPagination="setPagination"
+          :resetFilter="resetFilter"
+          @search="search"
+        )
           slot(name="table-controls-append")
 
       template(#body="props")
@@ -56,6 +60,8 @@ export default {
   data () {
     return {
       data: [],
+      total: 0,
+      resetFilter: false,
       account: { amount: 0 },
       controlsRowId: undefined,
       dialogRowId: undefined,
@@ -67,6 +73,10 @@ export default {
     },
     toggleDialogRow (row) {
       this.$emit('toggleDialogRow', row)
+    },
+    async search (page, searchStr) {
+      page = page.split('/')[1]
+      this.$app.filters.setValue(page, 'search', searchStr)
     }
   },
   computed: {
