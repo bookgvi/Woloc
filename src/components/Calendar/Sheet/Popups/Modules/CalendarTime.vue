@@ -6,13 +6,23 @@
         q-input(
           dense
           outlined
-          v-model="range.min"
+          min="0"
+          max="24"
+          placeholder="0"
+          @keydown="keyHandler(range.min, $event)"
+          type="number"
+          v-model.number="range.min"
         )
       .col-5
         q-input(
           dense
           outlined
-          v-model="range.max"
+          min="0"
+          max="24"
+          placeholder="0"
+          @keydown="keyHandler(range.max, $event)"
+          type="number"
+          v-model.number="range.max"
         )
     .row.text-body2.q-py-sm Зеленым отмечено свободное время.
     q-range.row.q-px-sm(
@@ -51,7 +61,18 @@ export default {
         from: this.range.min,
         to: this.range.max
       })
-    }
+    },
+    keyHandler (val, evt) {
+      if (evt.key === '-' || evt.key === '+' || evt.key === 'e') {
+        evt.preventDefault()
+      }
+      if (Number.isNaN(evt.key)) {
+        evt.preventDefault()
+      }
+      if (Number(val + evt.key) > 24) {
+        evt.preventDefault()
+      }
+    },
   },
   props: ['startTime', 'endTime'],
   watch: {
