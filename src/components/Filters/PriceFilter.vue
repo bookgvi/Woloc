@@ -30,18 +30,6 @@ export default {
     }
   },
   computed: {
-    rangeBorders () {
-      if (!this.$app.bookings || !this.$app.bookings.calendarPriceFilter) {
-        return {
-          min: 0,
-          max: 999999
-        }
-      }
-      return {
-        min: this.$app.bookings.calendarPriceFilter.min,
-        max: this.$app.bookings.calendarPriceFilter.max
-      }
-    },
     value: {
       set (v) {
         this.range = Object.assign({}, v)
@@ -51,7 +39,6 @@ export default {
       }
     },
     buttonTitle () {
-      console.log(666, this.values)
       const min = this.price.min
       const max = this.price.max
       if (max === 999999) return 'Бронирований с ценой нет'

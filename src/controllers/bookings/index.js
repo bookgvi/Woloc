@@ -23,9 +23,9 @@ export default {
   },
   mixins: [crudMixin],
   methods: {
-    findPriceFilterValues (array) {
+    findPriceFilterValues () {
       this.calendarPriceFilter = Object.assign({ min: 0, max: 999999 })
-      array.forEach(({ price, technical }) => {
+      this.rawCalendarList.forEach(({ price, technical }) => {
         if (!technical) {
           const intPrice = Number(price)
           this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? intPrice : this.calendarPriceFilter.min
@@ -38,6 +38,8 @@ export default {
     async getForCalendar (filter) {
       this.loading.list = true
       const mainCalendarFilterProps = Object.assign({}, {
+        dateFrom: filter.dateFrom,
+        dateTo: filter.dateTo,
         studio: filter.studio,
         rooms: filter.rooms
       })
@@ -50,11 +52,11 @@ export default {
         if (res) {
           array = res.data.items
           this.rawCalendarList = [...res.data.items]
+          this.findPriceFilterValues()
         }
       }
       if (array) {
         if (filter.price && filter.events) {
-          this.findPriceFilterValues(array)
           let filteredList = array.filter(item => {
             const min = filter.price.min
             const max = filter.price.max

@@ -141,6 +141,9 @@ export default {
     value (value) {
       this.currentValue = value
     },
+    range (value) {
+      this.$emit('change', value)
+    },
   },
 }
 </script>
