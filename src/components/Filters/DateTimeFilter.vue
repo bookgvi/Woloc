@@ -26,8 +26,15 @@
             inline
             :label="dateLabel"
           )
-          .col
-            q-btn.text-white.bg-primary(label="Применить" @click="setDayTimeRange" style="width: 100%;")
+          .row.q-pb-md
+            .col.q-mx-sm
+              q-btn.text-white.bg-primary(
+                label="Применить"
+                @click="setDayTimeRange"
+                style="width: 100%;"
+              )
+            .col.q-mr-sm
+              q-btn(label="Сбросить" @click="resetDateTimeFilter" outlined style="width: 100%;")
 </template>
 
 <script>
@@ -48,11 +55,7 @@ export default {
     const currentPage = this.$route.path.split('/')[1]
     const startedAt = this.$app.filters.getValues(currentPage)['date[startedAt]']
     const finishedAt = this.$app.filters.getValues(currentPage)['date[finishedAt]']
-    console.log(currentPage, this.$app.filters.getValues(currentPage), finishedAt)
-    this.dateRange = {
-      'start': date.formatDate(startedAt, 'YYYY-MM-DD'),
-      'end': date.formatDate(finishedAt, 'YYYY-MM-DD')
-    }
+    this.setDateRange(startedAt, finishedAt)
   },
   methods: {
     setDayTimeRange () {
@@ -62,6 +65,18 @@ export default {
       this.$app.filters.setValue(currentPage, 'date[startedAt]', startedAt)
       this.$app.filters.setValue(currentPage, 'date[finishedAt]', finishedAt)
       this.$refs.qDateProxy.hide()
+    },
+    resetDateTimeFilter () {
+      const currentPage = this.$route.path.split('/')[1]
+      this.$app.filters.reset(currentPage)
+      this.$refs.qDateProxy.hide()
+      this.setDateRange(null, null)
+    },
+    setDateRange (startedAt, finishedAt) {
+      this.dateRange = {
+        'start': date.formatDate(startedAt, 'YYYY-MM-DD'),
+        'end': date.formatDate(finishedAt, 'YYYY-MM-DD')
+      }
     }
   }
 }
