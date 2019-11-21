@@ -12,7 +12,12 @@ const defaultValues = {
     search: null
   },
   finances: {
-    search: null
+    search: null,
+    date: {
+      startedAt: null,
+      finishedAt: null
+    },
+    time: {}
   },
   refunds: {
     studio: null,
