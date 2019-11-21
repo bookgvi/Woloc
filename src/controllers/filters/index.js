@@ -17,16 +17,33 @@ const defaultValues = {
       startedAt: null,
       finishedAt: null
     },
-    time: {}
+    time: {
+      hourFrom: 0,
+      hourTo: 23
+    }
   },
   refunds: {
     studio: null,
     rooms: null,
     statuses: [0, 1, 2, 3],
-    search: null
+    search: null,
+    date: {
+      startedAt: null,
+      finishedAt: null
+    },
+    time: {
+      hourFrom: 0,
+      hourTo: 23
+    }
   },
   documents: {
-    search: null
+    search: null,
+    'date[startedAt]': '1233-12-11',
+    'date[finishedAt]': '1233-12-11',
+    time: {
+      hourFrom: 0,
+      hourTo: 23
+    }
   },
   settings: {
     studio: null

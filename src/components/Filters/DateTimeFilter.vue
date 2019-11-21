@@ -26,7 +26,8 @@
             inline
             :label="dateLabel"
           )
-          q-btn(label="QQQ" @click="setDayTimeRange")
+          .col
+            q-btn.text-white.bg-primary(label="Применить" @click="setDayTimeRange" style="width: 100%;")
 </template>
 
 <script>
@@ -43,6 +44,16 @@ export default {
     dateRange: '',
     dateLabel: ''
   }),
+  created () {
+    const currentPage = this.$route.path.split('/')[1]
+    const startedAt = this.$app.filters.getValues(currentPage)['date[startedAt]']
+    const finishedAt = this.$app.filters.getValues(currentPage)['date[finishedAt]']
+    console.log(currentPage, this.$app.filters.getValues(currentPage), finishedAt)
+    this.dateRange = {
+      'start': date.formatDate(startedAt, 'YYYY-MM-DD'),
+      'end': date.formatDate(finishedAt, 'YYYY-MM-DD')
+    }
+  },
   methods: {
     setDayTimeRange () {
       const currentPage = this.$route.path.split('/')[1]
