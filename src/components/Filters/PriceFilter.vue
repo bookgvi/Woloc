@@ -25,7 +25,8 @@ export default {
       range: {
         min: this.values.price.min,
         max: this.values.price.max
-      }
+      },
+      priceField: null
     }
   },
   computed: {
@@ -33,7 +34,7 @@ export default {
       if (!this.$app.bookings || !this.$app.bookings.calendarPriceFilter) {
         return {
           min: 0,
-          max: Infinity
+          max: 999999
         }
       }
       return {
@@ -50,23 +51,26 @@ export default {
       }
     },
     buttonTitle () {
-      const min = this.values.price.min
-      const max = this.values.price.max
-      if (max === Infinity) return 'Бронирований с ценой нет'
+      console.log(666, this.values)
+      const min = this.price.min
+      const max = this.price.max
+      if (max === 999999) return 'Бронирований с ценой нет'
       if (min === max) return `Цена ${min}`
       return `Цена ${min}-${max}`
     },
+    price: {
+      set (v) {
+        this.priceField = Object.assign(v)
+      },
+      get () {
+        return (!this.priceField) ? this.values.price : this.priceField
+      }
+    }
   },
   watch: {
-    rangeBorders: {
+    '$app.bookings.calendarPriceFilter': {
       handler (v) {
-        if (this.value.min > v.min && this.value.max < v.max) return
-        let range = {
-          min: (this.value.min > v.min) ? this.value.min : v.min,
-          max: (this.value.max < v.max) ? this.value.max : v.max
-        }
-        this.value = Object.assign({}, range)
-        this.values.price = Object.assign({}, range)
+        this.value = Object.assign({}, v)
       },
       deep: true
     }

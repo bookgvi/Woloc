@@ -12,7 +12,7 @@
         v-if="isRange"
         borderless
         style="width: 80%;"
-        )
+      )
         q-range(
           v-model="currentValue"
           label-always
@@ -78,10 +78,11 @@ export default {
   },
   computed: {
     range () {
+      if (!this.isRange) return
       if (!this.$app.bookings || !this.$app.bookings.calendarPriceFilter) {
         return {
           min: 0,
-          max: Infinity
+          max: 999999
         }
       }
       return {
@@ -91,7 +92,7 @@ export default {
     },
     step () {
       const diff = this.range.max - this.range.min
-      if (diff === 0 || diff === Infinity) return 0
+      if (diff === 0 || this.range.max === 999999) return 0
       return Math.ceil(diff / 20 / 100) * 100
     },
     listOptions () {
@@ -103,8 +104,8 @@ export default {
     },
     disabled () {
       if (this.isRange === true) {
-        // if (this.currentValue.max === this.currentValue.min) return true
-        // if (this.currentValue.max === Infinity) return true
+        if (this.currentValue.max === this.currentValue.min) return true
+        if (this.currentValue.max === 999999) return true
         return false
       }
       return !this.listOptions.length

@@ -6,25 +6,30 @@ export default {
   data () {
     return {
       calendarList: [],
+      rawCalendarList: [],
+      previousCalendarFilter: {
+        studio: null,
+        rooms: null
+      },
       dashboardBookingsList: [],
       idOfJustAdded: 0,
       dashboardBookingsShareList: [],
       dashboardBookingsProfitList: [],
       calendarPriceFilter: {
         min: 0,
-        max: Infinity
+        max: 999999
       }
     }
   },
   mixins: [crudMixin],
   methods: {
     findPriceFilterValues (array) {
-      this.calendarPriceFilter = Object.assign({ min: 0, max: Infinity })
+      this.calendarPriceFilter = Object.assign({ min: 0, max: 999999 })
       array.forEach(({ price, technical }) => {
         if (!technical) {
           const intPrice = Number(price)
           this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? intPrice : this.calendarPriceFilter.min
-          this.calendarPriceFilter.max = (this.calendarPriceFilter.max === Infinity) ? intPrice : this.calendarPriceFilter.max
+          this.calendarPriceFilter.max = (this.calendarPriceFilter.max === 999999) ? intPrice : this.calendarPriceFilter.max
           this.calendarPriceFilter.min = (intPrice < this.calendarPriceFilter.min) ? intPrice : this.calendarPriceFilter.min
           this.calendarPriceFilter.max = (intPrice > this.calendarPriceFilter.max) ? intPrice : this.calendarPriceFilter.max
         }
@@ -32,23 +37,40 @@ export default {
     },
     async getForCalendar (filter) {
       this.loading.list = true
-      const res = await api.bookings.getForCalendar(filter)
-      if (res) {
+      const mainCalendarFilterProps = Object.assign({}, {
+        studio: filter.studio,
+        rooms: filter.rooms
+      })
+      let array = null
+      if (JSON.stringify(this.oldMainCalendarFilterProps) ===
+        JSON.stringify(mainCalendarFilterProps) && this.rawCalendarList) {
+        array = [...this.rawCalendarList]
+      } else {
+        const res = await api.bookings.getForCalendar(filter)
+        if (res) {
+          array = res.data.items
+          this.rawCalendarList = [...res.data.items]
+        }
+      }
+      if (array) {
         if (filter.price && filter.events) {
-          this.findPriceFilterValues(res.data.items)
-          console.log(this.calendarPriceFilter.min, this.calendarPriceFilter.max)
-          let filteredList = res.data.items.filter(item => {
+          this.findPriceFilterValues(array)
+          let filteredList = array.filter(item => {
             const min = filter.price.min
             const max = filter.price.max
             if (item.price >= min && item.price <= max &&
               filter.events.indexOf(item.eventType) !== -1) {
               return item
             }
+            if (item.technical) {
+              return item
+            }
           })
           this.calendarList = filteredList
           // console.log(filteredList)
-        } else this.calendarList = res.data.items
+        } else this.calendarList = array
       }
+      this.oldMainCalendarFilterProps = Object.assign({}, mainCalendarFilterProps)
       this.loading.list = false
     },
     async getForDashBoard (filter) {
