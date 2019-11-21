@@ -88,6 +88,7 @@ export default {
             this.setValue(page, 'technical', false)
           } else if (page === 'calendar') {
             this.setValue(page, 'price', { min: 0, max: Infinity })
+            this.setValue(page, 'events', ['photo', 'video', 'event'])
           }
         }
       }
@@ -107,6 +108,7 @@ export default {
       } else if (page === 'bookings') {
         this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
       } else if (page === 'calendar') {
+        this.setValue(page, 'events', ['photo', 'video', 'event'])
         this.setValue(page, 'price', { min: 0, max: Infinity })
       }
     }

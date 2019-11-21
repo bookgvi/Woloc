@@ -23,12 +23,24 @@ export default {
   data () {
     return {
       range: {
-        min: 0,
-        max: Infinity
+        min: this.values.price.min,
+        max: this.values.price.max
       }
     }
   },
   computed: {
+    rangeBorders () {
+      if (!this.$app.bookings || !this.$app.bookings.calendarPriceFilter) {
+        return {
+          min: 0,
+          max: Infinity
+        }
+      }
+      return {
+        min: this.$app.bookings.calendarPriceFilter.min,
+        max: this.$app.bookings.calendarPriceFilter.max
+      }
+    },
     value: {
       set (v) {
         this.range = Object.assign({}, v)
@@ -46,8 +58,17 @@ export default {
     },
   },
   watch: {
-    values (v) {
-      this.value = Object.assign({}, v.price)
+    rangeBorders: {
+      handler (v) {
+        if (this.value.min > v.min && this.value.max < v.max) return
+        let range = {
+          min: (this.value.min > v.min) ? this.value.min : v.min,
+          max: (this.value.max < v.max) ? this.value.max : v.max
+        }
+        this.value = Object.assign({}, range)
+        this.values.price = Object.assign({}, range)
+      },
+      deep: true
     }
   }
 }

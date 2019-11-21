@@ -60,11 +60,6 @@ export default {
   created () {
     this.currentValue = this.value
   },
-  watch: {
-    value (value) {
-      this.currentValue = value
-    }
-  },
   props: {
     title: String,
     selectAllLabel: String,
@@ -89,10 +84,6 @@ export default {
           max: Infinity
         }
       }
-      console.log(555, {
-        min: this.$app.bookings.calendarPriceFilter.min,
-        max: this.$app.bookings.calendarPriceFilter.max
-      })
       return {
         min: this.$app.bookings.calendarPriceFilter.min,
         max: this.$app.bookings.calendarPriceFilter.max
@@ -100,8 +91,7 @@ export default {
     },
     step () {
       const diff = this.range.max - this.range.min
-      console.log(diff)
-      if (diff === 0 || diff === Infinity) return 1
+      if (diff === 0 || diff === Infinity) return 0
       return Math.ceil(diff / 20 / 100) * 100
     },
     listOptions () {
@@ -113,8 +103,8 @@ export default {
     },
     disabled () {
       if (this.isRange === true) {
-        if (this.currentValue.max === this.currentValue.min) return true
-        if (this.currentValue.max === Infinity) return true
+        // if (this.currentValue.max === this.currentValue.min) return true
+        // if (this.currentValue.max === Infinity) return true
         return false
       }
       return !this.listOptions.length
@@ -145,6 +135,11 @@ export default {
         ? this.listOptions.map(({ value }) => value)
         : []
     }
-  }
+  },
+  watch: {
+    value (value) {
+      this.currentValue = value
+    },
+  },
 }
 </script>

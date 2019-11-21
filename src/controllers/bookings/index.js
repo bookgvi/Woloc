@@ -19,12 +19,14 @@ export default {
   mixins: [crudMixin],
   methods: {
     findPriceFilterValues (array) {
+      this.calendarPriceFilter = Object.assign({ min: 0, max: Infinity })
       array.forEach(({ price, technical }) => {
         if (!technical) {
-          this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? price : this.calendarPriceFilter.min
-          this.calendarPriceFilter.max = (this.calendarPriceFilter.max === Infinity) ? price : this.calendarPriceFilter.max
-          this.calendarPriceFilter.min = (price < this.calendarPriceFilter.min) ? price : this.calendarPriceFilter.min
-          this.calendarPriceFilter.max = (price > this.calendarPriceFilter.max) ? price : this.calendarPriceFilter.max
+          const intPrice = Number(price)
+          this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? intPrice : this.calendarPriceFilter.min
+          this.calendarPriceFilter.max = (this.calendarPriceFilter.max === Infinity) ? intPrice : this.calendarPriceFilter.max
+          this.calendarPriceFilter.min = (intPrice < this.calendarPriceFilter.min) ? intPrice : this.calendarPriceFilter.min
+          this.calendarPriceFilter.max = (intPrice > this.calendarPriceFilter.max) ? intPrice : this.calendarPriceFilter.max
         }
       })
     },
@@ -34,7 +36,7 @@ export default {
       if (res) {
         if (filter.price && filter.events) {
           this.findPriceFilterValues(res.data.items)
-          console.log(666, filter.price, filter.price.max)
+          console.log(this.calendarPriceFilter.min, this.calendarPriceFilter.max)
           let filteredList = res.data.items.filter(item => {
             const min = filter.price.min
             const max = filter.price.max
