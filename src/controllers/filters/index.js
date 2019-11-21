@@ -13,10 +13,8 @@ const defaultValues = {
   },
   finances: {
     search: null,
-    date: {
-      startedAt: null,
-      finishedAt: null
-    },
+    'date[startedAt]': null,
+    'date[finishedAt]': null,
     time: {
       hourFrom: 0,
       hourTo: 23
@@ -27,10 +25,8 @@ const defaultValues = {
     rooms: null,
     statuses: [0, 1, 2, 3],
     search: null,
-    date: {
-      startedAt: null,
-      finishedAt: null
-    },
+    'date[startedAt]': null,
+    'date[finishedAt]': null,
     time: {
       hourFrom: 0,
       hourTo: 23
@@ -38,8 +34,8 @@ const defaultValues = {
   },
   documents: {
     search: null,
-    'date[startedAt]': '1233-12-11',
-    'date[finishedAt]': '1233-12-11',
+    'date[startedAt]': null,
+    'date[finishedAt]': null,
     time: {
       hourFrom: 0,
       hourTo: 23

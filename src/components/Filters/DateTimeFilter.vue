@@ -28,13 +28,13 @@
           )
           .row.q-pb-md
             .col.q-mx-sm
+              q-btn(label="Сбросить" @click="resetDateTimeFilter" outlined style="width: 100%;")
+            .col.q-mr-sm
               q-btn.text-white.bg-primary(
                 label="Применить"
                 @click="setDayTimeRange"
                 style="width: 100%;"
               )
-            .col.q-mr-sm
-              q-btn(label="Сбросить" @click="resetDateTimeFilter" outlined style="width: 100%;")
 </template>
 
 <script>
