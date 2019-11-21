@@ -17,10 +17,10 @@ const defaultValues = {
     studio: null
   },
   calendar: {
-    studio: 0,
-    rooms: [],
-    events: ['photo', 'video', 'event'],
-    price: { min: 0, max: 10000 }
+    studio: null,
+    rooms: null,
+    events: null,
+    price: null
   }
 }
 
@@ -87,7 +87,7 @@ export default {
             this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
             this.setValue(page, 'technical', false)
           } else if (page === 'calendar') {
-            this.setValue(page, 'price', { min: 0, max: 10000 })
+            this.setValue(page, 'price', { min: 0, max: Infinity })
           }
         }
       }
@@ -107,7 +107,7 @@ export default {
       } else if (page === 'bookings') {
         this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
       } else if (page === 'calendar') {
-        this.setValue(page, 'price', { min: 0, max: 10000 })
+        this.setValue(page, 'price', { min: 0, max: Infinity })
       }
     }
   }

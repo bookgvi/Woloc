@@ -9,19 +9,35 @@ export default {
       dashboardBookingsList: [],
       idOfJustAdded: 0,
       dashboardBookingsShareList: [],
-      dashboardBookingsProfitList: []
+      dashboardBookingsProfitList: [],
+      calendarPriceFilter: {
+        min: 0,
+        max: Infinity
+      }
     }
   },
   mixins: [crudMixin],
   methods: {
+    findPriceFilterValues (array) {
+      array.forEach(({ price, technical }) => {
+        if (!technical) {
+          this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? price : this.calendarPriceFilter.min
+          this.calendarPriceFilter.max = (this.calendarPriceFilter.max === Infinity) ? price : this.calendarPriceFilter.max
+          this.calendarPriceFilter.min = (price < this.calendarPriceFilter.min) ? price : this.calendarPriceFilter.min
+          this.calendarPriceFilter.max = (price > this.calendarPriceFilter.max) ? price : this.calendarPriceFilter.max
+        }
+      })
+    },
     async getForCalendar (filter) {
       this.loading.list = true
       const res = await api.bookings.getForCalendar(filter)
       if (res) {
         if (filter.price && filter.events) {
+          this.findPriceFilterValues(res.data.items)
+          console.log(666, filter.price, filter.price.max)
           let filteredList = res.data.items.filter(item => {
             const min = filter.price.min
-            const max = (filter.price.max === 10000) ? Infinity : filter.price.max
+            const max = filter.price.max
             if (item.price >= min && item.price <= max &&
               filter.events.indexOf(item.eventType) !== -1) {
               return item

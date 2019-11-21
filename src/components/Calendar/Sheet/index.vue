@@ -596,6 +596,7 @@ export default {
       this.isResizeNow = false
       this.indexResize = -1
       if (this.filter.studio === 0) return
+      console.log(this.filter)
       await this.$app.bookings.getForCalendar({
         ...this.filter,
         dateFrom: this.range.from,
@@ -852,7 +853,7 @@ export default {
       await this.placeEvents()
     },
     async selectedDate (v, old) {
-      if (!old || !v || this.$moment(old).isSame(v, 'week')) return
+      if (!v || this.$moment(old).isSame(v, 'week')) return
       await this.placeEvents()
     }
   }

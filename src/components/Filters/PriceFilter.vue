@@ -20,12 +20,14 @@ export default {
     },
     onChange: Function
   },
-  data: () => ({
-    range: {
-      min: 0,
-      max: 10000
-    },
-  }),
+  data () {
+    return {
+      range: {
+        min: 0,
+        max: Infinity
+      }
+    }
+  },
   computed: {
     value: {
       set (v) {
@@ -37,7 +39,9 @@ export default {
     },
     buttonTitle () {
       const min = this.values.price.min
-      const max = (this.value.max === 10000) ? 'максимум' : this.range.max
+      const max = this.values.price.max
+      if (max === Infinity) return 'Бронирований с ценой нет'
+      if (min === max) return `Цена ${min}`
       return `Цена ${min}-${max}`
     },
   },
