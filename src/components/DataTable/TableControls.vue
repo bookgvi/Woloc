@@ -1,6 +1,7 @@
 <template lang="pug">
   .table-controls.row.q-px-none
     q-input.q-mr-sm(
+      v-if="hasFind"
       dense
       square
       outlined
@@ -62,6 +63,12 @@ export default {
   data () {
     return {
       options: [10, 50, 100, 250],
+    }
+  },
+  computed: {
+    hasFind () {
+      const isFind = (this.$route.path !== '/settings') ^ (this.$route.path !== '/settings/discounts')
+      return !isFind
     }
   },
   methods: {

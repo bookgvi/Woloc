@@ -10,7 +10,8 @@ const defaultValues = {
   },
   refunds: {
     studio: null,
-    rooms: null
+    rooms: null,
+    statuses: null
   },
   settings: {
     studio: null
@@ -80,9 +81,13 @@ export default {
           })
           this.setValue(page, 'studio', filter.studio)
           this.setValue(page, 'rooms', filter.rooms)
-          if (page === 'bookings') {
+          if (page === 'refunds') {
+            this.setValue(page, 'statuses', [0, 1, 2, 3])
+          } else if (page === 'bookings') {
             this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
             this.setValue(page, 'technical', false)
+          } else if (page === 'calendar') {
+            this.setValue(page, 'price', { min: 0, max: 10000 })
           }
         }
       }
@@ -97,8 +102,12 @@ export default {
         [page]: { studio: items[0].id, rooms: rooms }
       }
       this.saveToSession()
-      if (page === 'bookings') {
+      if (page === 'refunds') {
+        this.setValue(page, 'statuses', [0, 1, 2, 3])
+      } else if (page === 'bookings') {
         this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
+      } else if (page === 'calendar') {
+        this.setValue(page, 'price', { min: 0, max: 10000 })
       }
     }
   }

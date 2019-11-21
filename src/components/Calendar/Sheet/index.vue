@@ -201,7 +201,7 @@
  </template>
 
 <script>
-import { colors, dom } from 'quasar'
+import { colors, dom, date } from 'quasar'
 import { EVENT_TYPES } from 'src/common/constants'
 import roomsColors from 'src/common/rooms/colors'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
@@ -265,6 +265,8 @@ export default {
     if (this.$route.query.updateBookings) {
       this.findBooking(null, this.$route.query.updateBookings)
     }
+    this.setWeekRange()
+    this.$app.filters.filterDefault('calendar')
     this.calendarToday()
   },
   computed: {
@@ -291,6 +293,16 @@ export default {
     }
   },
   methods: {
+    setWeekRange () {
+      const currentDate = new Date()
+      const fromMonday = currentDate.getDay() - 1
+      const toSunday = 7 - currentDate.getDay()
+      const currentDateMS = +currentDate
+      const fromMondayMS = currentDateMS - 24 * fromMonday * 1000 * 3600
+      const toSundayMS = currentDateMS + 24 * toSunday * 1000 * 3600
+      this.range.from = date.formatDate(new Date(fromMondayMS), 'YYYY-MM-DD')
+      this.range.to = date.formatDate(new Date(toSundayMS), 'YYYY-MM-DD')
+    },
     closePopupForNewBooking () {
       this.forNewBooking.date = ''
       this.forNewBooking.from = 0
@@ -371,7 +383,7 @@ export default {
         reserveTo: to,
         priceType: booking.eventType,
         extras: booking.extras,
-        seats: booking.seats,
+        members: [...booking.members],
         description: booking.managerComment || '',
         technical: booking.technical,
       })
@@ -531,6 +543,7 @@ export default {
         reservedTo: this.$moment(`${date}T${String(this.forNewBooking.to + 1).padStart(2, '0')}:00`),
         room: room,
         extras: [],
+        members: [],
         eventType: '',
         studio: this.studio,
         filter: this.filter
@@ -558,9 +571,8 @@ export default {
       if (!index) {
         this.selectedBooking = await this.$app.bookings.getOne(id)
       } else {
-        this.selectedBooking = await this.$app.bookings.getOne(this.events[index].id)
+        this.selectedBooking = await this.$app.bookings.getOne(id)
       }
-      // console.log(this.selectedBooking)
       this.dialogState = true
     },
     dayHeader (dt) {
