@@ -15,10 +15,8 @@ const defaultValues = {
     search: null,
     'date[startedAt]': null,
     'date[finishedAt]': null,
-    time: {
-      hourFrom: 0,
-      hourTo: 23
-    }
+    'time[hourFrom]': 0,
+    'time[hourTo]': 23
   },
   refunds: {
     studio: null,
@@ -27,19 +25,15 @@ const defaultValues = {
     search: null,
     'date[startedAt]': null,
     'date[finishedAt]': null,
-    time: {
-      hourFrom: 0,
-      hourTo: 23
-    }
+    'time[hourFrom]': 0,
+    'time[hourTo]': 23
   },
   documents: {
     search: null,
     'date[startedAt]': null,
     'date[finishedAt]': null,
-    time: {
-      hourFrom: 0,
-      hourTo: 23
-    }
+    'time[hourFrom]': 0,
+    'time[hourTo]': 23
   },
   settings: {
     studio: null
