@@ -2,6 +2,7 @@
   DataTable(
     title="Финансы"
     :loadData="$app.finances.getAll"
+    :filter="$app.filters.getValues('finances')"
     :getDialogTitle="() => 'Финансы'"
     :columns="columns"
     :details="details"

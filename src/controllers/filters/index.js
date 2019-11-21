@@ -1,17 +1,27 @@
 import studios from '../../api/studios'
 
 const defaultValues = {
-  customers: {},
+  customers: {
+    search: null
+  },
   bookings: {
     studio: null,
     rooms: null,
-    statuses: null,
-    technical: null
+    statuses: [0, 1, 2, 3, 4],
+    technical: false,
+    search: null
+  },
+  finances: {
+    search: null
   },
   refunds: {
     studio: null,
     rooms: null,
-    statuses: null
+    statuses: [0, 1, 2, 3],
+    search: null
+  },
+  documents: {
+    search: null
   },
   settings: {
     studio: null
@@ -39,6 +49,7 @@ export default {
       const { filters } = sessionStorage
 
       if (filters) this.values = JSON.parse(filters)
+      return this.values
     },
     saveToSession () {
       sessionStorage.filters = JSON.stringify(this.values)
@@ -63,35 +74,6 @@ export default {
       this.values.bookings = { customer: id }
       this.saveToSession()
     },
-    async filterDefault (page) {
-      this.readFromSession()
-      if (!this.values[page].studio) {
-        let filter = {}
-        this.readFromSession()
-        this.values.bookings = {}
-        this.saveToSession()
-        let { studio } = this.getValues(page)
-        const { items } = await studios.getAll().then(resp => resp.data)
-        if (!studio) {
-          let [{ rooms }] = items.filter(item => item.id === items[0].id)
-          rooms = rooms.map(item => item.id)
-          filter = Object.assign({}, {
-            studio: items[0].id,
-            rooms: rooms
-          })
-          this.setValue(page, 'studio', filter.studio)
-          this.setValue(page, 'rooms', filter.rooms)
-          if (page === 'refunds') {
-            this.setValue(page, 'statuses', [0, 1, 2, 3])
-          } else if (page === 'bookings') {
-            this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
-            this.setValue(page, 'technical', false)
-          } else if (page === 'calendar') {
-            this.setValue(page, 'price', { min: 0, max: 10000 })
-          }
-        }
-      }
-    },
     async reset (page) {
       const { values } = this
       const { items } = await studios.getAll().then(resp => resp.data)
@@ -99,16 +81,13 @@ export default {
       rooms = rooms.map(item => item.id)
       this.values = {
         ...values,
-        [page]: { studio: items[0].id, rooms: rooms }
+        [page]: defaultValues[page]
+      }
+      if (values[page].hasOwnProperty('studio')) {
+        this.setValue(page, 'studio', items[0].id)
+        this.setValue(page, 'rooms', rooms)
       }
       this.saveToSession()
-      if (page === 'refunds') {
-        this.setValue(page, 'statuses', [0, 1, 2, 3])
-      } else if (page === 'bookings') {
-        this.setValue(page, 'statuses', [0, 1, 2, 3, 4])
-      } else if (page === 'calendar') {
-        this.setValue(page, 'price', { min: 0, max: 10000 })
-      }
     }
   }
 }

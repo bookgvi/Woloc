@@ -6,8 +6,10 @@
       square
       outlined
       type="search"
+      v-model="inputValue"
       placeholder="Поиск"
       style="width: 290px"
+      @change.native="search"
     )
       template(#prepend)
         q-icon(name="search")
@@ -59,10 +61,12 @@ export default {
     prevPage: Function,
     nextPage: Function,
     setPagination: Function,
+    resetFilter: Boolean
   },
   data () {
     return {
       options: [10, 50, 100, 250],
+      inputValue: '',
     }
   },
   computed: {
@@ -71,12 +75,30 @@ export default {
       return !isFind
     }
   },
+  watch: {
+    resetFilter (newValue) {
+      if (newValue) {
+        this.inputValue = ''
+      } else {
+        const currentPage = this.$route.path.split('/')[1]
+        this.inputValue = this.$app.filters.getValues(currentPage).search
+      }
+    }
+  },
+  created () {
+    const currentPage = this.$route.path.split('/')[1]
+    this.inputValue = this.$app.filters.getValues(currentPage).search
+  },
   methods: {
     hNextPage (val) {
       this.setPagination('page', val.page + 1)
     },
     hPrevPage (val) {
       this.setPagination('page', val.page - 1)
+    },
+    async search (e) {
+      const page = this.$route.path
+      this.$emit('search', page, this.inputValue)
     }
   }
 }
