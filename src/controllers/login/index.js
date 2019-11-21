@@ -47,6 +47,7 @@ export default {
       if (res.errors) {
         return false
       }
+      const { user } = res.data
       const token = res.data.access_token
       const jwt = token && jwtDecode(token)
       if (token && jwt) {
@@ -55,6 +56,8 @@ export default {
         this.profile = Object.assign({}, jwt)
         LocalStorage.set('user-token', token)
         LocalStorage.set('user-data', jwt)
+        LocalStorage.set('user-avatar', user.avatar)
+        LocalStorage.set('user-name', user.fullName)
         this.$app.$router.push('/')
         return true
       }

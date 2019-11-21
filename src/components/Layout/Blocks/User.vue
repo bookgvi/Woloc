@@ -1,17 +1,46 @@
 <template lang="pug">
   .q-px-md.justify-end
-    q-list
+    q-list(v-if="isAuthorized")
       q-item.col-12
         q-item-section.col-9
-          span {{'Username'}}
+          span {{ userName }}
         q-item-section.col-3
           q-avatar
-            img(src="https://cdn.quasar.dev/img/avatar.png")
+            img(:src="avatar")
 </template>
 
 <script>
+import { LocalStorage } from 'quasar'
 export default {
-  name: 'User'
+  name: 'User',
+  data () {
+    return {
+      isAuthorized: false,
+      userName: 'user',
+      avatar: 'https://cdn.quasar.dev/img/avatar.png'
+    }
+  },
+  watch: {
+    '$route.path' (newPath, oldPath) {
+      if (newPath) {
+        this.setUserData()
+      }
+    }
+  },
+  mounted () {
+    this.setUserData()
+  },
+  methods: {
+    setUserData () {
+      if (!LocalStorage.getItem('user-name')) return
+      this.userName = LocalStorage.getItem('user-name')
+      this.avatar = LocalStorage.getItem('user-avatar')
+      if (window.location.hostname === 'localhost') {
+        this.avatar = 'https://pre.ugoloc.ucann.ru' + this.avatar
+      }
+      this.isAuthorized = true
+    }
+  }
 }
 </script>
 
