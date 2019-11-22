@@ -6,33 +6,93 @@ export default {
   data () {
     return {
       calendarList: [],
+      rawCalendarList: [],
+      eventsFilteredCalendarList: [],
+      oldMainCalendarFilterProps: '',
+      oldEventsFilterProp: '',
       dashboardBookingsList: [],
       idOfJustAdded: 0,
       dashboardBookingsShareList: [],
-      dashboardBookingsProfitList: []
+      dashboardBookingsProfitList: [],
+      calendarPriceFilter: {
+        min: 0,
+        max: 999999
+      }
     }
   },
   mixins: [crudMixin],
   methods: {
+    findPriceFilterValues (array) {
+      this.calendarPriceFilter = Object.assign({ min: 0, max: 999999 })
+      array.forEach(({ price, technical }) => {
+        if (!technical) {
+          const intPrice = Number(price)
+          this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? intPrice : this.calendarPriceFilter.min
+          this.calendarPriceFilter.max = (this.calendarPriceFilter.max === 999999) ? intPrice : this.calendarPriceFilter.max
+          this.calendarPriceFilter.min = (intPrice < this.calendarPriceFilter.min) ? intPrice : this.calendarPriceFilter.min
+          this.calendarPriceFilter.max = (intPrice > this.calendarPriceFilter.max) ? intPrice : this.calendarPriceFilter.max
+        }
+      })
+    },
     async getForCalendar (filter) {
       this.loading.list = true
       const res = await api.bookings.getForCalendar(filter)
       if (res) {
-        if (filter.price && filter.events) {
-          let filteredList = res.data.items.filter(item => {
-            const min = filter.price.min
-            const max = (filter.price.max === 10000) ? Infinity : filter.price.max
-            if (item.price >= min && item.price <= max &&
-              filter.events.indexOf(item.eventType) !== -1) {
-              return item
-            }
-          })
-          this.calendarList = filteredList
-          // console.log(filteredList)
-        } else this.calendarList = res.data.items
+        this.rawCalendarList = res.data.items
+        // console.log(res)
       }
       this.loading.list = false
     },
+    filterByEvents (array, events) {
+      this.eventsFilteredCalendarList = array.filter(item => {
+        if (events.indexOf(item.eventType) !== -1 || item.technical) {
+          return item
+        }
+      })
+    },
+    filterByPrice (array, price) {
+      return array.filter(item => {
+        const min = price.min
+        const max = price.max
+        if (item.price >= min && item.price <= max) {
+          return item
+        }
+        if (item.technical) {
+          return item
+        }
+      })
+    },
+
+    async calendarFilters (filter, forceUpdate = true) {
+      const mainCalendarFilterProps = Object.assign({}, {
+        dateFrom: filter.dateFrom,
+        dateTo: filter.dateTo,
+        studio: filter.studio,
+        rooms: filter.rooms
+      })
+      let updated = false
+      if (forceUpdate || !this.rawCalendarList || this.oldMainCalendarFilterProps !== JSON.stringify(mainCalendarFilterProps)) {
+        await this.getForCalendar(filter)
+        updated = true
+      }
+      this.oldMainCalendarFilterProps = JSON.stringify(mainCalendarFilterProps)
+      let array = [...this.rawCalendarList]
+      const eventsFilterProp = [...filter.events]
+      if (updated || forceUpdate || !this.eventsFilteredCalendarList ||
+        this.oldEventsFilterProp !== JSON.stringify(eventsFilterProp)) {
+        this.filterByEvents(array, filter.events)
+        updated = true
+      }
+      let filteredList = [...this.eventsFilteredCalendarList]
+      this.oldEventsFilterProp = JSON.stringify(eventsFilterProp)
+
+      if (updated === true || filter.price.max === 0) {
+        this.findPriceFilterValues(filteredList)
+      }
+      filteredList = this.filterByPrice(filteredList, filter.price)
+      this.calendarList = filteredList
+    },
+
     async getForDashBoard (filter) {
       this.loading.list = true
       const res = await api.bookings.getForCalendar(filter)
@@ -41,7 +101,6 @@ export default {
       }
       this.loading.list = false
     },
-
     async dashboardBookingsShare (payload) {
       this.loading.list = true
       const res = await api.bookings.dashboardBookingsShare(payload)
