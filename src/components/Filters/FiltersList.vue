@@ -29,15 +29,9 @@ export default {
   computed: {
     values () {
       const filter = this.$app.filters.readFromSession()[this.name]
-      if (this.name === 'bookings' &&
-        filter.hasOwnProperty('studio') &&
-        !filter.studio &&
-        filter.hasOwnProperty('customer') &&
-        !filter.customer) {
+      if (this.name === 'bookings' && !filter.studio && !filter.customer) {
         this.$app.filters.reset(this.name)
-      } else if (this.name !== 'bookings' &&
-        filter.hasOwnProperty('studio') &&
-        !filter.studio) {
+      } else if (this.name !== 'bookings' && !filter.studio) {
         this.$app.filters.reset(this.name)
       }
       return this.$app.filters.getValues(this.name)
