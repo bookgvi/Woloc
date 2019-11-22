@@ -29,9 +29,15 @@
                 :label="dateLabel"
               )
             .col.q-pt-md.q-px-md(style="min-width: 400px;")
-              .row
+              .row.q-pb-md
                 .col
                   .text-h5 Интервал: {{ rangeTime.max - rangeTime.min + 1 }} ч.
+              .row.justify-center
+                .col(style="font-size: 1.2rem;")
+                  span.q-px-md Начало:
+                  q-input.inline-block.q-pa-none(:value="rangeTime.min" style="width: 4rem;" outlined dense readonly)
+                  span.q-px-md Конец:
+                  q-input.inline-block.q-pa-none(:value="rangeTime.max" style="width: 4rem;" outlined dense readonly)
               .row.q-pt-xl.justify-center
                 .col-9
                   q-range(
