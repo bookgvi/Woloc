@@ -146,6 +146,7 @@
                     .col-6.q-pl-sm
                       q-btn.fit.bg-primary.text-white(
                         label="Применить"
+                        v-close-popup
                         size="13px"
                         no-caps
                       )
