@@ -12,15 +12,14 @@
         v-if="isRange"
         borderless
         style="width: 80%;"
-        )
+      )
         q-range(
           v-model="currentValue"
           label-always
           markers
-          :right-label-value="rightLabel"
-          :min="0"
-          :max="10000"
-          :step="500"
+          :min="range.min"
+          :max="range.max"
+          :step="step"
           color="green"
         )
       q-option-group.text-body2.q-px-md.q-pt-md(
@@ -61,11 +60,6 @@ export default {
   created () {
     this.currentValue = this.value
   },
-  watch: {
-    value (value) {
-      this.currentValue = value
-    }
-  },
   props: {
     title: String,
     selectAllLabel: String,
@@ -83,8 +77,23 @@ export default {
     },
   },
   computed: {
-    rightLabel () {
-      return (this.currentValue.max < 10000) ? this.currentValue.max : 'максимум'
+    range () {
+      if (!this.isRange) return
+      if (!this.$app.bookings || !this.$app.bookings.calendarPriceFilter) {
+        return {
+          min: 0,
+          max: 999999
+        }
+      }
+      return {
+        min: this.$app.bookings.calendarPriceFilter.min,
+        max: this.$app.bookings.calendarPriceFilter.max
+      }
+    },
+    step () {
+      const diff = this.range.max - this.range.min
+      if (diff === 0 || this.range.max === 999999) return 0
+      return Math.ceil(diff / 20 / 100) * 100
     },
     listOptions () {
       if (this.isRange === true) return {}
@@ -94,7 +103,11 @@ export default {
       }))
     },
     disabled () {
-      if (this.isRange === true) return false
+      if (this.isRange === true) {
+        if (this.currentValue.max === this.currentValue.min) return true
+        if (this.currentValue.max === 999999) return true
+        return false
+      }
       return !this.listOptions.length
     },
     selectAllState () {
@@ -123,6 +136,14 @@ export default {
         ? this.listOptions.map(({ value }) => value)
         : []
     }
-  }
+  },
+  watch: {
+    value (value) {
+      this.currentValue = value
+    },
+    range (value) {
+      this.$emit('change', value)
+    },
+  },
 }
 </script>

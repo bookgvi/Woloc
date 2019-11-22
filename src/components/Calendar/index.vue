@@ -53,7 +53,7 @@ export default {
           return item.id
         }),
         events: ['photo', 'video', 'event'],
-        price: { min: 0, max: 10000 }
+        price: { min: 0, max: 999999 }
       }
       this.$app.filters.setValue('calendar', 'studio', params.studio)
       this.$app.filters.setValue('calendar', 'rooms', params.rooms)
