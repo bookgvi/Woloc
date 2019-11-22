@@ -29,8 +29,7 @@ export default {
   computed: {
     values () {
       const filter = this.$app.filters.readFromSession()[this.name]
-      if (filter.hasOwnProperty('studio') && !filter.studio && !filter.hasOwnProperty('customer')) {
-        console.log('FilterList')
+      if (filter.hasOwnProperty('studio') && !filter.studio && filter.hasOwnProperty('customer') && !filter.customer) {
         this.$app.filters.reset(this.name)
       }
       return this.$app.filters.getValues(this.name)
