@@ -3,6 +3,7 @@
     DataTable(
       title="Клиенты"
       :loadData="$app.customers.getAll"
+      :filter="$app.filters.getValues('customers')"
       :columns="columns"
       @toggleDialogRow="toggleDialogRow"
     )

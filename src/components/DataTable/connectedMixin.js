@@ -5,6 +5,11 @@ export default {
   },
   watch: {
     filter (filter) {
+      if (!filter.search) {
+        this.resetFilter = true
+      } else {
+        this.resetFilter = false
+      }
       this.onRequest(this.pagination, filter)
     }
   },
@@ -20,16 +25,11 @@ export default {
         total = transactions.total
       }
       this.data = items
-      if (!total) {
-        Object.assign(this.pagination, pagination)
-      } else {
-        Object.assign(this.pagination, pagination, { rowsNumber: total })
-      }
+      Object.assign(this.pagination, pagination, { rowsNumber: total })
     },
     setPagination (prop, value) {
       const { pagination, filter } = this
       if (pagination[prop] === value) return
-
       this.onRequest({ ...pagination, [prop]: value }, filter)
     }
   },
