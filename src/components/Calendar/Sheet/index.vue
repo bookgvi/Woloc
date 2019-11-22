@@ -590,16 +590,17 @@ export default {
         }
       }
     },
-    async loadData () {
+    async loadData (forceUpdate = true) {
       this.closePopupForNewBooking()
       this.isResizeNow = false
       this.indexResize = -1
       if (this.filter.studio === 0) return
-      await this.$app.bookings.getForCalendar({
+      if (!Object.values(this.filter).every(val => val)) return
+      await this.$app.bookings.calendarFilters({
         ...this.filter,
         dateFrom: this.range.from,
         dateTo: this.range.to
-      })
+      }, forceUpdate)
     },
     async placeEvents () {
       const dayOfWeek = +this.$moment(this.selectedDate).format('e')
@@ -844,7 +845,7 @@ export default {
       deep: true
     },
     async filter () {
-      await this.loadData()
+      await this.loadData(false)
     },
     async isAllDay (v) {
       this.$emit('isAllDayChange', v)

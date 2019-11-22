@@ -29,8 +29,11 @@ const defaultValues = {
   calendar: {
     studio: null,
     rooms: null,
-    events: null,
-    price: null
+    events: ['photo', 'video', 'event'],
+    price: {
+      min: 0,
+      max: 999999
+    }
   }
 }
 

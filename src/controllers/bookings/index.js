@@ -7,10 +7,9 @@ export default {
     return {
       calendarList: [],
       rawCalendarList: [],
-      previousCalendarFilter: {
-        studio: null,
-        rooms: null
-      },
+      eventsFilteredCalendarList: [],
+      oldMainCalendarFilterProps: '',
+      oldEventsFilterProp: '',
       dashboardBookingsList: [],
       idOfJustAdded: 0,
       dashboardBookingsShareList: [],
@@ -23,9 +22,9 @@ export default {
   },
   mixins: [crudMixin],
   methods: {
-    findPriceFilterValues () {
+    findPriceFilterValues (array) {
       this.calendarPriceFilter = Object.assign({ min: 0, max: 999999 })
-      this.rawCalendarList.forEach(({ price, technical }) => {
+      array.forEach(({ price, technical }) => {
         if (!technical) {
           const intPrice = Number(price)
           this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? intPrice : this.calendarPriceFilter.min
@@ -37,44 +36,63 @@ export default {
     },
     async getForCalendar (filter) {
       this.loading.list = true
+      const res = await api.bookings.getForCalendar(filter)
+      if (res) {
+        this.rawCalendarList = res.data.items
+        console.log(res)
+      }
+      this.loading.list = false
+    },
+    filterByEvents (array, events) {
+      this.eventsFilteredCalendarList = array.filter(item => {
+        if (events.indexOf(item.eventType) !== -1 || item.technical) {
+          return item
+        }
+      })
+    },
+    filterByPrice (array, price) {
+      return array.filter(item => {
+        const min = price.min
+        const max = price.max
+        if (item.price >= min && item.price <= max) {
+          return item
+        }
+        if (item.technical) {
+          return item
+        }
+      })
+    },
+
+    async calendarFilters (filter, forceUpdate = true) {
       const mainCalendarFilterProps = Object.assign({}, {
         dateFrom: filter.dateFrom,
         dateTo: filter.dateTo,
         studio: filter.studio,
         rooms: filter.rooms
       })
-      let array = null
-      if (JSON.stringify(this.oldMainCalendarFilterProps) ===
-        JSON.stringify(mainCalendarFilterProps) && this.rawCalendarList) {
-        array = [...this.rawCalendarList]
-      } else {
-        const res = await api.bookings.getForCalendar(filter)
-        if (res) {
-          array = res.data.items
-          this.rawCalendarList = [...res.data.items]
-          this.findPriceFilterValues()
-        }
+      let updated = false
+      if (forceUpdate || !this.rawCalendarList || this.oldMainCalendarFilterProps !== JSON.stringify(mainCalendarFilterProps)) {
+        await this.getForCalendar(filter)
+        updated = true
       }
-      if (array) {
-        if (filter.price && filter.events) {
-          let filteredList = array.filter(item => {
-            const min = filter.price.min
-            const max = filter.price.max
-            if (item.price >= min && item.price <= max &&
-              filter.events.indexOf(item.eventType) !== -1) {
-              return item
-            }
-            if (item.technical) {
-              return item
-            }
-          })
-          this.calendarList = filteredList
-          // console.log(filteredList)
-        } else this.calendarList = array
+      let array = [...this.rawCalendarList]
+      const eventsFilterProp = [...filter.events]
+      if (forceUpdate || !this.eventsFilteredCalendarList || this.oldEventsFilterProp !== JSON.stringify(eventsFilterProp)) {
+        this.filterByEvents(array, filter.events)
+        updated = true
       }
-      this.oldMainCalendarFilterProps = Object.assign({}, mainCalendarFilterProps)
-      this.loading.list = false
+      let filteredList = [...this.eventsFilteredCalendarList]
+      this.oldEventsFilterProp = JSON.stringify(eventsFilterProp)
+
+      if (updated === true) {
+        this.findPriceFilterValues(filteredList)
+      }
+      filteredList = this.filterByPrice(filteredList, filter.price)
+      this.calendarList = filteredList
+      console.log(444, this.calendarList)
+      this.oldMainCalendarFilterProps = JSON.stringify(mainCalendarFilterProps)
     },
+
     async getForDashBoard (filter) {
       this.loading.list = true
       const res = await api.bookings.getForCalendar(filter)
@@ -83,7 +101,6 @@ export default {
       }
       this.loading.list = false
     },
-
     async dashboardBookingsShare (payload) {
       this.loading.list = true
       const res = await api.bookings.dashboardBookingsShare(payload)

@@ -26,7 +26,6 @@ export default {
         min: this.values.price.min,
         max: this.values.price.max
       },
-      priceField: null
     }
   },
   computed: {
@@ -39,19 +38,11 @@ export default {
       }
     },
     buttonTitle () {
-      const min = this.price.min
-      const max = this.price.max
+      const min = this.values.price.min
+      const max = this.values.price.max
       if (max === 999999) return 'Бронирований с ценой нет'
       if (min === max) return `Цена ${min}`
       return `Цена ${min}-${max}`
-    },
-    price: {
-      set (v) {
-        this.priceField = Object.assign(v)
-      },
-      get () {
-        return (!this.priceField) ? this.values.price : this.priceField
-      }
     }
   },
   watch: {
