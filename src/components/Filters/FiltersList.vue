@@ -44,6 +44,7 @@ export default {
     },
     onReset () {
       this.$app.filters.reset(this.name)
+      this.$app.filters.setValue(this.name, 'customer', null)
     }
   }
 }
