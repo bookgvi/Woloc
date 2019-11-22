@@ -75,9 +75,11 @@ export default {
         await this.getForCalendar(filter)
         updated = true
       }
+      this.oldMainCalendarFilterProps = JSON.stringify(mainCalendarFilterProps)
       let array = [...this.rawCalendarList]
       const eventsFilterProp = [...filter.events]
-      if (forceUpdate || !this.eventsFilteredCalendarList || this.oldEventsFilterProp !== JSON.stringify(eventsFilterProp)) {
+      if (updated || forceUpdate || !this.eventsFilteredCalendarList ||
+        this.oldEventsFilterProp !== JSON.stringify(eventsFilterProp)) {
         this.filterByEvents(array, filter.events)
         updated = true
       }
@@ -89,7 +91,6 @@ export default {
       }
       filteredList = this.filterByPrice(filteredList, filter.price)
       this.calendarList = filteredList
-      this.oldMainCalendarFilterProps = JSON.stringify(mainCalendarFilterProps)
     },
 
     async getForDashBoard (filter) {
