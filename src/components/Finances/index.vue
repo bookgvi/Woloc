@@ -3,12 +3,7 @@
     .menu
       filters-list(name="finances")
         template(#prepend="props")
-          q-btn.q-py-none.q-px-sm(
-            outline
-            dense
-            no-caps
-            label="Дата и время"
-          )
+          date-time-filter(v-bind="props")
           finances-purposes-filter(v-bind="props")
           q-space
           q-btn.q-py-none.q-px-sm.bg-primary.text-white(
@@ -32,6 +27,7 @@
 </template>
 
 <script>
+import DateTimeFilter from '../Filters/DateTimeFilter'
 import FinancesTable from './Table/index'
 import FiltersList from '../Filters/FiltersList'
 import FinancesPurposesFilter from '../Filters/FinancesPurposesFilter'
@@ -44,7 +40,8 @@ export default {
     FinancesPurposesFilter,
     FinancesTable,
     refund,
-    prepayment
+    prepayment,
+    DateTimeFilter
   },
   data: () => ({
     isRefund: false,

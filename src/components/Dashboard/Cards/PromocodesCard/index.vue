@@ -26,11 +26,11 @@
           )
             td {{ nameSlot(index) }} &nbsp
               span.text-body2.bg-cyan-3.q-pa-xs(
-                v-if="item.isPublic === 0"
+                v-if="(!isActive(item))"
               ) ugoloc
             td.text-right
               span.text-black.text-body2(
-                v-if="item.isPublic === 1"
+                v-if="(isActive(item))"
               ) {{ dateSlot(index) }}
               span.text-cyan-3.text-body2(
                 v-else
@@ -70,6 +70,9 @@ export default {
     }
   },
   methods: {
+    isActive (code) {
+      return this.$moment(code.expiredAt).isAfter()
+    },
     firstStudio () {
       if (!this.$app.studios.firstStudio || !this.$app.studios.firstStudio.id) return 0
       return this.$app.studios.firstStudio.id
