@@ -94,14 +94,14 @@
             q-select.text-body2(
               outlined
               dense
-              v-model="firstPeriod"
+              v-model="datePeriod"
               style="width: 100%"
             )
               q-popup-proxy
                 .row(style="max-width: 320px")
                   .col-12
                     date-range(
-                      :sync-range.sync="firstRange"
+                      :sync-range.sync="dateRange"
                       lang="ru"
                     )
                   .q-pa-md.row.col-12.justify-between.items-center
@@ -110,7 +110,7 @@
                         size="13px"
                         label="Сбросить дату"
                         no-caps
-                        @click="firstRange = {startDate: $moment(), endDate: $moment()}"
+                        @click="dateRange = {startDate: $moment(), endDate: $moment()}"
                       )
                     .col-6.q-pl-sm
                       q-btn.fit.bg-primary.text-white(
@@ -124,14 +124,14 @@
             q-select.text-body2(
               outlined
               dense
-              v-model="secondPeriod"
+              v-model="activePeriod"
               style="width: 100%"
             )
               q-popup-proxy
                 .row(style="max-width: 320px")
                   .col-12
                     date-range(
-                      :sync-range.sync="secondRange"
+                      :sync-range.sync="activeRange"
                       lang="ru"
                     )
                   .q-pa-md.row.col-12.justify-between.items-center
@@ -141,14 +141,13 @@
                         v-close-popup
                         label="Сбросить дату"
                         no-caps
-                        @click="secondRange = {startDate: $moment(), endDate: $moment()}"
+                        @click="activeRange = {startDate: $moment(), endDate: $moment()}"
                       )
                     .col-6.q-pl-sm
                       q-btn.fit.bg-primary.text-white(
                         label="Применить"
                         size="13px"
                         no-caps
-                        v-close-popup
                       )
         .row
           span.text-caption Заполните только дату начала, если срок действия должен быть неограничен.
@@ -163,7 +162,6 @@
           .col-6.q-px-sm
             q-btn.fit(
               no-caps
-              v-close-popup
               color="primary"
               @click="applyPromocode"
               label="Сохранить"
@@ -171,6 +169,7 @@
 </template>
 
 <script>
+import { Notify } from 'quasar'
 import { DateRange } from 'vue-date-range'
 
 export default {
@@ -219,7 +218,7 @@ export default {
       if (!this.fieldPromocode || !this.fieldPromocode.type || !this.fieldPromocode.type.value) return ''
       return (this.fieldPromocode.type.value === 'percent') ? '%' : ' р.'
     },
-    firstRange: {
+    activeRange: {
       get () {
         return {
           startDate: this.$moment(this.fieldPromocode.startedAt),
@@ -231,7 +230,7 @@ export default {
         this.fieldPromocode.expiredAt = v.endDate
       }
     },
-    secondRange: {
+    dateRange: {
       get () {
         return {
           startDate: this.$moment(this.fieldPromocode.dateFrom),
@@ -243,12 +242,12 @@ export default {
         this.fieldPromocode.dateTo = v.endDate
       }
     },
-    firstPeriod: {
+    activePeriod: {
       get () {
         return this.fieldPromocode.startedAt.format('DD MMM YYYY') + ' — ' + this.fieldPromocode.expiredAt.format('DD MMM YYYY')
       }
     },
-    secondPeriod: {
+    datePeriod: {
       get () {
         return this.fieldPromocode.dateFrom.format('DD MMM YYYY') + ' — ' + this.fieldPromocode.dateTo.format('DD MMM YYYY')
       }
@@ -297,6 +296,16 @@ export default {
       }
     },
     async applyPromocode () {
+      console.log(this.fieldPromocode.rooms.length)
+      if (this.fieldPromocode.rooms.length === 0) {
+        Notify.create({
+          message: `Выберите хотя бы один зал`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
       const id = this.fieldPromocode.id
       const params = {
         alias: this.fieldPromocode.alias,
@@ -314,6 +323,7 @@ export default {
       }
       await this.$app.promocodes.updateOne(id, params)
       await this.$app.promocodes.getAll({ studio: this.studio })
+      this.dialogState = false
     },
     resetRange (range) {
       range = {
