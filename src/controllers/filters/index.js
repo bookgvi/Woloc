@@ -12,6 +12,7 @@ const defaultValues = {
     search: null
   },
   finances: {
+    purposes: [0, 1, 2, 3],
     search: null
   },
   refunds: {
