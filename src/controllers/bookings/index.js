@@ -86,7 +86,7 @@ export default {
       let filteredList = [...this.eventsFilteredCalendarList]
       this.oldEventsFilterProp = JSON.stringify(eventsFilterProp)
 
-      if (updated === true) {
+      if (updated === true || filter.price.max === 0) {
         this.findPriceFilterValues(filteredList)
       }
       filteredList = this.filterByPrice(filteredList, filter.price)

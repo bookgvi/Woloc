@@ -32,7 +32,7 @@ const defaultValues = {
     events: ['photo', 'video', 'event'],
     price: {
       min: 0,
-      max: 999999
+      max: 0
     }
   }
 }
