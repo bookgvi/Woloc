@@ -99,7 +99,7 @@ export default {
         ...values,
         [page]: defaultValues[page]
       }
-      if (values[page].hasOwnProperty('studio')) {
+      if (this.values[page].hasOwnProperty('studio')) {
         this.setValue(page, 'studio', items[0].id)
         this.setValue(page, 'rooms', rooms)
       }
