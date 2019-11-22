@@ -39,7 +39,7 @@ export default {
       const res = await api.bookings.getForCalendar(filter)
       if (res) {
         this.rawCalendarList = res.data.items
-        console.log(res)
+        // console.log(res)
       }
       this.loading.list = false
     },
@@ -89,7 +89,6 @@ export default {
       }
       filteredList = this.filterByPrice(filteredList, filter.price)
       this.calendarList = filteredList
-      console.log(444, this.calendarList)
       this.oldMainCalendarFilterProps = JSON.stringify(mainCalendarFilterProps)
     },
 
