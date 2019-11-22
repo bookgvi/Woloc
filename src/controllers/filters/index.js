@@ -7,6 +7,7 @@ const defaultValues = {
   bookings: {
     studio: null,
     rooms: null,
+    customer: null,
     statuses: [0, 1, 2, 3, 4],
     technical: false,
     search: null
@@ -54,10 +55,11 @@ export default {
   name: 'filters',
   data () {
     return {
-      values: defaultValues
+      values: {}
     }
   },
   created () {
+    this.values = Object.assign({}, defaultValues)
     this.readFromSession()
   },
   methods: {
