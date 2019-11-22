@@ -10,7 +10,11 @@
           flat
           style="border: 1px solid black;"
         )
-          q-icon(name="event" class="cursor-pointer")
+          q-icon.q-px-sm(
+            v-if="dateRange.start || rangeTime.min || +rangeTime.max !== 23"
+            name="event"
+            class="cursor-pointer"
+          )
         q-popup-proxy(
           ref="qDateProxy"
           transition-show="scale"
