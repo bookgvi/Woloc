@@ -16,7 +16,7 @@ const defaultValues = {
     'date[finishedAt]': null,
     'time[hourFrom]': 0,
     'time[hourTo]': 23,
-    purposes: [0, 1, 2, 3],
+    purposes: [1, 2, 3, 4, 5, 6, 7, 9],
     search: null
   },
   refunds: {
