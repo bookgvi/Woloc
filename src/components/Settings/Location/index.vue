@@ -114,6 +114,7 @@ export default {
     }
   },
   async mounted () {
+    await this.$app.filters.filterDefault('settings')
     this.singleStudioM()
   }
 }
