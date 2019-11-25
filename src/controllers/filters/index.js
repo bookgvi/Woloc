@@ -7,16 +7,18 @@ const defaultValues = {
   bookings: {
     studio: null,
     rooms: null,
+    customer: null,
     statuses: [0, 1, 2, 3, 4],
     technical: false,
     search: null
   },
   finances: {
-    search: null,
     'date[startedAt]': null,
     'date[finishedAt]': null,
     'time[hourFrom]': 0,
-    'time[hourTo]': 23
+    'time[hourTo]': 23,
+    purposes: [1, 2, 3, 4, 5, 6, 7, 9],
+    search: null
   },
   refunds: {
     studio: null,
@@ -53,10 +55,11 @@ export default {
   name: 'filters',
   data () {
     return {
-      values: defaultValues
+      values: {}
     }
   },
   created () {
+    this.values = Object.assign({}, defaultValues)
     this.readFromSession()
   },
   methods: {
@@ -98,7 +101,7 @@ export default {
         ...values,
         [page]: defaultValues[page]
       }
-      if (values[page].hasOwnProperty('studio')) {
+      if (this.values[page].hasOwnProperty('studio')) {
         this.setValue(page, 'studio', items[0].id)
         this.setValue(page, 'rooms', rooms)
       }

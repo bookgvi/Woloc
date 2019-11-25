@@ -52,4 +52,31 @@ const REFUNDS_STATUSES = {
   }
 }
 
-export { EVENT_TYPES, BOOKING_STATUSES, REFUNDS_STATUSES }
+const FINANCES_PURPOSES = {
+  BOOKING: {
+    value: 1, label: 'Бронь'
+  },
+  BOOKING_REFUND: {
+    value: 2, label: 'Возврат брони'
+  },
+  PENALTY: {
+    value: 3, label: 'Штраф'
+  },
+  EXTRA: {
+    value: 4, label: 'Дополнительная услуга'
+  },
+  BONUS: {
+    value: 5, label: 'Бонус'
+  },
+  WITHDRAW: {
+    value: 6, label: 'Вывод денег'
+  },
+  WITHDRAW_REFUND: {
+    value: 7, label: 'Отмена вывода денег'
+  },
+  ACCOUNT: {
+    value: 9, label: 'Открытие счета'
+  }
+}
+
+export { EVENT_TYPES, BOOKING_STATUSES, REFUNDS_STATUSES, FINANCES_PURPOSES }

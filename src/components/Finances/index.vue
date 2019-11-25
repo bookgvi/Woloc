@@ -4,12 +4,7 @@
       filters-list(name="finances")
         template(#prepend="props")
           date-time-filter(v-bind="props")
-          q-btn.q-py-none.q-px-sm(
-            outline
-            dense
-            no-caps
-            label="Тип записи"
-          )
+          finances-purposes-filter(v-bind="props")
           q-space
           q-btn.q-py-none.q-px-sm.bg-primary.text-white(
             no-caps
@@ -35,12 +30,14 @@
 import DateTimeFilter from '../Filters/DateTimeFilter'
 import FinancesTable from './Table/index'
 import FiltersList from '../Filters/FiltersList'
+import FinancesPurposesFilter from '../Filters/FinancesPurposesFilter'
 import refund from './Actions/refundModal'
 import prepayment from './Actions/prepaymentModal'
 export default {
   name: 'RefundsIndex',
   components: {
     FiltersList,
+    FinancesPurposesFilter,
     FinancesTable,
     refund,
     prepayment,

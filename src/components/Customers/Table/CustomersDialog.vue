@@ -66,7 +66,7 @@
     .row.q-py-md
       span.cursor-pointer.data.text-primary(
         v-if="row.bookings.items.length"
-        @click="$router.push({ path: 'bookings', query: { customer: `${row.id}` } })"
+        @click="routeToBookings(row.id)"
       ) Посмотреть все в таблице
     .row.q-pb-sm
       .col
@@ -119,6 +119,10 @@ export default {
       const g = parseInt(color.slice(2, 4), 16)
       const b = parseInt(color.slice(4, 6), 16)
       return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
+    },
+    routeToBookings (id) {
+      this.$app.filters.setValue('bookings', 'customer', id)
+      this.$router.push({ path: 'bookings' })
     }
   }
 }

@@ -10,7 +10,11 @@
           flat
           style="border: 1px solid black;"
         )
-          q-icon(name="event" class="cursor-pointer")
+          q-icon.q-px-sm(
+            v-if="dateRange.start || rangeTime.min || +rangeTime.max !== 23"
+            name="event"
+            class="cursor-pointer"
+          )
         q-popup-proxy(
           ref="qDateProxy"
           transition-show="scale"
@@ -59,7 +63,7 @@
             .col.q-py-md.q-px-md(style="width: 100%;")
               q-btn.text-white.bg-primary(
                 label="Применить"
-                @click="setDayTimeRange"
+                @click="setDayTimeRangeHandler"
                 style="width: 100%;"
               )
 </template>
@@ -83,6 +87,10 @@ export default {
     }
   }),
   created () {
+    this.$root.$on('reloadFilterMethod', _ => {
+      this.setDateRange(null, null)
+      this.setTimeRange(0, 23)
+    })
     const currentPage = this.$route.path.split('/')[1]
     const hourFrom = this.$app.filters.getValues(currentPage)['time[hourFrom]']
     const hourTo = this.$app.filters.getValues(currentPage)['time[hourTo]']
@@ -92,7 +100,7 @@ export default {
     this.setTimeRange(hourFrom, hourTo)
   },
   methods: {
-    setDayTimeRange () {
+    setDayTimeRangeHandler () {
       const currentPage = this.$route.path.split('/')[1]
       const startedAt = date.formatDate(this.dateRange.start, 'YYYY-MM-DD')
       const finishedAt = date.formatDate(this.dateRange.end, 'YYYY-MM-DD')

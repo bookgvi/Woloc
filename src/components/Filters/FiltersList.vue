@@ -29,7 +29,9 @@ export default {
   computed: {
     values () {
       const filter = this.$app.filters.readFromSession()[this.name]
-      if (filter.hasOwnProperty('studio') && !filter.studio) {
+      if (this.name === 'bookings' && !filter.studio && !filter.customer) {
+        this.$app.filters.reset(this.name)
+      } else if (this.name !== 'bookings' && filter.hasOwnProperty('studio') && !filter.studio) {
         this.$app.filters.reset(this.name)
       }
       return this.$app.filters.getValues(this.name)
@@ -44,6 +46,7 @@ export default {
     },
     onReset () {
       this.$app.filters.reset(this.name)
+      this.$root.$emit('reloadFilterMethod')
     }
   }
 }
