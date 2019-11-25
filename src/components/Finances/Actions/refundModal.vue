@@ -15,7 +15,7 @@
         )
     .row.justify-center
       .col-1
-        q-btn.bg-primary.text-white(label="Done" @click="createRefund" v-close-popup)
+        q-btn.bg-primary.text-white(label="OK" @click="createRefund" v-close-popup)
 
 </template>
 

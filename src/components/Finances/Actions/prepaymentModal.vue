@@ -23,7 +23,7 @@
         )
     .row.justify-center
       .col-1
-        q-btn.bg-primary.text-white(label="Done" @click="createPrepayment" v-close-popup)
+        q-btn.bg-primary.text-white(label="OK" @click="createPrepayment" v-close-popup)
 
 </template>
 
