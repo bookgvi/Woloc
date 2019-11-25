@@ -31,8 +31,8 @@ const defaultValues = {
     rooms: null,
     events: ['photo', 'video', 'event'],
     price: {
-      min: 0,
-      max: 0
+      min: -1,
+      max: -1
     }
   }
 }
