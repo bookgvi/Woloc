@@ -7,27 +7,27 @@
         q-btn.q-mr-md(icon="close" flat v-close-popup)
     .row
       .col
-        q-input.readonly(label="Имя" readonly=true borderless)
+        q-input.readonly(label="Имя" value="" readonly=true borderless)
           template(#append)
             .data {{ row.fullName }}
     .row
       .col
-        q-input.readonly(label="Дата рождения" readonly borderless)
+        q-input.readonly(label="Дата рождения" value="" readonly borderless)
           template(#append)
             .data {{ row.birthday }}
     .row
       .col
-        q-input.readonly(label="Телефон" readonly borderless)
+        q-input.readonly(label="Телефон" value="" readonly borderless)
           template(#append)
             .data {{ row.phone }}
     .row
       .col
-        q-input.readonly(label="Эл. почта" readonly borderless)
+        q-input.readonly(label="Эл. почта" value="" readonly borderless)
           template(#append)
             .data {{ row.email }}
     .row.q-pb-md
       .col
-        q-input.readonly(label="Скидка" readonly borderless)
+        q-input.readonly(label="Скидка" value="" readonly borderless)
           template(#append)
             .data {{ row.discount }}%
     .row.q-pb-sm

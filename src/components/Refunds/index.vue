@@ -6,7 +6,7 @@
           studio-filter(v-bind="props")
           rooms-filter(v-bind="props")
           status-filter(v-bind="props")
-          q-btn.q-py-none(label="Дата и время" outline no-caps dense)
+          date-time-filter(v-bind="props")
     .content
       RefundsTable
 </template>
@@ -17,7 +17,7 @@ import StudioFilter from '../Filters/StudioFilter'
 import RoomsFilter from '../Filters/RoomsFilter'
 import FiltersList from '../Filters/FiltersList'
 import StatusFilter from '../Filters/StatusFilter'
-
+import DateTimeFilter from '../Filters/DateTimeFilter'
 export default {
   name: 'RefundsIndex',
   components: {
@@ -25,7 +25,8 @@ export default {
     RoomsFilter,
     StudioFilter,
     RefundsTable,
-    StatusFilter
+    StatusFilter,
+    DateTimeFilter
   }
 }
 </script>

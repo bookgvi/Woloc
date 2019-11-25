@@ -12,16 +12,28 @@ const defaultValues = {
     search: null
   },
   finances: {
-    search: null
+    search: null,
+    'date[startedAt]': null,
+    'date[finishedAt]': null,
+    'time[hourFrom]': 0,
+    'time[hourTo]': 23
   },
   refunds: {
     studio: null,
     rooms: null,
     statuses: [0, 1, 2, 3],
-    search: null
+    search: null,
+    'date[startedAt]': null,
+    'date[finishedAt]': null,
+    'time[hourFrom]': 0,
+    'time[hourTo]': 23
   },
   documents: {
-    search: null
+    search: null,
+    'date[startedAt]': null,
+    'date[finishedAt]': null,
+    'time[hourFrom]': 0,
+    'time[hourTo]': 23
   },
   settings: {
     studio: null
