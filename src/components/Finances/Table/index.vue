@@ -14,7 +14,7 @@
         q-btn.bg-primary(no-caps text-color='white' label="Вывести на счет")
         q-btn.bg-primary.text-white.q-mr-md.q-pa-none
           q-icon(name="expand_more")
-        q-popup-proxy.q-mt-md
+        q-popup-proxy.q-mt-md(auto-close)
           q-card(style="width: 180px;")
             .row
               .col
@@ -23,7 +23,6 @@
                   flat
                   label="Отметить предоплату"
                   @click="isPrepayment = true"
-                  v-close-popup
                   style="width: 100%;"
                 )
             .row
@@ -32,7 +31,6 @@
                   no-caps
                   label="Сделать возврат"
                   @click="isRefund = true"
-                  v-close-popup
                   style="width: 100%;"
                 )
     q-dialog(v-model="isPrepayment")
