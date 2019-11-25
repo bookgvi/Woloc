@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { LocalStorage } from 'quasar'
+import { LocalStorage, SessionStorage } from 'quasar'
 export default {
   name: 'User',
   data () {
@@ -48,6 +48,7 @@ export default {
     },
     hasSubMenu () {
       LocalStorage.clear()
+      SessionStorage.clear()
       this.$router.go()
     }
   }
