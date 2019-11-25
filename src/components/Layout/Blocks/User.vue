@@ -1,12 +1,16 @@
 <template lang="pug">
   .q-px-md.justify-end
-    q-list(v-if="isAuthorized")
+    q-list.cursor-pointer.text-primary(v-if="isAuthorized")
       q-item.col-12
         q-item-section.col-9
           span {{ userName }}
         q-item-section.col-3
           q-avatar
             img(:src="avatar")
+        q-popup-proxy
+          q-card.q-pa-md(style="min-width: 180px;")
+            q-separator.q-mb-sm
+            span.cursor-pointer(@click="hasSubMenu") Выйти
 </template>
 
 <script>
@@ -24,6 +28,8 @@ export default {
     '$route.path' (newPath, oldPath) {
       if (newPath) {
         this.setUserData()
+      } else if (newPath === '/login') {
+        this.isAuthorized = false
       }
     }
   },
@@ -39,6 +45,10 @@ export default {
         this.avatar = 'https://pre.ugoloc.ucann.ru' + this.avatar
       }
       this.isAuthorized = true
+    },
+    hasSubMenu () {
+      LocalStorage.clear()
+      this.$router.go()
     }
   }
 }
