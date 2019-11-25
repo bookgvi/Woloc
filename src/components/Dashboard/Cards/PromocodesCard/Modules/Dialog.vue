@@ -297,7 +297,6 @@ export default {
       }
     },
     async applyPromocode () {
-      console.log(this.fieldPromocode.rooms.length)
       if (this.fieldPromocode.rooms.length === 0) {
         Notify.create({
           message: `Выберите хотя бы один зал`,
