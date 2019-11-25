@@ -372,22 +372,24 @@ export default {
       this.indexResize = -1
     },
     async acceptResize (item) {
-      const booking = this.bookings.find(booking => booking.id === item.id)
+      // const booking = this.bookings.find(booking => booking.id === item.id)
+      const booking = await this.$app.bookings.getOne(item.id)
       const from = this.$moment(booking.reservedFrom).hour(this.fromInProcessResize).format('YYYY-MM-DDTHH:mm:ss+03:00')
       const to = this.$moment(booking.reservedFrom).hour(this.toInProcessResize).format('YYYY-MM-DDTHH:mm:ss+03:00')
       if (!booking) return
+      const extras = (booking.extras && booking.extras.items) ? booking.extras.items : []
       const newBooking = Object.assign({}, {
         roomId: booking.room.id,
         reserveFrom: from,
         reserveTo: to,
         priceType: booking.eventType,
-        extras: booking.extras,
+        extras: extras,
         members: [...booking.members],
-        description: booking.managerComment || '',
+        managerComment: booking.managerComment || '',
         technical: booking.technical,
       })
       if (newBooking) {
-        const id = booking.id
+        const id = item.id
         await this.$app.bookings.updateOne(id, newBooking)
       }
       item.isResize = false
