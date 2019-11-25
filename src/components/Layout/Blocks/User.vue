@@ -10,7 +10,7 @@
         q-popup-proxy
           q-card.q-pa-md(style="min-width: 180px;")
             q-separator.q-mb-sm
-            span.cursor-pointer(@click="hasSubMenu") Выйти
+            span.cursor-pointer(@click="exit") Выйти
 </template>
 
 <script>
@@ -46,7 +46,7 @@ export default {
       }
       this.isAuthorized = true
     },
-    hasSubMenu () {
+    exit () {
       LocalStorage.clear()
       SessionStorage.clear()
       this.$router.go()
