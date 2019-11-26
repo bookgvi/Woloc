@@ -11,17 +11,18 @@
         .col-3
           room-list(:rooms="rooms" @setCurrentRoom="setCurrentRoom")
         .col-6
-          // roomData(:singleStudio="singleStudio" :allStudiosName="allStudiosName" :currentRoom="currentRoom")
-          // specifications(:singleStudio="singleStudio")
-          // payment
-          // images
-          // interior
-          // backgrounds
-          // additionalServices
-          // services(:singleStudio="singleStudio")
+          roomData(
+            :currentStudio="currentStudio"
+            :selectedRoom="currentRoomData.name"
+            :color="currentRoomData.color"
+            :status="currentRoomData.status"
+            :isRoom="currentRoomData.isRoom"
+            :minHours="currentRoomData.minHours"
+            :needPrepayment="currentRoomData.needPrepayment"
+            :key="selectedRoom.id"
+          )
           .row
-            .col-6
-              q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps)
+            q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps)
 </template>
 
 <script>
@@ -36,13 +37,15 @@ import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
 // import studios from '../../../api/studios'
+import rooms from '../../../api/rooms'
 import RoomList from './roomList'
 export default {
   data () {
     return {
       currentStudio: {},
       rooms: [],
-      selectedRoom: {}
+      selectedRoom: {},
+      currentRoomData: {}
     }
   },
   components: {
@@ -69,9 +72,21 @@ export default {
       const filter = this.$app.filters.getValues('settings')
       this.rooms = this.$app.rooms.getFiltered(filter)
       this.currentStudio = this.$app.studios.getFiltered(filter)
+      this.selectedRoom = this.rooms.length ? this.rooms[0] : {}
+      if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
+        this.getRoomData(this.selectedRoom.id)
+      }
     },
     setCurrentRoom (room) {
       this.selectedRoom = room
+      if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
+        this.getRoomData(this.selectedRoom.id)
+      }
+    },
+    async getRoomData (id) {
+      if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
+        this.currentRoomData = await rooms.getOne(id)
+      }
     }
   }
 }

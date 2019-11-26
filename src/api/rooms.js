@@ -1,16 +1,14 @@
-// import api from './instance'
-import rooms from 'src/mocks/rooms'
+import api from './instance'
 
+const API_URL = process.env.API_CABINET_URL
 export default {
 
-  getAll: async () => {
+  getOne: async (id) => {
     try {
-      const r = {
-        data: rooms
-      }
-      return r
+      const r = await api.get(`${API_URL}/rooms/${id}`)
+      return r.data.data
     } catch (e) {
-      console.warn('catch :: rooms :: getAll', e)
+      console.warn('catch :: room :: getSingleRoom', e)
     }
   }
 }

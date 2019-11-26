@@ -6,33 +6,33 @@
     .row.q-pb-lg
       .col
         span Локация
-        q-input.q-pt-sm(v-model="singleStudio.name" :options="allStudiosName" outlined dense disable)
+        q-input.q-pt-sm(v-model="currentStudio.name" outlined dense disable)
     .row.q-pb-lg
       .col
         span Название зала
-        q-input.q-pt-sm(v-model="currentRoom" outlined dense)
+        q-input.q-pt-sm(v-model="selectedRoomName" outlined dense)
     .row.q-pb-md
       span Цвет зала в календаре
     .row.items-center.q-pb-md
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: cyan;" @click="color='cyan'")
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: yellow;" @click="color='yellow'")
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: red;" @click="color='red'")
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: green;" @click="color='green'")
-      .inline-block.q-mr-xl(style="width: 30px; height: 30px; cursor: pointer; background: blue;" @click="color='blue'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: cyan;" @click="roomColor='cyan'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: yellow;" @click="roomColor='yellow'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: red;" @click="roomColor='red'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: green;" @click="roomColor='green'")
+      .inline-block.q-mr-xl(style="width: 30px; height: 30px; cursor: pointer; background: blue;" @click="roomColor='blue'")
       .row.q-pa-sm(style="border: 1px solid silver")
         .inline-block.q-mr-md(:style="{ width: '30px', height: '30px', background: color}")
         q-icon.cursor-pointer(name="colorize" style="font-size: 2rem;")
          q-popup-proxy(:offset="[10, 10]")
           .block
             q-color(
-              v-model="color"
+              v-model="roomColor"
               no-footer
               style="width: 300px;"
             )
     .row.q-pb-md
       .col-4.q-pr-sm
         span Статус
-        q-select(v-model="currentStatus" :options="status" outlined dense)
+        q-select(v-model="roomStatus" :options="statuses" outlined dense)
       .col-4.q-pr-sm
         span Тип зала
         q-select(v-model="currentRoomType" :options="roomType" outlined dense)
@@ -54,19 +54,57 @@
 export default {
   name: 'roomData',
   props: {
-    singleStudio: Object,
-    allStudiosName: Array,
-    currentRoom: String
+    currentStudio: {
+      type: Object,
+      default: _ => { return { name: '' } }
+    },
+    selectedRoom: {
+      type: String,
+      default: _ => 'Новый зал'
+    },
+    color: {
+      validator: value => {
+        return ['string', 'null'].indexOf(typeof value) !== -1
+      },
+      default: () => '#FF0000'
+    },
+    status: {
+      type: Object,
+      default: _ => {
+        return { isClosed: 0, isPublished: 0 }
+      }
+    },
+    isRoom: {
+      type: Number,
+      default: _ => 1
+    },
+    minHours: {
+      type: Number,
+      default: _ => 1
+    },
+    needPrepayment: {
+      type: Number,
+      default: _ => 0
+    }
   },
   data: () => ({
-    color: '#c94d4d',
-    currentStatus: 'Открыт',
-    status: ['Открыт', 'Закрыт'],
+    // currentStudioName: '',
+    selectedRoomName: '',
+    roomColor: null,
+    roomStatus: 'Открыт',
+    statuses: ['Скрыт', 'Открыт', 'Закрыт'],
     currentRoomType: 'Рабочий',
-    roomType: ['Рабочий', 'Нерабочий'],
-    minHours: 7,
+    roomType: ['Гримерка или подсобка', 'Рабочий'],
     currentPrepay: 'На выбор клиента',
-    prepay: ['На выбор клиента', 'Без предоплаты']
-  })
+    prepay: ['Без предоплаты', 'На выбор клиента']
+  }),
+  mounted () {
+    this.selectedRoomName = this.selectedRoom
+    this.roomColor = this.color
+    // TODO уточнить всегда ли свойства приходят в одном порядке
+    this.roomStatus = this.statuses[this.status.isClosed + this.status.isPublished]
+    this.currentRoomType = this.roomType[this.isRoom]
+    this.currentPrepay = this.prepay[this.needPrepayment]
+  }
 }
 </script>
