@@ -3,34 +3,34 @@
     .row.q-pb-lg
       .col
         .text-h6 Фоны
-    .row.q-pb-lg
-      .col.q-pr-sm
-        .row
-          q-checkbox(v-model="var1" label="Аквазона")
-        .row
-          q-checkbox(v-model="var1" label="Деревянные панели")
-      .col
-        .row
-          q-checkbox(v-model="var1" label="Лепнина")
-        .row
-          q-checkbox(v-model="var1" label="Фактурные стены")
-    .row.q-pb-lg
-      .col-3
-        q-select(v-model="var2" label="Ещё 18" dense)
+    .row(v-if="isBackground")
+      // Модификация объекта!!!!!!!
+      .col-6(v-for="(item, index) in backgrounds" :key="index")
+        q-checkbox(v-if="index < itemsCount" v-model="item.isChecked" :label="item.name")
+    .row.q-pb-lg(v-if="isBackground")
+      .col.cursor-pointer(@click="isBackground=!isBackground")
+        .text-h6.text-primary Показать все
+    .row(v-if="!isBackground")
+      // Модификация объекта!!!!!!!
+      .col-6(v-for="(item, index) in backgrounds" :key="index")
+        q-checkbox(v-model="item.isChecked" :label="item.name")
+    .row.q-pb-lg(v-if="!isBackground")
+      .col.cursor-pointer(@click="isBackground=!isBackground")
+        .text-h6.text-primary Скрыть
 </template>
 
 <script>
 export default {
   name: 'specifications',
   props: {
-    singleStudio: Object,
-    allStudiosName: Array,
-    currentRoom: String
+    backgrounds: {
+      type: Array,
+      default: _ => []
+    }
   },
   data: () => ({
-    description: '',
-    var1: true,
-    var2: ''
+    itemsCount: 6,
+    isBackground: true
   })
 }
 </script>

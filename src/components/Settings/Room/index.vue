@@ -44,8 +44,10 @@
             :interiors="currentRoomData.interiors"
             :key="reloadData + 4"
           )
-          // -------------- TODO --------------------
-          // backgrounds
+          backgrounds(
+            :backgrounds="currentRoomData.backgrounds"
+            :key="reloadData + 5"
+          )
           // -------------- TODO --------------------
           // additionalServices
           // -------------- TODO --------------------
