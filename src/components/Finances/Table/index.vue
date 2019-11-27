@@ -11,7 +11,7 @@
       template(#title-append="props")
         .text-h6.inline-block.q-pl-md {{ props.amount }} ₽
       template(#table-controls-prepend="props")
-        q-btn.bg-primary(no-caps text-color='white' flat label="Вывести на счет" @click="isWithdraw=true")
+        q-btn.bg-primary.q-mr-md(no-caps text-color='white' flat label="Вывести на счет" @click="isWithdraw=true")
         // TODO - доп действия со счетом могут понадобится позже!
         // q-btn.bg-primary.text-white.q-mr-md.q-pa-none(flat)
           q-icon(name="expand_more")
