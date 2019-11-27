@@ -5,7 +5,7 @@ export default {
 
   getOne: async (id) => {
     try {
-      const r = await api.get(`${API_URL}/rooms/${id}`)
+      const r = await api.get(`${API_URL}/room/${id}`)
       return r.data.data
     } catch (e) {
       console.warn('catch :: room :: getSingleRoom', e)

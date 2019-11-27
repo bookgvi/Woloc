@@ -1,5 +1,5 @@
 import bookings from './bookings'
-import rooms from './rooms'
+import room from './room'
 import customers from './customers'
 import events from './events'
 import extras from './extras'
@@ -16,7 +16,7 @@ import promocodes from './promocodes'
 import search from './search'
 
 export default {
-  rooms,
+  room,
   bookings,
   customers,
   events,

@@ -69,10 +69,8 @@ export default {
       default: () => '#FF0000'
     },
     status: {
-      type: Object,
-      default: _ => {
-        return { isClosed: 0, isPublished: 0 }
-      }
+      type: Number,
+      default: _ => 2
     },
     isRoom: {
       type: Number,
@@ -102,7 +100,7 @@ export default {
     this.selectedRoomName = this.selectedRoom
     this.roomColor = this.color
     // TODO уточнить всегда ли свойства приходят в одном порядке
-    this.roomStatus = this.statuses[this.status.isClosed + this.status.isPublished]
+    this.roomStatus = this.statuses[this.status]
     this.currentRoomType = this.roomType[this.isRoom]
     this.currentPrepay = this.prepay[this.needPrepayment]
   }
