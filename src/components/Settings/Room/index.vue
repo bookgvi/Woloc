@@ -48,8 +48,10 @@
             :backgrounds="currentRoomData.backgrounds"
             :key="reloadData + 5"
           )
-          // -------------- TODO --------------------
-          // additionalServices
+          additionalServices(
+            :extras="currentRoomData.extras"
+            :key="reloadData + 6"
+          )
           // -------------- TODO --------------------
           // services(:singleStudio="singleStudio")
           .row

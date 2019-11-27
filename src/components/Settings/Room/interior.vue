@@ -2,7 +2,7 @@
   .interior
     .row.q-pb-lg
       .col
-        .text-h6 Предметы интерьера
+        .text-h5.text-bold Предметы интерьера
     .row(v-if="isInterior")
       // Модификация объекта!!!!!!!
       .col-6(v-for="(item, index) in interiors" :key="index")

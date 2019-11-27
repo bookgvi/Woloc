@@ -2,35 +2,35 @@
   .additional
     .row.q-pb-lg
       .col
-        .text-h6 Доп. услуги
-    .row.q-pb-lg
-      .col.q-pr-sm
-        .row
-          q-checkbox(v-model="var1" label="Дополнительный штатив")
-        .row
-          q-checkbox(v-model="var1" label="Тканевый фон")
-      .col
-        .row
-          q-checkbox(v-model="var1" label="Помощь животным")
-        .row
-          q-checkbox(v-model="var1" label="Дополнительный синхрониз …")
-    .row.q-pb-lg
-      .col-3
-        q-select(v-model="var2" label="Ещё 5" dense)
+        .text-h5.text-bold Доп. услуги
+    .row(v-if="isExtras")
+      // Модификация объекта!!!!!!!
+      .col-6(v-for="(item, index) in extras" :key="index")
+        q-checkbox(v-if="index < itemsCount" v-model="item.isChecked" :label="item.name")
+    .row.q-pb-lg(v-if="isExtras")
+      .col.cursor-pointer(@click="isExtras=!isExtras")
+        .text-h6.text-primary Показать все
+    .row(v-if="!isExtras")
+      // Модификация объекта!!!!!!!
+      .col-6(v-for="(item, index) in extras" :key="index")
+        q-checkbox(v-model="item.isChecked" :label="item.name")
+    .row.q-pb-lg(v-if="!isExtras")
+      .col.cursor-pointer(@click="isExtras=!isExtras")
+        .text-h6.text-primary Скрыть
 </template>
 
 <script>
 export default {
   name: 'specifications',
   props: {
-    singleStudio: Object,
-    allStudiosName: Array,
-    currentRoom: String
+    extras: {
+      type: Array,
+      default: _ => []
+    }
   },
   data: () => ({
-    description: '',
-    var1: true,
-    var2: ''
+    itemsCount: 6,
+    isExtras: true
   })
 }
 </script>

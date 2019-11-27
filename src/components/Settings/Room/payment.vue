@@ -2,7 +2,7 @@
   .payment
     .row.q-pb-lg
       .col
-        .text-h6.q-pb-md Оплата
+        .text-h5.text-bold.q-pb-md Оплата
         q-btn.bg-primary.text-white(label="Открыть календарь цен" no-caps @click="isModal = true")
       q-dialog(v-model="isModal")
         q-card(style="min-width: 40%")

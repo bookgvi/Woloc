@@ -2,7 +2,7 @@
   .specifications
     .row.q-pb-lg
       .col
-        .text-h6 Характеристики
+        .text-h5.text-bold Характеристики
     .row.q-pb-lg
       .col
         span Описание зала

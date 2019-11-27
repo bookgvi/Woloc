@@ -2,7 +2,7 @@
   .backgrounds
     .row.q-pb-lg
       .col
-        .text-h6 Фоны
+        .text-h5.text-bold Фоны
     .row(v-if="isBackground")
       // Модификация объекта!!!!!!!
       .col-6(v-for="(item, index) in backgrounds" :key="index")

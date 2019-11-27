@@ -2,7 +2,7 @@
   .roomData
     .row.q-pb-lg
       .col
-        .text-h6 Данные зала
+        .text-h5.text-bold Данные зала
     .row.q-pb-lg
       .col
         span Локация
