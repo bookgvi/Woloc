@@ -10,7 +10,12 @@
       .row.q-py-md
         .col-3
         .col.fixed.bg-white
-          room-list(:rooms="rooms" @setCurrentRoom="setCurrentRoom")
+          room-list(
+            :rooms="rooms"
+            @setCurrentRoom="setCurrentRoom"
+            :selectedRoom="selectedRoom.id"
+            :key="reloadData"
+          )
         .col-6
           roomData(
             :currentStudio="currentStudio"
@@ -20,18 +25,18 @@
             :isRoom="currentRoomData.isRoom"
             :minHours="currentRoomData.minHours"
             :needPrepayment="currentRoomData.needPrepayment"
-            :key="reloadData + 0"
+            :key="reloadData + 1"
           )
           specifications(
             :height="currentRoomData.height"
             :yardage="currentRoomData.yardage"
             :characteristics="currentRoomData.characteristics"
             :description="currentRoomData.description"
-            :key="reloadData + 1"
+            :key="reloadData + 2"
           )
           payment(
             :payment="currentRoomData.payment"
-            :key="reloadData + 2"
+            :key="reloadData + 3"
           )
           // -------------- TODO --------------------
           // images
