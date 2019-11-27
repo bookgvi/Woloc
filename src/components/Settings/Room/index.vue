@@ -19,8 +19,29 @@
             :isRoom="currentRoomData.isRoom"
             :minHours="currentRoomData.minHours"
             :needPrepayment="currentRoomData.needPrepayment"
-            :key="reloadData"
+            :key="reloadData + 0"
           )
+          // -------------- TODO --------------------
+          // specifications(
+            // :height="currentRoomData.height"
+            // :yardage="currentRoomData.yardage"
+            // :characteristics="currentRoomData.characteristics"
+            // :key="reloadData + 1"
+          // )
+          payment(
+            :payment="currentRoomData.payment"
+            :key="reloadData + 2"
+          )
+          // -------------- TODO --------------------
+          // images
+          // -------------- TODO --------------------
+          // interior
+          // -------------- TODO --------------------
+          // backgrounds
+          // -------------- TODO --------------------
+          // additionalServices
+          // -------------- TODO --------------------
+          services(:singleStudio="singleStudio")
           .row
             q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps)
 </template>
@@ -77,7 +98,7 @@ export default {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         this.getRoomData(this.selectedRoom.id)
       }
-      this.reloadData += this.selectedRoom.id + 1
+      this.reloadData++
     },
     setCurrentRoom (room) {
       this.selectedRoom = room

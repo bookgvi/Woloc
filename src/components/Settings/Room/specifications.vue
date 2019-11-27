@@ -15,11 +15,11 @@
     .row.q-pb-lg
       .col.q-pr-sm
         span Высота потолков, м
-        q-input(v-model="singleStudio.height" outlined dense)
+        q-input(v-model="roomHeight" outlined dense)
       .col
         span(style="line-height: 0;") Площадь, м
           sup 2
-        q-input(v-model="singleStudio.yardage" outlined dense)
+        q-input(v-model="roomYardage" outlined dense)
     .row.q-pb-lg
       .col.q-pr-sm
         .row
@@ -41,14 +41,25 @@
 export default {
   name: 'specifications',
   props: {
-    singleStudio: Object,
-    allStudiosName: Array,
-    currentRoom: String
+    height: {
+      type: Number,
+      default: _ => 0
+    },
+    yardage: {
+      type: Number,
+      default: _ => 0
+    }
   },
   data: () => ({
+    roomHeight: 0,
+    roomYardage: 0,
     description: '',
     var1: true,
     var2: false
-  })
+  }),
+  created () {
+    this.roomHeight = this.height
+    this.roomYardage = this.yardage
+  }
 }
 </script>

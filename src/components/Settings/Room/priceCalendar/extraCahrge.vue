@@ -18,63 +18,13 @@
 <script>
 export default {
   name: 'extraCahrge',
-  data: () => ({
-    charge: [
-      {
-        charge: 'на час',
-        mon: '500',
-        tue: '500',
-        wed: '500',
-        thu: '500',
-        fri: '500',
-        sat: '500',
-        sun: '500',
+  props: {
+    payment: {
+      type: Object,
+      default: _ => {
       }
-    ],
-    columns: [
-      {
-        name: 'charge',
-        field: 'charge',
-        label: 'Наценка',
-        style: 'width: 10px'
-      },
-      {
-        name: 'mon',
-        field: 'mon',
-        label: 'ПН'
-      },
-      {
-        name: 'tue',
-        field: 'tue',
-        label: 'ВТ'
-      },
-      {
-        name: 'wed',
-        field: 'wed',
-        label: 'СР'
-      },
-      {
-        name: 'thu',
-        field: 'thu',
-        label: 'ЧТ'
-      },
-      {
-        name: 'fri',
-        field: 'fri',
-        label: 'ПТ'
-      },
-      {
-        name: 'sat',
-        field: 'sat',
-        label: 'СБ'
-      },
-      {
-        name: 'sun',
-        field: 'sun',
-        label: 'ВС'
-      }
-    ]
-  })
+    }
+  },
 }
 </script>
 

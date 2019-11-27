@@ -60,7 +60,7 @@ export default {
     },
     selectedRoom: {
       type: String,
-      default: _ => 'Новый зал'
+      default: () => 'Новый зал'
     },
     color: {
       validator: value => {
@@ -99,7 +99,6 @@ export default {
   mounted () {
     this.selectedRoomName = this.selectedRoom
     this.roomColor = this.color
-    // TODO уточнить всегда ли свойства приходят в одном порядке
     this.roomStatus = this.statuses[this.status]
     this.currentRoomType = this.roomType[this.isRoom]
     this.currentPrepay = this.prepay[this.needPrepayment]

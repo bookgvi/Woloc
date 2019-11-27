@@ -36,8 +36,8 @@
       q-checkbox(label="Наценка на единственный час" v-model="markup")
     .row.q-pb-lg
       .col
-        extraCahrge(v-if="markup")
-        dayPrices(:price="price")
+        extraCahrge(v-if="markup" :payment="payment")
+        dayPrices(:price="price" :payment="payment")
 </template>
 
 <script>
@@ -46,6 +46,12 @@ import dayPrices from './dayPrices'
 export default {
   name: 'priceCalendar',
   components: { extraCahrge, dayPrices },
+  props: {
+    payment: {
+      type: Object,
+      default: _ => {}
+    }
+  },
   data: () => ({
     price: 'prices1',
     men: 30,
@@ -53,7 +59,7 @@ export default {
     var2: 50,
     var3: 5,
     var4: 15,
-    markup: true
+    markup: false
   })
 }
 </script>
