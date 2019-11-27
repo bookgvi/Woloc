@@ -40,8 +40,10 @@
           )
           // -------------- TODO --------------------
           // images
-          // -------------- TODO --------------------
-          // interior
+          interior(
+            :interiors="currentRoomData.interiors"
+            :key="reloadData + 4"
+          )
           // -------------- TODO --------------------
           // backgrounds
           // -------------- TODO --------------------

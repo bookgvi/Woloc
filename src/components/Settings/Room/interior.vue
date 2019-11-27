@@ -3,34 +3,34 @@
     .row.q-pb-lg
       .col
         .text-h6 Предметы интерьера
-    .row.q-pb-lg
-      .col.q-pr-sm
-        .row
-          q-checkbox(v-model="var1" label="Бочка")
-        .row
-          q-checkbox(v-model="var1" label="Ванна")
-      .col
-        .row
-          q-checkbox(v-model="var1" label="Книжный шкаф")
-        .row
-          q-checkbox(v-model="var1" label="Кресло")
-    .row.q-pb-lg
-      .col-3
-        q-select(v-model="var2" label="Ещё 45" dense)
+    .row(v-if="isInterior")
+      // Модификация объекта!!!!!!!
+      .col-6(v-for="(item, index) in interiors" :key="index")
+        q-checkbox(v-if="index < itemsCount" v-model="item.isChecked" :label="item.name")
+    .row.q-pb-lg(v-if="isInterior")
+      .col.cursor-pointer(@click="isInterior=!isInterior")
+        .text-h6.text-primary Показать все
+    .row(v-if="!isInterior")
+      // Модификация объекта!!!!!!!
+      .col-6(v-for="(item, index) in interiors" :key="index")
+        q-checkbox(v-model="item.isChecked" :label="item.name")
+    .row.q-pb-lg(v-if="!isInterior")
+      .col.cursor-pointer(@click="isInterior=!isInterior")
+        .text-h6.text-primary Скрыть
 </template>
 
 <script>
 export default {
   name: 'specifications',
   props: {
-    singleStudio: Object,
-    allStudiosName: Array,
-    currentRoom: String
+    interiors: {
+      type: Array,
+      default: _ => []
+    }
   },
   data: () => ({
-    description: '',
-    var1: true,
-    var2: ''
+    itemsCount: 6,
+    isInterior: true
   })
 }
 </script>
