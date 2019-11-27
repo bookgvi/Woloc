@@ -14,6 +14,13 @@ export default {
       console.warn('catch :: finances :: getAll', e)
     }
   },
+  withdraw: async _ => {
+    try {
+      await api.post(`${API_URL}/finances/withdrawal`)
+    } catch (e) {
+      console.warn('catch :: finances :: withdraw', e.message)
+    }
+  },
   dashboardFinances: async (payload) => {
     const { date } = payload
     try {
