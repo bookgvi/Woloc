@@ -9,6 +9,7 @@
     .content--content2
       .row.q-py-md
         .col-3
+        .col.fixed.bg-white
           room-list(:rooms="rooms" @setCurrentRoom="setCurrentRoom")
         .col-6
           roomData(
@@ -21,13 +22,13 @@
             :needPrepayment="currentRoomData.needPrepayment"
             :key="reloadData + 0"
           )
-          // -------------- TODO --------------------
-          // specifications(
-            // :height="currentRoomData.height"
-            // :yardage="currentRoomData.yardage"
-            // :characteristics="currentRoomData.characteristics"
-            // :key="reloadData + 1"
-          // )
+          specifications(
+            :height="currentRoomData.height"
+            :yardage="currentRoomData.yardage"
+            :characteristics="currentRoomData.characteristics"
+            :description="currentRoomData.description"
+            :key="reloadData + 1"
+          )
           payment(
             :payment="currentRoomData.payment"
             :key="reloadData + 2"
@@ -41,7 +42,7 @@
           // -------------- TODO --------------------
           // additionalServices
           // -------------- TODO --------------------
-          services(:singleStudio="singleStudio")
+          // services(:singleStudio="singleStudio")
           .row
             q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps)
 </template>
@@ -96,15 +97,16 @@ export default {
       this.currentStudio = this.$app.studios.getFiltered(filter)
       this.selectedRoom = this.rooms.length ? this.rooms[0] : {}
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
-        this.getRoomData(this.selectedRoom.id)
+        await this.getRoomData(this.selectedRoom.id)
       }
       this.reloadData++
     },
-    setCurrentRoom (room) {
+    async setCurrentRoom (room) {
       this.selectedRoom = room
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
-        this.getRoomData(this.selectedRoom.id)
+        await this.getRoomData(this.selectedRoom.id)
       }
+      this.reloadData++
     },
     async getRoomData (id) {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {

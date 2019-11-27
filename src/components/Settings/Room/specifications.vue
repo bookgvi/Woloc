@@ -7,7 +7,7 @@
       .col
         span Описание зала
           textarea.q-pa-sm.text-grey-8(
-            v-model="description"
+            v-model="roomDescription"
             type="textarea"
             rows=5
             style="width: 100%;"
@@ -22,44 +22,44 @@
         q-input(v-model="roomYardage" outlined dense)
     .row.q-pb-lg
       .col.q-pr-sm
-        .row
-          q-checkbox(v-model="var1" label="Дневной свет")
-        .row
-          q-checkbox(v-model="var1" label="Подвесная система")
-        .row
-          q-checkbox(v-model="var2" label="Проходная система")
-      .col
-        .row
-          q-checkbox(v-model="var1" label="Трехфазная нагрузка")
-        .row
-          q-checkbox(v-model="var2" label="Затемнение окон")
-        .row
-          q-checkbox(v-model="var1" label="Условия для семинаров")
+        // Модификация объекта!!!!!!!
+        .row(v-for="(item, index) in characteristics" :key="index")
+          .col
+            q-checkbox(v-model="item.isChecked" :label="item.name")
 </template>
 
 <script>
 export default {
   name: 'specifications',
   props: {
+    description: {
+      type: String,
+      default: _ => 'Новый зал'
+    },
     height: {
       type: Number,
-      default: _ => 0
+      default: _ => 1
     },
     yardage: {
       type: Number,
-      default: _ => 0
+      default: _ => 1
+    },
+    characteristics: {
+      type: Array,
+      default: _ => []
     }
   },
   data: () => ({
     roomHeight: 0,
     roomYardage: 0,
-    description: '',
+    roomDescription: '',
     var1: true,
     var2: false
   }),
   created () {
     this.roomHeight = this.height
     this.roomYardage = this.yardage
+    this.roomDescription = this.description
   }
 }
 </script>
