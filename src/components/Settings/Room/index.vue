@@ -5,16 +5,15 @@
         template(#prepend="props")
           studio-filter(v-bind="props")
         template(#append)
-          q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary")
+          q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
     .content--content2
-      .row.q-py-md
+      .row.q-py-md(:key="reloadData")
         .col-3
         .col.fixed.bg-white
           room-list(
             :rooms="rooms"
             @setCurrentRoom="setCurrentRoom"
             :selectedRoom="selectedRoom.id"
-            :key="reloadData"
           )
         .col-6
           roomData(
@@ -25,37 +24,31 @@
             :isRoom="currentRoomData.isRoom"
             :minHours="currentRoomData.minHours"
             :needPrepayment="currentRoomData.needPrepayment"
-            :key="reloadData + 1"
           )
           specifications(
             :height="currentRoomData.height"
             :yardage="currentRoomData.yardage"
             :characteristics="currentRoomData.characteristics"
             :description="currentRoomData.description"
-            :key="reloadData + 2"
           )
           payment(
             :payment="currentRoomData.payment"
-            :key="reloadData + 3"
           )
           // -------------- TODO --------------------
           // images
           interior(
             :interiors="currentRoomData.interiors"
-            :key="reloadData + 4"
           )
           backgrounds(
             :backgrounds="currentRoomData.backgrounds"
-            :key="reloadData + 5"
           )
           additionalServices(
             :extras="currentRoomData.extras"
-            :key="reloadData + 6"
           )
           // -------------- TODO --------------------
           // services(:singleStudio="singleStudio")
           .row
-            q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps)
+            q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps @click="saveChanges")
 </template>
 
 <script>
@@ -69,12 +62,12 @@ import additionalServices from './additionalServices'
 import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
-// import studios from '../../../api/studios'
 import room from '../../../api/room'
 import RoomList from './roomList'
 export default {
   data () {
     return {
+      isPost: false,
       reloadData: 0,
       currentStudio: {},
       rooms: [],
@@ -110,6 +103,7 @@ export default {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         await this.getRoomData(this.selectedRoom.id)
       }
+      this.isPost = false
       this.reloadData++
     },
     async setCurrentRoom (room) {
@@ -117,11 +111,29 @@ export default {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         await this.getRoomData(this.selectedRoom.id)
       }
+      this.isPost = false
       this.reloadData++
     },
     async getRoomData (id) {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         this.currentRoomData = await room.getOne(id)
+      }
+    },
+    async createNew () {
+      this.currentRoomData = {}
+      this.currentRoomData.interiors = await room.getInteriors()
+      this.currentRoomData.characteristics = await room.getCharacteristics()
+      this.currentRoomData.backgrounds = await room.getBackgrounds()
+      this.currentRoomData.extras = await room.getExtras()
+      this.isPost = true
+      this.reloadData++
+    },
+    async saveChanges () {
+      if (this.isPost) {
+        console.log(this.currentRoomData)
+      } else {
+        console.log('PUT is not ready yet...')
+        await room.createRoom(this.currentRoomData)
       }
     }
   }
