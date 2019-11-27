@@ -4,12 +4,11 @@
       v-for="(room, index) in rooms"
       :key="index"
       style="width: 200px;"
+      @click="$emit('setCurrentRoom', rooms[index])"
       :class="room.id === selectedRoom ? { 'bg-grey-3': backGround } : { 'bg-white': backGround }"
     )
       .col.align-right
-        q-btn.q-ml-sm(
-          flat
-          @click="$emit('setCurrentRoom', rooms[index])"
+        p.q-ml-sm.q-mt-md(
           style="width: 100%"
         ) Зал {{ room.name }}
 </template>
@@ -38,7 +37,7 @@ export default {
 </script>
 
 <style scoped>
-  #room:hover {
+  .col:hover {
     background-color: #eeeeee;
   }
 </style>
