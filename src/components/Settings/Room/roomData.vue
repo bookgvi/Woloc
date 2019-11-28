@@ -6,7 +6,7 @@
     .row.q-pb-lg
       .col
         span Локация
-        q-input.q-pt-sm(v-model="currentStudio.name" outlined dense disable)
+        q-input.q-pt-sm(v-model="currentStudioData" outlined dense disable)
     .row.q-pb-lg
       .col
         span Название зала
@@ -55,14 +55,14 @@ export default {
   name: 'roomData',
   props: {
     currentStudio: {
-      type: Object,
-      default: _ => { return { name: '' } }
+      type: Object
     },
     roomData: {
       type: Object
     }
   },
   data: () => ({
+    currentStudioName: '',
     roomStatusData: 'Открыт',
     statuses: ['Скрыт', 'Открыт', 'Закрыт'],
     currentRoomTypeData: 'Рабочий',
@@ -71,6 +71,14 @@ export default {
     prepay: ['Без предоплаты', 'На выбор клиента']
   }),
   computed: {
+    currentStudioData: {
+      get () {
+        return this.currentStudioName
+      },
+      set () {
+        this.currentStudio.name = this.currentStudioName
+      }
+    },
     roomStatus: {
       get () {
         return this.roomStatusData
@@ -100,6 +108,11 @@ export default {
     }
   },
   mounted () {
+    this.$nextTick()
+    this.currentStudioName = this.currentStudio.name
+    this.roomStatusData = this.statuses[this.roomData.status]
+    this.currentRoomTypeData = this.roomType[this.roomData.isRoom]
+    this.currentPrepay = this.prepay[this.roomData.needPrepayment]
   }
 }
 </script>

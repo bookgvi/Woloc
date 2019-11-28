@@ -136,7 +136,7 @@ export default {
     },
     async saveChanges () {
       if (this.isPost) {
-        // await room.createRoom(this.currentRoomData)
+        await room.createRoom(this.currentRoomData)
         this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
         const newRoom = this.rooms.filter(item => item.name === this.currentRoomData.name)[0]
         this.setCurrentRoom(newRoom) // Выбираем новосозданный зал в списке
