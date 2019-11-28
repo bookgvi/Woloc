@@ -1,8 +1,13 @@
 import api from './instance'
-
+import room from '../mocks/room'
 const API_URL = process.env.API_CABINET_URL
 export default {
-
+  getDefault: async () => {
+    const r = {
+      data: room
+    }
+    return r
+  },
   getOne: async (id) => {
     try {
       const r = await api.get(`${API_URL}/room/${id}`)

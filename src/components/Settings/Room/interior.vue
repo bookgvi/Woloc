@@ -3,34 +3,19 @@
     .row.q-pb-lg
       .col
         .text-h5.text-bold Предметы интерьера
-    .row(v-if="isInterior")
-      // Модификация объекта!!!!!!!
-      .col-6(v-for="(item, index) in interiors" :key="index")
-        q-checkbox(v-if="index < itemsCount" v-model="item.isChecked" :label="item.name")
-    .row.q-pb-lg(v-if="isInterior")
-      .col.cursor-pointer(@click="isInterior=!isInterior")
-        .text-h6.text-primary Показать все
-    .row(v-if="!isInterior")
-      // Модификация объекта!!!!!!!
-      .col-6(v-for="(item, index) in interiors" :key="index")
-        q-checkbox(v-model="item.isChecked" :label="item.name")
-    .row.q-pb-lg(v-if="!isInterior")
-      .col.cursor-pointer(@click="isInterior=!isInterior")
-        .text-h6.text-primary Скрыть
+    abstract-list(:dataArray="interiors")
 </template>
 
 <script>
+import AbstractList from './AbstractDataList/abstractList'
 export default {
   name: 'specifications',
+  components: { AbstractList },
   props: {
     interiors: {
       type: Array,
       default: _ => []
     }
-  },
-  data: () => ({
-    itemsCount: 6,
-    isInterior: true
-  })
+  }
 }
 </script>

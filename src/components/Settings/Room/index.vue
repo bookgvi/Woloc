@@ -7,7 +7,7 @@
         template(#append)
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
     .content--content2
-      .row.q-py-md(:key="reloadData")
+      .row.q-py-md.q-pr-sm(:key="reloadData")
         .col-3
         .col.fixed.bg-white
           room-list(
@@ -15,27 +15,20 @@
             @setCurrentRoom="setCurrentRoom"
             :selectedRoom="selectedRoom.id"
           )
-        .col-6
+        .col-9
           roomData(
             :currentStudio="currentStudio"
-            :selectedRoom="currentRoomData.name"
-            :color="currentRoomData.color"
-            :status="currentRoomData.status"
-            :isRoom="currentRoomData.isRoom"
-            :minHours="currentRoomData.minHours"
-            :needPrepayment="currentRoomData.needPrepayment"
+            :roomData="currentRoomData"
           )
           specifications(
-            :height="currentRoomData.height"
-            :yardage="currentRoomData.yardage"
-            :characteristics="currentRoomData.characteristics"
-            :description="currentRoomData.description"
+            :specification="currentRoomData"
           )
           payment(
             :payment="currentRoomData.payment"
           )
           // -------------- TODO --------------------
           // images
+          // ----------------------------------------
           interior(
             :interiors="currentRoomData.interiors"
           )
@@ -47,6 +40,7 @@
           )
           // -------------- TODO --------------------
           // services(:singleStudio="singleStudio")
+          // ----------------------------------------
           .row
             q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps @click="saveChanges")
 </template>
@@ -64,6 +58,7 @@ import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
 import room from '../../../api/room'
 import RoomList from './roomList'
+import studios from '../../../api/studios'
 export default {
   data () {
     return {
@@ -89,16 +84,22 @@ export default {
     services
   },
   async mounted () {
-    this.$root.$on('changeFilter', _ => {
-      this.getStudioAndRoom()
-    })
+    this.$root.$on('changeFilter', this.getStudioAndRoom)
     this.getStudioAndRoom()
   },
   methods: {
     async getStudioAndRoom () {
-      const filter = this.$app.filters.getValues('settings')
-      this.rooms = this.$app.rooms.getFiltered(filter)
-      this.currentStudio = this.$app.studios.getFiltered(filter)
+      this.currentRoomData = {}
+      let filter = this.$app.filters.getValues('settings')
+      if (!filter.studio) {
+        const { items } = await studios.getAll().then(resp => resp.data)
+        const [{ rooms }] = items.filter(item => item.id === items[0].id)
+        this.rooms = rooms
+        this.currentStudio = items[0]
+      } else {
+        this.rooms = await this.getAllRooms(filter.studio)
+        this.currentStudio = this.$app.studios.getFiltered(filter)
+      }
       this.selectedRoom = this.rooms.length ? this.rooms[0] : {}
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         await this.getRoomData(this.selectedRoom.id)
@@ -119,21 +120,31 @@ export default {
         this.currentRoomData = await room.getOne(id)
       }
     },
+    async getAllRooms (id) { // Получаем массив всех залов локации id
+      const { items } = await studios.getAll().then(resp => resp.data)
+      const [{ rooms }] = items.filter(item => item.id === id)
+      return rooms
+    },
     async createNew () {
-      this.currentRoomData = {}
-      this.currentRoomData.interiors = await room.getInteriors()
-      this.currentRoomData.characteristics = await room.getCharacteristics()
-      this.currentRoomData.backgrounds = await room.getBackgrounds()
-      this.currentRoomData.extras = await room.getExtras()
+      const filter = this.$app.filters.getValues('settings')
+      const { data } = await room.getDefault()
+      this.currentStudio = this.$app.studios.getFiltered(filter)
+      this.currentRoomData = data
+      this.currentRoomData.studio.id = filter.studio
       this.isPost = true
       this.reloadData++
     },
     async saveChanges () {
       if (this.isPost) {
-        console.log(this.currentRoomData)
+        // await room.createRoom(this.currentRoomData)
+        this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
+        const newRoom = this.rooms.filter(item => item.name === this.currentRoomData.name)[0]
+        this.setCurrentRoom(newRoom) // Выбираем новосозданный зал в списке
+        this.reloadData++
       } else {
+        // TODO PUT
         console.log('PUT is not ready yet...')
-        await room.createRoom(this.currentRoomData)
+        console.log(this.currentRoomData)
       }
     }
   }
