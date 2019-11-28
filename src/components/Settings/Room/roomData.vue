@@ -14,18 +14,18 @@
     .row.q-pb-md
       span Цвет зала в календаре
     .row.items-center.q-pb-md
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: cyan;" @click="roomColor='cyan'")
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: yellow;" @click="roomColor='yellow'")
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: red;" @click="roomColor='red'")
-      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: green;" @click="roomColor='green'")
-      .inline-block.q-mr-xl(style="width: 30px; height: 30px; cursor: pointer; background: blue;" @click="roomColor='blue'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: #9C27B0;" @click="roomData.color='#9C27B0'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: #21BA45;" @click="roomData.color='#21BA45'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: #C10015;" @click="roomData.color='#C10015'")
+      .inline-block.q-mr-sm(style="width: 30px; height: 30px; cursor: pointer; background: #31CCEC;" @click="roomData.color='#31CCEC'")
+      .inline-block.q-mr-xl(style="width: 30px; height: 30px; cursor: pointer; background: #F2C037;" @click="roomData.color='#F2C037'")
       .row.q-pa-sm(style="border: 1px solid silver")
-        .inline-block.q-mr-md(:style="{ width: '30px', height: '30px', background: color}")
+        .inline-block.q-mr-md(:style="{ width: '30px', height: '30px', background: roomData.color}")
         q-icon.cursor-pointer(name="colorize" style="font-size: 2rem;")
           q-popup-proxy(:offset="[10, 10]")
             .block
               q-color(
-                v-model="roomColor"
+                v-model="roomData.color"
                 no-footer
                 style="width: 300px;"
               )
@@ -63,7 +63,6 @@ export default {
     }
   },
   data: () => ({
-    roomColor: 'red',
     roomStatusData: 'Открыт',
     statuses: ['Скрыт', 'Открыт', 'Закрыт'],
     currentRoomTypeData: 'Рабочий',
