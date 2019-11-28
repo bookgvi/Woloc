@@ -656,10 +656,7 @@ export default {
       return s
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
-      let bgcolor = '#d3d3d340'
-      if (!event.technical) {
-        bgcolor = `${event.bgcolor}40`
-      }
+      let bgcolor = `${event.bgcolor}40`
       let s = {
         'z-index': 2,
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
