@@ -23,7 +23,6 @@
           type="tel"
           outlined
           dense
-          autofocus
         )
       .col
         span Эл. почта &nbsp
