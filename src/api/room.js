@@ -55,5 +55,13 @@ export default {
     } catch (err) {
       console.warn('catch :: studios :: createRoom', err)
     }
+  },
+  updateRoom: async (id, roomData) => {
+    try {
+      const status = await api.put(`${API_URL}/room/${id}`, roomData)
+      return status.data
+    } catch (err) {
+      console.warn('catch :: studios :: updateRoom', err)
+    }
   }
 }

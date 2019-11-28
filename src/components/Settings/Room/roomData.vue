@@ -108,11 +108,15 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick()
-    this.currentStudioName = this.currentStudio.name
-    this.roomStatusData = this.statuses[this.roomData.status]
-    this.currentRoomTypeData = this.roomType[this.roomData.isRoom]
-    this.currentPrepay = this.prepay[this.roomData.needPrepayment]
+    this.defaultValues()
+  },
+  methods: {
+    defaultValues () {
+      this.currentStudioName = this.currentStudio.name
+      this.roomStatusData = this.statuses[this.roomData.status]
+      this.currentRoomTypeData = this.roomType[this.roomData.isRoom]
+      this.currentPrepay = this.prepay[this.roomData.needPrepayment]
+    }
   }
 }
 </script>

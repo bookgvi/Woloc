@@ -36,16 +36,16 @@
       q-checkbox(label="Наценка на единственный час" v-model="markup")
     .row.q-pb-lg
       .col
-        extraCahrge(v-if="markup" :payment="payment")
-        dayPrices(:price="price" :payment="payment")
+        //extraCahrge(v-if="markup" :payment="payment")
+        //dayPrices(:price="price" :payment="payment")
 </template>
 
 <script>
-import extraCahrge from './extraCahrge'
+import extraCharge from './extraCharge'
 import dayPrices from './dayPrices'
 export default {
   name: 'priceCalendar',
-  components: { extraCahrge, dayPrices },
+  components: { extraCharge, dayPrices },
   props: {
     payment: {
       type: Object,

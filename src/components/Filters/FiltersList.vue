@@ -43,7 +43,6 @@ export default {
   methods: {
     onChange (name, value) {
       this.$app.filters.setValue(this.name, name, value)
-      this.$root.$emit('changeFilter')
     },
     onReset () {
       this.$app.filters.reset(this.name)
