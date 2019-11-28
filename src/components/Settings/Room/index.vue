@@ -133,6 +133,7 @@ export default {
       this.currentStudio = this.$app.studios.getFiltered(filter)
       this.currentRoomData = data
       this.currentRoomData.studio.id = filter.studio
+      // this.currentRoomData = await room.getEmpty()
       this.isPost = true
       this.reloadData++
     },

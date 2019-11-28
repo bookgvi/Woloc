@@ -1,22 +1,22 @@
 {
   "id": 0,
   "color": null,
-  "status": 2,
+  "status": 0,
   "studio": {
-    "id": 41
+    "id": 0
   },
   "name": "Новый зал",
-  "isRoom": 1,
-  "minHours": 2,
+  "isRoom": 0,
+  "minHours": 0,
   "needPrepayment": 0,
   "description": "",
-  "height": 4,
-  "yardage": 90,
+  "height": 0,
+  "yardage": 0,
   "payment": {
     "photo": {
       "maxSeats": 0,
       "seats": 0,
-      "seatPrice": 100,
+      "seatPrice": 0,
       "discountToday": 0,
       "discountTomorrow": 0,
       "prices": [
@@ -25,31 +25,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -58,31 +58,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -91,31 +91,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -124,31 +124,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -157,31 +157,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -190,31 +190,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -223,31 +223,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -256,31 +256,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -289,31 +289,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -321,32 +321,32 @@
           "time": "9:00",
           "days": [
             {
-              "id": 5884,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5885,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5886,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5887,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5888,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5891,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5889,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -354,32 +354,32 @@
           "time": "10:00",
           "days": [
             {
-              "id": 5893,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5890,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5892,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5894,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5895,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5896,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5898,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -387,32 +387,32 @@
           "time": "11:00",
           "days": [
             {
-              "id": 5897,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5899,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5900,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5901,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5902,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5903,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5904,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -420,32 +420,32 @@
           "time": "12:00",
           "days": [
             {
-              "id": 5905,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5906,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5907,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5908,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5909,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5910,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5911,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -453,32 +453,32 @@
           "time": "13:00",
           "days": [
             {
-              "id": 5912,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5913,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5914,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5915,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5916,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5917,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5918,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -486,32 +486,32 @@
           "time": "14:00",
           "days": [
             {
-              "id": 5919,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5920,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5921,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5922,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5923,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5924,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5925,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -519,32 +519,32 @@
           "time": "15:00",
           "days": [
             {
-              "id": 5926,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5927,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5928,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5929,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5930,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5933,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5931,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -552,32 +552,32 @@
           "time": "16:00",
           "days": [
             {
-              "id": 5932,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5934,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5935,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5936,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5937,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5938,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5939,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -585,32 +585,32 @@
           "time": "17:00",
           "days": [
             {
-              "id": 5941,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5940,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5942,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5943,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5944,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5946,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5945,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -618,32 +618,32 @@
           "time": "18:00",
           "days": [
             {
-              "id": 5947,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5948,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5949,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5950,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5951,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5952,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5954,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -651,32 +651,32 @@
           "time": "19:00",
           "days": [
             {
-              "id": 5953,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5955,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5959,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5957,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5956,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5958,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5960,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -684,32 +684,32 @@
           "time": "20:00",
           "days": [
             {
-              "id": 5961,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5962,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5963,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5964,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5965,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5966,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5967,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -717,32 +717,32 @@
           "time": "21:00",
           "days": [
             {
-              "id": 5968,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5972,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5969,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5970,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5973,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5971,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5978,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -750,32 +750,32 @@
           "time": "22:00",
           "days": [
             {
-              "id": 5975,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5980,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5974,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5976,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5979,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5984,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5977,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         },
@@ -783,32 +783,32 @@
           "time": "23:00",
           "days": [
             {
-              "id": 5982,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5987,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5981,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5983,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5986,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5985,
-              "value": 1000
+              "id": null,
+              "value": null
             },
             {
-              "id": 5988,
-              "value": 1000
+              "id": null,
+              "value": null
             }
           ]
         }
@@ -816,38 +816,38 @@
       "pricesForHour": [
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         }
       ]
     },
     "video": {
       "maxSeats": 0,
       "seats": 0,
-      "seatPrice": 100,
+      "seatPrice": 0,
       "discountToday": 0,
       "discountTomorrow": 0,
       "prices": [
@@ -856,31 +856,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -889,31 +889,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -922,31 +922,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -955,31 +955,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -988,31 +988,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1021,31 +1021,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1054,31 +1054,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1087,31 +1087,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1120,31 +1120,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1153,31 +1153,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1186,31 +1186,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1219,31 +1219,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1252,31 +1252,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1285,31 +1285,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1318,31 +1318,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1351,31 +1351,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1384,31 +1384,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1417,31 +1417,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1450,31 +1450,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1483,31 +1483,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1516,31 +1516,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1549,31 +1549,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1582,31 +1582,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1615,31 +1615,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         }
@@ -1647,38 +1647,38 @@
       "pricesForHour": [
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         }
       ]
     },
     "event": {
       "maxSeats": 0,
       "seats": 0,
-      "seatPrice": 100,
+      "seatPrice": 0,
       "discountToday": 0,
       "discountTomorrow": 0,
       "prices": [
@@ -1687,31 +1687,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1720,31 +1720,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1753,31 +1753,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1786,31 +1786,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1819,31 +1819,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1852,31 +1852,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1885,31 +1885,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1918,31 +1918,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1951,31 +1951,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -1984,31 +1984,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2017,31 +2017,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2050,31 +2050,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2083,31 +2083,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2116,31 +2116,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2149,31 +2149,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2182,31 +2182,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2215,31 +2215,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2248,31 +2248,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2281,31 +2281,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2314,31 +2314,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2347,31 +2347,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2380,31 +2380,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2413,31 +2413,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         },
@@ -2446,31 +2446,31 @@
           "days": [
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             },
             {
               "id": null,
-              "value": 0
+              "value": null
             }
           ]
         }
@@ -2478,31 +2478,31 @@
       "pricesForHour": [
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         },
         {
           "id": null,
-          "value": 0
+          "value": null
         }
       ]
     }
