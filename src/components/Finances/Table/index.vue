@@ -11,10 +11,9 @@
       template(#title-append="props")
         .text-h6.inline-block.q-pl-md {{ props.amount }} ₽
       template(#table-controls-prepend="props")
-        q-btn.bg-primary(v-if="!isWithdraw" no-caps text-color='white' flat label="Вывести на счет" @click="isWithdraw=true")
-        q-btn.bg-primary(v-if="isWithdraw" no-caps text-color='white' flat label="Подтвердить вывод средств" @click="hasConfirmed")
-        q-btn.bg-red(v-if="isWithdraw" no-caps text-color='white' flat label="Отменить вывод средств" @click="isWithdraw=false")
-        q-btn.bg-primary.text-white.q-mr-md.q-pa-none(flat)
+        q-btn.bg-primary.q-mr-md(no-caps text-color='white' flat label="Вывести на счет" @click="isWithdraw=true")
+        // TODO - доп действия со счетом могут понадобится позже!
+        // q-btn.bg-primary.text-white.q-mr-md.q-pa-none(flat)
           q-icon(name="expand_more")
           q-popup-proxy.q-mt-md(auto-close :offset="[154, 3]")
             q-card(style="width: 180px;")
@@ -35,6 +34,9 @@
                     @click="isRefund = true"
                     style="width: 100%;"
                   )
+    q-dialog(v-model="isWithdraw" persistent)
+      q-card(style="position: absolute; top: 10rem; min-width: 500px;")
+        withdraw-modal(@hasWithdraw="hasWithdraw")
     q-dialog(v-model="isPrepayment")
       q-card(style="min-width: 640px;")
         prepayment
@@ -49,14 +51,14 @@ import details from './details'
 import DataTable from 'components/DataTable'
 import refund from '../Actions/refundModal'
 import prepayment from '../Actions/prepaymentModal'
-import finances from '../../../api/finances'
-
+import WithdrawModal from '../WithdrawModal'
 export default {
   name: 'FinancesTable',
   components: {
     DataTable,
     refund,
-    prepayment
+    prepayment,
+    WithdrawModal
   },
   data: () => ({
     columns,
@@ -67,8 +69,7 @@ export default {
     isPrepayment: false
   }),
   methods: {
-    async hasConfirmed () {
-      await finances.withdraw()
+    hasWithdraw () {
       this.isWithdraw = false
     }
   }
