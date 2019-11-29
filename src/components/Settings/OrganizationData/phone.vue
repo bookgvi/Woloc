@@ -31,7 +31,7 @@ export default {
     }
   },
   watch: {
-    'organization.phone.length' (newValue) {
+    'organization.phone.length' () {
       this.arrayLength = this.organization.phone.length
     }
   },
@@ -41,11 +41,21 @@ export default {
   },
   methods: {
     addPhone () {
-      this.arrayLength++
+      if (this.arrayLength < 5) {
+        this.arrayLength++
+      } else {
+        this.showNotif('Не более 5 телефонных номеров!', 'orange')
+      }
     },
     deletePhone (index) {
       const result = this.organization.phone.splice(index, 1)
       if (!result.length) this.arrayLength--
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   }
 }
