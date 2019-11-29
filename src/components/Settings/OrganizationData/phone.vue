@@ -1,19 +1,21 @@
 <template lang="pug">
-  .phone
-    .row.q-pb-sm
-      .phone.col.q-pr-sm(v-for="(item, index) in organization.phone" :key="index")
+  .phoneComponent
+    .row.q-pb-sm(v-for="(item, index) in arrayLength + additionalTel" :key="index")
+      .col
         q-input(
-          :value="item"
-          @input
+          ref="tel"
+          v-model="organization.phone[index]"
           type="tel"
-          mask=" +7 (###) ### - ####"
+          mask=" +# (###) ### - ####"
           unmasked-value
           hint="Mask: +7 (###) ### - ####"
           outlined
           dense
         )
+          template(#after)
+            q-icon.cursor-pointer(name="delete" @click="deletePhone(index)" title="Удалить телефон")
     .phoneBtn.col
-      q-btn.phoneBtn.bg-primary.text-white(label="Добавить телефон" @click="addPhone" outlined style="width: 100%;")
+      q-btn.q-mt-sm.phoneBtn.bg-primary.text-white(label="Добавить телефон" @click="addPhone" outlined style="width: 100%;")
 </template>
 
 <script>
@@ -22,23 +24,26 @@ export default {
   props: {
     organization: Object
   },
+  data () {
+    return {
+      arrayLength: 0,
+      additionalTel: 0
+    }
+  },
+  watch: {
+    'organization.phone.length' () {
+      this.arrayLength = this.organization.phone.length
+    }
+  },
+  created () {
+    this.arrayLength = this.organization.phone.length
+  },
   methods: {
     addPhone () {
-      const phoneBlock = document.querySelector('.phone')
-      const phoneBtnCol = document.querySelector('.phoneBtn')
-      const phoneBtn = document.querySelector('.q-btn.phoneBtn')
-      const input = document.createElement('input')
-      const input2 = document.createElement('input')
-      const newInputTel = phoneBlock.appendChild(input)
-      const space = phoneBtnCol.insertBefore(input2, phoneBtn)
-      newInputTel.type = 'tel'
-      newInputTel.style.width = '100%'
-      newInputTel.style.height = '2.5rem'
-      newInputTel.classList.add('q-mt-sm')
-      newInputTel.classList.add('q-pl-sm')
-      space.style.height = '2.5rem'
-      space.classList.add('q-mb-sm')
-      space.style.border = 'none'
+      this.additionalTel++
+    },
+    deletePhone (index) {
+      this.organization.phone.splice(index, 1)
     }
   }
 }
