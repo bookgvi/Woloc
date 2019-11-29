@@ -9,8 +9,9 @@
         q-input.q-pt-sm(v-model="currentStudioData" outlined dense disable)
     .row.q-pb-lg
       .col
-        span Название зала
-        q-input.q-pt-sm(v-model="roomData.name" outlined dense)
+        span Название зала&nbsp;
+        span.text-red *
+        q-input.q-pt-sm(v-model="roomData.name" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
     .row.q-pb-md
       span Цвет зала в календаре
     .row.items-center.q-pb-md
@@ -46,7 +47,8 @@
     .row.q-pb-lg
       .col-7.q-pr-sm
         q-select(v-model="needPrepayment" :options="prepay" outlined dense)
-      .col.q-pa-none
+      // TODO - Сделать позжее!!!!
+      // .col.q-pa-none
         q-btn.bg-primary.text-white(label="Привязать google календарь" no-caps)
 </template>
 

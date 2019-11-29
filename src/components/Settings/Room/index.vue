@@ -67,7 +67,8 @@ export default {
       currentStudio: {},
       rooms: [],
       selectedRoom: {},
-      currentRoomData: {}
+      currentRoomData: {},
+      isRequired: false
     }
   },
   components: {
@@ -138,6 +139,16 @@ export default {
       this.reloadData++
     },
     async saveChanges () {
+      if (!this.currentRoomData.name ||
+          !this.currentRoomData.height ||
+          !this.currentRoomData.yardage
+      ) {
+        this.isRequired = true
+        console.warn('Заполните обязательные поля')
+        this.showNotif()
+        return
+      }
+      this.isRequired = false
       if (this.isPost) {
         await room.createRoom(this.currentRoomData)
         this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
@@ -148,6 +159,12 @@ export default {
         this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
       }
       this.reloadData++
+    },
+    showNotif () {
+      this.$q.notify({
+        message: 'Заполните обязательные поля',
+        color: 'purple'
+      })
     }
   }
 }
