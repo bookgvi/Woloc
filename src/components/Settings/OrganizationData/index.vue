@@ -1,5 +1,5 @@
 <template lang="pug">
-  .organization
+  .organization()
     .row.justify-center
       .col-6
         .row.q-py-lg
@@ -146,7 +146,25 @@ export default {
       this.employerProps = value
     },
     async saveChanges () {
-      await organizationSettings.updateOne(this.organization.id, this.organization)
+      const result = await organizationSettings.updateOne(this.organization.id, this.organization)
+      if (result.hasOwnProperty('data')) {
+        this.showNotif('Изменения сохранены', 'green')
+      } else if (result.hasOwnProperty('errors')) {
+        this.showNotif('Проверьте обязательные поля')
+        result.errors.forEach(item => {
+          if (item.source === 'phone') {
+            console.warn('Phone')
+          } else {
+            this.organization[item.source] = ''
+          }
+        })
+      }
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   },
   async mounted () {

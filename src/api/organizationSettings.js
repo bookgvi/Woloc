@@ -8,6 +8,7 @@ export default {
       return r.data
     } catch (e) {
       console.warn('catch :: dashboard/organization-settings :: getOne', e)
+      return e
     }
   },
   updateOne: async (id, data) => {
@@ -16,6 +17,7 @@ export default {
       return r.data
     } catch (e) {
       console.warn('catch :: dashboard/organization-settings :: updateOne', e)
+      return e
     }
   }
 }
