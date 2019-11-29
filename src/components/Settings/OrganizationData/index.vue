@@ -24,13 +24,13 @@
             telephone(:organization="organization")
         .row.q-pb-xs
           .col.q-pr-sm
-            span Фактический адрес&nbsp;
+            span Юридический адрес&nbsp;
             span.text-red *
         .row
           .col.q-pr-sm
             q-input(v-model="organization.address" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
         .row.q-pb-md
-          q-checkbox(v-model="organization.isRealAddress" label="Юридический адрес совпадает с фактическим.")
+          q-checkbox(v-model="organization.isRealAddress" @input="equalAddresses" label="Юридический адрес совпадает с фактическим.")
         .realAddress(v-if="!organization.isRealAddress")
           .row.q-pb-xs
             .col.q-pr-sm
@@ -158,6 +158,11 @@ export default {
             this.organization[item.source] = ''
           }
         })
+      }
+    },
+    equalAddresses () {
+      if (this.organization.isRealAddress) {
+        this.organization.legalAddress = this.organization.address
       }
     },
     showNotif (msg, clr = 'purple') {
