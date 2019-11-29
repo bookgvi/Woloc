@@ -4,7 +4,7 @@ const API_URL = process.env.API_CABINET_URL
 export default {
   getDefault: async () => {
     const r = {
-      data: room
+      data: Object.assign({}, room)
     }
     return r
   },
@@ -62,6 +62,7 @@ export default {
       return status.data
     } catch (err) {
       console.warn('catch :: studios :: createRoom', err)
+      return err
     }
   },
   updateRoom: async (id, roomData) => {
@@ -70,6 +71,7 @@ export default {
       return status.data
     } catch (err) {
       console.warn('catch :: studios :: updateRoom', err)
+      return err
     }
   }
 }

@@ -12,7 +12,7 @@
             rows=5
             style="width: 100%;"
           )
-    .row.q-pb-lg
+    .row.q-pb-lg(:key="reloadFields")
       .col.q-pr-sm
         span Высота потолков, м&nbsp;
         span.text-red *
@@ -35,15 +35,22 @@ export default {
   props: {
     specification: {
       type: Object
-    }
+    },
+    isRequired: Boolean
   },
   data: () => ({
     itemsCount: 6,
     roomHeight: 0,
     roomYardage: 0,
     roomDescription: '',
-    isCharacteristics: true
+    isCharacteristics: true,
+    reloadFields: 0
   }),
+  watch: {
+    'isRequired' (newVal) {
+      if (newVal) this.reloadFields++
+    }
+  },
   created () {
     this.roomHeight = this.height
     this.roomYardage = this.yardage

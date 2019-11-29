@@ -7,11 +7,11 @@
   },
   "name": "Новый зал",
   "isRoom": 0,
-  "minHours": 0,
+  "minHours": "-",
   "needPrepayment": 0,
   "description": "",
-  "height": 0,
-  "yardage": 0,
+  "height": "-",
+  "yardage": "-",
   "payment": {
     "photo": {
       "maxSeats": 0,
