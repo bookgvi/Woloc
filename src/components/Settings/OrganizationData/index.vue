@@ -6,20 +6,22 @@
           .text-h5 Данные организации
         .row.q-pb-xs
           .col.q-pr-sm
-            span Название
+            span Название&nbsp;
+            span.text-red *
           .col.q-pr-sm
-            span Тип
+            span Тип&nbsp;
+            span.text-red *
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="name" outlined dense)
+            q-input(v-model="organization.name" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
           .col.q-pr-sm
-            q-select(v-model="currentType" :options="types" outlined dense)
+            q-select(v-model="organization.legalType" :rules="[val => !!val || 'Обязательно для заполнения']" :options="organization.types" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Телефон
         .row.q-pb-md
           .phone.col.q-pr-sm
-            q-input(v-model="phone" type="tel" outlined dense)
+            q-input(v-model="organization.phone" type="tel" outlined dense)
           .phoneBtn.col
             q-btn.phoneBtn(label="Добавить телефон" @click="addPhone" outlined style="width: 100%;")
         .row.q-pb-xs
@@ -27,9 +29,16 @@
             span Фактический адрес
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="address" outlined dense)
+            q-input(v-model="organization.address" outlined dense)
         .row.q-pb-xs
-          q-checkbox(v-model="isRealAddress" label="Юридический адрес совпадает с фактическим.")
+          q-checkbox(v-model="organization.isRealAddress" label="Юридический адрес совпадает с фактическим.")
+        .realAddress(v-if="!organization.isRealAddress")
+          .row.q-pb-xs
+            .col.q-pr-sm
+              span Фактический адрес
+          .row.q-pb-md
+            .col.q-pr-sm
+              q-input(v-model="organization.legalAddress" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Ген. директор
@@ -37,9 +46,9 @@
             span Бухгалтер
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="ceo" outlined dense)
+            q-input(v-model="organization.ceo" outlined dense)
           .col.q-pr-sm
-            q-input(v-model="booker" outlined dense)
+            q-input(v-model="organization.accountant" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span ОГРН
@@ -47,15 +56,15 @@
             span ИНН
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="ogrn" outlined dense)
+            q-input(v-model="organization.ogrn" outlined dense)
           .col.q-pr-sm
-            q-input(v-model="inn" outlined dense)
+            q-input(v-model="organization.inn" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span КПП
         .row.q-pb-md
           .col-6.q-pr-sm
-            q-input(v-model="kpp" outlined dense)
+            q-input(v-model="organization.kpp" outlined dense)
         .row.q-py-lg
           .text-h5 Банковские реквизиты
         .row.q-pb-xs
@@ -65,9 +74,9 @@
             span Кор. счет
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="bic" outlined dense)
+            q-input(v-model="organization.bic" outlined dense)
           .col.q-pr-sm
-            q-input(v-model="corrAccount" outlined dense)
+            q-input(v-model="organization.corr" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Банк
@@ -75,12 +84,13 @@
             span Рассчетный счет
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="bank" outlined dense)
+            q-input(v-model="organization.bank" outlined dense)
           .col.q-pr-sm
-            q-input(v-model="account" outlined dense)
-        .row.q-py-lg
+            q-input(v-model="organization.account" outlined dense)
+        // TODO - возможно понадобится добавление сотрудника!!!
+        //.row.q-py-lg
           .text-h5 Сотрудники
-        .row.q-pb-md
+        //.row.q-pb-md
           .col
             q-list(border separator style="width: 100%;")
               q-item(clickable v-for="item in employees" :key="item.id" @click="hasModal(item)").items-center
@@ -92,81 +102,36 @@
                   q-icon(name="edit" style="font-size: 20px;")
         .row.q-py-lg
           .col.q-pr-sm
-            q-btn.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%;")
-          .col
+            q-btn.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%;" @click="saveChanges")
+          //.col
             q-btn(label="Добавить сотрудника" no-caps style="width: 100%;")
-      q-dialog(v-model="isModal")
+      //q-dialog(v-model="isModal")
         q-card(style="min-width: 480px;")
           employees(
-            :employees="employerProps"
-            :phone="phone"
+           // :employees="employerProps"
+           // :phone="phone"
             @closeModal="isModal = false"
           )
 </template>
 
 <script>
 import employees from './employees'
+import organizationSettings from '../../../api/organizationSettings'
 export default {
   name: 'rules',
   components: { employees },
   data () {
     return {
-      name: 48,
-      currentType: 'ООО',
-      types: ['ООО', 'АО', 'ПАО'],
-      phone: '+7 495 790 66 24',
-      address: '109618, Россия, Москва, ул. Щипок, д 28',
-      isRealAddress: true,
-      ceo: 'Капустин Дмитрий Сергеев',
-      booker: 'Капустин Дмитрий Сергеев',
-      ogrn: 1087746473033,
-      inn: 7726084155,
-      kpp: 772601010,
-      bic: '044 525 225',
-      corrAccount: '301 010 101 000 000 202 00',
-      bank: 'ПАО Сбербанк',
-      account: '407 020 101 380 000 500 25',
+      organization: {},
       isModal: false,
-      employees: [
-        {
-          id: 1,
-          name: 'Андрей Ревин',
-          role: [
-            { id: 0, name: 'Менеджер', isRole: false },
-            { id: 1, name: 'Админ', isRole: true },
-            { id: 2, name: 'Владелец', isRole: true }
-          ],
-          login: 'andrey@revin.ru',
-          email: 'andrey@revin.ru',
-          pass: '123'
-        },
-        {
-          id: 2,
-          name: 'Джим Кэмп',
-          role: [
-            { id: 0, name: 'Менеджер', isRole: false },
-            { id: 1, name: 'Админ', isRole: true },
-            { id: 2, name: 'Владелец', isRole: false }
-          ],
-          login: 'jim@camp.ru',
-          email: 'andrey@revin.ru',
-          pass: '123' },
-        {
-          id: 3,
-          name: 'Антон Куранов',
-          role: [
-            { id: 0, name: 'Менеджер', isRole: true },
-            { id: 1, name: 'Админ', isRole: false },
-            { id: 2, name: 'Владелец', isRole: false }
-          ],
-          login: 'anton@kuranov.ru',
-          email: 'andrey@revin.ru',
-          pass: '123' }
-      ],
-      employerProps: {}
     }
   },
   methods: {
+    async getData () {
+      const { data } = await organizationSettings.getOne()
+      if (!data.name) return
+      return data
+    },
     addPhone () {
       const phoneBlock = document.querySelector('.phone')
       const phoneBtnCol = document.querySelector('.phoneBtn')
@@ -187,7 +152,14 @@ export default {
     hasModal (value) {
       this.isModal = true
       this.employerProps = value
+    },
+    async saveChanges () {
+      await organizationSettings.updateOne(this.organization.id, this.organization)
+      this.organization = await this.getData()
     }
+  },
+  async mounted () {
+    this.organization = await this.getData()
   }
 }
 </script>
