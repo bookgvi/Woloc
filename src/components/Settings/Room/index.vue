@@ -15,7 +15,7 @@
             @setCurrentRoom="setCurrentRoom"
             :selectedRoom="selectedRoom.id"
           )
-        .col-9
+        .col-6
           roomData(
             :currentStudio="currentStudio"
             :roomData="currentRoomData"
@@ -136,7 +136,7 @@ export default {
       this.currentRoomData.studio.id = filter.studio
       // this.currentRoomData = await room.getEmpty()
       this.isPost = true
-      this.reloadData++
+      // this.reloadData++
     },
     async saveChanges () {
       if (!this.currentRoomData.name ||

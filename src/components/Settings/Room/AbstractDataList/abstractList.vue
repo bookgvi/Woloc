@@ -2,7 +2,7 @@
   .data
     .row(v-if="showPart")
       // Модификация объекта!!!!!!!
-      .col-3(v-for="(item, index) in dataArray" :key="index")
+      .col-6(v-for="(item, index) in dataArray" :key="index")
         q-checkbox(v-if="index < itemsCount" v-model="item.isChecked" :label="item.name")
     .row.q-pb-lg(v-if="showPart")
       .col.cursor-pointer(@click="showPart=!showPart")
@@ -11,7 +11,7 @@
         ) Показать ещё {{ dataArray.length - itemsCount < 0 ? isSomeItems = false : dataArray.length - itemsCount }}
     .row(v-if="!showPart")
       // Модификация объекта!!!!!!!
-      .col-3(v-for="(item, index) in dataArray" :key="index")
+      .col-6(v-for="(item, index) in dataArray" :key="index")
         q-checkbox(v-model="item.isChecked" :label="item.name")
     .row.q-pb-lg(v-if="!showPart")
       .col.cursor-pointer(@click="showPart=!showPart")
