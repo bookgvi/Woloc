@@ -1,25 +1,42 @@
 <template lang="pug">
-  filter-select(
-    selectAllLabel="Все залы"
-    :title="buttonTitle"
-    :models="models"
-    :value="value"
-    @change="event => onChange('rooms', event)"
-  )
-    .text-subtitle1.text-bold.q-pt-md.q-px-lg {{ title }}
+  .rooms
+    .row
+      .col
+        q-btn.q-py-none.q-px-sm(
+          :label="buttonTitle"
+          @click="openFilter = true"
+          dense
+          no-caps
+          flat
+          style="border: 1px solid black;"
+        )
+        q-popup-proxy
+          .row
+            .col.q-pa-md
+              .checkbox(v-for="(item, index) in models" :key="index")
+                input.q-mr-md.cursor-pointer(
+                  :id="`room${index}`"
+                  type="checkbox"
+                  v-model="!currentRoom[item.name]"
+                )
+                label.cursor-pointer(:for="`room${index}`") {{ item.name }}
+          //.text-subtitle1.text-bold.q-pt-md.q-px-lg {{ title }}
 </template>
 
 <script>
-import FilterSelect from './FilterSelect'
 
 export default {
   name: 'rooms-filter',
-  components: { FilterSelect },
   props: {
     values: {
       type: Object,
     },
     onChange: Function
+  },
+  data () {
+    return {
+      currentRoom: {}
+    }
   },
   computed: {
     title () {
@@ -39,3 +56,20 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  input[type=checkbox] {
+    display: none;
+  }
+  .checkbox label:before {
+    border-radius: 3px;
+  }
+  input[type=checkbox]:checked + label:before {
+    content: "\2713";
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+    font-size: 25px;
+    color: #000;
+    text-align: center;
+    line-height: 25px;
+  }
+</style>
