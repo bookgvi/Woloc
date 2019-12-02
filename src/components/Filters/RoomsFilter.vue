@@ -17,7 +17,7 @@
                 input.q-mr-md.cursor-pointer(
                   :id="`room${index}`"
                   type="checkbox"
-                  v-model="!currentRoom[item.name]"
+                  v-model="currentRoom[item.name]"
                 )
                 label.cursor-pointer(:for="`room${index}`") {{ item.name }}
           //.text-subtitle1.text-bold.q-pt-md.q-px-lg {{ title }}
@@ -61,8 +61,8 @@ export default {
   input[type=checkbox] {
     display: none;
   }
-  .checkbox label:before {
-    border-radius: 3px;
+  input[type=checkbox] + label:before {
+    border: 1px solid black;
   }
   input[type=checkbox]:checked + label:before {
     content: "\2713";
@@ -70,6 +70,6 @@ export default {
     font-size: 25px;
     color: #000;
     text-align: center;
-    line-height: 25px;
+    border: 1px solid black;
   }
 </style>
