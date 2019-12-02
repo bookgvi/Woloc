@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import { colors } from 'quasar'
 export default {
   name: 'filter-select',
   data: () => ({
@@ -97,10 +98,16 @@ export default {
     },
     listOptions () {
       if (this.isRange === true) return {}
-      return this.options || this.models.map(({ id, name }) => ({
-        value: id,
-        label: name,
-      }))
+      return this.options || this.models.map(({ id, name, color }) => {
+        colors.setBrand('roomColor', `${color}`)
+        console.log(this)
+        this.$nextTick()
+        return ({
+          value: id,
+          label: name,
+          color: 'roomColor'
+        })
+      })
     },
     disabled () {
       if (this.isRange === true) {
