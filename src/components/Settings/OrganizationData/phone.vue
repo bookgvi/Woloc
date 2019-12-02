@@ -8,7 +8,7 @@
           type="tel"
           mask=" +# (###) ### - ####"
           unmasked-value
-          hint="Mask: +7 (###) ### - ####"
+          hint="Mask: +# (###) ### - ####"
           :rules="[val => val.length === 11 || 'Номер должен содержать 11 цифр']"
           outlined
           dense

@@ -13,7 +13,11 @@
             span.text-red *
         .row
           .col.q-pr-sm
-            q-input(v-model="organization.name" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.name" :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
             q-select(v-model="organization.legalType" :options="extra.types" outlined dense)
         .row.q-pb-xs
@@ -28,9 +32,17 @@
             span.text-red *
         .row
           .col.q-pr-sm
-            q-input(v-model="organization.address" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.address" :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
         .row.q-pb-md
-          q-checkbox(v-model="organization.isRealAddress" @input="equalAddresses" label="Юридический адрес совпадает с фактическим.")
+          q-checkbox(
+            v-model="organization.isRealAddress"
+            @input="equalAddresses"
+            label="Юридический адрес совпадает с фактическим."
+          )
         .realAddress(v-if="!organization.isRealAddress")
           .row.q-pb-xs
             .col.q-pr-sm
@@ -38,7 +50,11 @@
               span.text-red *
           .row.q-pb-md
             .col.q-pr-sm
-              q-input(v-model="organization.legalAddress" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+              q-input(
+                v-model="organization.legalAddress" :rules="[val => !!val || 'Обязательно для заполнения']"
+                outlined
+                dense
+              )
         .row.q-pb-xs
           .col.q-pr-sm
             span Ген. директор&nbsp;
@@ -47,9 +63,17 @@
             span Бухгалтер
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="organization.ceo" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.ceo" :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="organization.accountant" outlined dense)
+            q-input(
+              v-model="organization.accountant"
+              outlined
+              dense
+            )
         .row.q-pb-xs
           .col.q-pr-sm
             span ОГРН&nbsp;
@@ -59,16 +83,31 @@
             span.text-red *
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="organization.ogrn" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.ogrn"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 13 || 'ОГРН должен содержать 13 цифр']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="organization.inn" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.inn"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => [10, 12].indexOf(val.length) !== -1 || 'ИНН должен содержать 10 или 12 цифр']"
+              outlined
+              dense
+            )
         .row.q-pb-xs
           .col.q-pr-sm
             span КПП&nbsp;
             span.text-red *
         .row.q-pb-md
           .col-6.q-pr-sm
-            q-input(v-model="organization.kpp" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.kpp"
+              :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
         .row.q-py-lg
           .text-h5 Банковские реквизиты
         .row.q-pb-xs
@@ -80,9 +119,19 @@
             span.text-red *
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="organization.bic" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.bic"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 9 || 'БИК должен содержать 9 цифр']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="organization.corr" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.corr"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 20 || 'КОРР. СЧЕТ  должен содержать 20 цифр']"
+              outlined
+              dense
+            )
         .row.q-pb-xs
           .col.q-pr-sm
             span Банк&nbsp;
@@ -92,9 +141,19 @@
             span.text-red *
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="organization.bank" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.bank"
+              :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="organization.account" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+            q-input(
+              v-model="organization.account"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 20 || 'РАСЧ. СЧЕТ  должен содержать 20 цифр']"
+              outlined
+              dense
+            )
         // TODO - возможно понадобится добавление сотрудника!!!
         //.row.q-py-lg
           .text-h5 Сотрудники
