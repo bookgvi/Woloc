@@ -1,6 +1,6 @@
 <template lang="pug">
   .organization()
-    .row.justify-center
+    .row.justify-center(:key="reloadPage")
       .col-6
         .row.q-py-lg
           .text-h5 Данные организации
@@ -131,6 +131,7 @@ export default {
   components: { employees, telephone },
   data () {
     return {
+      reloadPage: 0,
       organization: {},
       extra: {},
       isModal: false,
@@ -148,8 +149,11 @@ export default {
     },
     async saveChanges () {
       const result = await organizationSettings.updateOne(this.organization.id, this.organization)
-      if (result.hasOwnProperty('data')) {
+      if (result.hasOwnProperty('data') && result.data.hasOwnProperty('organization')) {
         this.showNotif('Изменения сохранены', 'green')
+        this.extra = result.data.extra
+        this.organization = result.data.organization
+        this.reloadPage++
       } else if (result.hasOwnProperty('errors')) {
         this.showNotif('Проверьте обязательные поля')
         result.errors.forEach(item => {
