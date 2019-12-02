@@ -25,6 +25,14 @@ export default {
   },
   async created () {
     await this.controller.getAll()
+    const { items } = await this.controller.getAll()
+    const currentPage = this.$route.path.split('/')[1]
+    const filter = this.$app.filters.readFromSession()[currentPage]
+    if (filter.hasOwnProperty('studio') && filter.studio) return
+    let [{ rooms }] = items.filter(item => item.id === items[0].id)
+    rooms = rooms.map(item => item.id)
+    this.$app.filters.setValue(currentPage, 'studio', items[0].id)
+    this.$app.filters.setValue(currentPage, 'rooms', rooms)
   },
   computed: {
     controller () {

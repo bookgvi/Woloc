@@ -1,12 +1,12 @@
 <template lang="pug">
-  .room(:key="filterChanged")
+  .room
     .menu.menu--menu2
       filters-list(name="settings")
         template(#prepend="props")
           studio-filter(v-bind="props")
         template(#append)
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
-    .content--content2
+    .content--content2(:key="filterChanged")
       .row.q-py-md.q-pr-sm(:key="reloadData")
         .col-3
         .col.fixed.bg-white
@@ -17,11 +17,13 @@
           )
         .col-6
           roomData(
+            v-if="currentRoomData.hasOwnProperty('status') && currentRoomData.status"
             :currentStudio="currentStudio"
             :roomData="currentRoomData"
             :isRequired="isRequired"
           )
           specifications(
+            v-if="currentRoomData.hasOwnProperty('description') && currentRoomData.description"
             :specification="currentRoomData"
             :isRequired="isRequired"
           )
