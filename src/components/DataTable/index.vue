@@ -1,7 +1,6 @@
 <template lang="pug">
   .q-pa-none
     q-table.shadow-0.data-table(
-      :grid="$q.screen.xs"
       row-key="id"
       hide-bottom
       :data="data"
@@ -101,9 +100,6 @@ export default {
         }))
       }))
     }
-  },
-  created () {
-    this.$q.screen.setSizes({ sm: 300, md: 500, lg: 1000, xl: 2000 })
   }
 }
 </script>
