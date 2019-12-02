@@ -15,7 +15,7 @@
           .col.q-pr-sm
             q-input(v-model="organization.name" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
           .col.q-pr-sm
-            q-select(v-model="organization.legalType" :options="organization.types" outlined dense)
+            q-select(v-model="organization.legalType" :options="extra.types" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Телефон
@@ -132,13 +132,14 @@ export default {
   data () {
     return {
       organization: {},
+      extra: {},
       isModal: false,
     }
   },
   methods: {
     async getData () {
       const { data } = await organizationSettings.getOne()
-      if (!data.name) return
+      if (!data.organization.name) return
       return data
     },
     hasModal (value) {
@@ -173,7 +174,9 @@ export default {
     }
   },
   async mounted () {
-    this.organization = await this.getData()
+    const data = await this.getData()
+    this.extra = data.extra
+    this.organization = data.organization
   }
 }
 </script>

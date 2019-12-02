@@ -4,7 +4,7 @@
       .col
         q-input(
           ref="tel"
-          v-model="organization.phone[index]"
+          v-model="organization.phones[index]"
           type="tel"
           mask=" +# (###) ### - ####"
           unmasked-value
@@ -21,7 +21,7 @@
 
 <script>
 export default {
-  name: 'phone',
+  name: 'phones',
   props: {
     organization: Object
   },
@@ -31,13 +31,13 @@ export default {
     }
   },
   watch: {
-    'organization.phone.length' () {
-      this.arrayLength = this.organization.phone.length
+    'organization.phones.length' () {
+      this.arrayLength = this.organization.phones.length
     }
   },
   created () {
-    if (!this.organization.hasOwnProperty('phone')) return
-    this.arrayLength = this.organization.phone.length
+    if (!this.organization.hasOwnProperty('phones')) return
+    this.arrayLength = this.organization.phones.length
   },
   methods: {
     addPhone () {
@@ -48,7 +48,7 @@ export default {
       }
     },
     deletePhone (index) {
-      const result = this.organization.phone.splice(index, 1)
+      const result = this.organization.phones.splice(index, 1)
       if (!result.length) this.arrayLength--
     },
     showNotif (msg, clr = 'purple') {
