@@ -2,7 +2,7 @@
   .q-pa-lg
     .row.q-pb-lg
       .col-11
-        .text-h6 Календарь цен
+        .text-h6 Календарь цен ({{ price | priceView }})
       q-space
       .col-1
         q-btn(icon="close" flat @click="$emit('hide')")
@@ -61,7 +61,12 @@ export default {
       markup: false
     }
   },
-  mounted () {}
+  filters: {
+    priceView (value) {
+      const result = [{ 'photo': 'Фото' }, { 'video': 'Видео' }, { 'event': 'Событие' }].filter(item => item[value])[0]
+      return result[value]
+    }
+  }
 }
 </script>
 
