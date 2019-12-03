@@ -31,7 +31,7 @@ export default {
       settings: [
         // { to: '/settings/location', label: 'Локация' },
         // { to: '/settings/room', label: 'Залы' },
-        // { to: '/settings/extras', label: 'Доп. услуги' },
+        { to: '/settings/extras', label: 'Доп. услуги' },
         { to: '/settings/discounts', label: 'Скидки' },
         // { to: '/settings/promo', label: 'Промокоды' },
         // { to: '/settings/rules', label: 'Правила' },
