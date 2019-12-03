@@ -3,15 +3,16 @@
     DataTable(
       title="Дополнительные услуги"
       :loadData="$app.extras.getAll"
+      :filter="$app.filters.getValues('settings')"
       :columns="columns"
-      :details="details"
+      @toggleDialogRow="toggleDialogRow"
     )
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить услугу" no-caps)
 
-      template(#row-controls="props")
-        q-btn(flat round icon="drag_handle" no-caps title="Редактировать" @click="showDialog(props.row)")
-    q-dialog(v-model="editExtras" persistent)
+      // template(#row-controls="props")
+        q-btn(flat round icon="drag_handle" no-caps title="Редактировать")
+    q-dialog(v-model="editExtras")
       q-card(style="min-width: 700px")
         q-card-section
           editExtras(:singleStudio="singleStudio" :rooms="rooms" :dataset="dataset" @hide="editExtras = false")
@@ -23,20 +24,21 @@ import details from './details'
 import DataTable from 'components/DataTable'
 import editExtras from '../editExtrasModal/editExtras'
 export default {
-  props: {
-    singleStudio: Object,
-    rooms: Array
-  },
   name: 'extrasTable',
   components: { DataTable, editExtras },
   data: () => ({
     columns,
     details,
     editExtras: false,
-    dataset: {}
+    dataset: {},
+    singleStudio: {},
+    rooms: []
   }),
   methods: {
-    showDialog (props) {
+    toggleDialogRow (props) {
+      const { studio, rooms } = props
+      this.singleStudio = studio
+      this.rooms = rooms
       this.editExtras = true
       this.dataset = props
     }
