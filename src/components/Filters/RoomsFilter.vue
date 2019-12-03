@@ -1,12 +1,41 @@
 <template lang="pug">
-  filter-select(
-    selectAllLabel="Все залы"
-    :title="buttonTitle"
-    :models="models"
-    :value="value"
-    @change="event => onChange('rooms', event)"
-  )
-    .text-subtitle1.text-bold.q-pt-md.q-px-lg {{ title }}
+  .roomFilter
+    q-btn.q-py-none.q-px-sm(
+      :label="buttonTitle",
+      no-caps
+      flat
+      dense
+      style="border: 1px solid black;"
+    )
+    q-popup-proxy(
+      ref="QPopupProxy"
+      transition-show="scale"
+      transition-hide="scale"
+    )
+      .row.q-pb-md
+        .col
+          .text-subtitle1.text-bold.q-pt-md.q-px-lg {{ title }}
+          .checkbox.q-pl-md.q-pt-md(v-for="(item, index) in models")
+            input(
+              :id="`checkbox${index}`"
+              type="checkbox"
+              v-model="selectedRooms[item.id]"
+            )
+            label(:for="`checkbox${index}`") {{ models[index].name }}
+          .row
+            q-btn-group.q-pa-md(outline)
+              q-btn.q-mr-md(
+                label="Отменить"
+                no-caps
+                :style="{ border: '#f0f0f0 solid 1px' }"
+                @click="onReset"
+              )
+              q-btn(
+                label="Применить"
+                color="primary"
+                no-caps
+                @click="onApply"
+              )
 </template>
 
 <script>
@@ -18,8 +47,12 @@ export default {
   props: {
     values: {
       type: Object,
-    },
-    onChange: Function
+    }
+  },
+  data () {
+    return {
+      selectedRooms: {}
+    }
   },
   computed: {
     title () {
@@ -34,7 +67,38 @@ export default {
       return `Залы ${this.value.length || ''}`
     },
     models () {
-      return this.$app.rooms.getAvailable(this.values)
+      const rooms = this.$app.rooms.getAvailable(this.values)
+      return rooms
+    }
+  },
+  created () {
+    this.selection()
+  },
+  methods: {
+    hidePopup () {
+      this.$refs.QPopupProxy.hide()
+    },
+    async onApply () {
+      const page = this.$route.path.split('/')[1]
+      let filteredRooms = []
+      for (let key in this.selectedRooms) {
+        if (this.selectedRooms[key]) {
+          filteredRooms.push(+key)
+        }
+      }
+      await this.$app.filters.setValue(page, 'rooms', filteredRooms)
+      this.hidePopup()
+    },
+    onReset () {
+      this.hidePopup()
+    },
+    selection () {
+      this.selectedRooms = Object.assign({})
+      this.value.forEach(item => {
+        this.selectedRooms[item] = true
+      })
+    },
+    toggleSelectAll (selected) {
     }
   }
 }
