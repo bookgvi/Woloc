@@ -59,7 +59,7 @@ export default {
   },
   data () {
     return {
-      selectedAllRooms: false,
+      selectedAll: false,
       selectedRooms: {}
     }
   },
@@ -80,9 +80,18 @@ export default {
     buttonTitle () {
       return `Залы ${this.value.length || ''}`
     },
-    models: {
+    models () {
+      return this.$app.rooms.getAvailable(this.values)
+    },
+    selectedAllRooms: {
       get () {
-        return this.$app.rooms.getAvailable(this.values)
+        return this.selectedAll
+      },
+      set (val) {
+        this.models.forEach((item, index) => {
+          this.selectedRooms[item.id] = val
+        })
+        this.selectedAll = val
       }
     }
   },
