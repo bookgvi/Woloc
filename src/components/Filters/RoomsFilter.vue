@@ -22,6 +22,14 @@
               v-model="selectedRooms[item.id]"
             )
             label(:for="`checkbox${index}`") {{ models[index].name }}
+          .checkbox.q-pl-md.q-pt-md
+            input(
+              id="checkboxAll"
+              type="checkbox"
+              v-model="selectedAllRooms"
+            )
+            label(for="checkboxAll") Все залы
+
           .row
             q-btn-group.q-pa-md(outline)
               q-btn.q-mr-md(
@@ -51,7 +59,13 @@ export default {
   },
   data () {
     return {
+      selectedAllRooms: false,
       selectedRooms: {}
+    }
+  },
+  watch: {
+    models (newVal) {
+      this.selection()
     }
   },
   computed: {
@@ -66,9 +80,10 @@ export default {
     buttonTitle () {
       return `Залы ${this.value.length || ''}`
     },
-    models () {
-      const rooms = this.$app.rooms.getAvailable(this.values)
-      return rooms
+    models: {
+      get () {
+        return this.$app.rooms.getAvailable(this.values)
+      }
     }
   },
   created () {
