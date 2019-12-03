@@ -12,9 +12,18 @@
         q-chip(
           v-if="value"
           dense
-          :style="getRoomStyle(value)"
-          :title="value.name"
+         :style="getRoomStyle(value)"
+         :title="value.name"
         ) {{ value.name || value.title}}
+      template(v-else-if="name === 'rooms'")
+        q-chip(
+          v-for="item in value"
+          :key="item.id"
+          dense
+          :style="getRoomStyle(item)"
+          :title="item.name"
+        ) {{ item.name }}
+
       template(v-else-if="name === 'bookingId'")
         div(:title="row.status.title") {{ value }}
       template(v-else-if="name === 'bookingStatus'")

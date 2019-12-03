@@ -8,7 +8,7 @@ export default [
     width: 150
   },
   {
-    name: 'room',
+    name: 'rooms',
     label: 'Зал',
     active: true,
     width: 120
