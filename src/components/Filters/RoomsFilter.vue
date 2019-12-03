@@ -15,20 +15,23 @@
       .row.q-pb-md
         .col
           .text-subtitle1.text-bold.q-pt-md.q-px-lg {{ title }}
-          .checkbox.q-pl-md.q-pt-md(v-for="(item, index) in models")
-            input(
+          .check.q-pl-lg.q-pt-md(v-for="(item, index) in models")
+            input.check__input(
               :id="`checkbox${index}`"
               type="checkbox"
               v-model="selectedRooms[item.id]"
+              :key="reloadCheckBox"
             )
-            label(:for="`checkbox${index}`") {{ models[index].name }}
-          .checkbox.q-pl-md.q-pt-md
-            input(
+            span.check__box.cursor-pointer(@click="checkUncheck(item.id)" :style="{ backgroundColor: item.color }")
+            label.check__label.cursor-pointer(:for="`checkbox${index}`") {{ models[index].name }}
+          .checkbox.q-pl-lg.q-pt-md
+            input.check__input(
               id="checkboxAll"
               type="checkbox"
               v-model="selectedAllRooms"
             )
-            label(for="checkboxAll") Все залы
+            span.check__box.cursor-pointer(@click="selectedAllRooms = !selectedAllRooms")
+            label.check__label.cursor-pointer(for="checkboxAll") Все залы
 
           .row
             q-btn-group.q-pa-md(outline)
@@ -60,7 +63,8 @@ export default {
   data () {
     return {
       selectedAll: false,
-      selectedRooms: {}
+      selectedRooms: {},
+      reloadCheckBox: 0
     }
   },
   watch: {
@@ -88,7 +92,7 @@ export default {
         return this.selectedAll
       },
       set (val) {
-        this.models.forEach((item, index) => {
+        this.models.forEach(item => {
           this.selectedRooms[item.id] = val
         })
         this.selectedAll = val
@@ -121,9 +125,40 @@ export default {
       this.value.forEach(item => {
         this.selectedRooms[item] = true
       })
+      if (this.value.length) this.selectedAll = true
     },
-    toggleSelectAll (selected) {
+    checkUncheck (val) {
+      this.selectedRooms[val] = !this.selectedRooms[val]
+      this.reloadCheckBox++
     }
   }
 }
 </script>
+
+<style>
+  .check {
+  }
+  .check__label {
+    padding-left: 2.5em;
+    font-size: 15px;
+  }
+  .check__input {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  .check__box {
+    position: absolute;
+    width: 1.3em;
+    height: 1.3em;
+    border-radius: 1px;
+    background-color: black;
+  }
+  .check__input:checked + .check__box:before {
+    display: inline-block;
+    content: "\2713";
+    font-size: 1.7em;
+    line-height: 0.9em;
+    color: white;
+  }
+</style>
