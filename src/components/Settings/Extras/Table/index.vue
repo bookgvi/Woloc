@@ -15,7 +15,7 @@
     q-dialog(v-model="editExtras")
       q-card(style="min-width: 700px")
         q-card-section
-          editExtras(:singleStudio="singleStudio" :rooms="rooms" :dataset="dataset" @hide="editExtras = false")
+          editExtras(:allRoomsOfThisStudio="allRoomsOfThisStudio" :singleStudio="singleStudio" :rooms="rooms" :dataset="dataset" @hide="editExtras = false")
 </template>
 
 <script>
@@ -32,13 +32,16 @@ export default {
     editExtras: false,
     dataset: {},
     singleStudio: {},
-    rooms: []
+    rooms: [],
+    allRoomsOfThisStudio: []
   }),
   methods: {
-    toggleDialogRow (props) {
+    async toggleDialogRow (props) {
+      const items = this.$app.studios.getFiltered(this.$app.filters.readFromSession().settings)
       const { studio, rooms } = props
-      this.singleStudio = studio
+      this.allRoomsOfThisStudio = items.rooms
       this.rooms = rooms
+      this.singleStudio = studio
       this.editExtras = true
       this.dataset = props
     }
