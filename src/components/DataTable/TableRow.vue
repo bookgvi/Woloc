@@ -113,7 +113,7 @@ export default {
     },
     getRoomStyle ({ color }) {
       return {
-        height: '80%',
+        height: '50%',
         color: this.hexTOrgb(color, 1),
         backgroundColor: this.hexTOrgb(color, 30)
       }
@@ -164,6 +164,20 @@ export default {
     .active
       cursor: pointer
     .room-col .q-chip
+      width 100px
+      border-radius 3px
+      .q-chip__content
+        width 100%
+        white-space normal
+        overflow hidden
+    .rooms-col .q-chip
+      width 100px
+      border-radius 3px
+      .q-chip__content
+        width 100%
+        white-space normal
+        overflow hidden
+    .purpose-col .q-chip
       width 100px
       border-radius 3px
       .q-chip__content

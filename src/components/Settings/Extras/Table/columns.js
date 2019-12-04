@@ -28,7 +28,7 @@ export default [
   {
     name: 'createdAt',
     label: 'Дата создания',
-    format: value => date.formatDate(value, 'D MMMM YYYY h:mm'),
+    format: value => date.formatDate(value, 'D MMMM YYYY в h:mm'),
     active: true,
     width: 60
   },

@@ -6,7 +6,6 @@
     :getDialogTitle="() => 'Возврат'"
     :filter="$app.filters.getValues('refunds')"
     :columns="columns"
-    :details="details"
     :isRowDisabled="({ status }) => !status"
   )
     template(#row-controls)
