@@ -13,10 +13,10 @@
           outlined
           dense
         )
-          template(#after)
+          //template(#after)
             q-icon.cursor-pointer(name="delete" @click="deletePhone(index)" title="Удалить телефон")
-    .phoneBtn.col
-      q-btn.q-mt-sm.bg-primary.text-white(label="Добавить телефон" @click="addPhone" outlined style="width: 100%;")
+      .phoneBtn.col.q-pl-sm
+        q-btn.q-mb-sm(v-show="index === arrayLength - 1" label="Добавить телефон" @click="addPhone" no-caps style="width: 100%;")
 </template>
 
 <script>
