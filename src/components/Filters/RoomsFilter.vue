@@ -12,26 +12,28 @@
       transition-show="scale"
       transition-hide="scale"
     )
-      .row.q-pb-md
+      .row
         .col
           .text-subtitle1.text-bold.q-pt-md.q-px-lg {{ title }}
-          .check.q-pl-lg.q-pt-md(v-for="(item, index) in models")
-            input.check__input(
+          .row.q-pl-lg.q-pt-md(v-for="(item, index) in models")
+            input.check__input.q-mt-xs(
               :id="`checkbox${index}`"
               type="checkbox"
               v-model="selectedRooms[item.id]"
               :key="reloadCheckBox"
             )
-            span.check__box.cursor-pointer(@click="checkUncheck(item.id)" :style="{ backgroundColor: item.color }")
-            label.check__label.cursor-pointer(:for="`checkbox${index}`") {{ models[index].name }}
-          .checkbox.q-pl-lg.q-pt-md
-            input.check__input(
+            .check__box1.cursor-pointer(@click="checkUncheck(item.id)")
+            .check__box.cursor-pointer(@click="checkUncheck(item.id)" :style="{ backgroundColor: item.color, opacity: 0.3 }")
+            label.check.check__label.cursor-pointer(:for="`checkbox${index}`") {{ models[index].name }}
+          .row.q-pl-lg.q-pt-md
+            input.check__input.q-mt-xs(
               id="checkboxAll"
               type="checkbox"
               v-model="selectedAllRooms"
             )
-            span.check__box.cursor-pointer(@click="selectedAllRooms = !selectedAllRooms")
-            label.check__label.cursor-pointer(for="checkboxAll") Все залы
+            .check__box1.cursor-pointer(@click="selectedAllRooms = !selectedAllRooms")
+            .check__box.cursor-pointer(@click="selectedAllRooms = !selectedAllRooms")
+            label.check.check__label.cursor-pointer(for="checkboxAll") Все залы
 
           .row
             q-btn-group.q-pa-md(outline)
@@ -50,11 +52,8 @@
 </template>
 
 <script>
-import FilterSelect from './FilterSelect'
-
 export default {
   name: 'rooms-filter',
-  components: { FilterSelect },
   props: {
     values: {
       type: Object,
@@ -137,28 +136,29 @@ export default {
 
 <style>
   .check {
+    padding-left: 2.2em;
   }
   .check__label {
-    padding-left: 2.5em;
-    font-size: 15px;
   }
   .check__input {
-    -moz-appearance: none;
     -webkit-appearance: none;
+    -moz-appearance: none;
     appearance: none;
   }
   .check__box {
     position: absolute;
     width: 1.3em;
     height: 1.3em;
-    border-radius: 1px;
+    border-radius: 2px;
     background-color: black;
   }
-  .check__input:checked + .check__box:before {
-    display: inline-block;
-    content: "\2713";
-    font-size: 1.7em;
-    line-height: 0.9em;
-    color: white;
+  .check__box1 {
+    position: absolute;
+    width: 1.3em;
+    height: 1.3em;
+    z-index: 9999;
+  }
+  .check__input:checked + .check__box1 {
+    background-image: url('../../assets/check-18px.svg');
   }
 </style>
