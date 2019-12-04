@@ -28,7 +28,7 @@
             telephone(:organization="organization")
         .row.q-pb-xs
           .col.q-pr-sm
-            span Юридический адрес&nbsp;
+            span Фактический адрес&nbsp;
             span.text-red *
         .row
           .col.q-pr-sm
@@ -46,7 +46,7 @@
         .realAddress(v-if="!organization.isRealAddress")
           .row.q-pb-xs
             .col.q-pr-sm
-              span Фактический адрес&nbsp;
+              span Юридический адрес&nbsp;
               span.text-red *
           .row.q-pb-md
             .col.q-pr-sm
