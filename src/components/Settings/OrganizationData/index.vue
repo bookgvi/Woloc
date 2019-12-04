@@ -85,6 +85,8 @@
           .col.q-pr-sm
             q-input(
               v-model="organization.ogrn"
+              mask="#############"
+              unmasked-value
               :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 13 || 'ОГРН должен содержать 13 цифр']"
               outlined
               dense
@@ -121,6 +123,8 @@
           .col.q-pr-sm
             q-input(
               v-model="organization.bic"
+              mask="#########"
+              unmasked-value
               :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 9 || 'БИК должен содержать 9 цифр']"
               outlined
               dense
@@ -128,6 +132,8 @@
           .col.q-pr-sm
             q-input(
               v-model="organization.corr"
+              mask="#### #### #### #### ####"
+              unmasked-value
               :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 20 || 'КОРР. СЧЕТ  должен содержать 20 цифр']"
               outlined
               dense
@@ -150,6 +156,8 @@
           .col.q-pr-sm
             q-input(
               v-model="organization.account"
+              mask="#### #### #### #### ####"
+              unmasked-value
               :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 20 || 'РАСЧ. СЧЕТ  должен содержать 20 цифр']"
               outlined
               dense
@@ -215,13 +223,6 @@ export default {
         this.reloadPage++
       } else if (result.hasOwnProperty('errors')) {
         this.showNotif('Проверьте обязательные поля')
-        result.errors.forEach(item => {
-          if (item.source === 'phone') {
-            console.warn('Phone')
-          } else {
-            this.organization[item.source] = ''
-          }
-        })
       }
     },
     equalAddresses () {
