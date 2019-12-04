@@ -35,7 +35,7 @@
     .row
       span Цена, ₽
     .row.q-pb-md
-      q-input(v-model="dataset.amount" outlined dense)
+      q-input(v-model.number="dataset.amount" outlined dense)
     .row
       q-checkbox(v-model="hasLimit" label="Включить ограничение по колличеству доп. услуг")
     .col(v-if="hasLimit")
@@ -54,19 +54,21 @@
       .col-6.q-pa-sm
         q-btn.fit.bg-white.text-black(label="Удалить" no-caps)
       .col-6.q-pa-sm
-        q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps flat)
+        q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps flat @click="saveChanges")
 </template>
 
 <script>
 import FiltersList from '../../../Filters/FiltersList'
 import RoomsFilter from '../../../Filters/RoomsFilter'
+import extras from '../../../../api/extras'
 export default {
   name: 'modalForExtras',
   props: {
     singleStudio: Object,
     rooms: Array,
     dataset: Object,
-    allRoomsOfThisStudio: Array
+    allRoomsOfThisStudio: Array,
+    isPost: Boolean
   },
   components: {
     FiltersList,
@@ -88,6 +90,9 @@ export default {
       },
       set (val) {
         this.isLimit = val
+        if (!val) {
+          this.dataset.maxLimit = null
+        }
       }
     },
     selectedRooms: {
@@ -96,16 +101,35 @@ export default {
       },
       set (val) {
         this.selected = val
-        this.dataset.rooms = this.selected.map(item => {
-          const arrayWithOneRoom = this.allRoomsOfThisStudio.filter(item2 => item === item2.name)
-          return arrayWithOneRoom.pop()
-        })
+        this.dataset.rooms = val
+        // this.dataset.rooms = this.selected.map(item => {
+        //   const arrayWithOneRoom = this.allRoomsOfThisStudio.filter(item2 => item === item2.name)
+        //   return arrayWithOneRoom.pop()
+        // })
       }
     }
   },
   mounted () {
     this.hasLimit = Boolean(this.dataset.maxLimit)
     this.selected = this.rooms.map(item => item.name)
+  },
+  methods: {
+    async saveChanges () {
+      if (this.dataset.studio.hasOwnProperty('id')) {
+        this.dataset.studio = this.dataset.studio.id
+      }
+      console.log(this.isPost)
+      if (this.isPost) {
+        this.dataset.createdAt = new Date()
+        await extras.createExtra(this.dataset)
+        this.allRoomsOfThisStudio.map(item => item.id)
+      } else {
+        this.publishedAt = new Date()
+        this.dataset.amount = Number(this.dataset.amount)
+        const result = await extras.updateExtra(this.dataset.id, this.dataset)
+        console.log(result)
+      }
+    }
   }
 }
 </script>

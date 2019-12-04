@@ -8,14 +8,21 @@
       @toggleDialogRow="toggleDialogRow"
     )
       template(#table-controls-append)
-        q-btn.q-ml-md.text-white.bg-primary(label="Добавить услугу" no-caps)
+        q-btn.q-ml-md.text-white.bg-primary(label="Добавить услугу" no-caps @click="createExtra")
 
       // template(#row-controls="props")
         q-btn(flat round icon="drag_handle" no-caps title="Редактировать")
     q-dialog(v-model="editExtras")
       q-card(style="min-width: 700px")
         q-card-section
-          editExtras(:allRoomsOfThisStudio="allRoomsOfThisStudio" :singleStudio="singleStudio" :rooms="rooms" :dataset="dataset" @hide="editExtras = false")
+          editExtras(
+            :allRoomsOfThisStudio="allRoomsOfThisStudio"
+            :singleStudio="singleStudio"
+            :rooms="rooms"
+            :dataset="dataset"
+            @hide="editExtras = false"
+            :isPost="isPost"
+          )
 </template>
 
 <script>
@@ -23,6 +30,7 @@ import columns from './columns'
 import details from './details'
 import DataTable from 'components/DataTable'
 import editExtras from '../editExtrasModal/editExtras'
+import extras from '../../../../api/extras'
 export default {
   name: 'extrasTable',
   components: { DataTable, editExtras },
@@ -33,7 +41,8 @@ export default {
     dataset: {},
     singleStudio: {},
     rooms: [],
-    allRoomsOfThisStudio: []
+    allRoomsOfThisStudio: [],
+    isPost: false
   }),
   methods: {
     async toggleDialogRow (props) {
@@ -44,6 +53,13 @@ export default {
       this.singleStudio = studio
       this.editExtras = true
       this.dataset = props
+    },
+    async createExtra () {
+      this.isPost = true
+      const mock = await extras.getMock()
+      console.log(mock)
+      this.isPost = true
+      this.toggleDialogRow(mock)
     }
   }
 }

@@ -1,9 +1,20 @@
 import api from './instance'
-// import extras from 'src/mocks/extras'
+import extras from 'src/mocks/extras'
 
 const API_URL = process.env.API_CABINET_URL
 
 export default {
+  getMock: async () => {
+    try {
+      const r = {
+        data: extras
+      }
+      return r.data
+    } catch (e) {
+      console.warn('catch :: extras :: getMock', e)
+      return e
+    }
+  },
   getAll: async (page, filter) => {
     try {
       const r = await api.get(`${API_URL}/settings/extras`, {
@@ -26,4 +37,23 @@ export default {
       console.warn('catch :: extras :: getForCalendar', e)
     }
   },
+  updateExtra: async (id, updateInfo) => {
+    try {
+      const status = await api.put(`${API_URL}/settings/extras/${id}`, updateInfo)
+      return status.data
+    } catch (err) {
+      console.warn('catch :: studios :: UpdateExtra', err)
+      return err
+    }
+  },
+  createExtra: async createExtra => {
+    try {
+      const status = await api.post(`${API_URL}/settings/extras`, createExtra)
+      return status.data
+    } catch (err) {
+      console.warn('catch :: studios :: createExtra', err)
+      return err
+    }
+  }
+
 }
