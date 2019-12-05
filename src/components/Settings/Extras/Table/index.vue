@@ -1,7 +1,8 @@
 <template lang="pug">
-  .table.wrapper.wrapper--header(:key="reloadPage")
+  .table.wrapper.wrapper--header
     DataTable(
       title="Дополнительные услуги"
+      :key="reloadPage"
       :loadData="$app.extras.getAll"
       :filter="$app.filters.getValues('settings')"
       :columns="columns"
