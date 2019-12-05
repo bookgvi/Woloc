@@ -15,6 +15,15 @@
           :style="getRoomStyle(value)"
           :title="value.name"
         ) {{ value.name || value.title}}
+      template(v-else-if="name === 'rooms'")
+        q-chip(
+          v-for="item in value"
+          :key="item.id"
+          dense
+          :style="getRoomStyle(item)"
+          :title="item.name"
+        ) {{ item.name }}
+
       template(v-else-if="name === 'bookingId'")
         div(:title="row.status.title") {{ value }}
       template(v-else-if="name === 'bookingStatus'")
@@ -104,7 +113,7 @@ export default {
     },
     getRoomStyle ({ color }) {
       return {
-        height: '80%',
+        height: '50%',
         color: this.hexTOrgb(color, 1),
         backgroundColor: this.hexTOrgb(color, 30)
       }
@@ -155,6 +164,22 @@ export default {
     .active
       cursor: pointer
     .room-col .q-chip
+      width 100px
+      border-radius 3px
+      .q-chip__content
+        white-space nowrap
+        text-overflow ellipsis
+        overflow hidden
+        display block
+    .rooms-col .q-chip
+      width 100px
+      border-radius 3px
+      .q-chip__content
+        white-space nowrap
+        text-overflow ellipsis
+        overflow hidden
+        display block
+    .purpose-col .q-chip
       width 100px
       border-radius 3px
       .q-chip__content

@@ -2,13 +2,11 @@
   .table.wrapper.wrapper--header
     DataTable(
       title="Промокоды"
-      :loadData="$app.promo.getAll"
+      :loadData="$app.promocodes.getAll"
+      :filter="$app.filters.getValues('settings')"
       :columns="columns"
-      :details="details"
+      @toggleDialogRow="toggleDialogRow"
     )
-      template(#row-dialog="props")
-        editPromocode(v-bind="props" :allStudiosName="allStudiosName" :singleStudio="singleStudio" :rooms="rooms")
-
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить промокод" no-caps)
 </template>
