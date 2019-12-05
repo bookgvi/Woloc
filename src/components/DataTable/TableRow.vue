@@ -167,16 +167,18 @@ export default {
       width 100px
       border-radius 3px
       .q-chip__content
-        width 100%
-        white-space normal
+        white-space nowrap
+        text-overflow ellipsis
         overflow hidden
+        display block
     .rooms-col .q-chip
       width 100px
       border-radius 3px
       .q-chip__content
-        width 100%
-        white-space normal
+        white-space nowrap
+        text-overflow ellipsis
         overflow hidden
+        display block
     .purpose-col .q-chip
       width 100px
       border-radius 3px
