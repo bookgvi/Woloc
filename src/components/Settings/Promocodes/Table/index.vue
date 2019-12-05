@@ -2,7 +2,6 @@
   .table.wrapper.wrapper--header
     DataTable(
       title="Промокоды"
-      :getDialogTitle="({ id }) => `Промокод № ${id}`"
       :loadData="$app.promo.getAll"
       :columns="columns"
       :details="details"
@@ -16,7 +15,6 @@
 
 <script>
 import columns from './columns'
-import details from './details'
 import DataTable from 'components/DataTable'
 import editPromocode from '../editPromoModal/editPromo'
 export default {
@@ -29,7 +27,6 @@ export default {
   components: { DataTable, editPromocode },
   data: () => ({
     columns,
-    details,
     editPromo: true,
     dataset: {}
   }),
