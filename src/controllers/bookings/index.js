@@ -27,7 +27,7 @@ export default {
       array.forEach(({ price, technical }) => {
         if (!technical) {
           const intPrice = Number(price)
-          this.calendarPriceFilter.min = (this.calendarPriceFilter.min === 0) ? intPrice : this.calendarPriceFilter.min
+          this.calendarPriceFilter.min = (this.calendarPriceFilter.min > 0) ? intPrice : this.calendarPriceFilter.min
           this.calendarPriceFilter.max = (this.calendarPriceFilter.max === 999999) ? intPrice : this.calendarPriceFilter.max
           this.calendarPriceFilter.min = (intPrice < this.calendarPriceFilter.min) ? intPrice : this.calendarPriceFilter.min
           this.calendarPriceFilter.max = (intPrice > this.calendarPriceFilter.max) ? intPrice : this.calendarPriceFilter.max
