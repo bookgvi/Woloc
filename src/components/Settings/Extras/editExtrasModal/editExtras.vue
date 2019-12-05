@@ -124,9 +124,9 @@ export default {
     }
   },
   mounted () {
-    this.selected = []
     this.hasLimit = Boolean(this.dataset.maxLimit)
     this.selected = this.rooms.map(item => item.name)
+    this.dataset.rooms = this.rooms
   },
   methods: {
     async saveChanges () {
