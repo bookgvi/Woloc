@@ -15,7 +15,6 @@
           v-model="dataset.title"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           outlined
-          dense
           autofocus
         )
     .row
@@ -31,7 +30,6 @@
           v-model="singleStudio.name"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           outlined
-          dense
           disable
         )
       .col
@@ -41,25 +39,24 @@
           :rules="[val => val.length || 'Обязательно для заполнения']"
           multiple
           outlined
-          dense
           autofocus
         )
     .row
       span Описание
     .row.q-pb-md
       .col
-        textarea.text-grey-8(v-model="dataset.description" type="textarea" cols="5" style="width: 100%;")
+        textarea.text-grey-8(v-model="dataset.description" type="textarea" rows="4" style="width: 100%;")
     .row
       span Цена, ₽
     .row.q-pb-md
-      q-input(v-model.number="dataset.amount" outlined dense)
+      q-input(v-model.number="dataset.amount" outlined)
     .row
       q-checkbox(v-model="hasLimit" label="Включить ограничение по колличеству доп. услуг")
     .col(v-if="hasLimit")
       .row
         span Лимит
       .row
-        q-input(v-model="dataset.maxLimit" outlined dense)
+        q-input(v-model="dataset.maxLimit" outlined)
     .row.q-py-md
       .text-h6 Изображения
     //.row.q-pb-xs
@@ -69,9 +66,9 @@
         q-btn.absolute-top-right(icon="close" class="block" dense flat color="white")
     .row.q-pb-md.justify-center
       .col-6.q-pa-sm
-        q-btn.fit.bg-white.text-black(label="Удалить" no-caps @click="deleteOne")
+        q-btn.fit.bg-white.text-black(label="Удалить" no-caps outline size="1.3em" color="grey-8" @click="deleteOne")
       .col-6.q-pa-sm
-        q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps flat @click="saveChanges")
+        q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps flat size="1.3em" @click="saveChanges")
 </template>
 
 <script>

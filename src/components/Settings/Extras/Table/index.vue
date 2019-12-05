@@ -21,7 +21,7 @@
             :singleStudio="singleStudio"
             :rooms="rooms"
             :dataset="dataset"
-            @hide="editExtras = false"
+            @hide="closeModal"
             @hasPostOrPut="hasPostOrPut"
             :isPost="isPost"
           )
@@ -50,8 +50,9 @@ export default {
   methods: {
     async toggleDialogRow (props) {
       const items = this.$app.studios.getFiltered(this.$app.filters.readFromSession().settings)
+      const { rooms } = props
       this.allRoomsOfThisStudio = items.rooms
-      this.rooms = items.rooms.filter((item, index) => !index)
+      this.rooms = this.isPost ? items.rooms.filter((item, index) => !index) : rooms
       this.singleStudio = items
       this.editExtras = true
       this.dataset = props
@@ -66,6 +67,10 @@ export default {
       this.isPost = false
       this.editExtras = false
       this.reloadPage++
+    },
+    closeModal () {
+      this.editExtras = false
+      this.isPost = false
     }
   }
 }
