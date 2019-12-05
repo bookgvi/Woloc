@@ -7,25 +7,42 @@
       .col-1
         q-btn(icon="close" flat @click="$emit('hide')")
     .row
-      span Название
+      span Название&nbsp;
+        span.text-red *
     .row.q-pb-md
       .col
-        q-input(v-model="dataset.title" outlined dense)
+        q-input(
+          v-model="dataset.title"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          outlined
+          dense
+          autofocus
+        )
     .row
       .col.q-pr-md
-        span Локация
+        span Локация&nbsp;
+        span.text-red *
       .col
-        span Зал
+        span Зал&nbsp;
+        span.text-red *
     .row.q-pb-md
       .col.q-pr-md
-        q-input(v-model="singleStudio.name" outlined dense disable)
+        q-input(
+          v-model="singleStudio.name"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          outlined
+          dense
+          disable
+        )
       .col
         q-select(
           v-model="selectedRooms"
           :options="allRoomsOfThisStudio.map(item => item.name)"
+          :rules="[val => val.length || 'Обязательно для заполнения']"
           multiple
           outlined
           dense
+          autofocus
         )
     .row
       span Описание
@@ -110,6 +127,7 @@ export default {
     }
   },
   mounted () {
+    this.selected = []
     this.hasLimit = Boolean(this.dataset.maxLimit)
     this.selected = this.rooms.map(item => item.name)
   },
@@ -122,6 +140,9 @@ export default {
         this.dataset.studio = this.singleStudio.id
         const result = await extras.createExtra(this.dataset)
         if (!result.hasOwnProperty('data')) {
+          result.errors.forEach(item => {
+            if (item.source !== 'rooms') this.dataset[item.source] = ''
+          })
           this.showNotif('Ошибка')
         } else {
           this.showNotif('Услуга добавлена', 'green')

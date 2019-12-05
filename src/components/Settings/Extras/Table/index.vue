@@ -50,9 +50,8 @@ export default {
   methods: {
     async toggleDialogRow (props) {
       const items = this.$app.studios.getFiltered(this.$app.filters.readFromSession().settings)
-      const { rooms } = props
       this.allRoomsOfThisStudio = items.rooms
-      this.rooms = rooms
+      this.rooms = items.rooms.filter((item, index) => !index)
       this.singleStudio = items
       this.editExtras = true
       this.dataset = props

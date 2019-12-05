@@ -215,13 +215,6 @@ export default {
         this.reloadPage++
       } else if (result.hasOwnProperty('errors')) {
         this.showNotif('Проверьте обязательные поля')
-        result.errors.forEach(item => {
-          if (item.source === 'phone') {
-            console.warn('Phone')
-          } else {
-            this.organization[item.source] = ''
-          }
-        })
       }
     },
     equalAddresses () {
