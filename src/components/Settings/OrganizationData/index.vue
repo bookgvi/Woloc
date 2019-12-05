@@ -1,86 +1,163 @@
 <template lang="pug">
-  .organization
-    .row.justify-center
+  .organization()
+    .row.justify-center(:key="reloadPage")
       .col-6
         .row.q-py-lg
           .text-h5 Данные организации
         .row.q-pb-xs
           .col.q-pr-sm
-            span Название
+            span Название&nbsp;
+            span.text-red *
           .col.q-pr-sm
-            span Тип
-        .row.q-pb-md
+            span Тип&nbsp;
+            span.text-red *
+        .row
           .col.q-pr-sm
-            q-input(v-model="name" outlined dense)
+            q-input(
+              v-model="organization.name" :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-select(v-model="currentType" :options="types" outlined dense)
+            q-select(v-model="organization.legalType" :options="extra.types" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Телефон
         .row.q-pb-md
-          .phone.col.q-pr-sm
-            q-input(v-model="phone" type="tel" outlined dense)
-          .phoneBtn.col
-            q-btn.phoneBtn(label="Добавить телефон" @click="addPhone" outlined style="width: 100%;")
+          .col.q-pr-sm
+            telephone(:organization="organization")
         .row.q-pb-xs
           .col.q-pr-sm
-            span Фактический адрес
+            span Фактический адрес&nbsp;
+            span.text-red *
+        .row
+          .col.q-pr-sm
+            q-input(
+              v-model="organization.address" :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
         .row.q-pb-md
-          .col.q-pr-sm
-            q-input(v-model="address" outlined dense)
+          q-checkbox(
+            v-model="organization.isRealAddress"
+            @input="equalAddresses"
+            label="Юридический адрес совпадает с фактическим."
+          )
+        .realAddress(v-if="!organization.isRealAddress")
+          .row.q-pb-xs
+            .col.q-pr-sm
+              span Юридический адрес&nbsp;
+              span.text-red *
+          .row.q-pb-md
+            .col.q-pr-sm
+              q-input(
+                v-model="organization.legalAddress" :rules="[val => !!val || 'Обязательно для заполнения']"
+                outlined
+                dense
+              )
         .row.q-pb-xs
-          q-checkbox(v-model="isRealAddress" label="Юридический адрес совпадает с фактическим.")
-        .row.q-pb-xs
           .col.q-pr-sm
-            span Ген. директор
+            span Ген. директор&nbsp;
+            span.text-red *
           .col.q-pr-sm
             span Бухгалтер
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="ceo" outlined dense)
+            q-input(
+              v-model="organization.ceo" :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="booker" outlined dense)
+            q-input(
+              v-model="organization.accountant"
+              outlined
+              dense
+            )
         .row.q-pb-xs
           .col.q-pr-sm
-            span ОГРН
+            span ОГРН&nbsp;
+            span.text-red *
           .col.q-pr-sm
-            span ИНН
+            span ИНН&nbsp;
+            span.text-red *
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="ogrn" outlined dense)
+            q-input(
+              v-model="organization.ogrn"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 13 || 'ОГРН должен содержать 13 цифр']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="inn" outlined dense)
+            q-input(
+              v-model="organization.inn"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => [10, 12].indexOf(val.length) !== -1 || 'ИНН должен содержать 10 или 12 цифр']"
+              outlined
+              dense
+            )
         .row.q-pb-xs
           .col.q-pr-sm
-            span КПП
+            span КПП&nbsp;
+            span.text-red *
         .row.q-pb-md
           .col-6.q-pr-sm
-            q-input(v-model="kpp" outlined dense)
+            q-input(
+              v-model="organization.kpp"
+              :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
         .row.q-py-lg
           .text-h5 Банковские реквизиты
         .row.q-pb-xs
           .col.q-pr-sm
-            span БИК
+            span БИК&nbsp;
+            span.text-red *
           .col.q-pr-sm
-            span Кор. счет
+            span Кор. счет&nbsp;
+            span.text-red *
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="bic" outlined dense)
+            q-input(
+              v-model="organization.bic"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 9 || 'БИК должен содержать 9 цифр']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="corrAccount" outlined dense)
+            q-input(
+              v-model="organization.corr"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 20 || 'КОРР. СЧЕТ  должен содержать 20 цифр']"
+              outlined
+              dense
+            )
         .row.q-pb-xs
           .col.q-pr-sm
-            span Банк
+            span Банк&nbsp;
+            span.text-red *
           .col.q-pr-sm
-            span Рассчетный счет
+            span Рассчетный счет&nbsp;
+            span.text-red *
         .row.q-pb-md
           .col.q-pr-sm
-            q-input(v-model="bank" outlined dense)
+            q-input(
+              v-model="organization.bank"
+              :rules="[val => !!val || 'Обязательно для заполнения']"
+              outlined
+              dense
+            )
           .col.q-pr-sm
-            q-input(v-model="account" outlined dense)
-        .row.q-py-lg
+            q-input(
+              v-model="organization.account"
+              :rules="[val => !!val || 'Обязательно для заполнения', val => val.length === 20 || 'РАСЧ. СЧЕТ  должен содержать 20 цифр']"
+              outlined
+              dense
+            )
+        // TODO - возможно понадобится добавление сотрудника!!!
+        //.row.q-py-lg
           .text-h5 Сотрудники
-        .row.q-pb-md
+        //.row.q-pb-md
           .col
             q-list(border separator style="width: 100%;")
               q-item(clickable v-for="item in employees" :key="item.id" @click="hasModal(item)").items-center
@@ -92,102 +169,77 @@
                   q-icon(name="edit" style="font-size: 20px;")
         .row.q-py-lg
           .col.q-pr-sm
-            q-btn.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%;")
-          .col
+            q-btn.bg-primary.text-white(label="Сохранить" no-caps style="width: 100%;" @click="saveChanges")
+          //.col
             q-btn(label="Добавить сотрудника" no-caps style="width: 100%;")
-      q-dialog(v-model="isModal")
+      //q-dialog(v-model="isModal")
         q-card(style="min-width: 480px;")
           employees(
-            :employees="employerProps"
-            :phone="phone"
+           // :employees="employerProps"
+           // :phone="phone"
             @closeModal="isModal = false"
           )
 </template>
 
 <script>
 import employees from './employees'
+import organizationSettings from '../../../api/organizationSettings'
+import telephone from './phone'
 export default {
   name: 'rules',
-  components: { employees },
+  components: { employees, telephone },
   data () {
     return {
-      name: 48,
-      currentType: 'ООО',
-      types: ['ООО', 'АО', 'ПАО'],
-      phone: '+7 495 790 66 24',
-      address: '109618, Россия, Москва, ул. Щипок, д 28',
-      isRealAddress: true,
-      ceo: 'Капустин Дмитрий Сергеев',
-      booker: 'Капустин Дмитрий Сергеев',
-      ogrn: 1087746473033,
-      inn: 7726084155,
-      kpp: 772601010,
-      bic: '044 525 225',
-      corrAccount: '301 010 101 000 000 202 00',
-      bank: 'ПАО Сбербанк',
-      account: '407 020 101 380 000 500 25',
+      reloadPage: 0,
+      organization: {},
+      extra: {},
       isModal: false,
-      employees: [
-        {
-          id: 1,
-          name: 'Андрей Ревин',
-          role: [
-            { id: 0, name: 'Менеджер', isRole: false },
-            { id: 1, name: 'Админ', isRole: true },
-            { id: 2, name: 'Владелец', isRole: true }
-          ],
-          login: 'andrey@revin.ru',
-          email: 'andrey@revin.ru',
-          pass: '123'
-        },
-        {
-          id: 2,
-          name: 'Джим Кэмп',
-          role: [
-            { id: 0, name: 'Менеджер', isRole: false },
-            { id: 1, name: 'Админ', isRole: true },
-            { id: 2, name: 'Владелец', isRole: false }
-          ],
-          login: 'jim@camp.ru',
-          email: 'andrey@revin.ru',
-          pass: '123' },
-        {
-          id: 3,
-          name: 'Антон Куранов',
-          role: [
-            { id: 0, name: 'Менеджер', isRole: true },
-            { id: 1, name: 'Админ', isRole: false },
-            { id: 2, name: 'Владелец', isRole: false }
-          ],
-          login: 'anton@kuranov.ru',
-          email: 'andrey@revin.ru',
-          pass: '123' }
-      ],
-      employerProps: {}
     }
   },
   methods: {
-    addPhone () {
-      const phoneBlock = document.querySelector('.phone')
-      const phoneBtnCol = document.querySelector('.phoneBtn')
-      const phoneBtn = document.querySelector('.q-btn.phoneBtn')
-      const input = document.createElement('input')
-      const input2 = document.createElement('input')
-      const newInputTel = phoneBlock.appendChild(input)
-      const space = phoneBtnCol.insertBefore(input2, phoneBtn)
-      newInputTel.type = 'tel'
-      newInputTel.style.width = '100%'
-      newInputTel.style.height = '2.5rem'
-      newInputTel.classList.add('q-mt-sm')
-      newInputTel.classList.add('q-pl-sm')
-      space.style.height = '2.5rem'
-      space.classList.add('q-mb-sm')
-      space.style.border = 'none'
+    async getData () {
+      const { data } = await organizationSettings.getOne()
+      if (!data.organization.name) return
+      return data
     },
     hasModal (value) {
       this.isModal = true
       this.employerProps = value
+    },
+    async saveChanges () {
+      const result = await organizationSettings.updateOne(this.organization.id, this.organization)
+      if (result.hasOwnProperty('data') && result.data.hasOwnProperty('organization')) {
+        this.showNotif('Изменения сохранены', 'green')
+        this.extra = result.data.extra
+        this.organization = result.data.organization
+        this.reloadPage++
+      } else if (result.hasOwnProperty('errors')) {
+        this.showNotif('Проверьте обязательные поля')
+        result.errors.forEach(item => {
+          if (item.source === 'phone') {
+            console.warn('Phone')
+          } else {
+            this.organization[item.source] = ''
+          }
+        })
+      }
+    },
+    equalAddresses () {
+      if (this.organization.isRealAddress) {
+        this.organization.legalAddress = this.organization.address
+      }
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
+  },
+  async mounted () {
+    const data = await this.getData()
+    this.extra = data.extra
+    this.organization = data.organization
   }
 }
 </script>

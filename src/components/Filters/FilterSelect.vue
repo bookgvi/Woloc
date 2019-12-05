@@ -6,7 +6,11 @@
     :label="title"
     :disabled="disabled"
   )
-    q-popup-proxy(ref="QPopupProxy")
+    q-popup-proxy(
+      ref="QPopupProxy"
+      transition-show="scale"
+      transition-hide="scale"
+    )
       slot
       q-field.row.col-12.text-body2.q-ml-sm.q-px-md.q-pt-lg(
         v-if="isRange"
@@ -97,7 +101,7 @@ export default {
     },
     listOptions () {
       if (this.isRange === true) return {}
-      return this.options || this.models.map(({ id, name }) => ({
+      return this.options || this.models.map(({ id, name, color }) => ({
         value: id,
         label: name,
       }))

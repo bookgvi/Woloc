@@ -24,7 +24,6 @@ export default {
     onChange: Function,
   },
   async created () {
-    await this.controller.getAll()
     const { items } = await this.controller.getAll()
     const currentPage = this.$route.path.split('/')[1]
     const filter = this.$app.filters.readFromSession()[currentPage]
