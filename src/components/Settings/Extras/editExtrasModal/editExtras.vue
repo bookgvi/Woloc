@@ -52,7 +52,7 @@
         q-btn.absolute-top-right(icon="close" class="block" dense flat color="white")
     .row.q-pb-md.justify-center
       .col-6.q-pa-sm
-        q-btn.fit.bg-white.text-black(label="Удалить" no-caps)
+        q-btn.fit.bg-white.text-black(label="Удалить" no-caps @click="deleteOne")
       .col-6.q-pa-sm
         q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps flat @click="saveChanges")
 </template>
@@ -91,7 +91,7 @@ export default {
       set (val) {
         this.isLimit = val
         if (!val) {
-          this.dataset.maxLimit = null
+          this.dataset.maxLimit = 0
         }
       }
     },
@@ -100,12 +100,14 @@ export default {
         return this.selected
       },
       set (val) {
+        console.log('qqq', this.dataset.rooms)
         this.selected = val
         this.dataset.rooms = val
-        // this.dataset.rooms = this.selected.map(item => {
-        //   const arrayWithOneRoom = this.allRoomsOfThisStudio.filter(item2 => item === item2.name)
-        //   return arrayWithOneRoom.pop()
-        // })
+        this.dataset.rooms = this.selected.map(item => {
+          const arrayWithOneRoom = this.allRoomsOfThisStudio.filter(item2 => item === item2.name)
+          return arrayWithOneRoom.pop()
+        })
+        console.log(this.dataset.rooms)
       }
     }
   },
@@ -129,6 +131,10 @@ export default {
         const result = await extras.updateExtra(this.dataset.id, this.dataset)
         console.log(result)
       }
+    },
+    async deleteOne () {
+      const result = await extras.deleteOne(this.dataset.id)
+      console.log(result)
     }
   }
 }

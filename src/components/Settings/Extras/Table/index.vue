@@ -57,7 +57,6 @@ export default {
     async createExtra () {
       this.isPost = true
       const mock = await extras.getMock()
-      console.log(mock)
       this.isPost = true
       this.toggleDialogRow(mock)
     }

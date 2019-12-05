@@ -51,9 +51,17 @@ export default {
       const status = await api.post(`${API_URL}/settings/extras`, createExtra)
       return status.data
     } catch (err) {
-      console.warn('catch :: studios :: createExtra', err)
+      console.warn('catch :: extras :: createExtra', err)
       return err
     }
+  },
+  deleteOne: async (id) => {
+    try {
+      const r = await api.delete(`${API_URL}/settings/extras/${id}`)
+      return r.data
+    } catch (e) {
+      console.warn('catch :: extras :: deleteOne', e)
+      return e
+    }
   }
-
 }
