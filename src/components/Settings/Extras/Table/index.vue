@@ -1,5 +1,5 @@
 <template lang="pug">
-  .table.wrapper.wrapper--header
+  .table.wrapper.wrapper--header(:key="reloadPage")
     DataTable(
       title="Дополнительные услуги"
       :loadData="$app.extras.getAll"
@@ -21,6 +21,7 @@
             :rooms="rooms"
             :dataset="dataset"
             @hide="editExtras = false"
+            @hasPostOrPut="hasPostOrPut"
             :isPost="isPost"
           )
 </template>
@@ -42,15 +43,16 @@ export default {
     singleStudio: {},
     rooms: [],
     allRoomsOfThisStudio: [],
-    isPost: false
+    isPost: false,
+    reloadPage: 0
   }),
   methods: {
     async toggleDialogRow (props) {
       const items = this.$app.studios.getFiltered(this.$app.filters.readFromSession().settings)
-      const { studio, rooms } = props
+      const { rooms } = props
       this.allRoomsOfThisStudio = items.rooms
       this.rooms = rooms
-      this.singleStudio = studio
+      this.singleStudio = items
       this.editExtras = true
       this.dataset = props
     },
@@ -59,6 +61,11 @@ export default {
       const mock = await extras.getMock()
       this.isPost = true
       this.toggleDialogRow(mock)
+    },
+    hasPostOrPut () {
+      this.isPost = false
+      this.editExtras = false
+      this.reloadPage++
     }
   }
 }

@@ -1,16 +1,10 @@
 {
-  "title": "Визажист на съемку (мужской образ)",
-  "description": "Парковка на 56 машин",
+  "title": "",
+  "description": "",
   "amount": 100,
   "rooms": [],
-  "studio": {
-    "id": 41,
-    "name": "Студия на Тверской",
-    "city": "Москва",
-    "address": "Тверская, 1",
-    "phone": "string"
-  },
-  "sortField": 1,
-  "image": "ewsgfsdgwe432r.jpg",
-  "maxLimit": 100
+  "studio": {},
+  "sortField": 0,
+  "image": null,
+  "maxLimit": 0
 }

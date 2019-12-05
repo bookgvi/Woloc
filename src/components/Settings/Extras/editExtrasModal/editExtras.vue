@@ -100,14 +100,12 @@ export default {
         return this.selected
       },
       set (val) {
-        console.log('qqq', this.dataset.rooms)
         this.selected = val
         this.dataset.rooms = val
         this.dataset.rooms = this.selected.map(item => {
           const arrayWithOneRoom = this.allRoomsOfThisStudio.filter(item2 => item === item2.name)
           return arrayWithOneRoom.pop()
         })
-        console.log(this.dataset.rooms)
       }
     }
   },
@@ -120,21 +118,41 @@ export default {
       if (this.dataset.studio.hasOwnProperty('id')) {
         this.dataset.studio = this.dataset.studio.id
       }
-      console.log(this.isPost)
       if (this.isPost) {
-        this.dataset.createdAt = new Date()
-        await extras.createExtra(this.dataset)
-        this.allRoomsOfThisStudio.map(item => item.id)
+        this.dataset.studio = this.singleStudio.id
+        const result = await extras.createExtra(this.dataset)
+        if (!result.hasOwnProperty('data')) {
+          this.showNotif('Ошибка')
+        } else {
+          this.showNotif('Услуга добавлена', 'green')
+          this.$emit('hasPostOrPut')
+        }
       } else {
         this.publishedAt = new Date()
         this.dataset.amount = Number(this.dataset.amount)
         const result = await extras.updateExtra(this.dataset.id, this.dataset)
-        console.log(result)
+        if (!result.hasOwnProperty('data')) {
+          this.showNotif('Ошибка при сохранении изменений')
+        } else {
+          this.showNotif('Изменения сохранены', 'green')
+          this.$emit('hasPostOrPut')
+        }
       }
     },
     async deleteOne () {
       const result = await extras.deleteOne(this.dataset.id)
-      console.log(result)
+      if (!result.hasOwnProperty('data')) {
+        this.showNotif('Ошибка удаления услуги')
+      } else {
+        this.showNotif('Услуга удалена', 'orange')
+        this.$emit('hasPostOrPut')
+      }
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   }
 }
