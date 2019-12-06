@@ -8,7 +8,6 @@ const currentURL = (_ => {
   let isCabinet = currentURL.hostname.split('.')
   if (baseURL === 'localhost') {
     baseURL = 'https://pre.ugoloc.ucann.ru'
-    // baseURL = 'https://ugoloc-770.shot.ugoloc.ucann.ru'
   } else if (isCabinet[0] === `cabinet`) {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
