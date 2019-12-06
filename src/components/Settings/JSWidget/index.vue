@@ -35,7 +35,7 @@
           .col
             q-btn.bg-primary.text-white(
               label="Сгенерировать код"
-              :disable="currentSource === ''"
+              :disable="currentSource !== ''"
               @click="generate"
               style="width: 100%;"
               no-caps
@@ -53,6 +53,8 @@
 </template>
 
 <script>
+import jswidget from '../../../api/jswidget'
+
 export default {
   name: 'index',
   data () {
@@ -107,21 +109,24 @@ export default {
     this.currentUnit = this.data.widthUnit[0]
   },
   methods: {
-    generate () {
+    async generate () {
       this.currentSource = ''
       this.isWidget = false
-      const [{ id }] = this.data.rooms.filter(item => item.name === this.currentRoom)
-      let arr = this.widgetCode.split('41')
-      let temp = arr.pop()
-      arr.push(id)
-      arr.push(temp)
-      this.newWidgetCode = arr.join('')
-      arr = this.newWidgetCode.split('script>')
-      temp = arr.pop()
-      arr.push('</')
-      arr.push('script>')
-      arr.push(temp)
-      this.newWidgetCode = arr.join('')
+      const { data } = await jswidget.getOne('150')
+      this.newWidgetCode = data
+      console.log(this.newWidgetCode)
+      // const [{ id }] = this.data.rooms.filter(item => item.name === this.currentRoom)
+      // let arr = this.widgetCode.split('41')
+      // let temp = arr.pop()
+      // arr.push(id)
+      // arr.push(temp)
+      // this.newWidgetCode = arr.join('')
+      // arr = this.newWidgetCode.split('script>')
+      // temp = arr.pop()
+      // arr.push('</')
+      // arr.push('script>')
+      // arr.push(temp)
+      // this.newWidgetCode = arr.join('')
     },
     copyWidget () {
       const widgetNode = document.querySelector('.jswidgetArea textarea')
