@@ -17,13 +17,13 @@
           )
         .col-6
           roomData(
-            v-if="currentRoomData.hasOwnProperty('status') && currentRoomData.status"
+            v-if="currentRoomData.hasOwnProperty('status')"
             :currentStudio="currentStudio"
             :roomData="currentRoomData"
             :isRequired="isRequired"
           )
           specifications(
-            v-if="currentRoomData.hasOwnProperty('description') && currentRoomData.description"
+            v-if="currentRoomData.hasOwnProperty('description')"
             :specification="currentRoomData"
             :isRequired="isRequired"
           )
