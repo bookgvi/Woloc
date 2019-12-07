@@ -11,31 +11,13 @@
             span Залы
         .row.q-pb-md
           .col.q-pr-sm
-            q-select(v-model="currentStudio" :options="data.studios" outlined dense)
+            q-select(v-model="currentStudioVM" :options="studiosNames" outlined dense)
           .col
-            q-select(v-model="currentRoom" :options="roomsNames" outlined dense)
-        .row.q-pb-xs
-          .col.q-pr-sm
-            span Фон
-          .col
-            span Источник бронирования
+            q-select(v-model="currentRoomVM" :options="roomsNames" outlined dense)
         .row.q-pb-md
-          .col.q-pr-sm
-            q-select(v-model="currentBackground" :options="data.background" outlined dense)
-          .col
-            q-select(v-model="currentSource" :options="data.bookingSource" @input="changeSource" outlined dense)
-        .row.q-pb-xs
-          .col.q-pr-sm
-            span Ширина
-        .row.q-pb-md
-          .col.q-pr-sm
-            q-input(v-model="data.width" outlined dense)
-          .col.q-pr-sm
-            q-select(v-model="currentUnit" :options="data.widthUnit" outlined dense)
           .col
             q-btn.bg-primary.text-white(
               label="Сгенерировать код"
-              :disable="currentSource === ''"
               @click="generate"
               style="width: 100%;"
               no-caps
@@ -47,84 +29,72 @@
             .text-primary.cursor-pointer(@click="copyWidget" style="text-align: right;") Скопировать
         .row.q-pb-md
           .col
-            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-if="isWidget" rows=3 style="width: 100%;")
-            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-if="!isWidget" v-model="newWidgetCode" rows=30 style="width: 100%;")
+            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-model="newWidgetCode" :rows="rowsForWidget" style="width: 100%;")
 
 </template>
 
 <script>
+import jswidget from '../../../api/jswidget'
 export default {
   name: 'index',
   data () {
     return {
+      allStudiosAndRooms: [],
       currentStudio: '',
       currentRoom: '',
       roomsNames: [],
+      studiosNames: [],
       currentRoomId: 1,
-      currentBackground: '',
-      currentSource: '',
-      currentUnit: '',
-      isWidget: true,
       newWidgetCode: '',
-      widgetCode: `<!-- BEGIN UGOLOC CODE {literal} -->
-  <div id='ugoloc'></div>
-  <script type='text/javascript'>
-    var widgetUrl = 'http://ugoloc.greencow.pro';
-    (function () {
-      var room_id = 41;
-      var timestamp = Math.round(Date.now()/10000);
-      var xhr = new XMLHttpRequest();
-      xhr.open('POST', widgetUrl + '/embed/booking.json?id=' + room_id);
-      xhr.onload = function() {
-        if (xhr.status === 200) {
-          var script = document.createElement('script');
-          script.type = 'text/javascript';
-          script.src = widgetUrl + '/assets/embed/ugoloc.embed.js?t=' + timestamp;
-          var styles = document.createElement('link');
-          styles.type = 'text/css';
-          styles.rel = 'stylesheet';
-          styles.href = widgetUrl + '/assets/embed/ugoloc.css?t=' + timestamp;
-          var ugoloc = document.getElementById('ugoloc');
-          var json = JSON.parse(xhr.responseText);
-          document.body.appendChild(styles);
-          ugoloc.innerHTML = json.html;
-          ugoloc.appendChild(script);
-        }
-      };
-      xhr.send();
-    })();
-    script>
-<!-- {/literal} END UGOLOC CODE -->`,
-      data: {}
+      rowsForWidget: 3
+    }
+  },
+  computed: {
+    currentStudioVM: {
+      get () {
+        return this.currentStudio
+      },
+      set (val) {
+        this.currentStudio = val
+        this.currentRoomVM = ''
+        this.currentRoomId = ''
+        this.roomsNames = []
+        if (!this.allStudiosAndRooms) return
+        const [{ rooms }] = this.allStudiosAndRooms.filter(item => item.name === val)
+        if (!rooms.length) return
+        this.currentRoomVM = rooms[0].name
+        this.currentRoomId = rooms[0].id
+        this.roomsNames = rooms.map(item => item.name)
+      }
+    },
+    currentRoomVM: {
+      get () {
+        return this.currentRoom
+      },
+      set (val) {
+        this.currentRoom = val
+        this.allStudiosAndRooms.map(item => item.rooms.forEach(item2 => {
+          if (item2.name === val) this.currentRoomId = item2.id
+        }))
+      }
     }
   },
   async created () {
-    this.data = await this.$app.jswidget.getAll()
-    this.currentStudio = this.data.studios[0]
-    this.currentRoom = this.data.rooms[0].name
-    this.roomsNames = this.data.rooms.map(item => item.name)
-    this.currentBackground = this.data.background[0]
-    this.currentUnit = this.data.widthUnit[0]
+    const { items } = await this.$app.studios.getAll()
+    this.allStudiosAndRooms = items
+    this.currentStudio = items[0].name
+    this.studiosNames = items.map(item => item.name)
+    this.currentRoom = items[0].rooms[0].name
+    this.currentRoomId = items[0].rooms[0].id
+    this.roomsNames = items[0].rooms.map(item => item.name)
   },
   methods: {
-    generate () {
-      this.currentSource = ''
-      this.isWidget = false
-      const [{ id }] = this.data.rooms.filter(item => item.name === this.currentRoom)
-      let arr = this.widgetCode.split('41')
-      let temp = arr.pop()
-      arr.push(id)
-      arr.push(temp)
-      this.newWidgetCode = arr.join('')
-      arr = this.newWidgetCode.split('script>')
-      temp = arr.pop()
-      arr.push('</')
-      arr.push('script>')
-      arr.push(temp)
-      this.newWidgetCode = arr.join('')
+    async generate () {
+      this.newWidgetCode = await jswidget.getOne(this.currentRoomId)
+      this.rowsForWidget = 30
     },
     copyWidget () {
-      const widgetNode = document.querySelector('.jswidgetArea textarea')
+      const widgetNode = document.querySelector('.jswidgetArea')
       widgetNode.focus()
       widgetNode.select()
       try {
@@ -132,9 +102,6 @@ export default {
       } catch (err) {
         console.error(`Can't copy`)
       }
-    },
-    changeSource () {
-      this.isWidget = true
     }
   }
 }

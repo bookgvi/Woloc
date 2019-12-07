@@ -1,15 +1,15 @@
-// import api from './instance'
-import jswidget from 'src/mocks/jswidget'
+import api from './instance'
+
+const API_URL = process.env.API_CABINET_URL
 
 export default {
-  getAll: async () => {
+  getOne: async id => {
     try {
-      const r = {
-        data: jswidget
-      }
-      return r
+      const { data } = await api.get(`${API_URL}/settings/jswidget/${id}`)
+      return data
     } catch (e) {
-      console.warn('catch :: jswidget :: getAll', e)
+      console.warn('catch :: jswidget :: getjswidget', e)
+      return e
     }
-  }
+  },
 }
