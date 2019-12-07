@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import jswidget from '../../../api/jswidget'
+
 export default {
   name: 'index',
   data () {
@@ -90,7 +90,7 @@ export default {
   },
   methods: {
     async generate () {
-      const result = await jswidget.getOne(this.currentRoomId)
+      const result = await this.$app.jswidget.getOne(this.currentRoomId)
       if (result !== 'error') {
         this.newWidgetCode = result
         this.rowsForWidget = 30
