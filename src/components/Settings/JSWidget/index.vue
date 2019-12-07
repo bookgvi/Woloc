@@ -90,8 +90,15 @@ export default {
   },
   methods: {
     async generate () {
-      this.newWidgetCode = await jswidget.getOne(this.currentRoomId)
-      this.rowsForWidget = 30
+      const result = await jswidget.getOne(this.currentRoomId)
+      if (result !== 'error') {
+        this.newWidgetCode = result
+        this.rowsForWidget = 30
+      } else {
+        this.newWidgetCode = ''
+        this.rowsForWidget = 3
+        this.showNotif('При генерации виджета возникла ошбика')
+      }
     },
     copyWidget () {
       const widgetNode = document.querySelector('.jswidgetArea')
@@ -102,6 +109,12 @@ export default {
       } catch (err) {
         console.error(`Can't copy`)
       }
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   }
 }

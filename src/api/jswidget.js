@@ -9,7 +9,7 @@ export default {
       return data
     } catch (e) {
       console.warn('catch :: jswidget :: getjswidget', e)
-      return e
+      return 'error'
     }
   },
 }
