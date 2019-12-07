@@ -47,7 +47,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'index',
   data () {
@@ -128,8 +127,11 @@ export default {
       if ((!this.isSingleOrAllRoom[0] && !this.isSingleOrAllRoom[1]) || !this.bookingSourceVM) return
       const result = await this.$app.jswidget.getOne(this.currentRoomId)
       if (result !== 'error') {
-        this.newWidgetCode = result
         this.rowsForWidget = 30
+        const begin = result.slice(0, 11) + this.bookingSource
+        const middle = result.slice(10, 1211)
+        const end = this.bookingSource + result.slice(-17)
+        this.newWidgetCode = begin + middle + end
       } else {
         this.newWidgetCode = ''
         this.rowsForWidget = 3
