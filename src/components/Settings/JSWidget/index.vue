@@ -135,7 +135,7 @@ export default {
       } else {
         this.newWidgetCode = ''
         this.rowsForWidget = 3
-        this.showNotif('При генерации виджета возникла ошбика')
+        this.showNotif('При генерации виджета возникла ошибка')
       }
     },
     copyWidget () {
