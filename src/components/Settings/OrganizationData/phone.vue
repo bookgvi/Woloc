@@ -13,8 +13,8 @@
           outlined
           dense
         )
-          //template(#after)
-            q-icon.cursor-pointer(name="delete" @click="deletePhone(index)" title="Удалить телефон")
+          template(#append)
+            q-icon.cursor-pointer(v-if="arrayLength > 1" name="delete" @click="deletePhone(index)" title="Удалить телефон")
       .phoneBtn.col.q-pl-sm
         q-btn.q-mb-sm(v-show="index === arrayLength - 1" label="Добавить телефон" @click="addPhone" no-caps style="width: 100%;")
 </template>
