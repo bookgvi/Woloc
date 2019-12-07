@@ -13,7 +13,20 @@
           .col.q-pr-sm
             q-select(v-model="currentStudioVM" :options="studiosNames" outlined dense)
           .col
-            q-select(v-model="currentRoomVM" :options="roomsNames" outlined dense)
+            q-select(v-model="roomSelectorVM" :options="singleRoomOrAllRooms" outlined dense)
+        .row.q-pb-xs
+          .col.q-pr-sm
+            span Выбранный зал
+          .col
+            span Источник бронирования
+        .row.q-pb-md
+          .col.q-pr-sm
+            q-input(v-if="!isSingleOrAllRoom[0] && !isSingleOrAllRoom[1]" value="" outlined dense disable)
+            q-input(v-if="isSingleOrAllRoom[0]" :value="currentRoom" outlined dense disable)
+            q-select(v-if="isSingleOrAllRoom[1]" v-model="currentRoomVM" :options="roomsNames" outlined dense)
+          .col
+            q-select(v-model="bookingSourceVM" :options="bookingSourceArray" outlined dense)
+
         .row.q-pb-md
           .col
             q-btn.bg-primary.text-white(
@@ -42,11 +55,16 @@ export default {
       allStudiosAndRooms: [],
       currentStudio: '',
       currentRoom: '',
+      roomSelector: '',
+      bookingSource: '',
       roomsNames: [],
       studiosNames: [],
+      singleRoomOrAllRooms: ['Один зал', 'Все залы'],
+      bookingSourceArray: ['Вконтакте', 'Инста', 'Level', 'Facebook'],
       currentRoomId: 1,
       newWidgetCode: '',
-      rowsForWidget: 3
+      rowsForWidget: 3,
+      isSingleOrAllRoom: false
     }
   },
   computed: {
@@ -77,6 +95,23 @@ export default {
           if (item2.name === val) this.currentRoomId = item2.id
         }))
       }
+    },
+    roomSelectorVM: {
+      get () {
+        return this.roomSelector
+      },
+      set (val) {
+        this.roomSelector = val
+        this.isSingleOrAllRoom = this.singleRoomOrAllRooms.map(item => item === val)
+      }
+    },
+    bookingSourceVM: {
+      get () {
+        return this.bookingSource
+      },
+      set (val) {
+        this.bookingSource = val
+      }
     }
   },
   async created () {
@@ -90,6 +125,7 @@ export default {
   },
   methods: {
     async generate () {
+      if ((!this.isSingleOrAllRoom[0] && !this.isSingleOrAllRoom[1]) || !this.bookingSourceVM) return
       const result = await this.$app.jswidget.getOne(this.currentRoomId)
       if (result !== 'error') {
         this.newWidgetCode = result
