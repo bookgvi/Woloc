@@ -1,11 +1,9 @@
-import api from '../../api/'
+import crudMixin from '../crudMixin'
 
 export default {
+  created () {
+    this.getAll()
+  },
   name: 'jswidget',
-  methods: {
-    async getOne (id) {
-      const data = await api.jswidget.getOne(id)
-      return data
-    }
-  }
+  mixins: [crudMixin]
 }

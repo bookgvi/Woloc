@@ -71,7 +71,7 @@ export default {
   },
   computed: {
     hasFind () {
-      const isFind = (this.$route.path !== '/settings') ^ (this.$route.path !== '/settings/discounts')
+      const isFind = (this.$route.path.split('/')[1] === 'settings') // ^ (this.$route.path !== '/settings/discounts')
       return !isFind
     }
   },
