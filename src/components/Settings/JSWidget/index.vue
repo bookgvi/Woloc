@@ -22,7 +22,7 @@
         .row.q-pb-md
           .col.q-pr-sm
             q-input(v-if="!isSingleOrAllRoom[0] && !isSingleOrAllRoom[1]" value="" outlined dense disable)
-            q-input(v-if="isSingleOrAllRoom[0]" :value="currentRoom" outlined dense disable)
+            q-input(v-if="isSingleOrAllRoom[0]" :value="currentRoomName" outlined dense disable)
             q-select(v-if="isSingleOrAllRoom[1]" v-model="currentRoomVM" :options="roomsNames" outlined dense)
           .col
             q-select(v-model="bookingSourceVM" :options="bookingSourceArray" outlined dense)
@@ -52,8 +52,8 @@ export default {
   data () {
     return {
       allStudiosAndRooms: [],
-      currentStudio: '',
-      currentRoom: '',
+      currentStudioName: '',
+      currentRoomName: '',
       roomSelector: '',
       bookingSource: '',
       roomsNames: [],
@@ -69,10 +69,10 @@ export default {
   computed: {
     currentStudioVM: {
       get () {
-        return this.currentStudio
+        return this.currentStudioName
       },
       set (val) {
-        this.currentStudio = val
+        this.currentStudioName = val
         this.currentRoomVM = ''
         this.currentRoomId = ''
         this.roomsNames = []
@@ -86,10 +86,10 @@ export default {
     },
     currentRoomVM: {
       get () {
-        return this.currentRoom
+        return this.currentRoomName
       },
       set (val) {
-        this.currentRoom = val
+        this.currentRoomName = val
         this.allStudiosAndRooms.map(item => item.rooms.forEach(item2 => {
           if (item2.name === val) this.currentRoomId = item2.id
         }))
@@ -116,9 +116,9 @@ export default {
   async created () {
     const { items } = await this.$app.studios.getAll()
     this.allStudiosAndRooms = items
-    this.currentStudio = items[0].name
+    this.currentStudioName = items[0].name
     this.studiosNames = items.map(item => item.name)
-    this.currentRoom = items[0].rooms[0].name
+    this.currentRoomName = items[0].rooms[0].name
     this.currentRoomId = items[0].rooms[0].id
     this.roomsNames = items[0].rooms.map(item => item.name)
   },
