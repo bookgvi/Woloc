@@ -124,7 +124,10 @@ export default {
   },
   methods: {
     async generate () {
-      if ((!this.isSingleOrAllRoom[0] && !this.isSingleOrAllRoom[1]) || !this.bookingSourceVM) return
+      if ((!this.isSingleOrAllRoom[0] && !this.isSingleOrAllRoom[1]) || !this.bookingSourceVM) {
+        this.showNotif('Выберите зал, Источник бронирования и нажмите Сгенерировать код', 'orange')
+        return
+      }
       const result = await this.$app.jswidget.getOne(this.currentRoomId)
       if (result !== 'error') {
         this.rowsForWidget = 30
@@ -132,6 +135,7 @@ export default {
         const middle = result.slice(10, 1211)
         const end = this.bookingSource + result.slice(-17)
         this.newWidgetCode = begin + middle + end
+        this.showNotif('Виджет сгенерирован', 'primary')
       } else {
         this.newWidgetCode = ''
         this.rowsForWidget = 3
@@ -144,6 +148,7 @@ export default {
       widgetNode.select()
       try {
         document.execCommand('copy')
+        this.showNotif('Код виджета скопирован в буфер обмена', 'green')
       } catch (err) {
         console.error(`Can't copy`)
       }
