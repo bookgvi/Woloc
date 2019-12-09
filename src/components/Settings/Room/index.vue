@@ -165,7 +165,8 @@ export default {
     },
     async createNew () {
       const filter = this.$app.filters.getValues('settings')
-      const { data } = await room.getDefault()
+      const jsonData = JSON.stringify(await room.getDefault())
+      const { data } = JSON.parse(jsonData)
       this.currentStudio = this.$app.studios.getFiltered(filter)
       this.currentRoomData = data
       this.currentRoomData.studio.id = filter.studio
