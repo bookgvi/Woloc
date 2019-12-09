@@ -38,7 +38,7 @@
       .col
         extraCharge.q-pb-xl(v-if="markup" :payment="payment[price]['pricesForHour']")
         dayPrices(:price="price" :payment="payment[price]['prices']")
-    .row.q-pb-lg.justify-center
+    // .row.q-pb-lg.justify-center
       .col-5
         q-btn.bg-primary.text-white(label="Сохранить и закрыть окно" @click="$emit('hide')" style="width: 100%;")
 </template>

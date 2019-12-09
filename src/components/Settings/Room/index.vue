@@ -47,6 +47,14 @@
           // ----------------------------------------
           .row
             q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps @click="saveChanges")
+      q-dialog(v-model="isLeavePageDialog" persistent)
+        q-card
+          q-card-section.row.items-center
+            q-icon(name="report" color="primary" text-color="white" style="font-size: 2rem;")
+            span.q-ml-sm Вы покидаете страницу настроек зала! <br /> Все несохраненные данные будут утеряны.
+          q-card-actions(align="right")
+            q-btn.primary(label="ОК" color="primary" flat no-caps v-close-popup @click="leavePage")
+            q-btn.primary(label="Отмена" color="primary" flat no-caps v-close-popup @click="isLeavePageConfirm = false")
 </template>
 
 <script>
@@ -72,7 +80,11 @@ export default {
       rooms: [],
       selectedRoom: {},
       currentRoomData: {},
-      isRequired: false
+      isRequired: false,
+      isSomethingChanged: true,
+      isLeavePageDialog: false,
+      routerTo: '',
+      routerFrom: ''
     }
   },
   components: {
@@ -96,6 +108,15 @@ export default {
   },
   async created () {
     this.getStudioAndRoom()
+  },
+  beforeRouteLeave (to, from, next) {
+    if (this.isSomethingChanged) {
+      this.isLeavePageDialog = true
+      this.routerFrom = from
+      this.routerTo = to
+    } else {
+      next()
+    }
   },
   methods: {
     async getStudioAndRoom () {
@@ -156,7 +177,7 @@ export default {
       if (this.isPost) {
         const result = await room.createRoom(this.currentRoomData)
         if (result.hasOwnProperty('errors')) {
-          this.showNotif('Ощибка создания зала. Проверьте обязательные поля')
+          this.showNotif('Ошибка создания зала. Проверьте обязательные поля')
           result.errors.forEach(item => {
             this.currentRoomData[item.source] = ''
           })
@@ -170,7 +191,7 @@ export default {
       } else {
         const result = await room.updateRoom(this.currentRoomData.id, this.currentRoomData)
         if (result.hasOwnProperty('errors')) {
-          this.showNotif('Ощибка создания зала. Проверьте обязательные поля')
+          this.showNotif('Ошибка создания зала. Проверьте обязательные поля')
           result.errors.forEach(item => {
             this.currentRoomData[item.source] = ''
           })
@@ -181,6 +202,10 @@ export default {
         this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
       }
       this.reloadData++
+    },
+    leavePage () {
+      this.isSomethingChanged = false
+      this.$router.replace(this.routerTo.fullPath)
     },
     showNotif (msg, clr = 'purple') {
       this.$q.notify({
