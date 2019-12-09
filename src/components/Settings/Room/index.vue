@@ -73,6 +73,9 @@ import studios from '../../../api/studios'
 export default {
   data () {
     return {
+      defaultStudio: {},
+      defaultRooms: {},
+      roomDataDefault: {},
       isPost: false,
       reloadData: 0,
       currentStudio: {},
@@ -110,6 +113,9 @@ export default {
   },
   beforeRouteLeave (to, from, next) {
     if (this.isSomethingChanged) {
+      this.isDefaultStudioEqualCurrentStudio(this.rooms, this.defaultRooms)
+      this.isDefaultStudioEqualCurrentStudio(this.roomDataDefault, this.currentRoomData)
+
       this.isLeavePageDialog = true
       this.routerFrom = from
       this.routerTo = to
@@ -129,6 +135,9 @@ export default {
       this.selectedRoom = this.rooms.length ? this.rooms[0] : {}
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         this.currentRoomData = await this.getRoomData(this.selectedRoom.id)
+        this.defaultStudio = Object.assign({}, this.currentStudio)
+        this.defaultRooms = Object.assign({}, this.rooms)
+        this.roomDataDefault = Object.assign({}, this.currentRoomData)
       }
       this.reloadData++
       this.isPost = false
@@ -200,11 +209,28 @@ export default {
         }
         this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
       }
+      this.defaultStudio = Object.assign({}, this.currentStudio)
+      this.defaultRooms = Object.assign({}, this.rooms)
+      this.roomDataDefault = Object.assign({}, this.currentRoomData)
       this.reloadData++
     },
     leavePage () {
       this.isSomethingChanged = false
       this.$router.replace(this.routerTo.fullPath)
+    },
+    isDefaultStudioEqualCurrentStudio (obj, defaultObj) {
+      this.isSomethingChanged = true
+      for (let key in obj) {
+        if (typeof obj[key] === 'object') {
+          this.isDefaultStudioEqualCurrentStudio(obj[key], defaultObj[key])
+        }
+        if (obj[key] === defaultObj[key]) {
+          this.isSomethingChanged = false
+        } else {
+          this.isSomethingChanged = true
+          return
+        }
+      }
     },
     showNotif (msg, clr = 'purple') {
       this.$q.notify({
