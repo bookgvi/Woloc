@@ -228,7 +228,6 @@ export default {
           this.isSomethingChanged = false
         } else {
           this.isSomethingChanged = true
-          console.log(key, obj[key])
           return
         }
       }
