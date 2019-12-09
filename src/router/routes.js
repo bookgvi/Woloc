@@ -30,16 +30,16 @@ const routes = [
         path: 'settings',
         component: () => import('pages/Settings.vue'),
         children: [
-          { path: '', component: () => import('components/Settings/Discounts/index.vue') },
+          { path: '', component: () => import('components/Settings/Extras/index.vue') },
           { path: 'room', component: () => import('components/Settings/Room/index.vue') },
           { path: 'location', component: () => import('components/Settings/Location/index.vue') },
           { path: 'extras', component: () => import('components/Settings/Extras/index.vue') },
           { path: 'discounts', component: () => import('components/Settings/Discounts/index.vue') },
-          { path: 'promo', component: () => import('components/Settings/Promocodes/index.vue') },
-          { path: 'rules', component: () => import('components/Settings/Rules/index.vue') },
+          // { path: 'promo', component: () => import('components/Settings/Promocodes/index.vue') },
+          // { path: 'rules', component: () => import('components/Settings/Rules/index.vue') },
           { path: 'organization', component: () => import('components/Settings/OrganizationData/index.vue') },
-          { path: 'jswidget', component: () => import('components/Settings/JSWidget/index.vue') },
-          { path: 'notifications', component: () => import('components/Settings/Notifications/index.vue') },
+          // { path: 'jswidget', component: () => import('components/Settings/JSWidget/index.vue') },
+          // { path: 'notifications', component: () => import('components/Settings/Notifications/index.vue') },
         ]
       }
     ]
