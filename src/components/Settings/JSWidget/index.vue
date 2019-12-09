@@ -11,25 +11,23 @@
             span Залы
         .row.q-pb-md
           .col.q-pr-sm
-            q-select(v-model="currentStudioVM" :options="data.studios" outlined dense)
+            q-select(v-model="currentStudioVM" :options="studiosNames" outlined dense)
           .col
-            q-option-group(
-              :options="roomSelectorArray"
-              label="Notifications"
-              type="radio"
-              v-model="roomSelector"
-            )
+            q-select(v-model="roomSelectorVM" :options="singleRoomOrAllRooms" outlined dense)
         .row.q-pb-xs
           .col.q-pr-sm
             span Выбранный зал
-          //.col
+          .col
             span Источник бронирования
         .row.q-pb-md
           .col.q-pr-sm
-            q-select(v-if="roomSelector === 'allRooms'" v-model="currentRoomVM" :options="roomsNames" outlined dense)
-            q-input(v-if="roomSelector === 'singleRoom'" :value="currentRoomVM" outlined dense)
-          //.col.q-pr-sm
-            q-select(v-model="currentSource" :options="data.bookingSource" @input="changeSource" outlined dense)
+            q-input(v-if="!isSingleOrAllRoom[0] && !isSingleOrAllRoom[1]" value="" outlined dense disable)
+            q-input(v-if="isSingleOrAllRoom[0]" :value="currentRoomName" outlined dense disable)
+            q-select(v-if="isSingleOrAllRoom[1]" v-model="currentRoomVM" :options="roomsNames" outlined dense)
+          .col
+            q-select(v-model="bookingSourceVM" :options="bookingSourceArray" outlined dense)
+
+        .row.q-pb-md
           .col
             q-btn.bg-primary.text-white(
               label="Сгенерировать код"
@@ -44,79 +42,105 @@
             .text-primary.cursor-pointer(@click="copyWidget" style="text-align: right;") Скопировать
         .row.q-pb-md
           .col
-            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-if="isWidget" rows=3 style="width: 100%;")
-            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-if="!isWidget" v-model="newWidgetCode" rows=30 style="width: 100%;")
+            textarea.jswidgetArea.q-pa-sm.text-grey-8(v-model="newWidgetCode" :rows="rowsForWidget" style="width: 100%;")
 
 </template>
 
 <script>
-import jswidget from '../../../api/jswidget'
-
 export default {
   name: 'index',
   data () {
     return {
       allStudiosAndRooms: [],
-      currentStudio: '',
-      currentRoom: '',
+      currentStudioName: '',
+      currentRoomName: '',
+      roomSelector: '',
+      bookingSource: '',
       roomsNames: [],
-      roomSelector: 'singleRoom',
-      currentRoomId: '',
-      roomSelectorArray: [{
-        label: 'Один зал',
-        value: 'singleRoom'
-      },
-      {
-        label: 'Все залы',
-        value: 'allRooms'
-      }],
-      isWidget: true,
+      studiosNames: [],
+      singleRoomOrAllRooms: ['Один зал', 'Все залы'],
+      bookingSourceArray: ['Вконтакте', 'Инста', 'Level', 'Facebook'],
+      currentRoomId: 1,
       newWidgetCode: '',
-      data: {}
+      rowsForWidget: 3,
+      isSingleOrAllRoom: false
     }
   },
   computed: {
     currentStudioVM: {
       get () {
-        return this.currentStudio
+        return this.currentStudioName
       },
       set (val) {
-        this.currentStudio = val
+        this.currentStudioName = val
+        this.currentRoomVM = ''
+        this.currentRoomId = ''
         this.roomsNames = []
-        this.currentRoom = ''
-        const roomsArray = this.allStudiosAndRooms.filter(item => item.name === val)[0].rooms
-        if (!roomsArray || !roomsArray.length) return
-        this.roomsNames = roomsArray.map(item => item.name)
-        this.currentRoom = this.roomsNames[0]
+        if (!this.allStudiosAndRooms) return
+        const [{ rooms }] = this.allStudiosAndRooms.filter(item => item.name === val)
+        if (!rooms.length) return
+        this.currentRoomVM = rooms[0].name
+        this.currentRoomId = rooms[0].id
+        this.roomsNames = rooms.map(item => item.name)
       }
     },
     currentRoomVM: {
       get () {
-        return this.currentRoom
+        return this.currentRoomName
       },
       set (val) {
-        this.currentRoom = val
-        const roomsArray = this.allStudiosAndRooms.map(item => item.rooms.filter(item2 => item2.name === val)[0])[0]
-        this.currentRoomId = roomsArray.id
+        this.currentRoomName = val
+        this.allStudiosAndRooms.map(item => item.rooms.forEach(item2 => {
+          if (item2.name === val) this.currentRoomId = item2.id
+        }))
+      }
+    },
+    roomSelectorVM: {
+      get () {
+        return this.roomSelector
+      },
+      set (val) {
+        this.roomSelector = val
+        this.isSingleOrAllRoom = this.singleRoomOrAllRooms.map(item => item === val)
+      }
+    },
+    bookingSourceVM: {
+      get () {
+        return this.bookingSource
+      },
+      set (val) {
+        this.bookingSource = val
       }
     }
   },
   async created () {
-    this.getStudiosAndRooms()
+    const { items } = await this.$app.studios.getAll()
+    this.allStudiosAndRooms = items
+    this.currentStudioName = items[0].name
+    this.studiosNames = items.map(item => item.name)
+    this.currentRoomName = items[0].rooms[0].name
+    this.currentRoomId = items[0].rooms[0].id
+    this.roomsNames = items[0].rooms.map(item => item.name)
   },
   methods: {
-    async getStudiosAndRooms () {
-      const { items } = await this.$app.studios.getAll()
-      this.allStudiosAndRooms = items
-      this.data.studios = items.map(item => item.name)
-      this.currentStudio = items[0].name
-      this.currentRoom = items[0].rooms[0].name
-      this.currentRoomId = items[0].rooms[0].id
-      this.roomsNames = items[0].rooms.map(item => item.name)
-    },
     async generate () {
-      this.isWidget = false
-      this.newWidgetCode = await jswidget.getOne(this.currentRoomId)
+      if ((!this.isSingleOrAllRoom[0] && !this.isSingleOrAllRoom[1]) || !this.bookingSourceVM) {
+        this.showNotif('Выберите зал, Источник бронирования и нажмите Сгенерировать код', 'orange')
+        return
+      }
+      const result = await this.$app.jswidget.getOne(this.currentRoomId)
+      if (result !== 'error') {
+        this.rowsForWidget = 30
+        const begin = result.slice(0, 11) + this.bookingSource
+        const middle = result.slice(10, 1211)
+        const end = this.bookingSource + result.slice(-17)
+        this.newWidgetCode = begin + middle + end
+        this.showNotif('Виджет сгенерирован', 'primary')
+      } else {
+        this.newWidgetCode = ''
+        this.rowsForWidget = 3
+        this.showNotif('При генерации виджета возникла ошибка')
+      }
     },
     copyWidget () {
       const widgetNode = document.querySelector('.jswidgetArea')
@@ -124,12 +148,16 @@ export default {
       widgetNode.select()
       try {
         document.execCommand('copy')
+        this.showNotif('Код виджета скопирован в буфер обмена', 'green')
       } catch (err) {
         console.error(`Can't copy`)
       }
     },
-    changeSource () {
-      this.isWidget = true
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   }
 }
