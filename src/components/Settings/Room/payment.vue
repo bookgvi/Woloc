@@ -5,7 +5,7 @@
         .text-h5.text-bold.q-pb-md Оплата
         q-btn.bg-primary.text-white(label="Открыть календарь цен" no-caps @click="isModal = true")
       q-dialog(v-model="isModal")
-        q-card(style="min-width: 40%")
+        q-card
           q-card-section
             priceCalendar(@hide="isModal = false" :payment="payment")
 </template>
@@ -26,3 +26,8 @@ export default {
   })
 }
 </script>
+
+<style>
+  .q-dialog__inner--minimized > div {
+    max-width: 1024px;
+  }</style>

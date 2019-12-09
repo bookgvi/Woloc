@@ -8,8 +8,7 @@
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
     .content--content2(:key="filterChanged")
       .row.q-py-md.q-pr-sm(:key="reloadData")
-        .col-3
-        .col.fixed.bg-white
+        .col-3.bg-white
           room-list(
             :rooms="rooms"
             @setCurrentRoom="setCurrentRoom"
