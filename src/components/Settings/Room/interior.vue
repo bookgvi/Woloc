@@ -2,35 +2,20 @@
   .interior
     .row.q-pb-lg
       .col
-        .text-h6 Предметы интерьера
-    .row.q-pb-lg
-      .col.q-pr-sm
-        .row
-          q-checkbox(v-model="var1" label="Бочка")
-        .row
-          q-checkbox(v-model="var1" label="Ванна")
-      .col
-        .row
-          q-checkbox(v-model="var1" label="Книжный шкаф")
-        .row
-          q-checkbox(v-model="var1" label="Кресло")
-    .row.q-pb-lg
-      .col-3
-        q-select(v-model="var2" label="Ещё 45" dense)
+        .text-h5.text-bold Предметы интерьера
+    abstract-list(:dataArray="interiors")
 </template>
 
 <script>
+import AbstractList from './AbstractDataList/abstractList'
 export default {
   name: 'specifications',
+  components: { AbstractList },
   props: {
-    singleStudio: Object,
-    allStudiosName: Array,
-    currentRoom: String
-  },
-  data: () => ({
-    description: '',
-    var1: true,
-    var2: ''
-  })
+    interiors: {
+      type: Array,
+      default: _ => []
+    }
+  }
 }
 </script>

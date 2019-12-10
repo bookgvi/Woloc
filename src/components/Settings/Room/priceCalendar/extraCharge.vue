@@ -1,28 +1,33 @@
 <template lang="pug">
-  .dayPrices
+  .extraCharge
     .row
       .col(v-for="(item, index) in columns" :key="index")
         p(style="text-align: center;") {{ item.label }}
-    .row(v-for="(item2, index2) in payment")
+    .row
       .col
-        q-input.q-pa-xs(v-model="item2.time" outlined disable)
-      .col(v-for="item3 in item2.days")
-        q-input.q-pa-xs(v-model="item3.value" outlined)
+        q-input.q-pa-xs(value="" label="на час" outlined disable)
+      .col(v-for="(item2, index2) in payment")
+        q-input.q-pa-xs(v-model="payment[index2].value" outlined)
+
 </template>
 
 <script>
 export default {
   name: 'extraCharge',
   props: {
-    payment: Array
+    payment: {
+      type: Array,
+      default: _ => {
+      }
+    }
   },
   data () {
     return {
       columns: [
         {
-          name: 'time',
-          field: 'time',
-          label: 'Время',
+          name: 'charge',
+          field: 'charge',
+          label: 'Наценка',
           style: 'width: 10px'
         },
         {
@@ -63,11 +68,11 @@ export default {
       ]
     }
   },
+  mounted () {
+  }
 }
 </script>
 
 <style scoped>
-  .q-field--disabled .q-field__inner {
-    cursor: pointer !important;
-  }
+
 </style>
