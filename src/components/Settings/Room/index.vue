@@ -83,7 +83,7 @@ export default {
       selectedRoom: {},
       currentRoomData: {},
       isRequired: false,
-      isSomethingChanged: true,
+      isSomethingChanged: false,
       isLeavePageDialog: false,
       routerTo: '',
       routerFrom: ''
@@ -112,9 +112,9 @@ export default {
     this.getStudioAndRoom()
   },
   beforeRouteLeave (to, from, next) {
-    this.isDefaultStudioEqualCurrentStudio(this.rooms, this.defaultRooms)
-    this.isDefaultStudioEqualCurrentStudio(this.roomDataDefault, this.currentRoomData)
-
+    this.isSomethingChanged =
+      this.isDefaultNotEqualCurrent(this.currentRoomData, this.roomDataDefault) ||
+      this.isDefaultNotEqualCurrent(this.rooms, this.defaultRooms)
     if (this.isSomethingChanged) {
       this.isLeavePageDialog = true
       this.routerFrom = from
@@ -135,9 +135,7 @@ export default {
       this.selectedRoom = this.rooms.length ? this.rooms[0] : {}
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         this.currentRoomData = await this.getRoomData(this.selectedRoom.id)
-
-        this.defaultRooms = Object.assign({}, this.rooms)
-        this.roomDataDefault = Object.assign({}, this.currentRoomData)
+        this.saveDefaultData()
       }
       this.reloadData++
       this.isPost = false
@@ -147,8 +145,7 @@ export default {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         this.currentRoomData = await this.getRoomData(this.selectedRoom.id)
       }
-      this.defaultRooms = Object.assign({}, this.rooms)
-      this.roomDataDefault = Object.assign({}, this.currentRoomData)
+      this.saveDefaultData()
       this.isPost = false
       this.reloadData++
     },
@@ -175,9 +172,9 @@ export default {
     },
     async saveChanges () {
       if (!this.currentRoomData.name ||
-          !this.currentRoomData.minHours ||
-          !this.currentRoomData.height ||
-          !this.currentRoomData.yardage
+        !this.currentRoomData.minHours ||
+        !this.currentRoomData.height ||
+        !this.currentRoomData.yardage
       ) {
         this.isRequired = true
         console.warn('Заполните обязательные поля')
@@ -212,26 +209,38 @@ export default {
         }
         this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
       }
-      this.defaultRooms = Object.assign({}, this.rooms)
-      this.roomDataDefault = Object.assign({}, this.currentRoomData)
+      this.saveDefaultData()
       this.reloadData++
     },
     leavePage () {
       this.isSomethingChanged = false
+      this.saveDefaultData()
       this.$router.replace(this.routerTo.fullPath)
     },
-    isDefaultStudioEqualCurrentStudio (obj, defaultObj) {
+    saveDefaultData () {
+      this.defaultRooms = this.rooms
+      let tmpObj = JSON.stringify(Object.assign({}, this.currentRoomData))
+      this.roomDataDefault = JSON.parse(tmpObj)
+    },
+    isDefaultNotEqualCurrent (obj, defaultObj) {
       for (let key in obj) {
-        if (typeof obj[key] === 'object') {
-          this.isDefaultStudioEqualCurrentStudio(obj[key], defaultObj[key])
-        }
-        if (obj[key] === defaultObj[key]) {
-          this.isSomethingChanged = false
+        if (Array.isArray(obj[key])) {
+          for (let index = 0, arrLength = obj[key].length; index < arrLength; index++) {
+            if (this.isDefaultNotEqualCurrent(obj[key][index], defaultObj[key][index])) {
+              return true
+            }
+          }
+        } else if (typeof obj[key] === 'object') {
+          if (this.isDefaultNotEqualCurrent(obj[key], defaultObj[key])) {
+            return true
+          }
         } else {
-          this.isSomethingChanged = true
-          return
+          if (String(obj[key]) !== String(defaultObj[key])) {
+            return true
+          }
         }
       }
+      return false
     },
     showNotif (msg, clr = 'purple') {
       this.$q.notify({
