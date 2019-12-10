@@ -132,7 +132,7 @@ export default {
       if (result !== 'error') {
         this.rowsForWidget = 30
         const begin = result.slice(0, 11) + this.bookingSource
-        const middle = result.slice(10, 1211)
+        const middle = result.slice(10, -16)
         const end = this.bookingSource + result.slice(-17)
         this.newWidgetCode = begin + middle + end
         this.showNotif('Виджет сгенерирован', 'primary')
