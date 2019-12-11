@@ -11,7 +11,14 @@
       .col
         span Название зала&nbsp;
         span.text-red *
-        q-input.q-pt-sm(v-model="roomData.name" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+        q-input.q-pt-sm(
+          class="name"
+          v-model="roomData.name"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+          outlined
+          dense
+        )
     .row.q-pb-md
       span Цвет зала в календаре
     .row.items-center.q-pb-md
@@ -40,7 +47,14 @@
       .col-4.q-pr-sm
         span Мин. кол-во часов&nbsp;
         span.text-red *
-        q-input(v-model="roomData.minHours" :rules="[val => !!val || 'Обязательно для заполнения']" outlined dense)
+        q-input(
+          class="minHours"
+          v-model="roomData.minHours"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+          outlined
+          dense
+        )
     .row.q-pb-md
       span Опубликован и доступен для бронирования
     .row.q-pb-sm

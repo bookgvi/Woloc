@@ -109,6 +109,8 @@ export default {
       const result = await studios.createStudio(this.singleStudio)
       if (result) {
         this.isSave = false
+        await this.$app.filters.setValue('settings', 'studio', result.data.id)
+        this.$router.push({ path: '/settings/room', query: { createRoom: true } })
       }
       this.pageReload++
     }
