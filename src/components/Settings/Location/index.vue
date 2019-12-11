@@ -8,7 +8,7 @@
           :rooms="rooms"
           :isSave="isSave"
           :services="services"
-          :vendors="vendors"
+          :facilities="facilities"
           @updateStudio="updateStudio"
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
@@ -45,7 +45,7 @@ export default {
       isSave: false,
       rooms: [],
       services: [],
-      vendors: []
+      facilities: []
     }
   },
   computed: {
@@ -66,7 +66,7 @@ export default {
       if (!this.rooms) return
       this.singleStudio = await studios.getOne(filter.studio).then(resp => resp.data)
       this.services = this.singleStudio.services
-      this.vendors = this.singleStudio.vendors
+      this.facilities = this.singleStudio.facilities
     },
     async updateStudio (services, vendors) {
       let { studio } = this.$app.filters.getValues('settings')
