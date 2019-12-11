@@ -5,11 +5,14 @@
     .row.q-pb-lg
       .col-8.q-pr-sm
         q-select(
+          class="address"
           v-model="singleStudio.address"
           :options="fullAddressArr"
           @input.native="getFullAddress($event)"
           @keyup.native.enter="showOnMap"
           @filter="emptyFilter"
+          :rules="[val => !!val || '* Обязательно для заполнения']"
+          lazy-rules
           use-input
           fill-input
           display-value
@@ -21,23 +24,22 @@
               q-item-section.text-grey No results
       .col-4.q-pl-sm
         q-btn.block(label="Показать на карте" @click="showOnMap")
-    .row.q-pb-lg
+    .row.q-pb-lg(v-if="singleStudio.lon ? true : false")
       yandexMap(
-        v-if="singleStudio.lon ? true : false"
         :settings="options.yaMap"
         map-type="map"
         scroll-zoom=false
-        zoom=17
+        zoom="16"
         :coords="[singleStudio.lat, singleStudio.lon]"
         :controls="yControls"
         style="width: 100%; height: 480px"
         @click="setAddress"
       )
-        ymap-marker(
+        ymapMarker(
           v-if="isMarker"
-          marker-id="1"
+          marker-id="singleStudio.id"
           :coords="markerCoords"
-          :balloon="{ header: 'First' }"
+          :hint-content="singleStudio.name"
         )
     .row.q-pb-lg
       .col
@@ -90,6 +92,11 @@ export default {
       instAuto: ''
     }
   },
+  watch: {
+    singleStudio () {
+      this.showOnMap()
+    }
+  },
   computed: {
     markerCoords () {
       this.showOnMap()
@@ -115,18 +122,18 @@ export default {
     },
     async showOnMap () {
       this.isMarker = false
-      await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
+      const { data } = await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
           apikey: this.options.yaMap.yAPI,
           format: 'json',
           geocode: this.singleStudio.address
         }
-      }).then(resp => {
-        this.singleStudio.lon = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
-        this.singleStudio.lat = +resp.data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
       })
-        .catch(err => { console.error('Catched...', err) })
-      this.isMarker = true
+      this.singleStudio.lon = +data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
+      this.singleStudio.lat = +data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
+      this.$nextTick(_ => {
+        this.isMarker = true
+      })
     },
     async setAddress (e) {
       this.isMarker = false
@@ -141,7 +148,9 @@ export default {
         }
       }).then(resp => { this.singleStudio.address = resp.data.suggestions[0].value })
         .catch(err => { console.error('Catched...', err) })
-      this.isMarker = true
+      this.$nextTick(_ => {
+        this.isMarker = true
+      })
     },
     emptyFilter (val, update) {
       update(() => {})
