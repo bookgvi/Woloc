@@ -40,7 +40,6 @@ export default {
       isRequiredModal: false,
       currentTab: 'Локация',
       tabs: ['Локация'],
-      allStudiosName: [],
       singleStudio: {},
       currentStudio: '',
       isSave: false,
@@ -55,15 +54,17 @@ export default {
       return this.$app.filters.getValues('settings').studio
     }
   },
+  mounted () {
+    this.singleStudioM()
+  },
   methods: {
     async singleStudioM () {
-      const { items } = await studios.getAll().then(resp => resp.data)
-      let { studio } = this.$app.filters.getValues('settings')
-      if (!studio) return
-      const rooms = items[0].rooms
-      this.rooms = rooms
-      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
-      this.allStudiosName = items.map(item => item.name)
+      let filter = await this.$app.filters.getValues('settings')
+      if (!filter.studio) return
+      if (!this.singleStudio) return
+      this.rooms = this.$app.rooms.getFiltered(filter)
+      if (!this.rooms) return
+      this.singleStudio = await studios.getOne(filter.studio).then(resp => resp.data)
       this.services = this.singleStudio.services
       this.vendors = this.singleStudio.vendors
     },
@@ -112,9 +113,6 @@ export default {
       }
       this.pageReload++
     }
-  },
-  async mounted () {
-    this.singleStudioM()
   }
 }
 </script>
