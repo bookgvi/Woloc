@@ -203,7 +203,6 @@
 <script>
 import { colors, dom, date } from 'quasar'
 import { EVENT_TYPES } from 'src/common/constants'
-import roomsColors from 'src/common/rooms/colors'
 import UpdateEventDialog from './Popups/UpdateEventDialog'
 import FirstColumn from './Modules/FirstColumn'
 import Timeline from './Modules/Timeline'
@@ -211,8 +210,6 @@ import BookingTypeMenu from './Popups/BookingTypeMenu'
 import NewTechnicalDialog from './Popups/NewTechnicalDialog'
 
 const { height, css, style } = dom
-
-const usedColors = {}
 
 export default {
   name: 'CalendarSheet',
@@ -620,13 +617,6 @@ export default {
     getTime (timestamp, mask = 'HH:mm') {
       return timestamp.format(mask)
     },
-    getColor ({ room: { id } }) {
-      if (!(id in usedColors)) {
-        const i = Object.keys(usedColors).length
-        usedColors[id] = roomsColors[i < roomsColors.length ? i : 0]
-      }
-      return usedColors[id].color
-    },
     setIcon (action) {
       const icon = EVENT_TYPES[action].icon
       return icon
@@ -748,7 +738,7 @@ export default {
               date: this.getDate(from),
               time: this.getTime(from),
               duration: diff,
-              bgcolor: this.getColor(booking),
+              bgcolor: booking.room.color,
               icon: this.setIcon(booking.eventType),
               technical: booking.technical,
               from: +this.getTime(from, 'HH'),
