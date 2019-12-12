@@ -44,6 +44,8 @@ const defaultValues = {
     studio: null,
     rooms: null,
     events: ['photo', 'video', 'event'],
+    'range[from]': '',
+    'range[to]': '',
     price: {
       min: -1,
       max: -1
