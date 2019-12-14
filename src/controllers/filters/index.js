@@ -44,8 +44,8 @@ const defaultValues = {
     studio: null,
     rooms: null,
     events: ['photo', 'video', 'event'],
-    'range[from]': '',
-    'range[to]': '',
+    dateRangeFrom: '',
+    dateRangeTo: '',
     price: {
       min: -1,
       max: -1
@@ -96,6 +96,8 @@ export default {
     },
     async reset (page) {
       const { values } = this
+      const tempDateRangeFrom = values.calendar.dateRangeFrom
+      const tempDateRangeTo = values.calendar.dateRangeTo
       const { items } = await studios.getAll().then(resp => resp.data)
       let [{ rooms }] = items.filter(item => item.id === items[0].id)
       rooms = rooms.map(item => item.id)
@@ -107,6 +109,8 @@ export default {
         this.setValue(page, 'studio', items[0].id)
         this.setValue(page, 'rooms', rooms)
       }
+      this.setValue('calendar', 'dateRangeFrom', tempDateRangeFrom)
+      this.setValue('calendar', 'dateRangeTo', tempDateRangeTo)
       this.saveToSession()
     }
   }

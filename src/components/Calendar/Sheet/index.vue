@@ -262,7 +262,7 @@ export default {
     if (this.$route.query.updateBookings) {
       this.findBooking(null, this.$route.query.updateBookings)
     }
-    this.selectedDate = this.filter['range[from]']
+    this.selectedDate = this.filter.dateRangeFrom
     // this.calendarToday()
   },
   computed: {
@@ -598,8 +598,8 @@ export default {
         from: this.$moment(startDate).format('YYYY-MM-DD'),
         to: this.$moment(startDate).add(6, 'days').format('YYYY-MM-DD')
       })
-      this.$app.filters.setValue('calendar', 'range[from]', this.range.from)
-      this.$app.filters.setValue('calendar', 'range[to]', this.range.to)
+      this.$app.filters.setValue('calendar', 'dateRangeFrom', this.range.from)
+      this.$app.filters.setValue('calendar', 'dateRangeTo', this.range.to)
       // console.log('range', this.range.from, this.range.to)
       await this.loadData()
     },

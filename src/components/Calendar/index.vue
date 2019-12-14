@@ -71,8 +71,8 @@ export default {
       const currentDateMS = +currentDate
       const fromMondayMS = currentDateMS - 24 * fromMonday * 1000 * 3600
       const toSundayMS = currentDateMS + 24 * toSunday * 1000 * 3600
-      this.$app.filters.setValue('calendar', 'range[from]', date.formatDate(new Date(fromMondayMS), 'YYYY-MM-DD'))
-      this.$app.filters.setValue('calendar', 'range[to]', date.formatDate(new Date(toSundayMS), 'YYYY-MM-DD'))
+      this.$app.filters.setValue('calendar', 'dateRangeFrom', date.formatDate(new Date(fromMondayMS), 'YYYY-MM-DD'))
+      this.$app.filters.setValue('calendar', 'dateRangeTo', date.formatDate(new Date(toSundayMS), 'YYYY-MM-DD'))
     }
   },
   components: { EventsFilter, FiltersList, RoomsFilter, StudioFilter, PriceFilter, CalendarSheet }
