@@ -55,7 +55,7 @@
 <script>
 import Timeline from 'src/components/Calendar/Sheet/Modules/Timeline'
 import { colors } from 'quasar'
-import { formatPrice, getDate, getTime, getColor, setIcon } from 'src/utils/helpersForCalendar'
+import { formatPrice, getDate, getTime, setIcon } from 'src/utils/helpersForCalendar'
 
 export default {
   name: 'Calendar',
@@ -217,7 +217,7 @@ export default {
                 date: getDate(from),
                 time: getTime(from),
                 duration: diff,
-                bgcolor: getColor(booking),
+                bgcolor: booking.room.color,
                 icon: setIcon(booking.eventType),
                 devInfo: {
                   time: {
