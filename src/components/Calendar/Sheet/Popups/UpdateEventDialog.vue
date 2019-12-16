@@ -24,7 +24,7 @@
               .col-7.q-py-sm
                 span.text-grey {{ customerSlot }}
             calendar-customer.q-pa-md(
-              :startCustomer="newBooking.customer"
+              :startCustomer="newBooking"
               :isCreate="isCreate"
               @customerChange="newBooking.customer = $event"
             )
@@ -280,7 +280,7 @@ export default {
       this.$emit('setQueryState', state)
     },
     setParamsForPost () {
-      if (!this.newBooking.customer || !this.newBooking.customer.id) {
+      if (!this.newBooking.customer.fullName) {
         Notify.create({
           message: `Выберите клиента`,
           color: 'negative',
@@ -319,7 +319,13 @@ export default {
       }
       const params = {
         roomId: this.newBooking.room.id,
-        consumerId: this.newBooking.customer.id,
+        consumerId: this.newBooking.customer.id || null,
+        customer: {
+          fullName: this.newBooking.customer.fullName,
+          phone: this.newBooking.customer.phone || null,
+          email: this.newBooking.customer.email || null,
+          id: this.newBooking.customer.id || null
+        },
         reserveFrom: this.newBooking.reservedFrom,
         reserveTo: this.newBooking.reservedTo,
         priceType: this.newBooking.eventType,
@@ -327,7 +333,7 @@ export default {
         members: this.newBooking.members,
         managerComment: this.newBooking.managerComment || ''
       }
-      // console.log('post', params)
+      console.log('post', params)
       return params
     },
     setParamsForPut () {
