@@ -280,7 +280,7 @@ export default {
       this.$emit('setQueryState', state)
     },
     setParamsForPost () {
-      if (!this.newBooking.customer.fullName) {
+      if (!this.newBooking.customer.fullName || !this.newBooking.customer.firstName) {
         Notify.create({
           message: `Выберите клиента`,
           color: 'negative',
@@ -321,6 +321,7 @@ export default {
         roomId: this.newBooking.room.id,
         consumerId: this.newBooking.customer.id || null,
         customer: {
+          firstName: this.newBooking.customer.firstName || null,
           fullName: this.newBooking.customer.fullName,
           phone: this.newBooking.customer.phone || null,
           email: this.newBooking.customer.email || null,
