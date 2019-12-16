@@ -322,8 +322,9 @@ export default {
         consumerId: this.newBooking.customer.id || null,
         customer: {
           fullName: this.newBooking.customer.fullName,
-          phone: this.newBooking.customer.phone || null,
-          email: this.newBooking.customer.email || null,
+          firstName: this.newBooking.customer.firstName || '',
+          phone: this.newBooking.customer.phone || '',
+          email: this.newBooking.customer.email || '',
           id: this.newBooking.customer.id || null
         },
         reserveFrom: this.newBooking.reservedFrom,
