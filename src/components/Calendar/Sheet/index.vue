@@ -638,7 +638,7 @@ export default {
       return s
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
-      let bgcolor = `${event.bgcolor}40`
+      let bgcolor = `${event.bgcolor}30`
       let s = {
         'z-index': 2,
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
@@ -730,7 +730,8 @@ export default {
               date: this.getDate(from),
               time: this.getTime(from),
               duration: diff,
-              bgcolor: booking.room.color,
+              bgcolor: `#${booking.room.color}`,
+              opacity: 0.3,
               icon: this.setIcon(booking.eventType),
               technical: booking.technical,
               from: +this.getTime(from, 'HH'),
