@@ -148,13 +148,14 @@
                     span.text-booking.ellipsis {{ item.managerComment }}
                   .row.col-12
                     span.text-booking.ellipsis {{ item.customerComment }}
-                .row.col-12(v-else)
+                // .row.col-12(v-else)
                   span.row.col-12.text-booking.wrap {{ item.managerComment }}
             q-badge.resizer.absolute(
               :class="{ 'is-resize': item.isResize }"
               :style="badgeStyles(item, 'body', timeStartPos, timeDurationHeight)"
               @mousedown="resizerMouseDown(item, index, $event)"
             )
+              q-tooltip(v-if="item.managerComment") {{ item.managerComment }}
               q-popup-proxy.absolute(
                 no-parent-event
                 persistent
