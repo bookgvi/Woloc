@@ -8,7 +8,7 @@
           :rooms="rooms"
           :isSave="isSave"
           :services="services"
-          :vendors="vendors"
+          :facilities="facilities"
           @updateStudio="updateStudio"
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
@@ -40,13 +40,12 @@ export default {
       isRequiredModal: false,
       currentTab: 'Локация',
       tabs: ['Локация'],
-      allStudiosName: [],
       singleStudio: {},
       currentStudio: '',
       isSave: false,
       rooms: [],
       services: [],
-      vendors: []
+      facilities: []
     }
   },
   computed: {
@@ -55,17 +54,19 @@ export default {
       return this.$app.filters.getValues('settings').studio
     }
   },
+  mounted () {
+    this.singleStudioM()
+  },
   methods: {
     async singleStudioM () {
-      const { items } = await studios.getAll().then(resp => resp.data)
-      let { studio } = this.$app.filters.getValues('settings')
-      if (!studio) return
-      const rooms = items[0].rooms
-      this.rooms = rooms
-      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
-      this.allStudiosName = items.map(item => item.name)
+      let filter = await this.$app.filters.getValues('settings')
+      if (!filter.studio) return
+      if (!this.singleStudio) return
+      this.rooms = this.$app.rooms.getFiltered(filter)
+      if (!this.rooms) return
+      this.singleStudio = await studios.getOne(filter.studio).then(resp => resp.data)
       this.services = this.singleStudio.services
-      this.vendors = this.singleStudio.vendors
+      this.facilities = this.singleStudio.facilities
     },
     async updateStudio (services, vendors) {
       let { studio } = this.$app.filters.getValues('settings')
@@ -114,9 +115,6 @@ export default {
       }
       this.pageReload++
     }
-  },
-  async mounted () {
-    this.singleStudioM()
   }
 }
 </script>
