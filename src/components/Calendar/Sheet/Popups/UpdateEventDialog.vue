@@ -333,7 +333,7 @@ export default {
         members: this.newBooking.members,
         managerComment: this.newBooking.managerComment || ''
       }
-      console.log('post', params)
+      // console.log('post', params)
       return params
     },
     setParamsForPut () {
