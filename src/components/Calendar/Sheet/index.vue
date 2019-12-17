@@ -92,20 +92,19 @@
                   span.text-body2 до {{ forNewBooking.to + 1 + ":00" }}
                 .row.col-12.justify-between.q-py-md
                   .col-6.q-px-xs
-                    q-btn.fit(
+                    q-btn.fit.bg-primary.text-white(
                       icon="fa fa-check"
-                      color="positive"
                     )
                       booking-type-menu.fit(
                         @fastClick="setNewTechnical(date)"
                         @commonClick="setNewBooking(date, time)"
                       )
                   .col-6.q-px-xs
-                    q-btn.fit(
+                    q-btn.fit.text-grey-7(
                       icon="fa fa-ban"
-                      color="negative"
                       v-close-popup
                       @click="closePopupForNewBooking()"
+                      outline
                     )
         template(#day-header="{ date }")
           .row.justify-left.q-px-md.q-py-md(
