@@ -111,7 +111,7 @@ export default {
       let s = {
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
         'font-size': '13px',
-        'background-color': `${event.bgcolor}30`,
+        'background-color': event.bgcolor,
         'color': colors.lighten(event.bgcolor, -30),
         'align-items': 'flex-start'
       }
@@ -226,7 +226,7 @@ export default {
                 date: getDate(from),
                 time: getTime(from),
                 duration: diff,
-                bgcolor: `#${booking.room.color}`,
+                bgcolor: this.hexTOrgb(booking.room.color, 0.3),
                 icon: setIcon(booking.eventType),
                 devInfo: {
                   time: {

@@ -638,12 +638,11 @@ export default {
       return s
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
-      let bgcolor = `${event.bgcolor}`
       let s = {
         'z-index': 2,
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
         'font-size': '13px',
-        'background-color': bgcolor,
+        'background-color': event.bgcolor,
         'color': colors.lighten(event.bgcolor, -30),
         'align-items': 'flex-start'
       }
@@ -739,7 +738,7 @@ export default {
               date: this.getDate(from),
               time: this.getTime(from),
               duration: diff,
-              bgcolor: this.hexTOrgb(booking.room.color, 0.3),
+              bgcolor: this.hexTOrgb(booking.room.color, 0.2),
               opacity: 0.3,
               icon: this.setIcon(booking.eventType),
               technical: booking.technical,
