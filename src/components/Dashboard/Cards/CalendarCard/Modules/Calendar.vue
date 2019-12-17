@@ -142,6 +142,15 @@ export default {
         dateTo: this.selectedDate
       })
     },
+    hexTOrgb (color, opacity) {
+      if (color[0] === '#') {
+        color = color.slice(1, color.length)
+      }
+      const r = parseInt(color.slice(0, 2), 16)
+      const g = parseInt(color.slice(2, 4), 16)
+      const b = parseInt(color.slice(4, 6), 16)
+      return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
+    }
   },
   watch: {
     async isAllDay () {
@@ -209,7 +218,7 @@ export default {
                 isExtras: isExtras,
                 technical: booking.technical,
                 roomNameSlot: 'Зал ' + booking.room.name,
-                roomColorSlot: '#' + ((1 << 24) * Math.random() | 0).toString(16),
+                roomColorSlot: this.hexTOrgb(booking.room.color, 0.3),
                 fullNameSlot: slot.fullName,
                 phoneSlot: slot.phone,
                 eventSlot: slot.event,
