@@ -18,5 +18,13 @@ export default {
       }
       this.loading.list = false
     },
+    async confirm (id) {
+      const result = await api.refunds.confirm(id)
+      return result
+    },
+    async cancel (id) {
+      const result = await api.refunds.cancel(id)
+      return result
+    }
   }
 }
