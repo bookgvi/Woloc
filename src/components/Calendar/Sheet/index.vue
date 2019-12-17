@@ -638,12 +638,11 @@ export default {
       return s
     },
     badgeStyles (event, type, timeStartPos, timeDurationHeight) {
-      let bgcolor = `${event.bgcolor}30`
       let s = {
         'z-index': 2,
         'box-shadow': `inset 3px -3px 0 ${event.bgcolor}`,
         'font-size': '13px',
-        'background-color': bgcolor,
+        'background-color': event.bgcolor,
         'color': colors.lighten(event.bgcolor, -30),
         'align-items': 'flex-start'
       }
@@ -683,6 +682,15 @@ export default {
       }
       this.technicalDialogState = false
       this.closePopupForNewBooking()
+    },
+    hexTOrgb (color, opacity) {
+      if (color[0] === '#') {
+        color = color.slice(1, color.length)
+      }
+      const r = parseInt(color.slice(0, 2), 16)
+      const g = parseInt(color.slice(2, 4), 16)
+      const b = parseInt(color.slice(4, 6), 16)
+      return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     }
   },
   watch: {
@@ -730,7 +738,7 @@ export default {
               date: this.getDate(from),
               time: this.getTime(from),
               duration: diff,
-              bgcolor: `#${booking.room.color}`,
+              bgcolor: this.hexTOrgb(booking.room.color, 0.2),
               opacity: 0.3,
               icon: this.setIcon(booking.eventType),
               technical: booking.technical,
