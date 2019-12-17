@@ -1,5 +1,3 @@
-import studios from '../../api/studios'
-
 const defaultValues = {
   customers: {
     search: null
@@ -98,7 +96,7 @@ export default {
       const { values } = this
       const tempDateRangeFrom = values.calendar.dateRangeFrom
       const tempDateRangeTo = values.calendar.dateRangeTo
-      const { items } = await studios.getAll().then(resp => resp.data)
+      const { items } = await this.$app.studios.getAll()
       let [{ rooms }] = items.filter(item => item.id === items[0].id)
       rooms = rooms.map(item => item.id)
       this.values = {

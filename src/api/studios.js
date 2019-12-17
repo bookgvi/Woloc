@@ -1,16 +1,10 @@
 import api from './instance'
-
+import { ApiObject } from './abstractAPI'
 const API_URL = process.env.API_CABINET_URL
+// eslint-disable-next-line
+const studios = new ApiObject(`${API_URL}/settings/location`)
 export default {
-  getAll: async () => {
-    try {
-      const r = await api.get(`${API_URL}/settings/location`)
-      return r.data
-    } catch (e) {
-      console.warn('catch :: studios :: getAll', e)
-      return e
-    }
-  },
+  studios,
   getOne: async (id) => {
     try {
       const r = await api.get(`${API_URL}/settings/location/${id}`)

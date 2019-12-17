@@ -27,7 +27,7 @@ import columns from './columns'
 import DataTable from 'components/DataTable'
 import editDiscount from '../editDiscount/editDiscount'
 import VueCtkDateTimePicker from 'vue-ctk-date-time-picker'
-import studios from '../../../../api/studios'
+// import studios from '../../../../api/studios'
 import 'vue-ctk-date-time-picker/dist/vue-ctk-date-time-picker.css'
 export default {
   name: 'promoTable',
@@ -46,17 +46,15 @@ export default {
     }
   },
   async mounted () {
-    this.filter()
+    // this.filter()
   },
   methods: {
     async filter () {
-      let { studio } = await this.$app.filters.getValues('settings')
-      if (!studio) return
-      const { items } = await studios.getAll().then(resp => resp.data)
-      const rooms = items[0].rooms
-      this.rooms = rooms
-      this.singleStudio = await studios.getOne(studio).then(resp => resp.data)
-      this.allStudiosName = items.map(item => item.name)
+      // const { items } = await this.$app.studios.getAll()
+      // const rooms = items[0].rooms
+      // this.rooms = rooms
+      // this.singleStudio = await studios.getOne(this.currentStudio.studio).then(resp => resp.data)
+      // this.allStudiosName = items.map(item => item.name)
     },
     async toggleDialogRow (row) {
       this.row = row

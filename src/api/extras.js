@@ -1,31 +1,20 @@
 import api from './instance'
-import extras from 'src/mocks/extras'
+import extrasMock from 'src/mocks/extras'
 
+import { ApiObject } from './abstractAPI'
 const API_URL = process.env.API_CABINET_URL
-
+// eslint-disable-next-line
+const extras = new ApiObject(`${API_URL}/settings/extras`)
 export default {
+  extras,
   getMock: async () => {
     try {
       const r = {
-        data: extras
+        data: extrasMock
       }
       return r.data
     } catch (e) {
       console.warn('catch :: extras :: getMock', e)
-      return e
-    }
-  },
-  getAll: async (page, filter) => {
-    try {
-      const r = await api.get(`${API_URL}/settings/extras`, {
-        params: {
-          page,
-          ...filter
-        }
-      })
-      return r.data
-    } catch (e) {
-      console.warn('catch :: extras :: getForSettings', e)
       return e
     }
   },

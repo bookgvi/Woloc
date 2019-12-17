@@ -13,15 +13,6 @@ export default {
       }
       this.loading.one = false
     },
-    async addNew (payload) {
-      this.loading.one = true
-      this.idOfJustAdded = 0
-      const res = await api.discounts.addNew(payload)
-      if (res) {
-        this.idOfJustAdded = res.id
-      }
-      this.loading.one = false
-    },
     async deleteOne (id) {
       this.loading.one = true
       const res = await api.discounts.deleteOne({ id: id })

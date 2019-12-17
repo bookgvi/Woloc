@@ -1,30 +1,10 @@
 import api from './instance'
+import { ApiObject } from './abstractAPI'
 
 const API_URL = process.env.API_CABINET_URL
+const bookings = new ApiObject(`${API_URL}/bookings`)
 export default {
-  getAll: async (page, filter) => {
-    try {
-      const r = await api.get(`${API_URL}/bookings`, {
-        params: {
-          page,
-          ...filter
-        }
-      })
-      return r.data
-    } catch (e) {
-      console.warn('catch :: bookings :: getAll', e)
-    }
-  },
-
-  addNew: async (payload) => {
-    try {
-      const r = await api.post(`${API_URL}/bookings`, payload)
-      return r.data
-    } catch (e) {
-      console.warn('catch :: bookings :: addNew', e)
-    }
-  },
-
+  bookings,
   addNewTechnical: async (payload) => {
     try {
       const r = await api.post(`${API_URL}/bookings/technical`, payload)
