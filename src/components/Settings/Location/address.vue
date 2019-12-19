@@ -81,6 +81,7 @@ export default {
   data () {
     return {
       isMarker: false,
+      defaultAddress: 'г Москва, ул Кремль',
       fullAddressArr: [],
       yControls: [],
       options: {
@@ -127,7 +128,7 @@ export default {
         params: {
           apikey: this.options.yaMap.yAPI,
           format: 'json',
-          geocode: this.singleStudio.address
+          geocode: this.singleStudio.address || this.defaultAddress
         }
       })
       this.singleStudio.lon = +data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
