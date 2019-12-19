@@ -24,12 +24,13 @@
               q-item-section.text-grey No results
       .col-4.q-pl-sm
         q-btn.block(label="Показать на карте" @click="showOnMap")
-    .row.q-pb-lg(v-if="singleStudio.lon ? true : false")
+    .row.q-pb-lg
       yandexMap(
+        v-if="singleStudio.lon ? true : false"
         :settings="options.yaMap"
         map-type="map"
         scroll-zoom=false
-        zoom="16"
+        zoom=17
         :coords="[singleStudio.lat, singleStudio.lon]"
         :controls="yControls"
         style="width: 100%; height: 480px"
@@ -148,9 +149,7 @@ export default {
         }
       }).then(resp => { this.singleStudio.address = resp.data.suggestions[0].value })
         .catch(err => { console.error('Catched...', err) })
-      this.$nextTick(_ => {
-        this.isMarker = true
-      })
+      this.isMarker = true
     },
     emptyFilter (val, update) {
       update(() => {})

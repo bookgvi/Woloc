@@ -27,7 +27,6 @@
 
 <script>
 import location from './main'
-import studios from '../../../api/studios'
 export default {
   name: 'setting',
   components: {
@@ -64,7 +63,7 @@ export default {
       if (!this.singleStudio) return
       this.rooms = this.$app.rooms.getFiltered(filter)
       if (!this.rooms) return
-      this.singleStudio = await studios.getOne(filter.studio).then(resp => resp.data)
+      this.singleStudio = await this.$app.studios.getOne(filter.studio)
       this.services = this.singleStudio.services
       this.facilities = this.singleStudio.facilities
     },
@@ -85,14 +84,27 @@ export default {
         this.isRequiredModal = true
         return
       }
-      await studios.updateStudio(studio, this.singleStudio)
+      let result = ''
+      if (this.isSave) {
+        result = await this.$app.studios.addNew(this.singleStudio)
+      } else {
+        let { studio } = this.$app.filters.getValues('settings')
+        if (!studio) {
+          studio = this.currentStudio
+        }
+        result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
+      }
+      /*
+      * TODO добавить нотификацию
+      * */
+      console.log(result)
     },
     async newStudio () {
       this.isSave = true
       this.singleStudio = { lat: 55.786419, lon: 37.725433 }
       this.rooms = []
       this.services = []
-      this.vendors = []
+      this.facilities = []
     },
     async createNewStudio () {
       if (
@@ -109,15 +121,18 @@ export default {
       }
       let result = ''
       if (this.isSave) {
-        result = await studios.createStudio(this.singleStudio)
+        result = await this.$app.studios.addNew(this.singleStudio)
       } else {
         let { studio } = this.$app.filters.getValues('settings')
         if (!studio) {
           studio = this.currentStudio
         }
-        result = await studios.updateStudio(studio, this.singleStudio)
+        result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
       }
       if (result) {
+        /*
+        * TODO добавить нотификацию
+        * */
         this.isSave = false
         await this.$app.filters.setValue('settings', 'studio', result.data.id)
         this.$router.push({ path: '/settings/room', query: { createRoom: true } })

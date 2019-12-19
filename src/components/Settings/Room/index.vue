@@ -6,8 +6,8 @@
           studio-filter(v-bind="props")
         template(#append)
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
-    .content--content2(:key="reloadData")
-      .row.q-py-md.q-pr-sm
+    .content--content2(:key="filterChanged.studio")
+      .row.q-py-md.q-pr-sm(:key="reloadData")
         .col-3.bg-white
           room-list(
             :rooms="rooms"
@@ -67,9 +67,8 @@ import additionalServices from './additionalServices'
 import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
-import room from '../../../api/room'
+import { room } from '../../../api/room'
 import RoomList from './roomList'
-import studios from '../../../api/studios'
 export default {
   data () {
     return {
@@ -172,12 +171,12 @@ export default {
     },
     async getRoomData (id) {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
-        const currentRoomData = await room.getOne(id)
+        const currentRoomData = await this.$app.room.getOne(id)
         return currentRoomData
       }
     },
     async getAllRooms (id) { // Получаем массив всех залов локации id
-      const { items } = await studios.getAll().then(resp => resp.data)
+      const { items } = await this.$app.studios.getAll()
       const [{ rooms }] = items.filter(item => item.id === id)
       return rooms
     },
@@ -194,7 +193,7 @@ export default {
     },
     async saveChanges () {
       if (this.isPost) {
-        const result = await room.createRoom(this.currentRoomData)
+        const result = await this.$app.room.addNew(this.currentRoomData)
         if (result.hasOwnProperty('errors')) {
           this.showNotif('Ошибка создания зала. Проверьте обязательные поля')
           result.errors.forEach(item => {
@@ -208,7 +207,7 @@ export default {
         const newRoom = this.rooms.filter(item => item.name === this.currentRoomData.name)[0]
         this.setCurrentRoom(newRoom) // Выбираем новосозданный зал в списке
       } else {
-        const result = await room.updateRoom(this.currentRoomData.id, this.currentRoomData)
+        const result = await this.$app.room.updateOne({ id: this.currentRoomData.id, data: this.currentRoomData })
         if (result.hasOwnProperty('errors')) {
           this.showNotif('Ошибка создания зала. Проверьте обязательные поля')
           result.errors.forEach(item => {
