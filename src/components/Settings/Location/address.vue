@@ -94,11 +94,6 @@ export default {
       instAuto: ''
     }
   },
-  watch: {
-    singleStudio () {
-      this.showOnMap()
-    }
-  },
   computed: {
     markerCoords () {
       this.showOnMap()
