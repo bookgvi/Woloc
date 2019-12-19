@@ -28,7 +28,6 @@
               q-btn.fit(
                 label="Сохранить и создать зал"
                 no-caps
-                :disable='!isSave'
                 @click="$emit('createNewStudio')"
               )
 </template>

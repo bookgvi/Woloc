@@ -107,7 +107,16 @@ export default {
         this.isRequiredModal = true
         return
       }
-      const result = await studios.createStudio(this.singleStudio)
+      let result = ''
+      if (this.isSave) {
+        result = await studios.createStudio(this.singleStudio)
+      } else {
+        let { studio } = this.$app.filters.getValues('settings')
+        if (!studio) {
+          studio = this.currentStudio
+        }
+        result = await studios.updateStudio(studio, this.singleStudio)
+      }
       if (result) {
         this.isSave = false
         await this.$app.filters.setValue('settings', 'studio', result.data.id)
