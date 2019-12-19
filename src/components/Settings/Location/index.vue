@@ -13,16 +13,6 @@
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
         )
-        q-dialog(v-model="isRequiredModal")
-          q-card
-            .alarmo.q-pa-lg
-              .row.q-pb-sm
-                .col
-                  q-icon.text-red(name="warning" style="font-size: 4rem;")
-                  .text-h6.text-red Заполните обязательные поля
-              .row.justify-center
-                .col-4
-                  q-btn.bg-primary.text-white(label="Закрыть" @click="isRequiredModal = false")
 </template>
 
 <script>
@@ -36,7 +26,6 @@ export default {
     return {
       pageReload: 0,
       id: this.$app.filters.getValues('settings').studio,
-      isRequiredModal: false,
       currentTab: 'Локация',
       tabs: ['Локация'],
       singleStudio: {},
@@ -44,7 +33,8 @@ export default {
       isSave: false,
       rooms: [],
       services: [],
-      facilities: []
+      facilities: [],
+      requiredFields: ['name', 'phone', 'limit', 'height', 'yardage', 'address']
     }
   },
   computed: {
@@ -68,10 +58,6 @@ export default {
       this.facilities = this.singleStudio.facilities
     },
     async updateStudio (services, vendors) {
-      let { studio } = this.$app.filters.getValues('settings')
-      if (!studio) {
-        studio = this.currentStudio
-      }
       if (
         !this.singleStudio.name ||
         !this.singleStudio.phone ||
@@ -81,8 +67,16 @@ export default {
         !this.singleStudio.yardage ||
         !this.singleStudio.address
       ) {
-        this.isRequiredModal = true
+        console.warn('Заполните обязательные поля')
+        this.showNotif('Заполните обязательные поля')
+        this.requiredFields.forEach(item => {
+          this.highLightRequired(item)
+        })
         return
+      }
+      let { studio } = this.$app.filters.getValues('settings')
+      if (!studio) {
+        studio = this.currentStudio
       }
       let result = ''
       if (this.isSave) {
@@ -94,10 +88,14 @@ export default {
         }
         result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
       }
-      /*
-      * TODO добавить нотификацию
-      * */
-      console.log(result)
+      if (result.hasOwnProperty('errors')) {
+        this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
+        result.errors.forEach(item => {
+          this.highLightRequired(item.source)
+        })
+      } else if (result.hasOwnProperty('data')) {
+        this.showNotif('Данные сохранены!', 'green')
+      }
     },
     async newStudio () {
       this.isSave = true
@@ -116,7 +114,11 @@ export default {
         !this.singleStudio.yardage ||
         !this.singleStudio.address
       ) {
-        this.isRequiredModal = true
+        console.warn('Заполните обязательные поля')
+        this.showNotif('Заполните обязательные поля')
+        this.requiredFields.forEach(item => {
+          this.highLightRequired(item)
+        })
         return
       }
       let result = ''
@@ -130,14 +132,32 @@ export default {
         result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
       }
       if (result) {
-        /*
-        * TODO добавить нотификацию
-        * */
-        this.isSave = false
-        await this.$app.filters.setValue('settings', 'studio', result.data.id)
-        this.$router.push({ path: '/settings/room', query: { createRoom: true } })
+        if (result.hasOwnProperty('errors')) {
+          this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
+          result.errors.forEach(item => {
+            this.singleStudio[item.source] = ''
+            this.highLightRequired(item.source)
+          })
+        } else if (result.hasOwnProperty('data')) {
+          this.showNotif('Данные сохранены!', 'green')
+          this.isSave = false
+          await this.$app.filters.setValue('settings', 'studio', result.data.id)
+          this.$router.push({ path: '/settings/room', query: { createRoom: true } })
+        }
       }
-      this.pageReload++
+    },
+    highLightRequired (fieldClass) {
+      const field = document.querySelector(`.${fieldClass} input`)
+      this.$nextTick(_ => {
+        field.focus()
+        field.blur()
+      })
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   }
 }
