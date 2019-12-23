@@ -11,7 +11,7 @@
         .col-6
           dataBlock(:singleStudio="singleStudio")
           specifications(:singleStudio="singleStudio")
-          images
+          images(:singleStudio="singleStudio")
           addressBlock(:singleStudio="singleStudio")
           services(:services="services")
           equipment(:facilities="facilities")
