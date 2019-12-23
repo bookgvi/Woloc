@@ -3,12 +3,12 @@ import api from '../../api'
 
 export default {
   name: 'refunds',
+  mixins: [crudMixin],
   data () {
     return {
       dashboardRefundsList: []
     }
   },
-  mixins: [crudMixin],
   methods: {
     async getForDashBoard (filter) {
       this.loading.list = true

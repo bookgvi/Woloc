@@ -21,14 +21,12 @@
               q-btn.fit.bg-primary.text-white(
                 label="Сохранить"
                 no-caps
-                @click="$emit('updateStudio', services, vendors)"
-                :disable='isSave'
+                @click="$emit('updateStudio', services, facilities)"
               )
             .col-6.q-pl-sm
               q-btn.fit(
                 label="Сохранить и создать зал"
                 no-caps
-                :disable='!isSave'
                 @click="$emit('createNewStudio')"
               )
 </template>
