@@ -405,7 +405,7 @@ export default {
       } else {
         const payload = this.setParamsForPut()
         if (payload) {
-          await this.$app.bookings.updateOne(payload.id, payload.data)
+          await this.$app.bookings.updateOne({ id: payload.id, data: payload.data })
           if (this.$app.bookings.idOfJustAdded !== 0) {
             this.$emit('setQueryState', true)
             this.$app.extras.extrasForRoom = []
