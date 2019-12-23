@@ -88,7 +88,7 @@ export default {
         }
         result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
       }
-      if (result.hasOwnProperty('errors')) {
+      if (result && result.hasOwnProperty('errors') && result.errors.length) {
         this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
         result.errors.forEach(item => {
           this.highLightRequired(item.source)
@@ -132,7 +132,7 @@ export default {
         result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
       }
       if (result) {
-        if (result.hasOwnProperty('errors')) {
+        if (result && result.hasOwnProperty('errors') && result.errors.length) {
           this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
           result.errors.forEach(item => {
             this.singleStudio[item.source] = ''
