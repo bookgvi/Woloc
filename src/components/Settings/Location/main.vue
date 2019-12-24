@@ -34,7 +34,7 @@
 <script>
 import dataBlock from './data'
 import specifications from './specifications'
-import images from './images/index'
+import images from '../images/index'
 import addressBlock from './address'
 import services from './services'
 import equipment from './equipment'
