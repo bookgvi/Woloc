@@ -63,7 +63,7 @@ export default {
   }),
   watch: {
     imgDataVM (oldVal, newVal) {
-      if (newVal) {
+      if (newVal.hasOwnProperty('images')) {
         this.isServerResponse = true
         this.imgSortMethod()
       }
