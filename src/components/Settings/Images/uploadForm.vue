@@ -18,7 +18,8 @@
 <script>
 export default {
   props: {
-    singleStudio: Object
+    imgData: Object,
+    page: String
   },
   data () {
     return {
@@ -32,11 +33,11 @@ export default {
       this.submitting = true
       const config = { 'content-type': 'multipart/form-data' }
       const formData = new FormData()
-      formData.append('sort', this.singleStudio.images.length)
-      formData.append('studio', this.singleStudio.id)
+      formData.append('sort', this.imgData.images.length)
+      formData.append('studio', this.imgData.id)
       formData.append('image', this.attachment)
 
-      const result = await this.$app.studios.uploadImage(formData, config)
+      const result = await this.$app[this.page].uploadImage(formData, config)
       if (result.hasOwnProperty('data')) {
         this.submitting = false
         this.$emit('closeUploadDialog')

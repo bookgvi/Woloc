@@ -8,19 +8,19 @@
           q-icon(name="cached" style="font-size: 1.5em;")
     .hasServerData(v-if="isServerResponse")
       .row.no-wrap.q-pb-lg(v-if="!isShow")
-        draggable(v-model="singleStudioVM.images" @change="changeSortField(singleStudioVM.images)")
-          .inline-block(v-for="index in Math.min(defaultImgCount, singleStudioVM.images.length)" :key="index" title="Drag and drop")
+        draggable(v-model="imgDataVM.images" @change="changeSortField(imgDataVM.images)")
+          .inline-block(v-for="index in Math.min(defaultImgCount, imgDataVM.images.length)" :key="index" title="Drag and drop")
             q-img.q-mr-sm.q-mb-sm.cursor-pointer(
-              v-if="!singleStudioVM.images[index - 1].isDeleted"
-              :src="srcVM(singleStudioVM.images[index - 1].src)"
+              v-if="!imgDataVM.images[index - 1].isDeleted"
+              :src="srcVM(imgDataVM.images[index - 1].src)"
               style="height: 140px; width: 140px"
             )
-              q-btn.absolute-top-right(icon="close" class="block" dense flat color="white" title="close" @click="deleteImg(singleStudioVM.images[index - 1], index- 1)")
+              q-btn.absolute-top-right(icon="close" class="block" dense flat color="white" title="close" @click="deleteImg(imgDataVM.images[index - 1], index- 1)")
               template(v-slot:error)
                 .absolute-full.flex.flex-center.bg-grey-6.text-white Не удалось загрузить изображение
       .row.no-wrap.q-pb-lg(v-if="isShow")
-        draggable(v-model="singleStudioVM.images" @change="changeSortField(singleStudioVM.images)")
-          .inline-block(v-for="(item, index) in singleStudioVM.images" :key="index" title="Drag and drop")
+        draggable(v-model="imgDataVM.images" @change="changeSortField(imgDataVM.images)")
+          .inline-block(v-for="(item, index) in imgDataVM.images" :key="index" title="Drag and drop")
             q-img.q-mr-sm.q-mb-sm.cursor-pointer(
               v-if="!item.isDeleted"
               :src="srcVM(item.src)"
@@ -31,15 +31,15 @@
                 .absolute-full.flex.flex-center.bg-grey-6.text-white Не удалось загрузить изображение
       .row
         .col
-          .cursor-pointer(v-if="!isShow && singleStudioVM.images.length > defaultImgCount" @click="isShow = !isShow" style="font-size: 18px")
+          .cursor-pointer(v-if="!isShow && imgDataVM.images.length > defaultImgCount" @click="isShow = !isShow" style="font-size: 18px")
             q-icon(name="keyboard_arrow_down")
-            span.text-primary &nbsp; Показать еще {{ singleStudioVM.images.length - defaultImgCount }} изображений
+            span.text-primary &nbsp; Показать еще {{ imgDataVM.images.length - defaultImgCount }} изображений
           .cursor-pointer(v-if="isShow" @click="isShow = !isShow" style="font-size: 18px")
             q-icon(name="keyboard_arrow_up")
             span.text-primary &nbsp; Скрыть изображения
     q-dialog(v-model="isModalForUploadFile")
       q-card
-        uploadForm(@closeUploadDialog="closeUploadDialog" @closeUploadDialogWithoutReload="closeUploadDialogWithoutReload" :singleStudio="singleStudio")
+        uploadForm(@closeUploadDialog="closeUploadDialog" @closeUploadDialogWithoutReload="closeUploadDialogWithoutReload" :imgData="imgData" :page="page")
 </template>
 
 <script>
@@ -49,9 +49,10 @@ export default {
   name: 'images',
   components: { draggable, uploadForm },
   props: {
-    singleStudio: {
+    imgData: {
       type: Object
-    }
+    },
+    page: String
   },
   data: () => ({
     defaultImgCount: 4,
@@ -60,7 +61,7 @@ export default {
     isServerResponse: false,
   }),
   watch: {
-    singleStudioVM (oldVal, newVal) {
+    imgDataVM (oldVal, newVal) {
       if (newVal) {
         this.isServerResponse = true
         this.imgSortMethod()
@@ -68,9 +69,9 @@ export default {
     }
   },
   computed: {
-    singleStudioVM: {
+    imgDataVM: {
       get () {
-        return this.singleStudio
+        return this.imgData
       }
     }
   },
@@ -79,7 +80,7 @@ export default {
       return `${val}`
     },
     imgSortMethod () {
-      this.singleStudioVM.images.sort((current, prev) => {
+      this.imgDataVM.images.sort((current, prev) => {
         if (current.sort === prev.sort) return 0
         return current.sort > prev.sort ? 1 : -1
       })
@@ -88,7 +89,7 @@ export default {
       imgArray.forEach((item, index) => {
         item.sort = index
       })
-      const result = await this.$app.studios.updateOne({ id: this.singleStudioVM.id, data: this.singleStudioVM })
+      const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
       if (result.hasOwnProperty('data')) {
         this.showNotif('Изменения сохранены', 'green')
       } else {
@@ -104,7 +105,7 @@ export default {
     },
     async deleteImg (img, index) {
       img.isDeleted = true
-      const result = await this.$app.studios.updateOne({ id: this.singleStudioVM.id, data: this.singleStudioVM })
+      const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
       if (result.hasOwnProperty('data')) {
         this.showNotif('Изображение удалено', 'orange')
       } else {
@@ -112,7 +113,7 @@ export default {
       }
     },
     showUploadFileDialog () {
-      if (!this.singleStudio.id) {
+      if (!this.imgData.id) {
         this.showNotif('Сначала создайте и сохраните локацию', 'orange')
         return
       }

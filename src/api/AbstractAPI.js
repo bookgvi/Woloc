@@ -56,3 +56,13 @@ AbstractAPI.prototype.deleteOne = async function (payload) {
     console.warn('catch :: deleteOne', e)
   }
 }
+
+AbstractAPI.prototype.uploadImage = async function (payload, config) {
+  try {
+    const status = await api.post(`${this.url}`, payload, config)
+    return status.data
+  } catch (err) {
+    console.warn('catch :: uploadImage', err)
+    return err
+  }
+}
