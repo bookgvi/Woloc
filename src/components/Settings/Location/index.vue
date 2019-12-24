@@ -7,8 +7,6 @@
           :singleStudio="singleStudio"
           :rooms="rooms"
           :isSave="isSave"
-          :services="services"
-          :facilities="facilities"
           @updateStudio="updateStudio"
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
@@ -18,6 +16,8 @@
 
 <script>
 import location from './main'
+import { Util } from './helper/utils'
+const emptyLocation = new Util()
 export default {
   name: 'setting',
   components: {
@@ -25,6 +25,7 @@ export default {
   },
   data () {
     return {
+      emptyLocation: 'emptyLocation',
       pageReload: 0,
       id: this.$app.filters.getValues('settings').studio,
       currentTab: 'Локация',
@@ -33,8 +34,6 @@ export default {
       currentStudio: '',
       isSave: false,
       rooms: [],
-      services: [],
-      facilities: [],
       requiredFields: ['name', 'phone', 'limit', 'email', 'height', 'yardage', 'address']
     }
   },
@@ -49,17 +48,18 @@ export default {
   },
   methods: {
     async singleStudioM () {
-      // Сбрасываем поле для метода POST
-      this.isSave = false
+      this.isSave = false // ----------------------------- Сбрасываем поле для метода POST
       let filter = await this.$app.filters.getValues('settings')
       if (!filter.studio) return
       if (!this.singleStudio) return
       this.rooms = this.$app.rooms.getFiltered(filter)
       if (!this.rooms) return
       this.singleStudio = await this.$app.studios.getOne(filter.studio)
-      this.services = this.singleStudio.services
-      this.facilities = this.singleStudio.facilities
     },
+    /*
+    *
+    * Обработка кнопки Сохранить
+    */
     async updateStudio (services, vendors) {
       if (
         !this.singleStudio.name ||
@@ -84,11 +84,21 @@ export default {
       }
       let result = ''
       let newStudioId = ''
+      /*
+      *
+      *
+      * Метод POST
+      * */
       if (this.isSave) {
         result = await this.$app.studios.addNew(this.singleStudio)
         if (result && result.hasOwnProperty('data')) {
           newStudioId = result.data.id
         }
+      /*
+      *
+      *
+      * Метод PUT
+      * */
       } else {
         let { studio } = this.$app.filters.getValues('settings')
         if (!studio) {
@@ -99,6 +109,11 @@ export default {
           newStudioId = ''
         }
       }
+      /*
+      *
+      *
+      * Обработка результатов POST/PUT
+      * */
       if (result && result.hasOwnProperty('errors') && result.errors.length) {
         this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
         result.errors.forEach(item => {
@@ -106,6 +121,11 @@ export default {
         })
       } else if (result.hasOwnProperty('data')) {
         this.showNotif('Данные сохранены!', 'green')
+        /*
+        *
+        *
+        * Если использовался POST, то в фильтре выбираем новосозданную локацию
+        * */
         if (newStudioId) {
           this.$app.filters.setValue('settings', 'studio', newStudioId)
           this.singleStudioM()
@@ -115,12 +135,22 @@ export default {
     },
     async newStudio () {
       this.isSave = true
-      this.singleStudio = { lat: 55.786419, lon: 37.725433 }
       this.rooms = []
-      this.services = []
-      this.facilities = []
-      this.singleStudio.images = []
+      const services = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.services))
+      const facilities = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.facilities))
+      this.singleStudio = {
+        lat: 55.786419,
+        lon: 37.725433,
+        services,
+        facilities,
+        images: []
+      }
     },
+    /*
+    *
+    *
+    * Обработка кнопки Сохранить и создать зал
+    * */
     async createNewStudio () {
       if (
         !this.singleStudio.name ||
@@ -140,8 +170,18 @@ export default {
         return
       }
       let result = ''
+      /*
+      *
+      *
+      * Метод POST
+      * */
       if (this.isSave) {
         result = await this.$app.studios.addNew(this.singleStudio)
+      /*
+      *
+      *
+      * Метод PUT
+      * */
       } else {
         let { studio } = this.$app.filters.getValues('settings')
         if (!studio) {
@@ -149,6 +189,11 @@ export default {
         }
         result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
       }
+      /*
+      *
+      *
+      * Обработка результатов POST/PUT
+      * */
       if (result) {
         if (result && result.hasOwnProperty('errors') && result.errors.length) {
           this.showNotif('Ошибка создания локации. Проверьте обязательные поля')

@@ -13,8 +13,8 @@
           specifications(:singleStudio="singleStudio")
           images(:singleStudio="singleStudio" @reloadPage="$emit('reloadPage')")
           addressBlock(:singleStudio="singleStudio")
-          services(:services="services")
-          equipment(:facilities="facilities")
+          services(:singleStudio="singleStudio")
+          equipment(:singleStudio="singleStudio")
           rooms(:rooms="rooms")
           .row.col-12.justify-center.q-pt-md
             .col-6.q-pr-sm
