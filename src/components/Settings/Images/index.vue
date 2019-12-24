@@ -1,6 +1,7 @@
 <template lang="pug">
   .images
-    h6.q-mb-md Изображения
+    .text-h6.q-mb-md(v-if="page === 'studios'") Изображения
+    .text-h5.text-bold.q-mb-md(v-if="page === 'room'") Изображения
     .row.q-pb-sm
       .col
         q-btn.q-btn--no-uppercase(label="Выбрать файл" @click="showUploadFileDialog" outline dense)
@@ -80,10 +81,12 @@ export default {
       return `${val}`
     },
     imgSortMethod () {
-      this.imgDataVM.images.sort((current, prev) => {
-        if (current.sort === prev.sort) return 0
-        return current.sort > prev.sort ? 1 : -1
-      })
+      if (this.imgDataVM && this.imgDataVM.hasOwnProperty('images')) {
+        this.imgDataVM.images.sort((current, prev) => {
+          if (current.sort === prev.sort) return 0
+          return current.sort > prev.sort ? 1 : -1
+        })
+      }
     },
     async changeSortField (imgArray) {
       imgArray.forEach((item, index) => {
