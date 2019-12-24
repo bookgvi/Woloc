@@ -12,6 +12,7 @@
           @updateStudio="updateStudio"
           @newStudio="newStudio"
           @createNewStudio="createNewStudio"
+          @reloadPage="pageReload++"
         )
 </template>
 
@@ -34,7 +35,7 @@ export default {
       rooms: [],
       services: [],
       facilities: [],
-      requiredFields: ['name', 'phone', 'limit', 'height', 'yardage', 'address']
+      requiredFields: ['name', 'phone', 'limit', 'email', 'height', 'yardage', 'address']
     }
   },
   computed: {
@@ -48,6 +49,8 @@ export default {
   },
   methods: {
     async singleStudioM () {
+      // Сбрасываем поле для метода POST
+      this.isSave = false
       let filter = await this.$app.filters.getValues('settings')
       if (!filter.studio) return
       if (!this.singleStudio) return
@@ -61,6 +64,7 @@ export default {
       if (
         !this.singleStudio.name ||
         !this.singleStudio.phone ||
+        !this.singleStudio.email ||
         !this.singleStudio ||
         !this.singleStudio.limit ||
         !this.singleStudio.height ||
@@ -79,14 +83,21 @@ export default {
         studio = this.currentStudio
       }
       let result = ''
+      let newStudioId = ''
       if (this.isSave) {
         result = await this.$app.studios.addNew(this.singleStudio)
+        if (result && result.hasOwnProperty('data')) {
+          newStudioId = result.data.id
+        }
       } else {
         let { studio } = this.$app.filters.getValues('settings')
         if (!studio) {
           studio = this.currentStudio
         }
         result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
+        if (result && result.hasOwnProperty('id')) {
+          newStudioId = ''
+        }
       }
       if (result && result.hasOwnProperty('errors') && result.errors.length) {
         this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
@@ -95,6 +106,11 @@ export default {
         })
       } else if (result.hasOwnProperty('data')) {
         this.showNotif('Данные сохранены!', 'green')
+        if (newStudioId) {
+          this.$app.filters.setValue('settings', 'studio', newStudioId)
+          this.singleStudioM()
+          this.pageReload++
+        }
       }
     },
     async newStudio () {
@@ -103,11 +119,13 @@ export default {
       this.rooms = []
       this.services = []
       this.facilities = []
+      this.singleStudio.images = []
     },
     async createNewStudio () {
       if (
         !this.singleStudio.name ||
         !this.singleStudio.phone ||
+        !this.singleStudio.email ||
         !this.singleStudio ||
         !this.singleStudio.limit ||
         !this.singleStudio.height ||
