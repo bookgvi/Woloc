@@ -55,7 +55,6 @@ export default {
       const listForStudio = this.$app.bookings.dashboardBookingsShareList.find(item =>
         item.id === studio)
       if (!listForStudio || !listForStudio.rooms) return
-      console.log(listForStudio)
       return listForStudio.rooms.map((item, index) => {
         const percents = (listForStudio.totalProfit === 0) ? 0 : (item.totalProfit / listForStudio.totalProfit * 100).toFixed()
         const point = {

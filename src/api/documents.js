@@ -1,7 +1,3 @@
-import { ApiObject } from './abstractAPI'
+import { AbstractAPI } from './AbstractAPI'
 const API_URL = process.env.API_CABINET_URL
-// eslint-disable-next-line
-const documents = new ApiObject(`${API_URL}/documents`)
-export default {
-  documents
-}
+export const documents = new AbstractAPI(`${API_URL}/documents`)

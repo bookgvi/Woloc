@@ -2,10 +2,15 @@ import crudMixin from '../crudMixin'
 import api from '../../api'
 
 export default {
+  name: 'extras',
+  mixins: [crudMixin],
   data () {
     return {
       extrasForRoom: []
     }
+  },
+  created () {
+    this.getAll()
   },
   methods: {
     async getForCalendar (payload) {
@@ -23,9 +28,6 @@ export default {
         })
       }
       this.loading.list = false
-    },
-
-  },
-  name: 'extras',
-  mixins: [crudMixin],
+    }
+  }
 }

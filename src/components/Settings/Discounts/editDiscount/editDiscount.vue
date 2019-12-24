@@ -200,7 +200,7 @@ export default {
       this.singleStudioName = name
     }
     if (this.row.room) {
-      this.roomName = this.row.room.name
+      this.roomName = this.row.room.title || this.row.room.name
     } else {
       this.getRooms(this.singleStudioName)
     }
@@ -217,12 +217,12 @@ export default {
       this.$emit('hasModal')
     },
     async getRooms (studioName) {
-      const { items } = await this.$app.studios.getAll()
+      const { items } = await await this.$app.studios.getAll()
       const studio = items.filter(item => item.name === studioName).pop()
       this.roomName = ''
       this.roomsOptions = []
       if (studio.rooms[0]) {
-        this.roomName = studio.rooms[0].name
+        this.roomName = studio.rooms[0].name || studio.rooms[0].title
         this.roomId = studio.rooms[0].id
         this.roomsOptions = studio.rooms
       }
