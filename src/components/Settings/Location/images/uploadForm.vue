@@ -10,9 +10,7 @@
           )
       .row
         .col.q-pr-md
-          q-btn.bg-primary.text-white(type="submit" label="Отправить" :loading="submitting" style="width: 100%")
-            template(v-slot:loading)
-              q-spinner-facebook
+          q-btn.bg-primary.text-white(type="submit" label="Отправить" style="width: 100%")
         .col
           q-btn(label="Закрыть" @click="$emit('closeUploadDialogWithoutReload')" no-caps style="width: 100%")
 </template>
