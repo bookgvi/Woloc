@@ -1,8 +1,8 @@
 <template lang="pug">
   .interior
-    .row.q-pb-lg
+    .row.q-py-lg
       .col
-        .text-h5.text-bold Предметы интерьера
+        .text-h6 Предметы интерьера
     abstract-list(:dataArray="interiors")
 </template>
 

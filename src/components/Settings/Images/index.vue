@@ -1,7 +1,6 @@
 <template lang="pug">
   .images
-    .text-h6.q-mb-md(v-if="page === 'studios'") Изображения
-    .text-h5.text-bold.q-mb-md(v-if="page === 'room'") Изображения
+    .text-h6.q-mb-md Изображения
     .row.q-pb-sm
       .col
         q-btn.q-btn--no-uppercase(label="Выбрать файл" @click="showUploadFileDialog" outline dense)
@@ -62,7 +61,7 @@ export default {
     isServerResponse: false,
   }),
   watch: {
-    imgDataVM (oldVal, newVal) {
+    imgDataVM (newVal) {
       if (newVal.hasOwnProperty('images')) {
         this.isServerResponse = true
         this.imgSortMethod()
@@ -74,6 +73,12 @@ export default {
       get () {
         return this.imgData
       }
+    }
+  },
+  mounted () {
+    if (this.imgData.id) {
+      this.isServerResponse = true
+      this.imgSortMethod()
     }
   },
   methods: {
@@ -117,7 +122,7 @@ export default {
     },
     showUploadFileDialog () {
       if (!this.imgData.id) {
-        this.showNotif('Сначала создайте и сохраните локацию', 'orange')
+        // this.showNotif('Запрещено', 'orange')
         return
       }
       this.isModalForUploadFile = true
