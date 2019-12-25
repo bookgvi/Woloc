@@ -1,4 +1,5 @@
 import crudMixin from '../crudMixin'
+import api from '../../api'
 
 export default {
   name: 'studios',
@@ -21,6 +22,14 @@ export default {
       if (filter) {
         return this.list.find(({ id }) => id === filter.studio)
       } else return {}
+    },
+    async uploadImage (payload, config) {
+      try {
+        const r = await api.studios.uploadImage(payload, config)
+        return r
+      } catch (err) {
+        return err
+      }
     }
   }
 }
