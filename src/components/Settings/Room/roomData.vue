@@ -43,7 +43,15 @@
         q-select(v-model="roomStatus" :options="statuses" outlined dense)
       .col-4.q-pr-sm
         span Тип зала
-        q-select(v-model="currentRoomType" :options="roomType" outlined dense)
+        q-select(
+          class="name"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+          v-model="currentRoomType"
+          :options="roomType"
+          outlined
+          dense
+        )
       .col-4.q-pr-sm
         span Мин. кол-во часов&nbsp;
         span.text-red *
@@ -61,7 +69,15 @@
       span Предоплата
     .row.q-pb-lg
       .col-7.q-pr-sm
-        q-select(v-model="needPrepayment" :options="prepay" outlined dense)
+        q-select(
+          class="needPrepayment"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+          v-model="needPrepayment"
+          :options="prepay"
+          outlined
+          dense
+        )
 </template>
 
 <script>

@@ -16,7 +16,7 @@
 
 <script>
 import location from './main'
-import { Util } from './helper/utils'
+import { Util } from '../Helper/utils'
 const emptyLocation = new Util()
 export default {
   name: 'setting',
