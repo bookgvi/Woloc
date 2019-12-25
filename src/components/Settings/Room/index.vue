@@ -70,6 +70,7 @@ import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
 import RoomList from './roomList'
+import { room } from '../../../api/room'
 import { Util } from '../Helper/utils'
 
 const emptyRoom = new Util()
@@ -192,7 +193,8 @@ export default {
       const backgrounds = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.backgrounds))
       const extras = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.extras))
       const characteristics = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.characteristics))
-      console.log('QQQ')
+      const jsonData = JSON.stringify(await room.getDefaultPrices())
+      const { data } = JSON.parse(jsonData)
 
       this.currentRoomData = {
         isRoom: 1,
@@ -201,6 +203,7 @@ export default {
         backgrounds,
         extras,
         characteristics,
+        payment: data.payment,
         studio: {
           id: filter.studio
         },
