@@ -21,6 +21,9 @@
             :roomData="currentRoomData"
             :isRequired="isRequired"
           )
+          Google(
+            :roomData="currentRoomData"
+          )
           specifications(
             v-if="currentRoomData.hasOwnProperty('description')"
             :specification="currentRoomData"
@@ -58,6 +61,7 @@
 
 <script>
 import roomData from './roomData'
+import Google from './Google'
 import specifications from './specifications'
 import payment from './payment'
 import images from './images'
@@ -94,6 +98,7 @@ export default {
     StudioFilter,
     FiltersList,
     roomData,
+    Google,
     specifications,
     payment,
     images,

@@ -62,9 +62,6 @@
     .row.q-pb-lg
       .col-7.q-pr-sm
         q-select(v-model="needPrepayment" :options="prepay" outlined dense)
-      // TODO - Сделать позжее!!!!
-      // .col.q-pa-none
-        q-btn.bg-primary.text-white(label="Привязать google календарь" no-caps)
 </template>
 
 <script>
