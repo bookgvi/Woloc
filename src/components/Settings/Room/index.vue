@@ -29,9 +29,11 @@
           payment(
             :payment="currentRoomData.payment"
           )
-          // -------------- TODO --------------------
-          // images
-          // ----------------------------------------
+          images(
+            :imgData="currentRoomData"
+            @reloadPage="reloadData++"
+            :page="page"
+          )
           interior(
             :interiors="currentRoomData.interiors"
           )
@@ -60,7 +62,7 @@
 import roomData from './roomData'
 import specifications from './specifications'
 import payment from './payment'
-import images from './images'
+import images from '../Images/index'
 import interior from './interior'
 import backgrounds from './backgrounds'
 import additionalServices from './additionalServices'
@@ -72,6 +74,7 @@ import RoomList from './roomList'
 export default {
   data () {
     return {
+      page: 'room',
       createRoomAfterLocation: false,
       defaultStudio: {},
       defaultRooms: {},

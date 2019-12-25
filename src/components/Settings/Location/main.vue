@@ -11,7 +11,7 @@
         .col-6
           dataBlock(:singleStudio="singleStudio")
           specifications(:singleStudio="singleStudio")
-          images(:singleStudio="singleStudio" @reloadPage="$emit('reloadPage')")
+          images(:imgData="singleStudio" :page="page" @reloadPage="$emit('reloadPage')")
           addressBlock(:singleStudio="singleStudio")
           services(:singleStudio="singleStudio")
           equipment(:singleStudio="singleStudio")
@@ -34,7 +34,7 @@
 <script>
 import dataBlock from './data'
 import specifications from './specifications'
-import images from './images/index'
+import images from '../Images/index'
 import addressBlock from './address'
 import services from './services'
 import equipment from './equipment'
@@ -61,6 +61,11 @@ export default {
     rooms: Array,
     studioID: Number,
     isSave: Boolean
+  },
+  data () {
+    return {
+      page: 'studios'
+    }
   }
 }
 </script>
