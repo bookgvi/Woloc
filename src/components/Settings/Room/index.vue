@@ -6,8 +6,8 @@
           studio-filter(v-bind="props")
         template(#append)
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
-    .content--content2(:key="filterChanged.studio")
-      .row.q-py-md.q-pr-sm(:key="reloadData")
+    .content--content2(:key="reloadData")
+      .row.q-py-md.q-pr-sm(:key="filterChanged.studio")
         .col-3.bg-white
           room-list(
             :rooms="rooms"

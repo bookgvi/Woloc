@@ -33,15 +33,17 @@ export default {
       this.submitting = true
       const config = { 'content-type': 'multipart/form-data' }
       const formData = new FormData()
+      const len = this.page.length
+      const page = this.page[len - 1] === 's' ? this.page.slice(0, len - 1) : this.page
       formData.append('sort', this.imgData.images.length)
-      formData.append('studio', this.imgData.id)
+      formData.append(page, this.imgData.id)
       formData.append('image', this.attachment)
 
       const result = await this.$app[this.page].uploadImage(formData, config)
       if (result.hasOwnProperty('data')) {
-        this.submitting = false
-        this.$emit('closeUploadDialog')
         this.showNotif('Изображение успешно добавлено', 'green')
+        this.$emit('closeUploadDialog')
+        this.submitting = false
       } else if (result.hasOwnProperty('errors')) {
         this.showNotif('Возникла ошибка. Попробуйте ещё раз или выберите другой файл', 'orange')
       } else {

@@ -76,14 +76,14 @@ export default {
     }
   },
   mounted () {
-    if (this.imgData.id) {
+    if (this.imgData && this.imgData.hasOwnProperty('images') && this.imgData.images.length) {
       this.isServerResponse = true
       this.imgSortMethod()
     }
   },
   methods: {
     srcVM (val) {
-      return `http://pre.ugoloc.ucann.ru/${val}`
+      return `${val}`
     },
     imgSortMethod () {
       if (this.imgDataVM && this.imgDataVM.hasOwnProperty('images')) {
