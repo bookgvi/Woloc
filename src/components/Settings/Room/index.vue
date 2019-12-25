@@ -237,17 +237,17 @@ export default {
     },
     isDefaultNotEqualCurrent (obj, defaultObj) {
       for (let key in obj) {
-        if (Array.isArray(obj[key])) {
+        if (Array.isArray(obj[key]) && key !== 'images') {
           for (let index = 0, arrLength = obj[key].length; index < arrLength; index++) {
             if (this.isDefaultNotEqualCurrent(obj[key][index], defaultObj[key][index])) {
               return true
             }
           }
-        } else if (typeof obj[key] === 'object') {
+        } else if (typeof obj[key] === 'object' && key !== 'images') {
           if (this.isDefaultNotEqualCurrent(obj[key], defaultObj[key])) {
             return true
           }
-        } else {
+        } else if (key !== 'images') {
           if (String(obj[key]) !== String(defaultObj[key])) {
             return true
           }
