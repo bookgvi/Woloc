@@ -162,8 +162,6 @@ export default {
     opacity .2
   .q-table thead, .q-table td, .q-table th
     border-width 0px
-  .q-table--no-wrap th, .q-table--no-wrap td
-    white-space normal
   .q-table tbody tr
     .active
       cursor: pointer
@@ -176,15 +174,19 @@ export default {
         overflow hidden
         display block
     .rooms-col
-      width 500px
+      max-width 400px
+      overflow hidden
+      text-overflow ellipsis
       .q-chip
         border-radius 3px
-        display inline
+        max-width 100px
+        overflow hidden
+        text-overflow ellipsis
       .q-chip__content
         white-space nowrap
         text-overflow ellipsis
         overflow hidden
-        display inline
+        display block
     .purpose-col .q-chip
       width 100px
       border-radius 3px
