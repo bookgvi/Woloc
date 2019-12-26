@@ -1,5 +1,6 @@
 <template lang="pug">
   q-dialog(
+    persistent
     v-model="dialogState"
   )
     q-card.q-py-md(
@@ -281,7 +282,16 @@ export default {
     setParamsForPost () {
       if (!this.newBooking.customer.fullName) {
         Notify.create({
-          message: `Выберите клиента`,
+          message: `Введите имя`,
+          color: 'negative',
+          position: 'bottom-left',
+          icon: 'warning'
+        })
+        return null
+      }
+      if (!this.newBooking.customer.email) {
+        Notify.create({
+          message: `Введите адрес эл. почты`,
           color: 'negative',
           position: 'bottom-left',
           icon: 'warning'

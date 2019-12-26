@@ -1,5 +1,6 @@
 <template lang="pug">
   q-dialog(
+    persistent
     v-model="dialogState"
   )
     q-card.q-py-md(
