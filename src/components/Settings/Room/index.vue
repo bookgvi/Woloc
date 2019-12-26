@@ -16,13 +16,14 @@
           )
         .col-6
           roomData(
-            v-if="currentRoomData.hasOwnProperty('status')"
             :currentStudio="currentStudio"
             :roomData="currentRoomData"
             :isRequired="isRequired"
           )
+          Google(
+            :roomData="currentRoomData"
+          )
           specifications(
-            v-if="currentRoomData.hasOwnProperty('description')"
             :specification="currentRoomData"
             :isRequired="isRequired"
           )
@@ -58,6 +59,7 @@
 
 <script>
 import roomData from './roomData'
+import Google from './Google'
 import specifications from './specifications'
 import payment from './payment'
 import images from './images'
@@ -67,8 +69,11 @@ import additionalServices from './additionalServices'
 import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
-import { room } from '../../../api/room'
 import RoomList from './roomList'
+import { room } from '../../../api/room'
+import { Util } from '../Helper/utils'
+
+const emptyRoom = new Util()
 export default {
   data () {
     return {
@@ -94,6 +99,7 @@ export default {
     StudioFilter,
     FiltersList,
     roomData,
+    Google,
     specifications,
     payment,
     images,
@@ -182,11 +188,27 @@ export default {
     },
     async createNew () {
       const filter = this.$app.filters.getValues('settings')
-      const jsonData = JSON.stringify(await room.getDefault())
-      const { data } = JSON.parse(jsonData)
       this.currentStudio = this.$app.studios.getFiltered(filter)
-      this.currentRoomData = data
-      this.currentRoomData.studio.id = filter.studio
+      const interiors = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.interiors))
+      const backgrounds = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.backgrounds))
+      const extras = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.extras))
+      const characteristics = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.characteristics))
+      const jsonData = JSON.stringify(await room.getDefaultPrices())
+      const { data } = JSON.parse(jsonData)
+
+      this.currentRoomData = {
+        isRoom: 1,
+        needPrepayment: 1,
+        interiors,
+        backgrounds,
+        extras,
+        characteristics,
+        payment: data.payment,
+        studio: {
+          id: filter.studio
+        },
+        images: []
+      }
       this.isPost = true
       this.createRoomAfterLocation = true
       // this.reloadData++
