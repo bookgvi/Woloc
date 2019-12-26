@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     srcVM (val) {
-      return `${val}`
+      return `https://ugoloc-1038.shot.ugoloc.ucann.ru/${val}`
     },
     imgSortMethod () {
       if (this.imgDataVM && this.imgDataVM.hasOwnProperty('images')) {
