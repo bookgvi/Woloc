@@ -4,10 +4,10 @@
     v-model="dialogState"
   )
     q-card.q-py-md(
-      style="width: 330px"
+      style="width: 400px"
     )
       q-card-section.q-pa-none(
-        style="width: 330px"
+        style="width: 400px"
       )
         q-list.text-body2.text-black.text-weight-bold(
           dense
@@ -20,7 +20,8 @@
           )
             template(v-slot:header).row.items-center
               .col-4.q-py-sm
-                span {{ "Клиент" }}
+                span {{ "Клиент" }}&nbsp
+                span.text-red *
               .col-7.q-py-sm
                 span.text-grey {{ customerSlot }}
             calendar-customer.q-pa-md(
@@ -34,7 +35,8 @@
           )
             template(v-slot:header)
               .col-4.q-py-sm
-                span {{ "Зал" }}
+                span {{ "Зал" }}&nbsp
+                span.text-red *
               .col-7.q-py-sm
                 span.text-grey {{ roomSlot }}
             calendar-room.q-pa-md(
@@ -78,7 +80,8 @@
           )
             template(v-slot:header)
               .col-4.q-py-sm
-                span {{ "Цель" }}
+                span {{ "Цель" }}&nbsp
+                span.text-red *
               .col-7.q-py-sm
                 span.text-grey {{ eventSlot }}
             calendar-event.q-pa-md(
