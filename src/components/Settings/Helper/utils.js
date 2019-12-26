@@ -11,7 +11,7 @@ Util.prototype.clearExtras = function (payload) {
 Util.prototype.clearData = function (payload) {
   for (let key in payload) {
     if (typeof payload[key] !== 'object') {
-      if (key === 'presentsInStudio') {
+      if (key === 'presentsInStudio' || key === 'isChecked') {
         payload[key] = false
       }
     } else {
@@ -21,5 +21,6 @@ Util.prototype.clearData = function (payload) {
 }
 
 Util.prototype.cloneObject = function (obj) {
+  if (!obj) return []
   return JSON.parse(JSON.stringify(obj))
 }
