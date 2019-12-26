@@ -9,7 +9,7 @@
         hide-selected
         @filter="filterFn"
         use-input
-        input-debounce="500"
+        input-debounce="0"
         hide-dropdown-icon
         options-dense
         placeholder="Пользователь"
@@ -17,7 +17,6 @@
         :option-value="opt => opt === null ? '' : opt.fullName"
         :option-label="opt => opt === null ? '' : opt.fullName"
         v-model="customerName"
-        @input.native="inputNewCustomer"
         new-value-mode="add"
         )
     .col-12
@@ -51,6 +50,9 @@ export default {
     }
   },
   computed: {
+    customerComp () {
+      return this.customerChange()
+    },
     customerName: {
       get () {
         return this.customer
@@ -64,9 +66,6 @@ export default {
           }
         }
       }
-    },
-    customerComp () {
-      return this.customerChange()
     },
     phone: {
       get () {
@@ -95,14 +94,9 @@ export default {
         return
       }
       await this.$app.customers.getForCalendar(val.toLowerCase())
-      update()
-    },
-    inputNewCustomer (e) {
-      if (!this.customerName.fullName) {
-        this.customerName.fullName = e.data
-      } else {
-        this.customerName.fullName += e.data
-      }
+      update(_ => {
+        this.customer.fullName = val
+      })
     }
   },
   props: {
@@ -114,13 +108,9 @@ export default {
   watch: {
     'startCustomer.customer': {
       handler (v) {
-        this.customer = v ? Object.assign(v)
-          : {
-            firstName: '',
-            fullName: '',
-            phone: '',
-            email: ''
-          }
+        if (v && v.hasOwnProperty('id') && v.id) {
+          this.customer = Object.assign(v)
+        }
       },
       immediate: true
     }
