@@ -391,7 +391,15 @@ export default {
         priceType: this.newBooking.eventType,
         extras: extras,
         members: this.newBooking.members,
-        managerComment: this.newBooking.managerComment || ''
+        managerComment: this.newBooking.managerComment || '',
+        consumerId: this.newBooking.customer.id || null,
+        customer: {
+          fullName: this.newBooking.customer.fullName,
+          firstName: this.newBooking.customer.firstName || '',
+          phone: this.newBooking.customer.phone || '',
+          email: this.newBooking.customer.email || '',
+          id: this.newBooking.customer.id || null
+        }
       }
       // console.log('put', params)
       return {
@@ -406,7 +414,11 @@ export default {
       if (index === -1) {
         const payload = this.setParamsForPost()
         if (payload) {
-          await this.$app.bookings.addNew(payload)
+          const result = await this.$app.bookings.addNew(payload)
+          if (result && result.hasOwnProperty('errors')) {
+            this.showNotif('Проверьте поле с адресом электронной почты', 'orange')
+            return
+          }
           if (this.$app.bookings.idOfJustAdded !== 0) {
             this.$emit('setQueryState', true)
             this.$app.extras.extrasForRoom = []
@@ -423,6 +435,12 @@ export default {
         }
       }
       // console.log(9, this.newBooking.id, index)
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   },
   props: {
