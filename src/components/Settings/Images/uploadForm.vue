@@ -44,6 +44,7 @@ export default {
         this.showNotif('Изображение успешно добавлено', 'green')
         this.$emit('closeUploadDialog')
         this.submitting = false
+        this.imgData.images.push(result.data)
       } else if (result.hasOwnProperty('errors')) {
         this.showNotif('Возникла ошибка. Попробуйте ещё раз или выберите другой файл', 'orange')
       } else {

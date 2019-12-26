@@ -106,7 +106,6 @@ export default {
     },
     closeUploadDialog () {
       this.isModalForUploadFile = false
-      this.$emit('reloadPage')
     },
     closeUploadDialogWithoutReload () {
       this.isModalForUploadFile = false
@@ -122,7 +121,6 @@ export default {
     },
     showUploadFileDialog () {
       if (!this.imgData.id) {
-        // this.showNotif('Запрещено', 'orange')
         return
       }
       this.isModalForUploadFile = true
