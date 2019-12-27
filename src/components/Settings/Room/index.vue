@@ -6,8 +6,8 @@
           studio-filter(v-bind="props")
         template(#append)
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
-    .content--content2(:key="filterChanged.studio")
-      .row.q-py-md.q-pr-sm(:key="reloadData")
+    .content--content2(:key="reloadData")
+      .row.q-py-md.q-pr-sm(:key="filterChanged.studio")
         .col-3.bg-white
           room-list(
             :rooms="rooms"
@@ -30,9 +30,11 @@
           payment(
             :payment="currentRoomData.payment"
           )
-          // -------------- TODO --------------------
-          // images
-          // ----------------------------------------
+          images(
+            :imgData="currentRoomData"
+            @reloadPage="reloadData++"
+            :page="page"
+          )
           interior(
             :interiors="currentRoomData.interiors"
           )
@@ -62,7 +64,7 @@ import roomData from './roomData'
 import Google from './Google'
 import specifications from './specifications'
 import payment from './payment'
-import images from './images'
+import images from '../Images/index'
 import interior from './interior'
 import backgrounds from './backgrounds'
 import additionalServices from './additionalServices'
@@ -77,6 +79,7 @@ const emptyRoom = new Util()
 export default {
   data () {
     return {
+      page: 'room',
       createRoomAfterLocation: false,
       defaultStudio: {},
       defaultRooms: {},
@@ -256,17 +259,17 @@ export default {
     },
     isDefaultNotEqualCurrent (obj, defaultObj) {
       for (let key in obj) {
-        if (Array.isArray(obj[key])) {
+        if (Array.isArray(obj[key]) && key !== 'images') {
           for (let index = 0, arrLength = obj[key].length; index < arrLength; index++) {
             if (this.isDefaultNotEqualCurrent(obj[key][index], defaultObj[key][index])) {
               return true
             }
           }
-        } else if (typeof obj[key] === 'object') {
+        } else if (typeof obj[key] === 'object' && key !== 'images') {
           if (this.isDefaultNotEqualCurrent(obj[key], defaultObj[key])) {
             return true
           }
-        } else {
+        } else if (key !== 'images') {
           if (String(obj[key]) !== String(defaultObj[key])) {
             return true
           }
