@@ -2,7 +2,7 @@
   .additional
     .row.q-pb-lg
       .col
-        .text-h5.text-bold Доп. услуги
+        .text-h6 Доп. услуги
     abstract-list(:dataArray="extras")
 </template>
 

@@ -2,7 +2,7 @@
   .backgrounds
     .row.q-pb-lg
       .col
-        .text-h5.text-bold Фоны
+        .text-h6 Фоны
     abstract-list(:dataArray="backgrounds")
 </template>
 

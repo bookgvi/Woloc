@@ -48,7 +48,10 @@ instance.interceptors.request.use(
 
 // response interceptor
 instance.interceptors.response.use(
-  response => response,
+  response => {
+    Loading.hide()
+    return response
+  },
   error => {
     Loading.hide()
     const response = error.response
