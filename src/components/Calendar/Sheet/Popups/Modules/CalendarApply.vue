@@ -8,6 +8,7 @@
         outline
       )
       q-btn.col-5.text-body2.text-weight-bold.bg-primary.text-white(
+        class="btnApply"
         no-caps
         @click="saveBooking"
         color="positive"

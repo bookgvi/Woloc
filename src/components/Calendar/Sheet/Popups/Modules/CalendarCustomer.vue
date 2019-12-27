@@ -4,7 +4,7 @@
       .col
         span Пользователь &nbsp
         span.text-red *
-    .row
+    .row.q-pb-sm
       .col
         q-select.text-body2.text-weight-bold(
           outlined
@@ -23,12 +23,14 @@
           :option-label="opt => opt === null ? '' : opt.fullName"
           v-model="customerName"
           new-value-mode="add"
+          class="fullName"
           :rules="[val => !!val.fullName || 'Обязательно для заполнения']"
           lazy-rules
         )
     .row.q-pb-sm
       .col
-        span Телефон
+        span Телефон &nbsp
+        span.text-red *
     .row.q-pb-md
       .col
         q-input.text-body2.text-weight-bold(
@@ -37,17 +39,21 @@
           unmasked-value
           placeholder="Телефон"
           v-model="phone"
+          class="phone"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
         )
     .row.q-pb-sm
       .col
         span Эл. почта &nbsp
         span.text-red *
-    .row
+    .row.q-pb-sm
       .col
         q-input.text-body2.text-weight-bold(
           outlined
           placeholder="Эл. почта"
           v-model="email"
+          class="email"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           lazy-rules
         ) {{ customerComp }}

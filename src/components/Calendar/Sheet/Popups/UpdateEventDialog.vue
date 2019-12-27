@@ -15,7 +15,7 @@
           q-expansion-item(
             group="new-event"
             dense
-            default-opened
+            v-model="customerExpansionItem"
             v-if="!booking.technical"
           )
             template(v-slot:header).row.items-center
@@ -32,6 +32,7 @@
           q-expansion-item(
             group="new-event"
             dense
+            v-model="roomExpansionItem"
           )
             template(v-slot:header)
               .col-4.q-py-sm
@@ -77,6 +78,7 @@
             group="new-event"
             dense
             v-if="!booking.technical"
+            v-model="purposeExpansionItem"
           )
             template(v-slot:header)
               .col-4.q-py-sm
@@ -191,6 +193,9 @@ export default {
   },
   data () {
     return {
+      customerExpansionItem: true,
+      roomExpansionItem: false,
+      purposeExpansionItem: false,
       newBooking: {},
       helpers: {
         date: '',
@@ -282,23 +287,19 @@ export default {
     setQueryState (state) {
       this.$emit('setQueryState', state)
     },
-    setParamsForPost () {
-      if (!this.newBooking.customer.fullName) {
-        Notify.create({
-          message: `Введите имя`,
-          color: 'negative',
-          position: 'bottom-left',
-          icon: 'warning'
-        })
-        return null
-      }
-      if (!this.newBooking.customer.email) {
-        Notify.create({
-          message: `Введите адрес эл. почты`,
-          color: 'negative',
-          position: 'bottom-left',
-          icon: 'warning'
-        })
+    async setParamsForPost () {
+      const fullName = document.querySelector('.fullName')
+      const phone = document.querySelector('.phone')
+      const email = document.querySelector('.email')
+      const btnApply = document.querySelector('.btnApply')
+      if (!this.newBooking.customer.fullName || !this.newBooking.customer.phone || !this.newBooking.customer.email) {
+        this.customerExpansionItem = true // Развернуть блок
+        this.showNotif('Заполните обязательные поля')
+        await this.$nextTick()
+        fullName.focus()
+        phone.focus()
+        email.focus()
+        btnApply.focus()
         return null
       }
       if (!this.newBooking.room) {
@@ -308,6 +309,7 @@ export default {
           position: 'bottom-left',
           icon: 'warning'
         })
+        this.roomExpansionItem = true // Развернуть блок
         return null
       }
       if (!this.newBooking.eventType) {
@@ -317,6 +319,7 @@ export default {
           position: 'bottom-left',
           icon: 'warning'
         })
+        this.purposeExpansionItem = true // Развернуть блок
         return null
       }
       let extras = []
@@ -415,11 +418,11 @@ export default {
       this.newBooking.reservedTo = this.reservedTime.to
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
       if (index === -1) {
-        const payload = this.setParamsForPost()
+        const payload = await this.setParamsForPost()
         if (payload) {
           const result = await this.$app.bookings.addNew(payload)
-          if (result && result.hasOwnProperty('errors')) {
-            this.showNotif('Проверьте поле с адресом электронной почты', 'orange')
+          if (result && (result.hasOwnProperty('errors') || !result.hasOwnProperty('data'))) {
+            this.showNotif('Неудалось создать бронь.', 'orange')
             return
           }
           if (this.$app.bookings.idOfJustAdded !== 0) {
