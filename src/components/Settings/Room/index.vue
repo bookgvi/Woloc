@@ -217,7 +217,7 @@ export default {
       // this.reloadData++
     },
     async saveChanges () {
-      if (this.isPost) {
+      if (this.isPost || !this.currentRoomData.id) {
         const result = await this.$app.room.addNew(this.currentRoomData)
         if (result && result.hasOwnProperty('errors') && result.errors.length) {
           this.showNotif('Ошибка создания зала. Проверьте обязательные поля')
