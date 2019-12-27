@@ -70,6 +70,14 @@ export default {
       }
       this.loading.one = false
       return res
+    },
+    async uploadImage (payload, config) {
+      try {
+        const r = await api[this.pageName].uploadImage(payload, config)
+        return r
+      } catch (err) {
+        return err
+      }
     }
   }
 }

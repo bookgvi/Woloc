@@ -8,7 +8,7 @@ const currentURL = (_ => {
   let isCabinet = currentURL.hostname.split('.')
   if (baseURL === 'localhost') {
     baseURL = 'https://pre.ugoloc.ucann.ru'
-    // baseURL = 'https://ugoloc-996.shot.ugoloc.ucann.ru'
+    // baseURL = 'https://ugoloc-1038.shot.ugoloc.ucann.ru'
   } else if (isCabinet[0] === `cabinet`) {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
@@ -48,7 +48,10 @@ instance.interceptors.request.use(
 
 // response interceptor
 instance.interceptors.response.use(
-  response => response,
+  response => {
+    Loading.hide()
+    return response
+  },
   error => {
     Loading.hide()
     const response = error.response

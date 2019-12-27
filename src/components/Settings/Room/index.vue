@@ -6,8 +6,8 @@
           studio-filter(v-bind="props")
         template(#append)
           q-btn.q-btn--no-uppercase(label="Добавить зал" dense color="primary" @click="createNew")
-    .content--content2(:key="filterChanged.studio")
-      .row.q-py-md.q-pr-sm(:key="reloadData")
+    .content--content2(:key="reloadData")
+      .row.q-py-md.q-pr-sm(:key="filterChanged.studio")
         .col-3.bg-white
           room-list(
             :rooms="rooms"
@@ -16,22 +16,25 @@
           )
         .col-6
           roomData(
-            v-if="currentRoomData.hasOwnProperty('status')"
             :currentStudio="currentStudio"
             :roomData="currentRoomData"
             :isRequired="isRequired"
           )
+          Google(
+            :roomData="currentRoomData"
+          )
           specifications(
-            v-if="currentRoomData.hasOwnProperty('description')"
             :specification="currentRoomData"
             :isRequired="isRequired"
           )
           payment(
             :payment="currentRoomData.payment"
           )
-          // -------------- TODO --------------------
-          // images
-          // ----------------------------------------
+          images(
+            :imgData="currentRoomData"
+            @reloadPage="reloadData++"
+            :page="page"
+          )
           interior(
             :interiors="currentRoomData.interiors"
           )
@@ -58,20 +61,25 @@
 
 <script>
 import roomData from './roomData'
+import Google from './Google'
 import specifications from './specifications'
 import payment from './payment'
-import images from './images'
+import images from '../Images/index'
 import interior from './interior'
 import backgrounds from './backgrounds'
 import additionalServices from './additionalServices'
 import services from './services'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
-import { room } from '../../../api/room'
 import RoomList from './roomList'
+import { room } from '../../../api/room'
+import { Util } from '../Helper/utils'
+
+const emptyRoom = new Util()
 export default {
   data () {
     return {
+      page: 'room',
       createRoomAfterLocation: false,
       defaultStudio: {},
       defaultRooms: {},
@@ -94,6 +102,7 @@ export default {
     StudioFilter,
     FiltersList,
     roomData,
+    Google,
     specifications,
     payment,
     images,
@@ -182,11 +191,27 @@ export default {
     },
     async createNew () {
       const filter = this.$app.filters.getValues('settings')
-      const jsonData = JSON.stringify(await room.getDefault())
-      const { data } = JSON.parse(jsonData)
       this.currentStudio = this.$app.studios.getFiltered(filter)
-      this.currentRoomData = data
-      this.currentRoomData.studio.id = filter.studio
+      const interiors = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.interiors))
+      const backgrounds = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.backgrounds))
+      const extras = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.extras))
+      const characteristics = emptyRoom.clearExtras(emptyRoom.cloneObject(this.currentRoomData.characteristics))
+      const jsonData = JSON.stringify(await room.getDefaultPrices())
+      const { data } = JSON.parse(jsonData)
+
+      this.currentRoomData = {
+        isRoom: 1,
+        needPrepayment: 1,
+        interiors,
+        backgrounds,
+        extras,
+        characteristics,
+        payment: data.payment,
+        studio: {
+          id: filter.studio
+        },
+        images: []
+      }
       this.isPost = true
       this.createRoomAfterLocation = true
       // this.reloadData++
@@ -234,17 +259,17 @@ export default {
     },
     isDefaultNotEqualCurrent (obj, defaultObj) {
       for (let key in obj) {
-        if (Array.isArray(obj[key])) {
+        if (Array.isArray(obj[key]) && key !== 'images') {
           for (let index = 0, arrLength = obj[key].length; index < arrLength; index++) {
             if (this.isDefaultNotEqualCurrent(obj[key][index], defaultObj[key][index])) {
               return true
             }
           }
-        } else if (typeof obj[key] === 'object') {
+        } else if (typeof obj[key] === 'object' && key !== 'images') {
           if (this.isDefaultNotEqualCurrent(obj[key], defaultObj[key])) {
             return true
           }
-        } else {
+        } else if (key !== 'images') {
           if (String(obj[key]) !== String(defaultObj[key])) {
             return true
           }

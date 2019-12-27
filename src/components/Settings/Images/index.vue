@@ -1,7 +1,6 @@
 <template lang="pug">
   .images
-    .text-h6.q-mb-md(v-if="page === 'studios'") Изображения
-    .text-h5.text-bold.q-mb-md(v-if="page === 'room'") Изображения
+    .text-h6.q-mb-md Изображения
     .row.q-pb-sm
       .col
         q-btn.q-btn--no-uppercase(label="Выбрать файл" @click="showUploadFileDialog" outline dense)
@@ -62,7 +61,7 @@ export default {
     isServerResponse: false,
   }),
   watch: {
-    imgDataVM (oldVal, newVal) {
+    imgDataVM (newVal) {
       if (newVal.hasOwnProperty('images')) {
         this.isServerResponse = true
         this.imgSortMethod()
@@ -76,9 +75,15 @@ export default {
       }
     }
   },
+  mounted () {
+    if (this.imgData && this.imgData.hasOwnProperty('images') && this.imgData.images.length) {
+      this.isServerResponse = true
+      this.imgSortMethod()
+    }
+  },
   methods: {
     srcVM (val) {
-      return `http://pre.ugoloc.ucann.ru/${val}`
+      return `${val}`
     },
     imgSortMethod () {
       if (this.imgDataVM && this.imgDataVM.hasOwnProperty('images')) {
@@ -101,7 +106,6 @@ export default {
     },
     closeUploadDialog () {
       this.isModalForUploadFile = false
-      this.$emit('reloadPage')
     },
     closeUploadDialogWithoutReload () {
       this.isModalForUploadFile = false
@@ -117,7 +121,6 @@ export default {
     },
     showUploadFileDialog () {
       if (!this.imgData.id) {
-        this.showNotif('Сначала создайте и сохраните локацию', 'orange')
         return
       }
       this.isModalForUploadFile = true
