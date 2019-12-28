@@ -58,12 +58,7 @@
       .row
         q-input(v-model="dataset.maxLimit" outlined)
     .row.q-py-md
-      .text-h6 Изображения
-    //.row.q-pb-xs
-      q-btn(outline dense label="Выбрать файл")
-    .row.no-wrap.q-pb-md
-      q-img(:src="dataset.image | imgUrl" style="height: 150px; max-width: 150px")
-        q-btn.absolute-top-right(icon="close" class="block" dense flat color="white")
+      images(:imgData="dataset" :page="page")
     .row.q-pb-md.justify-center
       .col-6.q-pa-sm
         q-btn.fit.bg-white.text-black(label="Удалить" no-caps outline size="1.3em" color="grey-8" @click="deleteOne")
@@ -75,8 +70,7 @@
 import FiltersList from '../../../Filters/FiltersList'
 import RoomsFilter from '../../../Filters/RoomsFilter'
 import { extras } from '../../../../api/extras'
-import { showNotif } from '../../../../utils/helpers'
-
+import Images from '../../Images/index'
 export default {
   name: 'modalForExtras',
   props: {
@@ -87,10 +81,12 @@ export default {
     isPost: Boolean
   },
   components: {
+    Images,
     FiltersList,
     RoomsFilter
   },
   data: () => ({
+    page: 'extras',
     isLimit: false,
     selected: []
   }),
@@ -142,29 +138,21 @@ export default {
           result.errors.forEach(item => {
             if (item.source !== 'rooms') this.dataset[item.source] = ''
           })
-          showNotif('Ошибка')
         } else {
-          showNotif('Услуга добавлена', 'green')
           this.$emit('hasPostOrPut')
         }
       } else {
         this.publishedAt = new Date()
         this.dataset.amount = Number(this.dataset.amount)
         const result = await this.$app.extras.updateOne({ id: this.dataset.id, data: this.dataset })
-        if (!result.hasOwnProperty('data')) {
-          showNotif('Ошибка при сохранении изменений')
-        } else {
-          showNotif('Изменения сохранены', 'green')
+        if (result.hasOwnProperty('data')) {
           this.$emit('hasPostOrPut')
         }
       }
     },
     async deleteOne () {
-      const result = await extras.deleteOne(this.dataset.id)
-      if (!result.hasOwnProperty('data')) {
-        showNotif('Ошибка удаления услуги')
-      } else {
-        showNotif('Услуга удалена', 'orange')
+      const result = await extras.deleteOne({ id: this.dataset.id })
+      if (result.hasOwnProperty('data')) {
         this.$emit('hasPostOrPut')
       }
     }

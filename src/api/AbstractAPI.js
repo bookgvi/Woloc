@@ -60,9 +60,12 @@ AbstractAPI.prototype = {
     const { id } = payload
     try {
       const r = await api.delete(`${this.url}/${id}`)
+      showNotif('Успешно', 'green')
       return r.data
     } catch (e) {
       console.warn('catch :: deleteOne', e)
+      showNotif('Ошибка ', 'red')
+      return e
     }
   },
 
