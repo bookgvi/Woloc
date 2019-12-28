@@ -69,7 +69,6 @@
 <script>
 import FiltersList from '../../../Filters/FiltersList'
 import RoomsFilter from '../../../Filters/RoomsFilter'
-import { extras } from '../../../../api/extras'
 import Images from '../../Images/index'
 export default {
   name: 'modalForExtras',
@@ -151,7 +150,7 @@ export default {
       }
     },
     async deleteOne () {
-      const result = await extras.deleteOne({ id: this.dataset.id })
+      const result = await this.$app.extras.deleteOne(this.dataset.id)
       if (result.hasOwnProperty('data')) {
         this.$emit('hasPostOrPut')
       }
