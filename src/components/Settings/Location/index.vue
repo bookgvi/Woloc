@@ -89,7 +89,7 @@ export default {
         console.warn('Заполните обязательные поля')
         showNotif('Заполните обязательные поля')
         this.requiredFields.forEach(item => {
-          this.highLightRequired(item)
+          util.highLightRequired(item)
         })
         return
       }
@@ -127,7 +127,7 @@ export default {
         console.warn('Заполните обязательные поля')
         showNotif('Заполните обязательные поля')
         this.requiredFields.forEach(item => {
-          this.highLightRequired(item)
+          util.highLightRequired(item)
         })
         return
       }
@@ -155,25 +155,13 @@ export default {
       if (errors) {
         errors.forEach(item => {
           this.singleStudio[item.source] = ''
-          this.highLightRequired(item.source)
+          util.highLightRequired(item.source)
         })
       } else if (data) {
         this.isSave = false
         await this.$app.filters.setValue('settings', 'studio', data.id)
         this.$router.push({ path: '/settings/room', query: { createRoom: true } })
       }
-    },
-    /*
-    * Метод подсветки незаполненных обязательных полей
-    * Поля, для которых стоят правила валидации использую аттрибут lazy-rules,
-    * которое срабатывает при потере фокуса
-    * */
-    highLightRequired (fieldClass) {
-      const field = document.querySelector(`.${fieldClass} input`)
-      this.$nextTick(_ => {
-        field.focus()
-        field.blur()
-      })
     }
   }
 }

@@ -103,6 +103,8 @@ export default {
     },
     closeUploadDialog () {
       this.isModalForUploadFile = false
+      if (this.page === 'studios') return
+      this.$emit('reloadPage')
     },
     closeUploadDialogWithoutReload () {
       this.isModalForUploadFile = false

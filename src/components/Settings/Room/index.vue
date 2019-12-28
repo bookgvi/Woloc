@@ -74,9 +74,9 @@ import FiltersList from '../../Filters/FiltersList'
 import RoomList from './roomList'
 import { room } from '../../../api/room'
 import { Util } from '../Helper/utils'
-import { showNotif } from '../../../utils/helpers'
 
 const emptyRoom = new Util()
+const util = new Util()
 export default {
   data () {
     return {
@@ -157,7 +157,7 @@ export default {
     async getStudioAndRoom () {
       this.currentRoomData = {}
       let filter = this.$app.filters.getValues('settings')
-      if (!filter.studio) return
+      if (!filter || !filter.studio) return
       this.currentStudio = await this.$app.studios.getFiltered(filter)
       if (!this.currentStudio) return
       this.rooms = this.$app.rooms.getFiltered(filter)
@@ -165,7 +165,8 @@ export default {
       this.selectedRoom = this.rooms.length ? this.rooms[0] : {}
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         this.currentRoomData = await this.getRoomData(this.selectedRoom.id)
-        this.saveDefaultData()
+        this.defaultRooms = this.rooms
+        this.roomDataDefault = this.saveDefaultData(this.currentRoomData)
       }
       this.isPost = false
       this.reloadData++
@@ -175,7 +176,8 @@ export default {
       if (this.selectedRoom.hasOwnProperty('id') && this.selectedRoom.id) {
         this.currentRoomData = await this.getRoomData(this.selectedRoom.id)
       }
-      this.saveDefaultData()
+      this.defaultRooms = this.rooms
+      this.roomDataDefault = this.saveDefaultData(this.currentRoomData)
       this.isPost = false
       this.reloadData++
     },
@@ -218,45 +220,50 @@ export default {
       // this.reloadData++
     },
     async saveChanges () {
-      if (this.isPost || !this.currentRoomData.id) {
-        const result = await this.$app.room.addNew(this.currentRoomData)
-        if (result && result.hasOwnProperty('errors') && result.errors.length) {
-          showNotif('Ошибка создания зала. Проверьте обязательные поля')
-          result.errors.forEach(item => {
-            this.highLightRequired(item.source)
-          })
-          return
-        } else if (result.hasOwnProperty('data')) {
-          showNotif('Зал создан!', 'green')
-          this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
-          const newRoom = this.rooms.filter(item => item.name === this.currentRoomData.name)[0]
-          this.setCurrentRoom(newRoom) // Выбираем новосозданный зал в списке
-        }
+      /*
+      * POST method
+      * */
+      if (this.isPost || (this.currentRoomData.hasOwnProperty('id') && !this.currentRoomData.id)) {
+        const rooms = await this.$app.room.addNew(this.currentRoomData).then(this.resultPutPost)
+        if (!rooms) return
+        this.rooms = rooms
+        const newRoom = this.rooms.filter(item => item.name === this.currentRoomData.name)[0]
+        this.setCurrentRoom(newRoom) // Выбираем новосозданный зал в списке
+
+        /*
+        * PUT method
+        * */
       } else {
-        const result = await this.$app.room.updateOne({ id: this.currentRoomData.id, data: this.currentRoomData })
-        if (result && result.hasOwnProperty('errors') && result.errors.length) {
-          showNotif('Ошибка создания зала. Проверьте обязательные поля')
-          result.errors.forEach(item => {
-            this.highLightRequired(item.source)
-          })
-          return
-        } else if (result.hasOwnProperty('data')) {
-          showNotif('Данные сохранены!', 'green')
-        }
-        this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
+        const rooms = await this.$app.room.updateOne({ id: this.currentRoomData.id, data: this.currentRoomData }).then(this.resultPutPost)
+        if (!rooms) return
       }
-      this.saveDefaultData()
+      this.defaultRooms = this.rooms
+      this.roomDataDefault = this.saveDefaultData(this.currentRoomData)
       this.reloadData++
+    },
+    /*
+    *
+    * then-функция обработки ответа от сервера POST/PUT
+    * */
+    resultPutPost ({ data, errors }) {
+      if (errors) {
+        errors.forEach(item => {
+          util.highLightRequired(item.source)
+        })
+      } else {
+        return this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
+      }
+      return null
     },
     leavePage () {
       this.isSomethingChanged = false
-      this.saveDefaultData()
+      this.defaultRooms = this.rooms
+      this.roomDataDefault = this.saveDefaultData(this.currentRoomData)
       this.$router.replace(this.routerTo.fullPath)
     },
-    saveDefaultData () {
-      this.defaultRooms = this.rooms
-      let tmpObj = JSON.stringify(Object.assign({}, this.currentRoomData))
-      this.roomDataDefault = JSON.parse(tmpObj)
+    saveDefaultData (obj) {
+      let tmpObj = JSON.stringify(Object.assign({}, obj))
+      return JSON.parse(tmpObj)
     },
     isDefaultNotEqualCurrent (obj, defaultObj) {
       for (let key in obj) {
@@ -277,13 +284,6 @@ export default {
         }
       }
       return false
-    },
-    highLightRequired (fieldClass) {
-      const field = document.querySelector(`.${fieldClass} input`)
-      this.$nextTick(_ => {
-        field.focus()
-        field.blur()
-      })
     }
   }
 }
