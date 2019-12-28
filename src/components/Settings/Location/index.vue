@@ -97,9 +97,9 @@ export default {
       /*
       * Метод POST
       * */
-      if (this.isSave) {
-        newStudioId = await this.$app.studios.addNew(this.singleStudio).then(({ data, errors }) => {
-          return data.id
+      if (this.isSave || (this.singleStudio.hasOwnProperty('id') && !this.singleStudio.id)) {
+        newStudioId = await this.$app.studios.addNew(this.singleStudio).then(({ data }) => {
+          if (data) return data.id
         })
       /*
       * Метод PUT
@@ -109,9 +109,7 @@ export default {
         if (!studio) {
           studio = this.currentStudio
         }
-        newStudioId = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio }).then(({ data, errors }) => {
-          return null
-        })
+        newStudioId = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio }).then(_ => null)
       }
       if (newStudioId) {
         this.$app.filters.setValue('settings', 'studio', newStudioId)
@@ -154,12 +152,12 @@ export default {
     * then-функция для обработки кнопки Сохранить и создать зал
      */
     async resultPutPostPushToRoom ({ data, errors }) {
-      try {
+      if (errors) {
         errors.forEach(item => {
           this.singleStudio[item.source] = ''
           this.highLightRequired(item.source)
         })
-      } catch (err) {
+      } else if (data) {
         this.isSave = false
         await this.$app.filters.setValue('settings', 'studio', data.id)
         this.$router.push({ path: '/settings/room', query: { createRoom: true } })
