@@ -84,7 +84,6 @@ export default {
     * Обработка кнопки Сохранить
     */
     async updateStudio (services, vendors) {
-      console.log(util)
       const isRequired = util.hasRequiredFields(this.requiredFields, this.singleStudio)
       if (isRequired.length) {
         console.warn('Заполните обязательные поля')
