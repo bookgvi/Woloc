@@ -72,7 +72,7 @@ AbstractAPI.prototype = {
   }
 }
 
-Object.defineProperty('Abstract.prototype', 'constructor', {
+Object.defineProperty(AbstractAPI.prototype, 'constructor', {
   value: 'AbstractAPI',
   enumerable: false
 })
