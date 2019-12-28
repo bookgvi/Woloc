@@ -74,6 +74,7 @@ import FiltersList from '../../Filters/FiltersList'
 import RoomList from './roomList'
 import { room } from '../../../api/room'
 import { Util } from '../Helper/utils'
+import { showNotif } from '../../../utils/helpers'
 
 const emptyRoom = new Util()
 export default {
@@ -220,13 +221,13 @@ export default {
       if (this.isPost || !this.currentRoomData.id) {
         const result = await this.$app.room.addNew(this.currentRoomData)
         if (result && result.hasOwnProperty('errors') && result.errors.length) {
-          this.showNotif('Ошибка создания зала. Проверьте обязательные поля')
+          showNotif('Ошибка создания зала. Проверьте обязательные поля')
           result.errors.forEach(item => {
             this.highLightRequired(item.source)
           })
           return
         } else if (result.hasOwnProperty('data')) {
-          this.showNotif('Зал создан!', 'green')
+          showNotif('Зал создан!', 'green')
           this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
           const newRoom = this.rooms.filter(item => item.name === this.currentRoomData.name)[0]
           this.setCurrentRoom(newRoom) // Выбираем новосозданный зал в списке
@@ -234,13 +235,13 @@ export default {
       } else {
         const result = await this.$app.room.updateOne({ id: this.currentRoomData.id, data: this.currentRoomData })
         if (result && result.hasOwnProperty('errors') && result.errors.length) {
-          this.showNotif('Ошибка создания зала. Проверьте обязательные поля')
+          showNotif('Ошибка создания зала. Проверьте обязательные поля')
           result.errors.forEach(item => {
             this.highLightRequired(item.source)
           })
           return
         } else if (result.hasOwnProperty('data')) {
-          this.showNotif('Данные сохранены!', 'green')
+          showNotif('Данные сохранены!', 'green')
         }
         this.rooms = await this.getAllRooms(this.currentRoomData.studio.id) // Обновляем список залов для блока слева
       }
@@ -282,12 +283,6 @@ export default {
       this.$nextTick(_ => {
         field.focus()
         field.blur()
-      })
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
       })
     }
   }

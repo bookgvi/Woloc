@@ -45,6 +45,8 @@
 <script>
 import draggable from 'vuedraggable'
 import uploadForm from './uploadForm'
+import { showNotif } from '../../../utils/helpers'
+
 export default {
   name: 'images',
   components: { draggable, uploadForm },
@@ -99,9 +101,9 @@ export default {
       })
       const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
       if (result.hasOwnProperty('data')) {
-        this.showNotif('Изменения сохранены', 'green')
+        showNotif('Изменения сохранены', 'green')
       } else {
-        this.showNotif('Ошибка сохранения изменений', 'red')
+        showNotif('Ошибка сохранения изменений', 'red')
       }
     },
     closeUploadDialog () {
@@ -114,9 +116,9 @@ export default {
       img.isDeleted = true
       const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
       if (result.hasOwnProperty('data')) {
-        this.showNotif('Изображение удалено', 'orange')
+        showNotif('Изображение удалено', 'orange')
       } else {
-        this.showNotif('Ошибка загрузки изображения', 'red')
+        showNotif('Ошибка загрузки изображения', 'red')
       }
     },
     showUploadFileDialog () {
@@ -124,12 +126,6 @@ export default {
         return
       }
       this.isModalForUploadFile = true
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   }
 }

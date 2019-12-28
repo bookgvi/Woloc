@@ -17,6 +17,8 @@
 <script>
 import location from './main'
 import { Util } from '../Helper/utils'
+import { showNotif } from '../../../utils/helpers'
+
 const emptyLocation = new Util()
 export default {
   name: 'setting',
@@ -72,7 +74,7 @@ export default {
         !this.singleStudio.address
       ) {
         console.warn('Заполните обязательные поля')
-        this.showNotif('Заполните обязательные поля')
+        showNotif('Заполните обязательные поля')
         this.requiredFields.forEach(item => {
           this.highLightRequired(item)
         })
@@ -115,12 +117,12 @@ export default {
       * Обработка результатов POST/PUT
       * */
       if (result && result.hasOwnProperty('errors') && result.errors.length) {
-        this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
+        showNotif('Ошибка создания локации. Проверьте обязательные поля')
         result.errors.forEach(item => {
           this.highLightRequired(item.source)
         })
       } else if (result.hasOwnProperty('data')) {
-        this.showNotif('Данные сохранены!', 'green')
+        showNotif('Данные сохранены!', 'green')
         /*
         *
         *
@@ -163,7 +165,7 @@ export default {
         !this.singleStudio.address
       ) {
         console.warn('Заполните обязательные поля')
-        this.showNotif('Заполните обязательные поля')
+        showNotif('Заполните обязательные поля')
         this.requiredFields.forEach(item => {
           this.highLightRequired(item)
         })
@@ -196,13 +198,13 @@ export default {
       * */
       if (result) {
         if (result && result.hasOwnProperty('errors') && result.errors.length) {
-          this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
+          showNotif('Ошибка создания локации. Проверьте обязательные поля')
           result.errors.forEach(item => {
             this.singleStudio[item.source] = ''
             this.highLightRequired(item.source)
           })
         } else if (result.hasOwnProperty('data')) {
-          this.showNotif('Данные сохранены!', 'green')
+          showNotif('Данные сохранены!', 'green')
           this.isSave = false
           await this.$app.filters.setValue('settings', 'studio', result.data.id)
           this.$router.push({ path: '/settings/room', query: { createRoom: true } })
@@ -214,12 +216,6 @@ export default {
       this.$nextTick(_ => {
         field.focus()
         field.blur()
-      })
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
       })
     }
   }

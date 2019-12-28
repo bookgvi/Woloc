@@ -75,6 +75,8 @@
 import FiltersList from '../../../Filters/FiltersList'
 import RoomsFilter from '../../../Filters/RoomsFilter'
 import { extras } from '../../../../api/extras'
+import { showNotif } from '../../../../utils/helpers'
+
 export default {
   name: 'modalForExtras',
   props: {
@@ -140,9 +142,9 @@ export default {
           result.errors.forEach(item => {
             if (item.source !== 'rooms') this.dataset[item.source] = ''
           })
-          this.showNotif('Ошибка')
+          showNotif('Ошибка')
         } else {
-          this.showNotif('Услуга добавлена', 'green')
+          showNotif('Услуга добавлена', 'green')
           this.$emit('hasPostOrPut')
         }
       } else {
@@ -150,9 +152,9 @@ export default {
         this.dataset.amount = Number(this.dataset.amount)
         const result = await this.$app.extras.updateOne({ id: this.dataset.id, data: this.dataset })
         if (!result.hasOwnProperty('data')) {
-          this.showNotif('Ошибка при сохранении изменений')
+          showNotif('Ошибка при сохранении изменений')
         } else {
-          this.showNotif('Изменения сохранены', 'green')
+          showNotif('Изменения сохранены', 'green')
           this.$emit('hasPostOrPut')
         }
       }
@@ -160,17 +162,11 @@ export default {
     async deleteOne () {
       const result = await extras.deleteOne(this.dataset.id)
       if (!result.hasOwnProperty('data')) {
-        this.showNotif('Ошибка удаления услуги')
+        showNotif('Ошибка удаления услуги')
       } else {
-        this.showNotif('Услуга удалена', 'orange')
+        showNotif('Услуга удалена', 'orange')
         this.$emit('hasPostOrPut')
       }
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   }
 }
