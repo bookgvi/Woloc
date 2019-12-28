@@ -45,6 +45,8 @@
 <script>
 import draggable from 'vuedraggable'
 import uploadForm from './uploadForm'
+import { showNotif } from '../../../../utils/helpers'
+
 export default {
   name: 'images',
   components: { draggable, uploadForm },
@@ -90,9 +92,9 @@ export default {
       })
       const result = await this.$app.studios.updateOne({ id: this.singleStudioVM.id, data: this.singleStudioVM })
       if (result.hasOwnProperty('data')) {
-        this.showNotif('Изменения сохранены', 'green')
+        showNotif('Изменения сохранены', 'green')
       } else {
-        this.showNotif('Ошибка сохранения изменений', 'red')
+        showNotif('Ошибка сохранения изменений', 'red')
       }
     },
     closeUploadDialog () {
@@ -106,23 +108,17 @@ export default {
       img.isDeleted = true
       const result = await this.$app.studios.updateOne({ id: this.singleStudioVM.id, data: this.singleStudioVM })
       if (result.hasOwnProperty('data')) {
-        this.showNotif('Изображение удалено', 'orange')
+        showNotif('Изображение удалено', 'orange')
       } else {
-        this.showNotif('Ошибка загрузки изображения', 'red')
+        showNotif('Ошибка загрузки изображения', 'red')
       }
     },
     showUploadFileDialog () {
       if (!this.singleStudio.id) {
-        this.showNotif('Сначала создайте и сохраните локацию', 'orange')
+        showNotif('Сначала создайте и сохраните локацию', 'orange')
         return
       }
       this.isModalForUploadFile = true
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   }
 }

@@ -19,6 +19,8 @@
 import columns from './columns'
 import details from './details'
 import DataTable from 'components/DataTable'
+import { showNotif } from '../../../utils/helpers'
+
 export default {
   name: 'RefundsTable',
   components: { DataTable },
@@ -31,26 +33,20 @@ export default {
     async refundCancel (refund) {
       const result = await this.$app.refunds.cancel(refund.row.id)
       if (result.hasOwnProperty('data')) {
-        this.showNotif(`Возврат ${refund.row.id} отменен`, 'primary')
+        showNotif(`Возврат ${refund.row.id} отменен`, 'primary')
         this.reloadTable++
       } else {
-        this.showNotif(`Ошибка совершения операции...`, 'red')
+        showNotif(`Ошибка совершения операции...`, 'red')
       }
     },
     async refundConfirm (refund) {
       const result = await this.$app.refunds.confirm(refund.row.id)
       if (result.hasOwnProperty('data')) {
-        this.showNotif(`Возврат ${refund.row.id} подтвержден`, 'primary')
+        showNotif(`Возврат ${refund.row.id} подтвержден`, 'primary')
         this.reloadTable++
       } else {
-        this.showNotif(`Ошибка совершения операции...`, 'red')
+        showNotif(`Ошибка совершения операции...`, 'red')
       }
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   }
 }

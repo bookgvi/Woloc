@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { showNotif } from '../../../../utils/helpers'
+
 export default {
   props: {
     singleStudio: Object
@@ -40,22 +42,16 @@ export default {
       if (result.hasOwnProperty('data')) {
         this.submitting = false
         this.$emit('closeUploadDialog')
-        this.showNotif('Изображение успешно добавлено', 'green')
+        showNotif('Изображение успешно добавлено', 'green')
       } else if (result.hasOwnProperty('errors')) {
-        this.showNotif('Возникла ошибка. Попробуйте ещё раз или выберите другой файл', 'orange')
+        showNotif('Возникла ошибка. Попробуйте ещё раз или выберите другой файл', 'orange')
       } else {
-        this.showNotif('Ошибка загрузки изображения', 'red')
+        showNotif('Ошибка загрузки изображения', 'red')
       }
     },
     onAttachmentChange (e) {
       this.attachment = e.target.files[0]
     },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
-    }
   }
 }
 </script>
