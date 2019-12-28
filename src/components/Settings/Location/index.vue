@@ -20,6 +20,7 @@ import { Util } from '../Helper/utils'
 import { showNotif } from '../../../utils/helpers'
 
 const emptyLocation = new Util()
+const util = new Util()
 export default {
   name: 'setting',
   components: {
@@ -27,7 +28,6 @@ export default {
   },
   data () {
     return {
-      emptyLocation: 'emptyLocation',
       pageReload: 0,
       id: this.$app.filters.getValues('settings').studio,
       currentTab: 'Локация',
@@ -84,16 +84,9 @@ export default {
     * Обработка кнопки Сохранить
     */
     async updateStudio (services, vendors) {
-      if (
-        !this.singleStudio.name ||
-        !this.singleStudio.phone ||
-        !this.singleStudio.email ||
-        !this.singleStudio ||
-        !this.singleStudio.limit ||
-        !this.singleStudio.height ||
-        !this.singleStudio.yardage ||
-        !this.singleStudio.address
-      ) {
+      console.log(util)
+      const isRequired = util.hasRequiredFields(this.requiredFields, this.singleStudio)
+      if (isRequired.length) {
         console.warn('Заполните обязательные поля')
         showNotif('Заполните обязательные поля')
         this.requiredFields.forEach(item => {
@@ -132,16 +125,8 @@ export default {
     * Обработка кнопки Сохранить и создать зал
     * */
     async createNewStudio () {
-      if (
-        !this.singleStudio.name ||
-        !this.singleStudio.phone ||
-        !this.singleStudio.email ||
-        !this.singleStudio ||
-        !this.singleStudio.limit ||
-        !this.singleStudio.height ||
-        !this.singleStudio.yardage ||
-        !this.singleStudio.address
-      ) {
+      const isRequired = util.hasRequiredFields(this.requiredFields, this.singleStudio)
+      if (isRequired.length) {
         console.warn('Заполните обязательные поля')
         showNotif('Заполните обязательные поля')
         this.requiredFields.forEach(item => {
