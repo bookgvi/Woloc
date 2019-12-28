@@ -49,6 +49,10 @@ export default {
     this.singleStudioM()
   },
   methods: {
+    /*
+    *
+    * Метод получения данных локации, установленной в фильтре
+    * */
     async singleStudioM () {
       this.isSave = false // ----------------------------- Сбрасываем поле для метода POST
       let filter = await this.$app.filters.getValues('settings')
@@ -57,6 +61,23 @@ export default {
       this.rooms = this.$app.rooms.getFiltered(filter)
       if (!this.rooms) return
       this.singleStudio = await this.$app.studios.getOne(filter.studio)
+    },
+    /*
+    *
+    * Метод для подготовки payload-объекта для создания локации
+    * */
+    async newStudio () {
+      this.isSave = true
+      this.rooms = []
+      const services = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.services))
+      const facilities = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.facilities))
+      this.singleStudio = {
+        lat: 55.786419,
+        lon: 37.725433,
+        services,
+        facilities,
+        images: []
+      }
     },
     /*
     *
@@ -107,23 +128,6 @@ export default {
       }
     },
     /*
-    * Метод для подготовки payload-объекта для создания локации
-    * */
-    async newStudio () {
-      this.isSave = true
-      this.rooms = []
-      const services = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.services))
-      const facilities = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.facilities))
-      this.singleStudio = {
-        lat: 55.786419,
-        lon: 37.725433,
-        services,
-        facilities,
-        images: []
-      }
-    },
-    /*
-    *
     *
     * Обработка кнопки Сохранить и создать зал
     * */
@@ -177,6 +181,11 @@ export default {
         this.$router.push({ path: '/settings/room', query: { createRoom: true } })
       }
     },
+    /*
+    * Метод подсветки незаполненных обязательных полей
+    * Поля, для которых стоят правила валидации использую аттрибут lazy-rules,
+    * которое срабатывает при потере фокуса
+    * */
     highLightRequired (fieldClass) {
       const field = document.querySelector(`.${fieldClass} input`)
       this.$nextTick(_ => {
