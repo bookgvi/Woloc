@@ -85,7 +85,7 @@ export default {
   },
   methods: {
     srcVM (val) {
-      return `${val}`
+      return `http://pre.ugoloc.ucann.ru/${val}`
     },
     imgSortMethod () {
       if (this.imgDataVM && this.imgDataVM.hasOwnProperty('images')) {
@@ -99,12 +99,7 @@ export default {
       imgArray.forEach((item, index) => {
         item.sort = index
       })
-      const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
-      if (result.hasOwnProperty('data')) {
-        showNotif('Изменения сохранены', 'green')
-      } else {
-        showNotif('Ошибка сохранения изменений', 'red')
-      }
+      await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
     },
     closeUploadDialog () {
       this.isModalForUploadFile = false
@@ -117,8 +112,6 @@ export default {
       const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
       if (result.hasOwnProperty('data')) {
         showNotif('Изображение удалено', 'orange')
-      } else {
-        showNotif('Ошибка загрузки изображения', 'red')
       }
     },
     showUploadFileDialog () {

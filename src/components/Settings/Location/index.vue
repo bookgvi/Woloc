@@ -80,25 +80,15 @@ export default {
         })
         return
       }
-      let { studio } = this.$app.filters.getValues('settings')
-      if (!studio) {
-        studio = this.currentStudio
-      }
-      let result = ''
       let newStudioId = ''
       /*
-      *
-      *
       * Метод POST
       * */
       if (this.isSave) {
-        result = await this.$app.studios.addNew(this.singleStudio)
-        if (result && result.hasOwnProperty('data')) {
-          newStudioId = result.data.id
-        }
+        newStudioId = await this.$app.studios.addNew(this.singleStudio).then(({ data, errors }) => {
+          return data.id
+        })
       /*
-      *
-      *
       * Метод PUT
       * */
       } else {
@@ -106,35 +96,19 @@ export default {
         if (!studio) {
           studio = this.currentStudio
         }
-        result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
-        if (result && result.hasOwnProperty('id')) {
-          newStudioId = ''
-        }
-      }
-      /*
-      *
-      *
-      * Обработка результатов POST/PUT
-      * */
-      if (result && result.hasOwnProperty('errors') && result.errors.length) {
-        showNotif('Ошибка создания локации. Проверьте обязательные поля')
-        result.errors.forEach(item => {
-          this.highLightRequired(item.source)
+        newStudioId = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio }).then(({ data, errors }) => {
+          return null
         })
-      } else if (result.hasOwnProperty('data')) {
-        showNotif('Данные сохранены!', 'green')
-        /*
-        *
-        *
-        * Если использовался POST, то в фильтре выбираем новосозданную локацию
-        * */
-        if (newStudioId) {
-          this.$app.filters.setValue('settings', 'studio', newStudioId)
-          this.singleStudioM()
-          this.pageReload++
-        }
+      }
+      if (newStudioId) {
+        this.$app.filters.setValue('settings', 'studio', newStudioId)
+        this.singleStudioM()
+        this.pageReload++
       }
     },
+    /*
+    * Метод для подготовки payload-объекта для создания локации
+    * */
     async newStudio () {
       this.isSave = true
       this.rooms = []
@@ -171,17 +145,12 @@ export default {
         })
         return
       }
-      let result = ''
       /*
-      *
-      *
       * Метод POST
       * */
       if (this.isSave) {
-        result = await this.$app.studios.addNew(this.singleStudio)
+        this.$app.studios.addNew(this.singleStudio).then(this.resultPutPostPushToRoom)
       /*
-      *
-      *
       * Метод PUT
       * */
       } else {
@@ -189,26 +158,23 @@ export default {
         if (!studio) {
           studio = this.currentStudio
         }
-        result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
+        this.$app.studios.updateOne({ id: studio, data: this.singleStudio }).then(this.resultPutPostPushToRoom)
       }
-      /*
-      *
-      *
-      * Обработка результатов POST/PUT
-      * */
-      if (result) {
-        if (result && result.hasOwnProperty('errors') && result.errors.length) {
-          showNotif('Ошибка создания локации. Проверьте обязательные поля')
-          result.errors.forEach(item => {
-            this.singleStudio[item.source] = ''
-            this.highLightRequired(item.source)
-          })
-        } else if (result.hasOwnProperty('data')) {
-          showNotif('Данные сохранены!', 'green')
-          this.isSave = false
-          await this.$app.filters.setValue('settings', 'studio', result.data.id)
-          this.$router.push({ path: '/settings/room', query: { createRoom: true } })
-        }
+    },
+    /*
+    *
+    * then-функция для обработки кнопки Сохранить и создать зал
+     */
+    async resultPutPostPushToRoom ({ data, errors }) {
+      try {
+        errors.forEach(item => {
+          this.singleStudio[item.source] = ''
+          this.highLightRequired(item.source)
+        })
+      } catch (err) {
+        this.isSave = false
+        await this.$app.filters.setValue('settings', 'studio', data.id)
+        this.$router.push({ path: '/settings/room', query: { createRoom: true } })
       }
     },
     highLightRequired (fieldClass) {

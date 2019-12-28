@@ -1,4 +1,5 @@
 import api from './instance'
+import { showNotif } from '../utils/helpers'
 
 export function AbstractAPI (url) {
   this.url = url
@@ -34,9 +35,11 @@ AbstractAPI.prototype = {
     const { id, data } = payload
     try {
       const status = await api.put(`${this.url}/${id}`, data)
+      showNotif('Изменения сохранены', 'green')
       return status.data
     } catch (err) {
       console.warn('catch :: UpdateOne', err)
+      showNotif('Ошибка сохранения изменений', 'red')
       return err
     }
   },
@@ -44,9 +47,11 @@ AbstractAPI.prototype = {
   addNew: async function (payload) {
     try {
       const status = await api.post(this.url, payload)
+      showNotif('Успешно', 'green')
       return status.data
     } catch (err) {
       console.warn('catch :: createNew', err)
+      showNotif('Ошибка сохранения изменений', 'red')
       return err
     }
   },
@@ -64,9 +69,11 @@ AbstractAPI.prototype = {
   uploadImage: async function (payload, config) {
     try {
       const status = await api.post(`${this.url}/upload-image`, payload, config)
+      showNotif('Изображение успешно добавлено', 'green')
       return status.data
     } catch (err) {
       console.warn('catch :: uploadImage', err)
+      showNotif('Ошибка загрузки изображения', 'red')
       return err
     }
   }
