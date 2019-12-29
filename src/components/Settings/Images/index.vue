@@ -7,7 +7,7 @@
         q-btn.q-pl-xs(@click="$emit('reloadPage')" dense flat)
           q-icon(name="cached" style="font-size: 1.5em;")
     .hasServerData(v-if="isServerResponse")
-      .row.no-wrap.q-pb-lg(v-if="!isShow")
+      .row.no-wrap.q-pb-lg(v-if="!isShow || imgDataVM.images.length")
         draggable(v-model="imgDataVM.images" @change="changeSortField(imgDataVM.images)")
           .inline-block(v-for="index in Math.min(defaultImgCount, imgDataVM.images.length)" :key="index" title="Drag and drop")
             q-img.q-mr-sm.q-mb-sm.cursor-pointer(
@@ -64,7 +64,7 @@ export default {
   }),
   watch: {
     imgDataVM (newVal) {
-      if (newVal.hasOwnProperty('images')) {
+      if (newVal.hasOwnProperty('images') && newVal.images.length) {
         this.isServerResponse = true
         this.imgSortMethod()
       }

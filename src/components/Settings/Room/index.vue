@@ -155,7 +155,7 @@ export default {
   },
   methods: {
     async getStudioAndRoom () {
-      this.currentRoomData = {}
+      // this.currentRoomData = {} // TODO - попытаться выяснить зачем эта строка
       let filter = this.$app.filters.getValues('settings')
       if (!filter || !filter.studio) return
       this.currentStudio = await this.$app.studios.getFiltered(filter)
