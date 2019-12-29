@@ -85,7 +85,8 @@ export default {
   },
   methods: {
     srcVM (val) {
-      return `http://pre.ugoloc.ucann.ru/${val}`
+      // return `http://pre.ugoloc.ucann.ru/${val}`
+      return `${val}`
     },
     imgSortMethod () {
       if (this.imgDataVM && this.imgDataVM.hasOwnProperty('images')) {
