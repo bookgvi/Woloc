@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import { showNotif } from '../../../utils/helpers'
+
 export default {
   name: 'index',
   data () {
@@ -125,7 +127,7 @@ export default {
   methods: {
     async generate () {
       if ((!this.isSingleOrAllRoom[0] && !this.isSingleOrAllRoom[1]) || !this.bookingSourceVM) {
-        this.showNotif('Выберите зал, Источник бронирования и нажмите Сгенерировать код', 'orange')
+        showNotif('Выберите зал, Источник бронирования и нажмите Сгенерировать код', 'orange')
         return
       }
       const result = await this.$app.jswidget.getOne(this.currentRoomId)
@@ -135,11 +137,11 @@ export default {
         const middle = result.slice(10, -16)
         const end = this.bookingSource + result.slice(-17)
         this.newWidgetCode = begin + middle + end
-        this.showNotif('Виджет сгенерирован', 'primary')
+        showNotif('Виджет сгенерирован', 'primary')
       } else {
         this.newWidgetCode = ''
         this.rowsForWidget = 3
-        this.showNotif('При генерации виджета возникла ошибка')
+        showNotif('При генерации виджета возникла ошибка')
       }
     },
     copyWidget () {
@@ -148,16 +150,10 @@ export default {
       widgetNode.select()
       try {
         document.execCommand('copy')
-        this.showNotif('Код виджета скопирован в буфер обмена', 'green')
+        showNotif('Код виджета скопирован в буфер обмена', 'green')
       } catch (err) {
         console.error(`Can't copy`)
       }
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   }
 }

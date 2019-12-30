@@ -184,6 +184,8 @@
 <script>
 import employees from './employees'
 import telephone from './phone'
+import { showNotif } from '../../../utils/helpers'
+
 export default {
   name: 'rules',
   components: { employees, telephone },
@@ -208,24 +210,18 @@ export default {
     async saveChanges () {
       const result = await this.$app.organization.updateOne({ id: this.organization.id, data: this.organization })
       if (result.hasOwnProperty('data') && result.data.hasOwnProperty('organization')) {
-        this.showNotif('Изменения сохранены', 'green')
+        showNotif('Изменения сохранены', 'green')
         this.extra = result.data.extra
         this.organization = result.data.organization
         this.reloadPage++
       } else if (result.hasOwnProperty('errors')) {
-        this.showNotif('Проверьте обязательные поля')
+        showNotif('Проверьте обязательные поля')
       }
     },
     equalAddresses () {
       if (this.organization.isRealAddress) {
         this.organization.legalAddress = this.organization.address
       }
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   },
   async mounted () {

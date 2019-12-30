@@ -17,7 +17,10 @@
 <script>
 import location from './main'
 import { Util } from '../Helper/utils'
+import { showNotif } from '../../../utils/helpers'
+
 const emptyLocation = new Util()
+const util = new Util()
 export default {
   name: 'setting',
   components: {
@@ -25,7 +28,6 @@ export default {
   },
   data () {
     return {
-      emptyLocation: 'emptyLocation',
       pageReload: 0,
       id: this.$app.filters.getValues('settings').studio,
       currentTab: 'Локация',
@@ -47,6 +49,10 @@ export default {
     this.singleStudioM()
   },
   methods: {
+    /*
+    *
+    * Метод получения данных локации, установленной в фильтре
+    * */
     async singleStudioM () {
       this.isSave = false // ----------------------------- Сбрасываем поле для метода POST
       let filter = await this.$app.filters.getValues('settings')
@@ -58,81 +64,8 @@ export default {
     },
     /*
     *
-    * Обработка кнопки Сохранить
-    */
-    async updateStudio (services, vendors) {
-      if (
-        !this.singleStudio.name ||
-        !this.singleStudio.phone ||
-        !this.singleStudio.email ||
-        !this.singleStudio ||
-        !this.singleStudio.limit ||
-        !this.singleStudio.height ||
-        !this.singleStudio.yardage ||
-        !this.singleStudio.address
-      ) {
-        console.warn('Заполните обязательные поля')
-        this.showNotif('Заполните обязательные поля')
-        this.requiredFields.forEach(item => {
-          this.highLightRequired(item)
-        })
-        return
-      }
-      let { studio } = this.$app.filters.getValues('settings')
-      if (!studio) {
-        studio = this.currentStudio
-      }
-      let result = ''
-      let newStudioId = ''
-      /*
-      *
-      *
-      * Метод POST
-      * */
-      if (this.isSave) {
-        result = await this.$app.studios.addNew(this.singleStudio)
-        if (result && result.hasOwnProperty('data')) {
-          newStudioId = result.data.id
-        }
-      /*
-      *
-      *
-      * Метод PUT
-      * */
-      } else {
-        let { studio } = this.$app.filters.getValues('settings')
-        if (!studio) {
-          studio = this.currentStudio
-        }
-        result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
-        if (result && result.hasOwnProperty('id')) {
-          newStudioId = ''
-        }
-      }
-      /*
-      *
-      *
-      * Обработка результатов POST/PUT
-      * */
-      if (result && result.hasOwnProperty('errors') && result.errors.length) {
-        this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
-        result.errors.forEach(item => {
-          this.highLightRequired(item.source)
-        })
-      } else if (result.hasOwnProperty('data')) {
-        this.showNotif('Данные сохранены!', 'green')
-        /*
-        *
-        *
-        * Если использовался POST, то в фильтре выбираем новосозданную локацию
-        * */
-        if (newStudioId) {
-          this.$app.filters.setValue('settings', 'studio', newStudioId)
-          this.singleStudioM()
-          this.pageReload++
-        }
-      }
-    },
+    * Метод для подготовки payload-объекта для создания локации
+    * */
     async newStudio () {
       this.isSave = true
       this.rooms = []
@@ -148,38 +81,27 @@ export default {
     },
     /*
     *
-    *
-    * Обработка кнопки Сохранить и создать зал
-    * */
-    async createNewStudio () {
-      if (
-        !this.singleStudio.name ||
-        !this.singleStudio.phone ||
-        !this.singleStudio.email ||
-        !this.singleStudio ||
-        !this.singleStudio.limit ||
-        !this.singleStudio.height ||
-        !this.singleStudio.yardage ||
-        !this.singleStudio.address
-      ) {
+    * Обработка кнопки Сохранить
+    */
+    async updateStudio (services, vendors) {
+      const isRequired = util.hasRequiredFields(this.requiredFields, this.singleStudio)
+      if (isRequired.length) {
         console.warn('Заполните обязательные поля')
-        this.showNotif('Заполните обязательные поля')
+        showNotif('Заполните обязательные поля')
         this.requiredFields.forEach(item => {
-          this.highLightRequired(item)
+          util.highLightRequired(item)
         })
         return
       }
-      let result = ''
+      let newStudioId = ''
       /*
-      *
-      *
       * Метод POST
       * */
-      if (this.isSave) {
-        result = await this.$app.studios.addNew(this.singleStudio)
+      if (this.isSave || (this.singleStudio.hasOwnProperty('id') && !this.singleStudio.id)) {
+        newStudioId = await this.$app.studios.addNew(this.singleStudio).then(({ data }) => {
+          if (data) return data.id
+        })
       /*
-      *
-      *
       * Метод PUT
       * */
       } else {
@@ -187,40 +109,59 @@ export default {
         if (!studio) {
           studio = this.currentStudio
         }
-        result = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio })
+        newStudioId = await this.$app.studios.updateOne({ id: studio, data: this.singleStudio }).then(_ => null)
+      }
+      if (newStudioId) {
+        this.$app.filters.setValue('settings', 'studio', newStudioId)
+        this.singleStudioM()
+        this.pageReload++
+      }
+    },
+    /*
+    *
+    * Обработка кнопки Сохранить и создать зал
+    * */
+    async createNewStudio () {
+      const isRequired = util.hasRequiredFields(this.requiredFields, this.singleStudio)
+      if (isRequired.length) {
+        console.warn('Заполните обязательные поля')
+        showNotif('Заполните обязательные поля')
+        this.requiredFields.forEach(item => {
+          util.highLightRequired(item)
+        })
+        return
       }
       /*
-      *
-      *
-      * Обработка результатов POST/PUT
+      * Метод POST
       * */
-      if (result) {
-        if (result && result.hasOwnProperty('errors') && result.errors.length) {
-          this.showNotif('Ошибка создания локации. Проверьте обязательные поля')
-          result.errors.forEach(item => {
-            this.singleStudio[item.source] = ''
-            this.highLightRequired(item.source)
-          })
-        } else if (result.hasOwnProperty('data')) {
-          this.showNotif('Данные сохранены!', 'green')
-          this.isSave = false
-          await this.$app.filters.setValue('settings', 'studio', result.data.id)
-          this.$router.push({ path: '/settings/room', query: { createRoom: true } })
+      if (this.isSave) {
+        this.$app.studios.addNew(this.singleStudio).then(this.resultPutPostPushToRoom)
+      /*
+      * Метод PUT
+      * */
+      } else {
+        let { studio } = this.$app.filters.getValues('settings')
+        if (!studio) {
+          studio = this.currentStudio
         }
+        this.$app.studios.updateOne({ id: studio, data: this.singleStudio }).then(this.resultPutPostPushToRoom)
       }
     },
-    highLightRequired (fieldClass) {
-      const field = document.querySelector(`.${fieldClass} input`)
-      this.$nextTick(_ => {
-        field.focus()
-        field.blur()
-      })
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
+    /*
+    *
+    * then-функция для обработки кнопки Сохранить и создать зал
+     */
+    async resultPutPostPushToRoom ({ data, errors }) {
+      if (errors) {
+        errors.forEach(item => {
+          this.singleStudio[item.source] = ''
+          util.highLightRequired(item.source)
+        })
+      } else if (data) {
+        this.isSave = false
+        await this.$app.filters.setValue('settings', 'studio', data.id)
+        this.$router.push({ path: '/settings/room', query: { createRoom: true } })
+      }
     }
   }
 }

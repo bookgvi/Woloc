@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { stringify } from 'qs'
-import { LocalStorage, Loading, QSpinnerGears } from 'quasar'
+import { LocalStorage, Notify, Loading, QSpinnerGears } from 'quasar'
 
 const currentURL = (_ => {
   const currentURL = window.location
   let baseURL = currentURL.hostname
   let isCabinet = currentURL.hostname.split('.')
   if (baseURL === 'localhost') {
-    // baseURL = 'https://pre.ugoloc.ucann.ru'
-    baseURL = 'https://ugoloc-1074.shot.ugoloc.ucann.ru'
+    baseURL = 'https://pre.ugoloc.ucann.ru'
+    // baseURL = 'https://ugoloc-1038.shot.ugoloc.ucann.ru'
   } else if (isCabinet[0] === `cabinet`) {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
@@ -64,25 +64,25 @@ instance.interceptors.response.use(
           window.location.href = `/login`
           break
         default:
-          // if (response.data && response.data.errors) {
-          //   if (Array.isArray(response.data.errors)) {
-          //     response.data.errors.forEach(err => {
-          //       Notify.create({
-          //         message: err.title,
-          //         color: 'negative',
-          //         position: 'bottom-left',
-          //         icon: 'warning'
-          //       })
-          //     })
-          //   } else {
-          //     Notify.create({
-          //       message: response.data.errors.title,
-          //       color: 'negative',
-          //       position: 'bottom-left',
-          //       icon: 'warning'
-          //     })
-          //   }
-          // }
+          if (response.data && response.data.errors) {
+            if (Array.isArray(response.data.errors)) {
+              response.data.errors.forEach(err => {
+                Notify.create({
+                  message: err.title,
+                  color: 'negative',
+                  position: 'bottom-left',
+                  icon: 'warning'
+                })
+              })
+            } else {
+              Notify.create({
+                message: response.data.errors.title,
+                color: 'negative',
+                position: 'bottom-left',
+                icon: 'warning'
+              })
+            }
+          }
       }
       // return response.data
     }

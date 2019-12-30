@@ -5,9 +5,9 @@
         p(style="text-align: center;") {{ item.label }}
     .row
       .col
-        q-input.q-pa-xs(value="" label="на час" outlined disable)
-      .col(v-for="(item2, index2) in payment")
-        q-input.q-pa-xs(v-model="payment[index2].value" outlined)
+        p.q-py-sm(style="text-align: center; border: 1px solid silver; height: 2.5rem;") на час
+      .col.q-pl-sm(v-for="(item2, index2) in payment")
+        input.q-pa-sm(:value="payment[index2].value" @input="inputPrice($event, payment[index2])" style="width: 100%; height: 2.5rem;")
 
 </template>
 
@@ -68,7 +68,13 @@ export default {
       ]
     }
   },
-  mounted () {
+  methods: {
+    inputPrice (e, val) {
+      if (e.target.value.match(/\d+/)) {
+        val.value = e.target.value.match(/\d+/)[0]
+      }
+      e.target.value = val.value
+    }
   }
 }
 </script>

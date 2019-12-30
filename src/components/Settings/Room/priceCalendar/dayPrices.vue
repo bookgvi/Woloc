@@ -5,9 +5,9 @@
         p(style="text-align: center;") {{ item.label }}
     .row(v-for="(item2, index2) in payment")
       .col
-        q-input.q-pa-xs(v-model="item2.time" outlined disable)
-      .col(v-for="item3 in item2.days")
-        q-input.q-pa-xs(v-model="item3.value" outlined)
+        p.q-px-xs.q-pt-sm(style="text-align: center; border: 1px solid silver; height: 2.5rem;") {{ item2.time }}
+      .col.q-pl-sm(v-for="item3 in item2.days")
+        input.q-pa-sm(:value="item3.value" @input="inputPrice($event, item3)" style="width: 100%; height: 2.5rem;")
 </template>
 
 <script>
@@ -63,6 +63,14 @@ export default {
       ]
     }
   },
+  methods: {
+    inputPrice (e, val) {
+      if (e.target.value.match(/\d+/)) {
+        val.value = e.target.value.match(/\d+/)[0]
+      }
+      e.target.value = val.value
+    }
+  }
 }
 </script>
 
