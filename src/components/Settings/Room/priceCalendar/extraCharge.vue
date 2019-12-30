@@ -70,9 +70,7 @@ export default {
   },
   methods: {
     inputPrice (e, val) {
-      if (e.target.value.match(/\d+/)) {
-        val.value = e.target.value.match(/\d+/)[0]
-      }
+      val.value = e.target.value.match(/\d*/)[0]
       e.target.value = val.value
     }
   }
