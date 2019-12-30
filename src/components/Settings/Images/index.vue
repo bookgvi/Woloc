@@ -7,7 +7,7 @@
         q-btn.q-pl-xs(@click="$emit('reloadPage')" dense flat)
           q-icon(name="cached" style="font-size: 1.5em;")
     .hasServerData(v-if="isServerResponse")
-      .row.no-wrap.q-pb-lg(v-if="!isShow")
+      .row.no-wrap.q-pb-lg(v-if="!isShow || imgDataVM.images.length")
         draggable(v-model="imgDataVM.images" @change="changeSortField(imgDataVM.images)")
           .inline-block(v-for="index in Math.min(defaultImgCount, imgDataVM.images.length)" :key="index" title="Drag and drop")
             q-img.q-mr-sm.q-mb-sm.cursor-pointer(
@@ -45,6 +45,8 @@
 <script>
 import draggable from 'vuedraggable'
 import uploadForm from './uploadForm'
+import { showNotif } from '../../../utils/helpers'
+
 export default {
   name: 'images',
   components: { draggable, uploadForm },
@@ -62,7 +64,7 @@ export default {
   }),
   watch: {
     imgDataVM (newVal) {
-      if (newVal.hasOwnProperty('images')) {
+      if (newVal.hasOwnProperty('images') && newVal.images.length) {
         this.isServerResponse = true
         this.imgSortMethod()
       }
@@ -83,6 +85,7 @@ export default {
   },
   methods: {
     srcVM (val) {
+      // return `http://pre.ugoloc.ucann.ru/${val}`
       return `${val}`
     },
     imgSortMethod () {
@@ -97,15 +100,12 @@ export default {
       imgArray.forEach((item, index) => {
         item.sort = index
       })
-      const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
-      if (result.hasOwnProperty('data')) {
-        this.showNotif('Изменения сохранены', 'green')
-      } else {
-        this.showNotif('Ошибка сохранения изменений', 'red')
-      }
+      await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
     },
     closeUploadDialog () {
       this.isModalForUploadFile = false
+      if (this.page === 'studios') return
+      this.$emit('reloadPage')
     },
     closeUploadDialogWithoutReload () {
       this.isModalForUploadFile = false
@@ -114,9 +114,7 @@ export default {
       img.isDeleted = true
       const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
       if (result.hasOwnProperty('data')) {
-        this.showNotif('Изображение удалено', 'orange')
-      } else {
-        this.showNotif('Ошибка загрузки изображения', 'red')
+        showNotif('Изображение удалено', 'orange')
       }
     },
     showUploadFileDialog () {
@@ -124,12 +122,6 @@ export default {
         return
       }
       this.isModalForUploadFile = true
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   }
 }
