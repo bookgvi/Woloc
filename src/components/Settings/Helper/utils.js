@@ -40,6 +40,7 @@ Util.prototype = {
     field.focus()
     field.blur()
   },
+
   /*
   * Метод валидации полей тэга Input - допустим ввод только цифр
   * */
