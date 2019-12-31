@@ -57,7 +57,7 @@
         span.text-red *
         q-input(
           class="minHours"
-          v-model="roomData.minHours"
+          v-model="minHours"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           lazy-rules
           outlined
@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import { Util } from '../Helper/utils'
+
 export default {
   name: 'roomData',
   props: {
@@ -92,6 +94,7 @@ export default {
     }
   },
   data: () => ({
+    util: Object.create(Util.prototype),
     currentStudioName: '',
     roomStatusData: 'Открыт',
     statuses: ['Скрыт', 'Открыт', 'Закрыт'],
@@ -133,6 +136,14 @@ export default {
         this.roomData.isRoom = this.roomType.indexOf(val)
       }
     },
+    minHours: {
+      get () {
+        return this.roomData.minHours.match(/\d*/g).join('')
+      },
+      set (val) {
+        this.roomData.minHours = val
+      }
+    },
     needPrepayment: {
       get () {
         return this.currentPrepay
@@ -161,6 +172,12 @@ export default {
       this.roomStatusData = this.statuses[this.roomData.status]
       this.currentRoomTypeData = this.roomType[this.roomData.isRoom]
       this.currentPrepay = this.prepay[this.roomData.needPrepayment]
+    },
+    hInput (inValue) {
+      console.log(inValue.match(/\d*/g).join(''))
+      inValue = inValue.match(/\d*/g).join('')
+      this.roomData.minHours.match(/\d*/g).join('')
+      // this[origVal] = inValue.match(/\d+/)[0]
     }
   }
 }
