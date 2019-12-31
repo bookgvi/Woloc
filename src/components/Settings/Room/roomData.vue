@@ -138,7 +138,8 @@ export default {
     },
     minHours: {
       get () {
-        return this.roomData.minHours.match(/\d*/g).join('')
+        if (!this.roomData.minHours) return
+        return String(this.roomData.minHours).match(/\d*/g).join('')
       },
       set (val) {
         this.roomData.minHours = val
