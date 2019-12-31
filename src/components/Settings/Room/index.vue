@@ -116,6 +116,7 @@ export default {
     async filterChanged () {
       await this.getStudioAndRoom()
       if (this.createRoomAfterLocation) {
+        console.log('QQQ')
         this.createNew()
       }
     }
@@ -216,7 +217,7 @@ export default {
         images: []
       }
       this.isPost = true
-      this.createRoomAfterLocation = true
+      this.createRoomAfterLocation = false
       // this.reloadData++
     },
     async saveChanges () {
@@ -229,7 +230,7 @@ export default {
         this.rooms = rooms
         const newRoom = this.rooms.filter(item => item.name === this.currentRoomData.name)[0]
         this.setCurrentRoom(newRoom) // Выбираем новосозданный зал в списке
-
+        this.isPost = false
         /*
         * PUT method
         * */
