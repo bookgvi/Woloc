@@ -39,6 +39,13 @@ Util.prototype = {
     const field = document.querySelector(`.${fieldClass} input`)
     field.focus()
     field.blur()
+  },
+  /*
+  * Метод валидации полей тэга Input - допустим ввод только цифр
+  * */
+  inputPrice (e, val) {
+    val.value = e.target.value.match(/\d*/)[0]
+    e.target.value = val.value
   }
 }
 
