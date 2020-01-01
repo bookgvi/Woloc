@@ -71,8 +71,7 @@ export default {
   computed: {
     heightVM: {
       get () {
-        const res = this.util.floatOrInteger(this.specification.height)
-        return res
+        return this.specification.height
       },
       set (val) {
         this.specification.height = val
@@ -80,8 +79,7 @@ export default {
     },
     yardageVM: {
       get () {
-        const res = this.util.floatOrInteger(this.specification.yardage)
-        return res
+        return this.specification.yardage
       },
       set (val) {
         this.specification.yardage = val

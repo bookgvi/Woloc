@@ -55,7 +55,7 @@ Util.prototype = {
   floatOrInteger (val) {
     const res = String(val).match(/\d*\.\d*/g) || String(val).match(/\d*/)
     return res[0]
-  }
+  },
 }
 
 Object.defineProperty(Util.prototype, 'constructor', {
