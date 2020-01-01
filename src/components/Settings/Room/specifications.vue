@@ -56,10 +56,6 @@ export default {
   },
   data: () => ({
     util: Object.create(Util.prototype),
-    itemsCount: 6,
-    roomHeight: 0,
-    roomYardage: 0,
-    roomDescription: '',
     isCharacteristics: true,
     reloadFields: 0
   }),
