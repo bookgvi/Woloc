@@ -47,6 +47,14 @@ Util.prototype = {
   inputPrice (e, val) {
     val = e.target.value.match(/\d*/)[0]
     e.target.value = val
+  },
+
+  /*
+  * Валидация десятичных дробей или целых чисел
+  * */
+  floatOrInteger (val) {
+    const res = String(val).match(/\d*\.\d*/g) || String(val).match(/\d*/)
+    return res[0]
   }
 }
 

@@ -18,7 +18,7 @@
         span.text-red *
         q-input(
           class="height"
-          v-model="specification.height"
+          v-model="heightVM"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           lazy-rules
           outlined
@@ -43,6 +43,8 @@
 
 <script>
 import AbstractList from './AbstractDataList/abstractList'
+import { Util } from '../Helper/utils'
+
 export default {
   name: 'specifications',
   components: { AbstractList },
@@ -53,6 +55,7 @@ export default {
     isRequired: Boolean
   },
   data: () => ({
+    util: Object.create(Util.prototype),
     itemsCount: 6,
     roomHeight: 0,
     roomYardage: 0,
@@ -63,6 +66,18 @@ export default {
   watch: {
     'isRequired' (newVal) {
       if (newVal) this.reloadFields++
+    }
+  },
+  computed: {
+    heightVM: {
+      get () {
+        // const res = this.specification.height
+        const res = this.util.floatOrInteger(this.specification.height)
+        return res
+      },
+      set (val) {
+        this.specification.height = val
+      }
     }
   },
   created () {
