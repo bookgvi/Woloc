@@ -18,7 +18,7 @@
         span.text-red *
         q-input(
           class="height"
-          v-model="heightVM"
+          v-model="specification.height"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           lazy-rules
           outlined
@@ -31,7 +31,7 @@
         span.text-red *
         q-input(
           class="yardage"
-          v-model="yardageVM"
+          v-model="specification.yardage"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           lazy-rules
           outlined
@@ -67,29 +67,6 @@ export default {
     'isRequired' (newVal) {
       if (newVal) this.reloadFields++
     }
-  },
-  computed: {
-    heightVM: {
-      get () {
-        return this.specification.height
-      },
-      set (val) {
-        this.specification.height = val
-      }
-    },
-    yardageVM: {
-      get () {
-        return this.specification.yardage
-      },
-      set (val) {
-        this.specification.yardage = val
-      }
-    }
-  },
-  created () {
-    this.roomHeight = this.height
-    this.roomYardage = this.yardage
-    this.roomDescription = this.description
   }
 }
 </script>
