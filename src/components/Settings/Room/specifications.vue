@@ -31,7 +31,7 @@
         span.text-red *
         q-input(
           class="yardage"
-          v-model="specification.yardage"
+          v-model="yardageVM"
           :rules="[val => !!val || 'Обязательно для заполнения']"
           lazy-rules
           outlined
@@ -71,12 +71,20 @@ export default {
   computed: {
     heightVM: {
       get () {
-        // const res = this.specification.height
         const res = this.util.floatOrInteger(this.specification.height)
         return res
       },
       set (val) {
         this.specification.height = val
+      }
+    },
+    yardageVM: {
+      get () {
+        const res = this.util.floatOrInteger(this.specification.yardage)
+        return res
+      },
+      set (val) {
+        this.specification.yardage = val
       }
     }
   },
