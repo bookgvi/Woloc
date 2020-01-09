@@ -1,5 +1,5 @@
 <template lang="pug">
-  .table.wrapper.wrapper--header
+  .table.wrapper.wrapper--header(:key="keyNumber")
     DataTable(
       title="Промокоды"
       :loadData="$app.promocodes.getAll"
@@ -9,6 +9,18 @@
     )
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить промокод" no-caps)
+    q-dialog(v-model="isModal")
+      q-card(style="min-width: 680px;")
+        edit-promocode(
+          :row="row"
+          :singleStudio="singleStudio"
+          :rooms="rooms"
+          :allStudiosName="allStudiosName"
+          @hasModal="hasModal"
+          @createUpdate="createUpdate"
+          @promoDelete="promoDelete"
+        )
+
 </template>
 
 <script>
@@ -16,22 +28,54 @@ import columns from './columns'
 import DataTable from 'components/DataTable'
 import editPromocode from '../editPromoModal/editPromo'
 export default {
-  props: {
-    singleStudio: Object,
-    rooms: Array,
-    allStudiosName: Array
-  },
   name: 'promoTable',
   components: { DataTable, editPromocode },
-  data: () => ({
-    columns,
-    editPromo: true,
-    dataset: {}
-  }),
+  data () {
+    return {
+      columns,
+      keyNumber: 0,
+      dataset: {},
+      isModal: false,
+      row: {},
+      allStudiosName: [],
+      rooms: [],
+      singleStudio: {}
+    }
+  },
+  async mounted () {
+    this.filter()
+  },
   methods: {
-    showDialog (props) {
-      this.editPromo = true
-      this.dataset = props
+    async filter () {
+      let { studio } = await this.$app.filters.getValues('settings')
+      if (!studio) return
+      const { items } = await this.$app.studios.getAll()
+      const [{ rooms }] = items.filter(item => item.id === studio)
+      this.rooms = rooms
+      this.singleStudio = await this.$app.studios.getOne(studio)
+      this.allStudiosName = items.map(item => item.name)
+    },
+    async toggleDialogRow (row) {
+      this.row = row
+      this.isModal = true
+    },
+    async hasModal () {
+      await this.$nextTick()
+      this.isModal = false
+    },
+    async createUpdate (id, value) {
+      if (!id) {
+        await this.$app.promocodes.addNew(value)
+      } else {
+        await this.$app.promocodes.updateOne({ id, data: value })
+      }
+      this.isModal = false
+      this.keyNumber++
+    },
+    async promoDelete (id) {
+      await this.$app.promocodes.deleteOne(id)
+      this.isModal = false
+      this.keyNumber++
     }
   }
 }
