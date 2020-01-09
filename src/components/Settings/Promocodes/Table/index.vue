@@ -9,8 +9,8 @@
     )
       template(#table-controls-append)
         q-btn.q-ml-md.text-white.bg-primary(label="Добавить промокод" no-caps)
-    q-dialog(v-model="isModal")
-      q-card(style="min-width: 680px;")
+    q-dialog(v-model="isModal" persistent)
+      q-card(style="min-width: 600px;")
         edit-promocode(
           :row="row"
           :singleStudio="singleStudio"
