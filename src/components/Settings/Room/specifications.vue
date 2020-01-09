@@ -7,48 +7,68 @@
       .col
         span Описание зала
           textarea.q-pa-sm.text-grey-8(
-            v-model="description"
+            v-model="specification.description"
             type="textarea"
             rows=5
             style="width: 100%;"
           )
-    .row.q-pb-lg
+    .row.q-pb-lg(:key="reloadFields")
       .col.q-pr-sm
-        span Высота потолков, м
-        q-input(v-model="singleStudio.height" outlined dense)
+        span Высота потолков, м&nbsp;
+        span.text-red *
+        q-input(
+          class="height"
+          v-model="specification.height"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+          outlined
+          dense
+        )
       .col
         span(style="line-height: 0;") Площадь, м
           sup 2
-        q-input(v-model="singleStudio.yardage" outlined dense)
-    .row.q-pb-lg
-      .col.q-pr-sm
-        .row
-          q-checkbox(v-model="var1" label="Дневной свет")
-        .row
-          q-checkbox(v-model="var1" label="Подвесная система")
-        .row
-          q-checkbox(v-model="var2" label="Проходная система")
-      .col
-        .row
-          q-checkbox(v-model="var1" label="Трехфазная нагрузка")
-        .row
-          q-checkbox(v-model="var2" label="Затемнение окон")
-        .row
-          q-checkbox(v-model="var1" label="Условия для семинаров")
+        span &nbsp;
+        span.text-red *
+        q-input(
+          class="yardage"
+          v-model="specification.yardage"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+          outlined
+          dense
+        )
+    abstract-list(:dataArray="specification.characteristics")
+
 </template>
 
 <script>
+import AbstractList from './AbstractDataList/abstractList'
 export default {
   name: 'specifications',
+  components: { AbstractList },
   props: {
-    singleStudio: Object,
-    allStudiosName: Array,
-    currentRoom: String
+    specification: {
+      type: Object
+    },
+    isRequired: Boolean
   },
   data: () => ({
-    description: '',
-    var1: true,
-    var2: false
-  })
+    itemsCount: 6,
+    roomHeight: 0,
+    roomYardage: 0,
+    roomDescription: '',
+    isCharacteristics: true,
+    reloadFields: 0
+  }),
+  watch: {
+    'isRequired' (newVal) {
+      if (newVal) this.reloadFields++
+    }
+  },
+  created () {
+    this.roomHeight = this.height
+    this.roomYardage = this.yardage
+    this.roomDescription = this.description
+  }
 }
 </script>

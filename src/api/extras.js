@@ -1,25 +1,24 @@
 import api from './instance'
-import extras from 'src/mocks/extras'
-
+import extrasMock from 'src/mocks/extras'
+import { AbstractAPI } from './AbstractAPI'
 const API_URL = process.env.API_CABINET_URL
-
-export default {
-  getAll: async () => {
-    try {
-      const r = {
-        data: extras
-      }
-      return r
-    } catch (e) {
-      console.warn('catch :: extras :: getAll', e)
+export const extras = new AbstractAPI(`${API_URL}/settings/extras`)
+extras.getMock = async function () {
+  try {
+    const r = {
+      data: extrasMock
     }
-  },
-  getForCalendar: async (payload) => {
-    try {
-      const r = await api.get(`${API_URL}/rooms/${payload.room}/extras`)
-      return r.data
-    } catch (e) {
-      console.warn('catch :: extras :: getForCalendar', e)
-    }
-  },
+    return r.data
+  } catch (e) {
+    console.warn('catch :: extras :: getMock', e)
+    return e
+  }
+}
+extras.getForCalendar = async function (payload) {
+  try {
+    const r = await api.get(`${API_URL}/rooms/${payload.room}/extras`)
+    return r.data
+  } catch (e) {
+    console.warn('catch :: extras :: getForCalendar', e)
+  }
 }

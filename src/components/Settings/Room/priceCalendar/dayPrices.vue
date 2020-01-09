@@ -1,276 +1,23 @@
 <template lang="pug">
   .dayPrices
-    q-table(
-      :data="prices"
-      :columns="columns"
-    )
-      template(#bottom)
-      template(#body="props")
-        q-tr
-          q-td(v-for="({ __tdClass, name }, index) in columns" :key="index" :class="__tdClass")
-            template(v-if="name !== 'time'")
-              u.text-primary.cursor-pointer {{ props.row[name] }}
-                q-popup-edit(v-model="props.row[name]")
-                  q-input(v-model="props.row[name]" dense autofocus)
-            template(v-else) {{ props.row[name] }}
+    .row
+      .col(v-for="(item, index) in columns" :key="index")
+        p(style="text-align: center;") {{ item.label }}
+    .row(v-for="(item2, index2) in payment")
+      .col
+        p.q-px-xs.q-pt-sm(style="text-align: center; border: 1px solid silver; height: 2.5rem;") {{ item2.time }}
+      .col.q-pl-sm(v-for="item3 in item2.days")
+        input.q-pa-sm(:value="item3.value" @input="inputPrice($event, item3)" style="width: 100%; height: 2.5rem;")
 </template>
 
 <script>
 export default {
   name: 'extraCharge',
   props: {
-    price: String
+    payment: Array
   },
   data () {
     return {
-      prices: [
-        {
-          time: '1:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '2:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '3:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '4:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '5:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '6:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-      ],
-      prices1: [
-        {
-          time: '1:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '2:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '3:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '4:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '5:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-        {
-          time: '6:00',
-          mon: '500',
-          tue: '500',
-          wed: '500',
-          thu: '500',
-          fri: '500',
-          sat: '500',
-          sun: '500',
-        },
-      ],
-      prices2: [
-        {
-          time: '1:00',
-          mon: '654',
-          tue: '654',
-          wed: '654',
-          thu: '654',
-          fri: '654',
-          sat: '654',
-          sun: '654',
-        },
-        {
-          time: '2:00',
-          mon: '654',
-          tue: '654',
-          wed: '654',
-          thu: '654',
-          fri: '654',
-          sat: '654',
-          sun: '654',
-        },
-        {
-          time: '3:00',
-          mon: '654',
-          tue: '654',
-          wed: '654',
-          thu: '654',
-          fri: '654',
-          sat: '654',
-          sun: '654',
-        },
-        {
-          time: '4:00',
-          mon: '654',
-          tue: '654',
-          wed: '654',
-          thu: '654',
-          fri: '654',
-          sat: '654',
-          sun: '654',
-        },
-        {
-          time: '5:00',
-          mon: '654',
-          tue: '654',
-          wed: '654',
-          thu: '654',
-          fri: '654',
-          sat: '654',
-          sun: '654',
-        },
-        {
-          time: '6:00',
-          mon: '654',
-          tue: '654',
-          wed: '654',
-          thu: '654',
-          fri: '654',
-          sat: '654',
-          sun: '654',
-        },
-      ],
-      prices3: [
-        {
-          time: '1:00',
-          mon: '1654',
-          tue: '1654',
-          wed: '1654',
-          thu: '1654',
-          fri: '1654',
-          sat: '1654',
-          sun: '1654',
-        },
-        {
-          time: '2:00',
-          mon: '1654',
-          tue: '1654',
-          wed: '1654',
-          thu: '1654',
-          fri: '1654',
-          sat: '1654',
-          sun: '1654',
-        },
-        {
-          time: '3:00',
-          mon: '1654',
-          tue: '1654',
-          wed: '1654',
-          thu: '1654',
-          fri: '1654',
-          sat: '1654',
-          sun: '1654',
-        },
-        {
-          time: '4:00',
-          mon: '1654',
-          tue: '1654',
-          wed: '1654',
-          thu: '1654',
-          fri: '1654',
-          sat: '1654',
-          sun: '1654',
-        },
-        {
-          time: '5:00',
-          mon: '1654',
-          tue: '1654',
-          wed: '1654',
-          thu: '1654',
-          fri: '1654',
-          sat: '1654',
-          sun: '1654',
-        },
-        {
-          time: '6:00',
-          mon: '1654',
-          tue: '1654',
-          wed: '1654',
-          thu: '1654',
-          fri: '1654',
-          sat: '1654',
-          sun: '1654',
-        },
-      ],
       columns: [
         {
           name: 'time',
@@ -316,24 +63,17 @@ export default {
       ]
     }
   },
-  watch: {
-    price (newValue) {
-      switch (this.price) {
-        case 'prices1':
-          this.prices = this.prices1
-          break
-        case 'prices2':
-          this.prices = this.prices2
-          break
-        case 'prices3':
-          this.prices = this.prices3
-          break
-      }
+  methods: {
+    inputPrice (e, val) {
+      val.value = e.target.value.match(/\d*/)[0]
+      e.target.value = val.value
     }
   }
 }
 </script>
 
 <style scoped>
-
+  .q-field--disabled .q-field__inner {
+    cursor: pointer !important;
+  }
 </style>

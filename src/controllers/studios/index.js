@@ -21,6 +21,6 @@ export default {
       if (filter) {
         return this.list.find(({ id }) => id === filter.studio)
       } else return {}
-    },
+    }
   }
 }

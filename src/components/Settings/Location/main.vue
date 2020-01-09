@@ -11,24 +11,22 @@
         .col-6
           dataBlock(:singleStudio="singleStudio")
           specifications(:singleStudio="singleStudio")
-          images
+          images(:imgData="singleStudio" :page="page" @reloadPage="$emit('reloadPage')")
           addressBlock(:singleStudio="singleStudio")
-          services(:services="services")
-          equipment(:vendors="vendors")
+          services(:singleStudio="singleStudio")
+          equipment(:singleStudio="singleStudio")
           rooms(:rooms="rooms")
           .row.col-12.justify-center.q-pt-md
             .col-6.q-pr-sm
               q-btn.fit.bg-primary.text-white(
                 label="Сохранить"
                 no-caps
-                @click="$emit('updateStudio', services, vendors)"
-                :disable='isSave'
+                @click="$emit('updateStudio', services, facilities)"
               )
             .col-6.q-pl-sm
               q-btn.fit(
                 label="Сохранить и создать зал"
                 no-caps
-                :disable='!isSave'
                 @click="$emit('createNewStudio')"
               )
 </template>
@@ -36,7 +34,7 @@
 <script>
 import dataBlock from './data'
 import specifications from './specifications'
-import images from './images'
+import images from '../Images/index'
 import addressBlock from './address'
 import services from './services'
 import equipment from './equipment'
@@ -59,13 +57,15 @@ export default {
   props: {
     singleStudio: Object,
     services: Array,
-    vendors: Array,
+    facilities: Array,
     rooms: Array,
     studioID: Number,
     isSave: Boolean
   },
   data () {
-    return {}
+    return {
+      page: 'studios'
+    }
   }
 }
 </script>

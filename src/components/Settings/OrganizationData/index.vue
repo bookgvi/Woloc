@@ -183,8 +183,9 @@
 
 <script>
 import employees from './employees'
-import organizationSettings from '../../../api/organizationSettings'
 import telephone from './phone'
+import { showNotif } from '../../../utils/helpers'
+
 export default {
   name: 'rules',
   components: { employees, telephone },
@@ -198,7 +199,7 @@ export default {
   },
   methods: {
     async getData () {
-      const { data } = await organizationSettings.getOne()
+      const { data } = await this.$app.organization.getOne()
       if (!data.organization.name) return
       return data
     },
@@ -207,33 +208,20 @@ export default {
       this.employerProps = value
     },
     async saveChanges () {
-      const result = await organizationSettings.updateOne(this.organization.id, this.organization)
+      const result = await this.$app.organization.updateOne({ id: this.organization.id, data: this.organization })
       if (result.hasOwnProperty('data') && result.data.hasOwnProperty('organization')) {
-        this.showNotif('Изменения сохранены', 'green')
+        showNotif('Изменения сохранены', 'green')
         this.extra = result.data.extra
         this.organization = result.data.organization
         this.reloadPage++
       } else if (result.hasOwnProperty('errors')) {
-        this.showNotif('Проверьте обязательные поля')
-        result.errors.forEach(item => {
-          if (item.source === 'phone') {
-            console.warn('Phone')
-          } else {
-            this.organization[item.source] = ''
-          }
-        })
+        showNotif('Проверьте обязательные поля')
       }
     },
     equalAddresses () {
       if (this.organization.isRealAddress) {
         this.organization.legalAddress = this.organization.address
       }
-    },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
     }
   },
   async mounted () {

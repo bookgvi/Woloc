@@ -1,5 +1,5 @@
 import { moment } from '../boot/moment'
-import { LocalStorage, date } from 'quasar'
+import { LocalStorage, date, Notify } from 'quasar'
 import jwtDecode from 'jwt-decode'
 
 export function checkAuth (to, from, next) {
@@ -35,4 +35,11 @@ export function checkNoAuth (to, from, next) {
 
 export function dtFormat (v) {
   return moment(v).format(moment.defaultFormatUtc)
+}
+
+export function showNotif (msg, clr = 'purple') {
+  Notify.create({
+    message: msg,
+    color: clr
+  })
 }

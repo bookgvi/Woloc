@@ -1,13 +1,13 @@
 <template lang="pug">
   q-dialog(
-    v-model="dialogState"
     persistent
+    v-model="dialogState"
   )
     q-card.q-py-md(
-      style="width: 330px"
+      style="width: 400px"
     )
       q-card-section.q-pa-none(
-        style="width: 330px"
+        style="width: 400px"
       )
         q-list.text-body2.text-black.text-weight-bold(
           dense
@@ -15,26 +15,29 @@
           q-expansion-item(
             group="new-event"
             dense
-            default-opened
+            v-model="customerExpansionItem"
             v-if="!booking.technical"
           )
             template(v-slot:header).row.items-center
               .col-4.q-py-sm
-                span {{ "Клиент" }}
+                span {{ "Клиент" }}&nbsp
+                span.text-red *
               .col-7.q-py-sm
                 span.text-grey {{ customerSlot }}
             calendar-customer.q-pa-md(
-              :startCustomer="newBooking.customer"
+              :startCustomer="newBooking"
               :isCreate="isCreate"
               @customerChange="newBooking.customer = $event"
             )
           q-expansion-item(
             group="new-event"
             dense
+            v-model="roomExpansionItem"
           )
             template(v-slot:header)
               .col-4.q-py-sm
-                span {{ "Зал" }}
+                span {{ "Зал" }}&nbsp
+                span.text-red *
               .col-7.q-py-sm
                 span.text-grey {{ roomSlot }}
             calendar-room.q-pa-md(
@@ -75,10 +78,12 @@
             group="new-event"
             dense
             v-if="!booking.technical"
+            v-model="purposeExpansionItem"
           )
             template(v-slot:header)
               .col-4.q-py-sm
-                span {{ "Цель" }}
+                span {{ "Цель" }}&nbsp
+                span.text-red *
               .col-7.q-py-sm
                 span.text-grey {{ eventSlot }}
             calendar-event.q-pa-md(
@@ -188,6 +193,9 @@ export default {
   },
   data () {
     return {
+      customerExpansionItem: true,
+      roomExpansionItem: false,
+      purposeExpansionItem: false,
       newBooking: {},
       helpers: {
         date: '',
@@ -279,14 +287,19 @@ export default {
     setQueryState (state) {
       this.$emit('setQueryState', state)
     },
-    setParamsForPost () {
-      if (!this.newBooking.customer || !this.newBooking.customer.id) {
-        Notify.create({
-          message: `Выберите клиента`,
-          color: 'negative',
-          position: 'bottom-left',
-          icon: 'warning'
-        })
+    async setParamsForPost () {
+      const fullName = document.querySelector('.fullName')
+      const phone = document.querySelector('.phone')
+      const email = document.querySelector('.email')
+      const btnApply = document.querySelector('.btnApply')
+      if (!this.newBooking.customer.fullName || !this.newBooking.customer.phone || !this.newBooking.customer.email) {
+        this.customerExpansionItem = true // Развернуть блок
+        this.showNotif('Заполните обязательные поля')
+        await this.$nextTick()
+        fullName.focus()
+        phone.focus()
+        email.focus()
+        btnApply.focus()
         return null
       }
       if (!this.newBooking.room) {
@@ -296,6 +309,7 @@ export default {
           position: 'bottom-left',
           icon: 'warning'
         })
+        this.roomExpansionItem = true // Развернуть блок
         return null
       }
       if (!this.newBooking.eventType) {
@@ -305,6 +319,7 @@ export default {
           position: 'bottom-left',
           icon: 'warning'
         })
+        this.purposeExpansionItem = true // Развернуть блок
         return null
       }
       let extras = []
@@ -319,7 +334,14 @@ export default {
       }
       const params = {
         roomId: this.newBooking.room.id,
-        consumerId: this.newBooking.customer.id,
+        consumerId: this.newBooking.customer.id || null,
+        customer: {
+          fullName: this.newBooking.customer.fullName,
+          firstName: this.newBooking.customer.firstName || '',
+          phone: this.newBooking.customer.phone || '',
+          email: this.newBooking.customer.email || '',
+          id: this.newBooking.customer.id || null
+        },
         reserveFrom: this.newBooking.reservedFrom,
         reserveTo: this.newBooking.reservedTo,
         priceType: this.newBooking.eventType,
@@ -375,7 +397,15 @@ export default {
         priceType: this.newBooking.eventType,
         extras: extras,
         members: this.newBooking.members,
-        managerComment: this.newBooking.managerComment || ''
+        managerComment: this.newBooking.managerComment || '',
+        consumerId: this.newBooking.customer.id || null,
+        customer: {
+          fullName: this.newBooking.customer.fullName,
+          firstName: this.newBooking.customer.firstName || '',
+          phone: this.newBooking.customer.phone || '',
+          email: this.newBooking.customer.email || '',
+          id: this.newBooking.customer.id || null
+        }
       }
       // console.log('put', params)
       return {
@@ -388,9 +418,13 @@ export default {
       this.newBooking.reservedTo = this.reservedTime.to
       const index = this.$app.bookings.calendarGetIndexById(this.newBooking.id)
       if (index === -1) {
-        const payload = this.setParamsForPost()
+        const payload = await this.setParamsForPost()
         if (payload) {
-          await this.$app.bookings.addNew(payload)
+          const result = await this.$app.bookings.addNew(payload)
+          if (result && (result.hasOwnProperty('errors') || !result.hasOwnProperty('data'))) {
+            this.showNotif('Неудалось создать бронь.', 'orange')
+            return
+          }
           if (this.$app.bookings.idOfJustAdded !== 0) {
             this.$emit('setQueryState', true)
             this.$app.extras.extrasForRoom = []
@@ -399,7 +433,7 @@ export default {
       } else {
         const payload = this.setParamsForPut()
         if (payload) {
-          await this.$app.bookings.updateOne(payload.id, payload.data)
+          await this.$app.bookings.updateOne({ id: payload.id, data: payload.data })
           if (this.$app.bookings.idOfJustAdded !== 0) {
             this.$emit('setQueryState', true)
             this.$app.extras.extrasForRoom = []
@@ -407,6 +441,12 @@ export default {
         }
       }
       // console.log(9, this.newBooking.id, index)
+    },
+    showNotif (msg, clr = 'purple') {
+      this.$q.notify({
+        message: msg,
+        color: clr
+      })
     }
   },
   props: {

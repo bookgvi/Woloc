@@ -1,10 +1,10 @@
 <template lang="pug">
   q-dialog(
-    v-model="dialogState"
     persistent
+    v-model="dialogState"
   )
     q-card.q-py-md(
-      style="width: 330px"
+      style="width: 400px"
     )
       q-card-section
         span.row.text-bold.q-px-sm.q-pb-md Быстрая бронь

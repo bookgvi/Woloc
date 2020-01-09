@@ -4,32 +4,33 @@ export default [
   {
     name: 'title',
     label: 'Название',
-    width: 150
+    active: true,
   },
   {
-    name: 'room',
+    name: 'rooms',
     label: 'Зал',
-    width: 120
+    active: true,
+    headerStyle: 'text-align: center;',
   },
   {
     name: 'amount',
     label: 'цена, ₽.',
-    width: 120
+    active: true,
   },
   {
     name: 'maxLimit',
     label: 'лимит',
-    width: 120
+    active: true,
   },
   {
     name: 'createdAt',
     label: 'Дата создания',
-    format: value => date.formatDate(value, 'D MMMM YYYY h:mm'),
-    width: 60
+    format: value => date.formatDate(value, 'D MMMM YYYY в h:mm'),
+    active: true,
   },
   {
     name: 'extrasControls',
-    width: 40,
+    active: true,
     align: 'right'
   }
 ]

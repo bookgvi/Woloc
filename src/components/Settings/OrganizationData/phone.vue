@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { showNotif } from '../../../utils/helpers'
+
 export default {
   name: 'phones',
   props: {
@@ -44,19 +46,13 @@ export default {
       if (this.arrayLength < 5) {
         this.arrayLength++
       } else {
-        this.showNotif('Не более 5 телефонных номеров!', 'orange')
+        showNotif('Не более 5 телефонных номеров!', 'orange')
       }
     },
     deletePhone (index) {
       const result = this.organization.phones.splice(index, 1)
       if (!result.length) this.arrayLength--
     },
-    showNotif (msg, clr = 'purple') {
-      this.$q.notify({
-        message: msg,
-        color: clr
-      })
-    }
   }
 }
 </script>

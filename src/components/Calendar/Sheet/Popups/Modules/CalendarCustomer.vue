@@ -1,49 +1,71 @@
 <template lang="pug">
-  .col-12.row.justify-around.items-center
-    .col-12
-      q-select.text-body2.text-weight-bold(
-        outlined
-        fill-input
-        :disabled="!isCreate"
-        :readonly="!isCreate"
-        hide-selected
-        @filter="filterFn"
-        use-input
-        input-debounce="1000"
-        hide-dropdown-icon
-        options-dense
-        placeholder="Пользователь"
-        clearable
-        :options="$app.customers.searched.slice(0, 10)"
-        :option-value="opt => opt === null ? '' : opt.fullName"
-        :option-label="opt => opt === null ? '' : opt.fullName"
-        v-model="customer"
+  .col
+    .row.q-pb-sm
+      .col
+        span Пользователь &nbsp
+        span.text-red *
+    .row.q-pb-sm
+      .col
+        q-select.text-body2.text-weight-bold(
+          outlined
+          fill-input
+          :disabled="!isCreate"
+          :readonly="!isCreate"
+          hide-selected
+          @filter="filterFn"
+          use-input
+          input-debounce="0"
+          hide-dropdown-icon
+          options-dense
+          placeholder="Пользователь"
+          :options="$app.customers.searched.slice(0, 10)"
+          :option-value="opt => opt === null ? '' : opt.fullName"
+          :option-label="opt => opt === null ? '' : opt.fullName"
+          v-model="customerName"
+          new-value-mode="add"
+          class="fullName"
+          :rules="[val => !!val.fullName || 'Обязательно для заполнения']"
+          lazy-rules
         )
-    .col-12
-      q-input.text-body2.text-weight-bold(
-        outlined
-        readonly
-        mask="#(###)###-##-##"
-        placeholder="Телефон"
-        v-model="phone"
-      )
-    .col-12
-      q-input.text-body2.text-weight-bold(
-        outlined
-        readonly
-        stack-label
-        placeholder="Эл. почта"
-        v-model="email"
-      ) {{ customerComp }}
+    .row.q-pb-sm
+      .col
+        span Телефон &nbsp
+        span.text-red *
+    .row.q-pb-md
+      .col
+        q-input.text-body2.text-weight-bold(
+          outlined
+          mask="#(###)###-##-##"
+          unmasked-value
+          placeholder="Телефон"
+          v-model="phone"
+          class="phone"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+        )
+    .row.q-pb-sm
+      .col
+        span Эл. почта &nbsp
+        span.text-red *
+    .row.q-pb-sm
+      .col
+        q-input.text-body2.text-weight-bold(
+          outlined
+          placeholder="Эл. почта"
+          v-model="email"
+          class="email"
+          :rules="[val => !!val || 'Обязательно для заполнения']"
+          lazy-rules
+        ) {{ customerComp }}
 </template>
 
 <script>
-
 export default {
   name: 'CalendarCustomer',
   data () {
     return {
       customer: {
+        id: '',
         firstName: '',
         fullName: '',
         phone: '',
@@ -55,9 +77,23 @@ export default {
     customerComp () {
       return this.customerChange()
     },
+    customerName: {
+      get () {
+        return this.customer
+      },
+      set (val) {
+        if (typeof val === 'object') {
+          this.customer = val
+        } else {
+          this.startCustomer.customer = {
+            fullName: val
+          }
+        }
+      }
+    },
     phone: {
       get () {
-        return (this.customer) ? this.customer.phone : ''
+        return this.customer.phone ? this.customer.phone : ''
       },
       set (v) {
         this.customer.phone = v
@@ -65,7 +101,7 @@ export default {
     },
     email: {
       get () {
-        return (this.customer) ? this.customer.email : ''
+        return this.customer.email ? this.customer.email : ''
       },
       set (v) {
         this.customer.email = v
@@ -82,35 +118,23 @@ export default {
         return
       }
       await this.$app.customers.getForCalendar(val.toLowerCase())
-      update()
+      update(_ => {
+        this.customer.fullName = val
+      })
     }
   },
   props: {
-    startCustomer: {
-      type: Object,
-      default: _ => {
-        return {
-          firstName: '',
-          fullName: '',
-          phone: '',
-          email: ''
-        }
-      }
-    },
+    startCustomer: Object,
     isCreate: {
       type: Boolean
     }
   },
   watch: {
-    startCustomer: {
+    'startCustomer.customer': {
       handler (v) {
-        this.customer = (v) ? Object.assign(v)
-          : {
-            firstName: '',
-            fullName: '',
-            phone: '',
-            email: ''
-          }
+        if (v && v.hasOwnProperty('id') && v.id) {
+          this.customer = Object.assign(v)
+        }
       },
       immediate: true
     }
