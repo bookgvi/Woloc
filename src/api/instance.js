@@ -84,9 +84,9 @@ instance.interceptors.response.use(
             }
           }
       }
-      // return response.data
+      return response.data
     }
-    return Promise.reject(response.data)
+    return Promise.reject(error)
   }
 )
 export default instance
