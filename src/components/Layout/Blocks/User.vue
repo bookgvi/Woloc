@@ -1,6 +1,6 @@
 <template lang="pug">
   .q-px-md.justify-end
-    q-list.cursor-pointer.text-primary(v-if="isAuthorized")
+    q-list.cursor-pointer.text-primary
       q-item.col-12
         q-item-section.col-9
           span {{ userName }}
@@ -19,18 +19,8 @@ export default {
   name: 'User',
   data () {
     return {
-      isAuthorized: false,
       userName: 'user',
       avatar: 'https://cdn.quasar.dev/img/avatar.png'
-    }
-  },
-  watch: {
-    '$route.path' (newPath, oldPath) {
-      if (newPath) {
-        this.setUserData()
-      } else if (newPath === '/login') {
-        this.isAuthorized = false
-      }
     }
   },
   mounted () {
@@ -44,12 +34,11 @@ export default {
       if (window.location.hostname === 'localhost') {
         this.avatar = 'https://pre.ugoloc.ucann.ru' + this.avatar
       }
-      this.isAuthorized = true
     },
     exit () {
       LocalStorage.clear()
       SessionStorage.clear()
-      this.$router.go()
+      this.$router.replace('/login')
     }
   }
 }

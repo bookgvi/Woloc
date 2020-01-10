@@ -1,5 +1,5 @@
 <template lang="pug">
-  q-toolbar.bg-white.row.col-12.justify-around.items-center.q-pa-none
+  q-toolbar.bg-white.row.col-12.justify-around.items-center.q-pa-none9(v-if="isAuthorized")
     .row.justify-start.items-center
       logo
       nav-tabs
@@ -17,10 +17,21 @@ export default {
   components: { NavTabs, User, Logo },
   data () {
     return {
+      isAuthorized: true,
       screenWidth: 1920
     }
   },
+  watch: {
+    '$route.path' (newPath, oldPath) {
+      if (newPath === '/login') {
+        this.isAuthorized = false
+      } else {
+        this.isAuthorized = true
+      }
+    }
+  },
   mounted () {
+    this.isAuthorized = !(this.$route.path === '/login')
     this.screenWidth = window.screen.width
   }
 }

@@ -61,7 +61,7 @@ instance.interceptors.response.use(
         case 401:
         case 403:
           LocalStorage.remove('user-token')
-          window.location.href = `/login`
+          // window.location.href = `/login`
           break
         default:
           if (response.data && response.data.errors) {
