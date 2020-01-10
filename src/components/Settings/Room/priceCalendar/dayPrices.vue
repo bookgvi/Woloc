@@ -7,12 +7,10 @@
       .col
         p.q-px-xs.q-pt-sm(style="text-align: center; border: 1px solid silver; height: 2.5rem;") {{ item2.time }}
       .col.q-pl-sm(v-for="item3 in item2.days")
-        input.q-pa-sm(:value="item3.value" @input="util.inputPrice($event, item3.value)" style="width: 100%; height: 2.5rem;")
+        input.q-pa-sm(:value="item3.value" @input="inputPrice($event, item3)" style="width: 100%; height: 2.5rem;")
 </template>
 
 <script>
-import { Util } from '../../Helper/utils'
-
 export default {
   name: 'extraCharge',
   props: {
@@ -20,7 +18,6 @@ export default {
   },
   data () {
     return {
-      util: Object.create(Util.prototype),
       columns: [
         {
           name: 'time',
@@ -64,6 +61,12 @@ export default {
           label: 'ВС'
         }
       ]
+    }
+  },
+  methods: {
+    inputPrice (e, val) {
+      val.value = e.target.value.match(/\d*/)[0]
+      e.target.value = val.value
     }
   }
 }

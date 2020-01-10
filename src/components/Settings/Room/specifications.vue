@@ -43,8 +43,6 @@
 
 <script>
 import AbstractList from './AbstractDataList/abstractList'
-import { Util } from '../Helper/utils'
-
 export default {
   name: 'specifications',
   components: { AbstractList },
@@ -55,7 +53,10 @@ export default {
     isRequired: Boolean
   },
   data: () => ({
-    util: Object.create(Util.prototype),
+    itemsCount: 6,
+    roomHeight: 0,
+    roomYardage: 0,
+    roomDescription: '',
     isCharacteristics: true,
     reloadFields: 0
   }),
@@ -63,6 +64,11 @@ export default {
     'isRequired' (newVal) {
       if (newVal) this.reloadFields++
     }
+  },
+  created () {
+    this.roomHeight = this.height
+    this.roomYardage = this.yardage
+    this.roomDescription = this.description
   }
 }
 </script>

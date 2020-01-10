@@ -39,23 +39,7 @@ Util.prototype = {
     const field = document.querySelector(`.${fieldClass} input`)
     field.focus()
     field.blur()
-  },
-
-  /*
-  * Метод валидации полей тэга Input - допустим ввод только цифр
-  * */
-  inputPrice (e, val) {
-    val = e.target.value.match(/\d*/)[0]
-    e.target.value = val
-  },
-
-  /*
-  * Валидация десятичных дробей или целых чисел
-  * */
-  floatOrInteger (val) {
-    const res = String(val).match(/\d*\.\d*/g) || String(val).match(/\d*/)
-    return res[0]
-  },
+  }
 }
 
 Object.defineProperty(Util.prototype, 'constructor', {

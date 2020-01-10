@@ -7,12 +7,11 @@
       .col
         p.q-py-sm(style="text-align: center; border: 1px solid silver; height: 2.5rem;") на час
       .col.q-pl-sm(v-for="(item2, index2) in payment")
-        input.q-pa-sm(:value="payment[index2].value" @input="util.inputPrice($event, payment[index2].value)" style="width: 100%; height: 2.5rem;")
+        input.q-pa-sm(:value="payment[index2].value" @input="inputPrice($event, payment[index2])" style="width: 100%; height: 2.5rem;")
 
 </template>
 
 <script>
-import { Util } from '../../Helper/utils'
 export default {
   name: 'extraCharge',
   props: {
@@ -24,7 +23,6 @@ export default {
   },
   data () {
     return {
-      util: Object.create(Util.prototype),
       columns: [
         {
           name: 'charge',
@@ -68,6 +66,12 @@ export default {
           label: 'ВС'
         }
       ]
+    }
+  },
+  methods: {
+    inputPrice (e, val) {
+      val.value = e.target.value.match(/\d*/)[0]
+      e.target.value = val.value
     }
   }
 }
