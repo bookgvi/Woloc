@@ -94,6 +94,7 @@ export default {
     disabled: Boolean,
   },
   data: () => ({
+    opacity: 1
   }),
   methods: {
     controlsAreVisible (row) {
@@ -114,8 +115,8 @@ export default {
     getRoomStyle ({ color }) {
       return {
         height: '50%',
-        color: this.hexTOrgb(color, 1),
-        backgroundColor: this.hexTOrgb(color, 30)
+        color: this.hexTOrgb(color, this.opacity),
+        backgroundColor: this.hexTOrgb(color, this.opacity + 30)
       }
     },
     hexTOrgb (color, opacity) {
@@ -142,7 +143,10 @@ export default {
     bookingsStyle (status) {
       this.$nextTick(_ => {
         if (['Отменено', 'Просрочено'].includes(status)) {
-          this.$refs.qtr.$el.classList.add('text-grey-7')
+          this.$refs.qtr.$el.classList.add('text-grey-4')
+          this.opacity = -25
+        } else {
+          this.opacity = 1
         }
       })
     },
