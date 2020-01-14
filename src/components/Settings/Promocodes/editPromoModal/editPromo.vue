@@ -112,6 +112,7 @@
         )
       .col-6.q-pl-xs
         VueCtkDateTimePicker.q-pt-sm(
+          id="datePicker2"
           v-model="dateRange2"
           color="#81AEB6"
           formatted="D MMMM Y"
@@ -143,7 +144,6 @@ export default {
       default: () => ({}),
     },
     allStudiosProps: Array,
-    rooms: Array,
     singleStudio: Object
   },
   components: {
@@ -252,9 +252,9 @@ export default {
         minPrice: this.minPrice,
         isPublic: this.isPublic,
         type: this.type,
-        startedAt: this.dateRange1['start'].split(' ')[0],
+        startedAt: this.dateRange1['start'] ? this.dateRange1['start'].split(' ')[0] : this.dateRange1['start'],
         expiredAt: this.dateRange1['end'] ? this.dateRange1['end'].split(' ')[0] : this.dateRange1['end'],
-        dateFrom: this.dateRange2['start'].split(' ')[0],
+        dateFrom: this.dateRange2['start'] ? this.dateRange2['start'].split(' ')[0] : this.dateRange2['start'],
         dateTo: this.dateRange2['end'] ? this.dateRange2['end'].split(' ')[0] : this.dateRange2['end']
       })
     }

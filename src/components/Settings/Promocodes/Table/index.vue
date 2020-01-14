@@ -14,7 +14,6 @@
         edit-promocode(
           :row="row"
           :singleStudio="singleStudio"
-          :rooms="rooms"
           :allStudiosProps="allStudios"
           @hasModal="hasModal"
           @createUpdate="createUpdate"
@@ -38,7 +37,6 @@ export default {
       isModal: false,
       row: {},
       allStudios: [],
-      rooms: [],
       singleStudio: {}
     }
   },
@@ -50,8 +48,6 @@ export default {
       let { studio } = await this.$app.filters.getValues('settings')
       if (!studio) return
       const { items } = await this.$app.studios.getAll()
-      const [{ rooms }] = items.filter(item => item.id === studio)
-      this.rooms = rooms
       this.singleStudio = await this.$app.studios.getOne(studio)
       this.allStudios = items
     },
