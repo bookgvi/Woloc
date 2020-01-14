@@ -126,7 +126,7 @@
         span Заполните только дату начала, если срок действия должен быть неограничен.
     .row.justify-center
       .col.q-mr-sm
-        q-btn.q-py-sm(label="Удалить" no-caps flat style="width: 100%; border: 1px solid silver;")
+        q-btn.q-py-sm(label="Удалить" @click="$emit('promoDelete', row.id)" no-caps flat style="width: 100%; border: 1px solid silver;")
       .col
         q-btn.q-py-sm.bg-primary.text-white(label="Сохранить" @click="savePromo" no-caps flat style="width: 100%")
 </template>
