@@ -128,7 +128,7 @@
       .col.q-mr-sm
         q-btn.q-py-sm(label="Удалить" no-caps flat style="width: 100%; border: 1px solid silver;")
       .col
-        q-btn.q-py-sm.bg-primary.text-white(label="Сохранить" no-caps flat style="width: 100%")
+        q-btn.q-py-sm.bg-primary.text-white(label="Сохранить" @click="savePromo" no-caps flat style="width: 100%")
 </template>
 
 <script>
@@ -155,7 +155,7 @@ export default {
       alias: '', // Promocode name
       locationSelected: '',
       locationsAll: [],
-      roomSelected: '',
+      roomSelected: [],
       roomsAll: [],
       discount: '',
       type: '', // Тип скидки
@@ -186,9 +186,6 @@ export default {
     allRooms: {
       get () {
         return this.roomsAll
-      },
-      set (val) {
-        this.roomsAll = val
       }
     },
     selectedRoom: {
@@ -230,11 +227,9 @@ export default {
       this.locationsAll = this.allStudiosProps
       this.locationSelected = this.singleStudio.name
       const selectedStudio = this.locationsAll.filter(item => item.name === this.locationSelected).pop()
-      this.allRooms = selectedStudio.rooms
-      if (this.row.id) {
-        this.selectedRoom = this.row.rooms.map(item => item.name)
-      } else {
-        this.selectedRoom = ''
+      this.roomsAll = selectedStudio.rooms
+      if (this.row.rooms) {
+        this.roomSelected = this.row.rooms.map(item => item.name)
       }
       this.discount = this.row.discount
       this.type = this.row.type
@@ -250,7 +245,18 @@ export default {
       }
     },
     async savePromo () {
-      console.log('QQQ')
+      this.$emit('createUpdate', this.row.id, {
+        alias: this.alias,
+        rooms: this.roomSelected,
+        discount: this.discount,
+        minPrice: this.minPrice,
+        isPublic: this.isPublic,
+        type: this.type,
+        startedAt: this.dateRange1['start'].split(' ')[0],
+        expiredAt: this.dateRange1['end'] ? this.dateRange1['end'].split(' ')[0] : this.dateRange1['end'],
+        dateFrom: this.dateRange2['start'].split(' ')[0],
+        dateTo: this.dateRange2['end'] ? this.dateRange2['end'].split(' ')[0] : this.dateRange2['end']
+      })
     }
   }
 }
