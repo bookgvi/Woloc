@@ -8,14 +8,14 @@
       @toggleDialogRow="toggleDialogRow"
     )
       template(#table-controls-append)
-        q-btn.q-ml-md.text-white.bg-primary(label="Добавить промокод" no-caps)
+        q-btn.q-ml-md.text-white.bg-primary(label="Добавить промокод" @click="createPromo" no-caps)
     q-dialog(v-model="isModal" persistent)
       q-card(style="min-width: 600px;")
         edit-promocode(
           :row="row"
           :singleStudio="singleStudio"
           :rooms="rooms"
-          :allStudiosName="allStudiosName"
+          :allStudiosProps="allStudios"
           @hasModal="hasModal"
           @createUpdate="createUpdate"
           @promoDelete="promoDelete"
@@ -37,7 +37,7 @@ export default {
       dataset: {},
       isModal: false,
       row: {},
-      allStudiosName: [],
+      allStudios: [],
       rooms: [],
       singleStudio: {}
     }
@@ -53,7 +53,7 @@ export default {
       const [{ rooms }] = items.filter(item => item.id === studio)
       this.rooms = rooms
       this.singleStudio = await this.$app.studios.getOne(studio)
-      this.allStudiosName = items.map(item => item.name)
+      this.allStudios = items
     },
     async toggleDialogRow (row) {
       this.row = row
@@ -76,6 +76,10 @@ export default {
       await this.$app.promocodes.deleteOne(id)
       this.isModal = false
       this.keyNumber++
+    },
+    createPromo () {
+      this.row = {}
+      this.isModal = true
     }
   }
 }

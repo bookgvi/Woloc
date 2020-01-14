@@ -48,7 +48,7 @@ AbstractAPI.prototype = {
     try {
       const status = await api.post(this.url, payload)
       showNotif('Успешно', 'green')
-      return status.data
+      return status
     } catch (err) {
       console.warn('catch :: createNew', err)
       showNotif('Ошибка сохранения изменений', 'red')
