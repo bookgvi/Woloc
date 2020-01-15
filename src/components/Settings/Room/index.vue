@@ -116,7 +116,6 @@ export default {
     async filterChanged () {
       await this.getStudioAndRoom()
       if (this.createRoomAfterLocation) {
-        console.log('QQQ')
         this.createNew()
       }
     }

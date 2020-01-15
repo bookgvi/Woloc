@@ -1,21 +1,21 @@
 <template lang="pug">
-  .editExtras
+  form.editExtras(@submit.prevent="saveExtra")
     .row.justify-center
       .col
         .text-h6 Дополнительная услуга
       q-space
       .col-1
-        q-btn(icon="close" flat @click="$emit('hide')")
+        q-icon.cursor-pointer(name="close" v-close-popup style="font-size: 1.5rem;")
     .row
       span Название&nbsp;
         span.text-red *
     .row.q-pb-md
       .col
         q-input(
-          v-model="dataset.title"
-          :rules="[val => !!val || 'Обязательно для заполнения']"
+          v-model="form.title"
           outlined
-          autofocus
+          dense
+          :error="$v.form.title.$error"
         )
     .row
       .col.q-pr-md
@@ -26,138 +26,207 @@
         span.text-red *
     .row.q-pb-md
       .col.q-pr-md
-        q-input(
-          v-model="singleStudio.name"
-          :rules="[val => !!val || 'Обязательно для заполнения']"
+        q-select.elipsis(
+          v-model="selectedStudio"
+          :options="form.locationsAll.map(item => item.name)"
           outlined
-          disable
+          dense
+          :error="$v.form.locationSelected.$error"
         )
       .col
-        q-select(
-          v-model="selectedRooms"
-          :options="allRoomsOfThisStudio.map(item => item.name)"
-          :rules="[val => val.length || 'Обязательно для заполнения']"
+        q-select.elipsis(
+          v-model="selectedRoom"
+          :options="allRooms.map(item => item.name)"
           multiple
           outlined
-          autofocus
+          dense
+          :error="$v.form.roomSelected.$error"
         )
     .row
-      span Описание
+      span Описание&nbsp;
+        span.text-red *
     .row.q-pb-md
       .col
-        textarea.text-grey-8(v-model="dataset.description" type="textarea" rows="4" style="width: 100%;")
+        textarea.text-grey-8(
+          v-model="form.description"
+          rows="4"
+          :error="$v.form.description.$error"
+          style="width: 100%;"
+        )
     .row
-      span Цена, ₽
+      span Цена, ₽&nbsp;
+        span.text-red *
     .row.q-pb-md
-      q-input(v-model.number="dataset.amount" outlined)
+      q-input(
+        v-model.number="form.amount"
+        outlined
+        dense
+        :error="$v.form.amount.$error"
+      )
     .row
       q-checkbox(v-model="hasLimit" label="Включить ограничение по колличеству доп. услуг")
     .col(v-if="hasLimit")
       .row
         span Лимит
       .row
-        q-input(v-model="dataset.maxLimit" outlined)
+        q-input(v-model="form.maxLimit" outlined dense)
     .row.q-py-md
-      images(:imgData="dataset" :page="page")
-    .row.q-pb-md.justify-center
-      .col-6.q-pa-sm
-        q-btn.fit.bg-white.text-black(label="Удалить" no-caps outline size="1.3em" color="grey-8" @click="deleteOne")
-      .col-6.q-pa-sm
-        q-btn.fit.bg-primary.text-white(label="Сохранить" no-caps flat size="1.3em" @click="saveChanges")
+      images(:imgData="row" :page="page")
+    .row.justify-center
+      .col.q-mr-sm
+        q-btn.q-py-sm(label="Удалить" @click="$emit('extraDelete', row.id)" no-caps flat style="width: 100%; border: 1px solid silver;")
+      .col
+        q-btn.q-py-sm.bg-primary.text-white(label="Сохранить" type="submit" no-caps flat style="width: 100%")
 </template>
 
 <script>
 import FiltersList from '../../../Filters/FiltersList'
 import RoomsFilter from '../../../Filters/RoomsFilter'
 import Images from '../../Images/index'
+import { required } from 'vuelidate/lib/validators'
 export default {
   name: 'modalForExtras',
   props: {
-    singleStudio: Object,
-    rooms: Array,
-    dataset: Object,
-    allRoomsOfThisStudio: Array,
-    isPost: Boolean
+    row: {
+      type: Object,
+      default: () => ({}),
+    },
+    allStudiosProps: Array,
+    singleStudio: Object
   },
   components: {
     Images,
     FiltersList,
     RoomsFilter
   },
-  data: () => ({
-    page: 'extras',
-    isLimit: false,
-    selected: []
-  }),
-  filters: {
-    imgUrl () {
-      return 'http://placeimg.com/640/480/animals'
+  data () {
+    return {
+      page: 'extras',
+      form: {
+        title: '',
+        locationSelected: '',
+        locationIdSelected: '',
+        locationsAll: [],
+        roomSelected: [],
+        roomIdSelected: [],
+        roomsAll: [],
+        description: '',
+        amount: '',
+        isLimit: false,
+        maxLimit: ''
+      }
+    }
+  },
+  validations: {
+    form: {
+      title: { required },
+      locationSelected: { required },
+      roomSelected: { required },
+      amount: { required },
+      description: { required }
     }
   },
   computed: {
-    hasLimit: {
+    selectedStudio: {
       get () {
-        return this.isLimit
+        return this.form.locationSelected
       },
       set (val) {
-        this.isLimit = val
-        if (!val) {
-          this.dataset.maxLimit = 0
+        this.form.locationSelected = val
+        const selectedStudio = this.form.locationsAll.filter(item => item.name === val).pop()
+        this.form.locationIdSelected = selectedStudio.id
+        this.allRooms = selectedStudio.rooms
+        if (val !== this.singleStudio.name || !this.row.id) {
+          this.selectedRoom = []
+        } else {
+          this.selectedRoom = this.row.rooms.map(item => item.name)
         }
       }
     },
-    selectedRooms: {
+    allRooms: {
       get () {
-        return this.selected
+        return this.form.roomsAll
       },
       set (val) {
-        this.selected = val
-        this.dataset.rooms = val
-        this.dataset.rooms = this.selected.map(item => {
-          const arrayWithOneRoom = this.allRoomsOfThisStudio.filter(item2 => item === item2.name)
-          return arrayWithOneRoom.pop()
-        })
+        this.form.roomsAll = val
+      }
+    },
+    selectedRoom: {
+      get () {
+        return this.form.roomSelected
+      },
+      set (val) {
+        this.form.roomSelected = val
+      }
+    },
+    hasLimit: {
+      get () {
+        return this.form.isLimit
+      },
+      set (val) {
+        this.form.isLimit = val
+        if (!val && !this.row.id) {
+          this.form.maxLimit = 0
+        }
       }
     }
   },
   mounted () {
-    this.hasLimit = Boolean(this.dataset.maxLimit)
-    this.selected = this.rooms.map(item => item.name)
-    this.dataset.rooms = this.rooms
+    this.setStartedValues()
   },
   methods: {
-    async saveChanges () {
-      if (this.dataset.studio.hasOwnProperty('id')) {
-        this.dataset.studio = this.dataset.studio.id
+    async setStartedValues () {
+      this.form.title = this.row.title
+      this.form.locationsAll = this.allStudiosProps
+      this.form.locationSelected = this.singleStudio.name
+      const selectedStudio = this.form.locationsAll.filter(item => item.name === this.form.locationSelected).pop()
+      this.form.locationIdSelected = selectedStudio.id
+      this.form.roomsAll = selectedStudio.rooms
+      if (this.row.rooms) {
+        this.form.roomSelected = this.row.rooms.map(item => item.name)
+        this.form.roomIdSelected = this.row.rooms
       }
-      if (this.isPost) {
-        this.dataset.studio = this.singleStudio.id
-        const result = await this.$app.extras.addNew(this.dataset)
-        if (!result.hasOwnProperty('data')) {
-          result.errors.forEach(item => {
-            if (item.source !== 'rooms') this.dataset[item.source] = ''
-          })
-        } else {
-          this.$emit('hasPostOrPut')
-        }
-      } else {
-        this.publishedAt = new Date()
-        this.dataset.amount = Number(this.dataset.amount)
-        const result = await this.$app.extras.updateOne({ id: this.dataset.id, data: this.dataset })
-        if (result.hasOwnProperty('data')) {
-          this.$emit('hasPostOrPut')
-        }
-      }
+      this.form.description = this.row.description
+      this.form.amount = this.row.amount
+      this.form.maxLimit = this.row.maxLimit
     },
-    async deleteOne () {
-      const result = await this.$app.extras.deleteOne(this.dataset.id)
-      if (result.hasOwnProperty('data')) {
-        this.$emit('hasPostOrPut')
-      }
+    async saveExtra () {
+      this.$v.form.$touch(this.form.locationsAll)
+      if (this.$v.form.$invalid) return
+      this.form.roomIdSelected = []
+      this.form.roomSelected.forEach(item => {
+        this.form.roomIdSelected.push(this.form.roomsAll.filter(item2 => item2.name === item).pop())
+      })
+      this.$emit('createUpdate', this.row.id, {
+        title: this.form.title,
+        amount: this.form.amount,
+        studio: this.form.locationIdSelected,
+        rooms: this.form.roomIdSelected,
+        description: this.form.description,
+        maxLimit: this.form.maxLimit
+      })
     }
   }
 }
 </script>
 
-<style scoped>
+<style>
+  .q-field__native.row.items-center {
+    align-content: center;
+  }
+  .elipsis span {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+  .datePickerCustomization {
+    position: fixed;
+    width: 280px;
+    z-index: 9999;
+  }
+  .datePickerCustomization div input {
+    width: 100%;
+    color: #424242 !important;
+    border-radius: 0px !important;
+  }
 </style>

@@ -119,7 +119,7 @@ export default {
         backgroundColor: this.hexTOrgb(color, this.opacity + 30)
       }
     },
-    hexTOrgb (color, opacity) {
+    hexTOrgb (color = '#fff', opacity) {
       if (color[0] === '#') {
         color = color.slice(1, color.length)
       }
