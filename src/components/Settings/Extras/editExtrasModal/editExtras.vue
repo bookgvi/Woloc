@@ -50,7 +50,6 @@
         textarea.text-grey-8(
           v-model="form.description"
           rows="4"
-          :error="$v.form.description.$error"
           style="width: 100%;"
         )
     .row
@@ -123,7 +122,6 @@ export default {
       locationSelected: { required },
       roomSelected: { required },
       amount: { required },
-      description: { required }
     }
   },
   computed: {
