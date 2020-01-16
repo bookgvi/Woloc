@@ -1,7 +1,7 @@
 <template lang="pug">
   .datas
     h6.q-mb-md Оборудование
-      .row.q-pb-sm(v-for="(item, index) in singleStudio.facilities" :key="index")
+      .row.q-pb-sm(v-for="(item, index) in facilities" :key="index")
         .col
           q-expansion-item.text-subtitle1(
             :label="item.name"
