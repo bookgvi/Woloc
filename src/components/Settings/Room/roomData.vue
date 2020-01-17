@@ -65,19 +65,25 @@
         )
     .row.q-pb-md
       span Опубликован и доступен для бронирования
-    .row.q-pb-sm
+    // .row.q-pb-sm
       span Предоплата
     .row.q-pb-lg
-      .col-7.q-pr-sm
-        q-select(
-          class="needPrepayment"
-          :rules="[val => !!val || 'Обязательно для заполнения']"
-          lazy-rules
-          v-model="needPrepayment"
-          :options="prepay"
-          outlined
-          dense
-        )
+      .col
+        q-checkbox(v-model="needPrepayment")
+        label.cursor-pointer(style="font-weight: bold; font-size: 0.9rem;" @click="needPrepayment = !needPrepayment") Предоплата
+        .row
+          span Включает 50% предоплату бронирования
+
+        // q-select(
+           class="needPrepayment"
+        // :rules="[val => !!val || 'Обязательно для заполнения']"
+         lazy-rules
+         v-model="needPrepayment"
+        // :options="prepay"
+         outlined
+         dense
+        // )
+
 </template>
 
 <script>
@@ -135,11 +141,10 @@ export default {
     },
     needPrepayment: {
       get () {
-        return this.currentPrepay
+        return Boolean(this.roomData.needPrepayment)
       },
       set (val) {
-        this.currentPrepay = val
-        this.roomData.needPrepayment = this.prepay.indexOf(val)
+        this.roomData.needPrepayment = Number(val)
       }
     },
     roomColorVM: {
