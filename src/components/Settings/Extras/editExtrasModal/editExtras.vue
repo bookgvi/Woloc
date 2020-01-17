@@ -46,7 +46,7 @@
       span Описание
     .row.q-pb-md
       .col
-        textarea.text-grey-8(
+        textarea.text-grey-8.q-pa-sm(
           v-model="form.description"
           rows="4"
           style="width: 100%;"
