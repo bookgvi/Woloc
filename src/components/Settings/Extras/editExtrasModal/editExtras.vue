@@ -43,8 +43,7 @@
           :error="$v.form.roomSelected.$error"
         )
     .row
-      span Описание&nbsp;
-        span.text-red *
+      span Описание
     .row.q-pb-md
       .col
         textarea.text-grey-8(
@@ -163,7 +162,7 @@ export default {
       },
       set (val) {
         this.form.isLimit = val
-        if (!val && !this.row.id) {
+        if (!val || !this.row.id) {
           this.form.maxLimit = 0
         }
       }
@@ -187,6 +186,7 @@ export default {
       this.form.description = this.row.description
       this.form.amount = this.row.amount
       this.form.maxLimit = this.row.maxLimit
+      this.form.isLimit = this.row.maxLimit > 0
     },
     async saveExtra () {
       this.$v.form.$touch(this.form.locationsAll)
