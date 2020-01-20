@@ -6,7 +6,7 @@
       .col-8.q-pr-sm
         q-select.q-pb-sm(
           v-if="showAddress"
-          :value="form.address"
+          v-model="form.address"
           :options="fullAddressArr"
           :error="$v.form.address.$error"
           @input.native="getFullAddress($event)"
