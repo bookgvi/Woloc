@@ -7,18 +7,18 @@
       .col
         span Локация
         q-input.q-pt-sm(v-model="currentStudioData" outlined dense disable)
-    .row.q-pb-lg(:key="reloadFields")
+    .row.q-pb-lg
       .col
         span Название зала&nbsp;
         span.text-red *
-        q-input.q-pt-sm(
-          class="name"
-          v-model="roomData.name"
-          :rules="[val => !!val || 'Обязательно для заполнения']"
-          lazy-rules
+        q-input.q-pt-sm.q-pb-xs(
+          :value="form.name"
+          :error="$v.form.name.$error"
+          @input.native="util.hInput($event, 'name')"
           outlined
           dense
         )
+        div(v-if="$v.form.name.$invalid && $v.form.name.$dirty" class="error") * - Поле обязательно для заполнения
     .row.q-pb-md
       span Цвет зала в календаре
     .row.items-center.q-pb-md
@@ -41,32 +41,27 @@
       .col-4.q-pr-sm
         span Статус
         q-select(v-model="roomStatus" :options="statuses" outlined dense)
-      .col-4.q-pr-sm
+      .col-5.q-pr-sm
         span Тип зала
         q-select(
-          class="name"
-          :rules="[val => !!val || 'Обязательно для заполнения']"
-          lazy-rules
           v-model="currentRoomType"
           :options="roomType"
           outlined
           dense
         )
-      .col-4.q-pr-sm
+      .col-3.q-pr-sm
         span Мин. кол-во часов&nbsp;
         span.text-red *
-        q-input(
-          class="minHours"
-          v-model="roomData.minHours"
-          :rules="[val => !!val || 'Обязательно для заполнения']"
-          lazy-rules
+        q-input.q-pb-xs(
+          :value="form.minHours"
+          :error="$v.form.minHours.$error"
+          @input.native="util.hInput($event, 'minHours')"
           outlined
           dense
         )
+        div(v-if="$v.form.minHours.$invalid && $v.form.minHours.$dirty" class="error") * - Поле обязательно для заполнения
     .row.q-pb-md
       span Опубликован и доступен для бронирования
-    // .row.q-pb-sm
-      span Предоплата
     .row.q-pb-lg
       .col
         q-checkbox(v-model="needPrepayment")
@@ -74,19 +69,12 @@
         .row
           span Включает 50% предоплату бронирования
 
-        // q-select(
-           class="needPrepayment"
-        // :rules="[val => !!val || 'Обязательно для заполнения']"
-         lazy-rules
-         v-model="needPrepayment"
-        // :options="prepay"
-         outlined
-         dense
-        // )
-
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
+import { Util } from '../Helper/utils'
+
 export default {
   name: 'roomData',
   props: {
@@ -95,21 +83,34 @@ export default {
     },
     roomData: {
       type: Object
+    },
+    isRequired: Number
+  },
+  data () {
+    return {
+      util: new Util(this),
+      form: {
+        name: '',
+        minHours: ''
+      },
+      currentStudioName: '',
+      roomStatusData: 'Открыт',
+      statuses: ['Скрыт', 'Открыт', 'Закрыт'],
+      currentRoomTypeData: 'Рабочий',
+      roomType: ['Гримерка или подсобка', 'Рабочий'],
+      currentPrepay: 'На выбор клиента',
+      prepay: ['Без предоплаты', 'На выбор клиента'],
     }
   },
-  data: () => ({
-    currentStudioName: '',
-    roomStatusData: 'Открыт',
-    statuses: ['Скрыт', 'Открыт', 'Закрыт'],
-    currentRoomTypeData: 'Рабочий',
-    roomType: ['Гримерка или подсобка', 'Рабочий'],
-    currentPrepay: 'На выбор клиента',
-    prepay: ['Без предоплаты', 'На выбор клиента'],
-    reloadFields: 0
-  }),
   watch: {
-    'isRequired' (newVal) {
-      if (newVal) this.reloadFields++
+    'isRequiredVM' (newVal) {
+      this.$v.form.$touch()
+    }
+  },
+  validations: {
+    form: {
+      name: { required },
+      minHours: { required }
     }
   },
   computed: {
@@ -155,6 +156,9 @@ export default {
         val = val.split('#').pop()
         this.roomData.color = val
       }
+    },
+    isRequiredVM () {
+      return this.isRequired
     }
   },
   mounted () {
@@ -162,6 +166,8 @@ export default {
   },
   methods: {
     defaultValues () {
+      this.form.name = this.roomData.name
+      this.form.minHours = this.roomData.minHours
       this.currentStudioName = this.currentStudio.name
       this.roomStatusData = this.statuses[this.roomData.status]
       this.currentRoomTypeData = this.roomType[this.roomData.isRoom]
