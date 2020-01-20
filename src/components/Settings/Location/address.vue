@@ -90,9 +90,9 @@ export default {
       fullAddressArr: [],
       yControls: [],
       options: {
-        token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
+        token: '057e7170a2393938095876b5e635faf0ab785270', // ucann.ugoloc (pass: Ucann2019, mail: ucann.ugoloc@yandex.ru)
         yaMap: {
-          yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
+          yAPI: 'b8ae7152-a149-4ead-af8c-bf39e29e6636' // ucann.ugoloc@yandex.ru (pass: Ucann2019)
         }
       },
       instWalk: 'Выйдя из метро идите вдоль торговых рядов вдоль и железной дороги. Перейдя железнодорожные пути пройдите через шлагбаум на территорию бывшего завода Станколит ...',
