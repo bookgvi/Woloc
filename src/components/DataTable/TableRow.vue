@@ -12,8 +12,8 @@
         q-chip(
           v-if="value"
           dense
-          :style="getRoomStyle(value)"
-          :title="value.name"
+         :style="getRoomStyle(value)"
+         :title="value.name"
         ) {{ value.name || value.title}}
       template(v-else-if="name === 'rooms'")
         q-chip.q-pa-sm(
@@ -164,65 +164,51 @@ export default {
 <style lang="stylus">
   tr.disabled
     opacity .2
-
   .q-table thead, .q-table td, .q-table th
     border-width 0px
-
   .q-table tbody tr
     .active
       cursor: pointer
-
     .room-col .q-chip
       width 100px
       border-radius 3px
-
       .q-chip__content
         white-space nowrap
         text-overflow ellipsis
         overflow hidden
         display block
-
     .rooms-col
       max-width 400px
       overflow hidden
       text-overflow ellipsis
-
       .q-chip
         border-radius 3px
         max-width 100px
         overflow hidden
         text-overflow ellipsis
-
       .q-chip__content
         white-space nowrap
         text-overflow ellipsis
         overflow hidden
         display block
-
     .purpose-col .q-chip
       width 100px
       border-radius 3px
-
       .q-chip__content
         width 100%
         white-space normal
         overflow hidden
-
     .eventType-col
       font-size 1.6em
-
     .customerComment-col
       max-width 100px
       overflow hidden
       text-overflow ellipsis
-
     .rating-col
       color $primary
       letter-spacing 5px
-
     .controls-col
       position relative
-
       .buttons
         padding-top 4px
         height 100%

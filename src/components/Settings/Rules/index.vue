@@ -21,7 +21,7 @@
               q-radio(v-model="extraPay" val="second" label="при задержке до 30 мин, доплата в размере 1/2 смоимости часа, более 30 мин. — полная стоимость часа.")
         .row.q-pb-md
           .text-h6 Видеонаблюдение на территории
-        .row.q-pb-xl
+        .row.q-pb-md
           .col
             .row
               q-radio(v-model="video" val="first" label="Нет видеонаблюдения")
@@ -33,19 +33,20 @@
               q-radio(v-model="video" val="fourth" label="Только в залах")
         .row.q-pb-md
           .text-h6 Передвижение предметов в зале и изменение внешнего вида зала
-        .row.q-pb-md
+        .row.q-pb-xs
           .col
             .row
               q-radio(v-model="movement" val="first" label="Разрешено самостоятельно")
             .row
               q-radio(v-model="movement" val="second" label="По согласованию с администратором")
-        .row.q-pb-xs
-          span Штраф, ₽
-        .row.q-pb-xl
-            q-input(v-model="penalty" outlined dense)
+        .penalty.q-pl-xl(v-if="movement === 'second'")
+          .row.q-pb-xs
+            span Штраф, ₽
+          .row.q-pb-md
+              q-input(v-model="penalty" outlined dense)
         .row.q-pb-md
           .text-h6 Вход с домашними животными
-        .row.q-pb-xl
+        .row.q-pb-md
           .col
             .row
               q-radio(v-model="pet" val="first" label="Разрешен")
@@ -53,11 +54,11 @@
               q-radio(v-model="pet" val="second" label="По согласованию с администратором")
             .row
               q-radio(v-model="pet" val="third" label="Запрещен")
-            .row
-              q-radio(v-model="pet" val="fourth" label="За дополнительную плату")
+            .row.q-pl-md(v-if="pet !== 'third'")
+              q-checkbox(v-model="isPet" label="За дополнительную плату")
         .row.q-pb-md
           .text-h6 Вход с дикими животными
-        .row.q-pb-xl
+        .row.q-pb-md
           .col
             .row
               q-radio(v-model="wildAnimal" val="first" label="Разрешен")
@@ -65,11 +66,11 @@
               q-radio(v-model="wildAnimal" val="second" label="По согласованию с администратором")
             .row
               q-radio(v-model="wildAnimal" val="third" label="Запрещен")
-            .row
-              q-radio(v-model="wildAnimal" val="fourth" label="За дополнительную плату")
+            .row.q-pl-md(v-if="wildAnimal !== 'third'")
+              q-checkbox(v-model="isWildAnimal" label="За дополнительную плату")
         .row.q-pb-md
           .text-h6 Распитие алкогольной продукции
-        .row.q-pb-xl
+        .row.q-pb-sm
           .col
             .row
               q-radio(v-model="alcohol" val="first" label="Разрешен")
@@ -77,6 +78,12 @@
               q-radio(v-model="alcohol" val="second" label="По согласованию с администратором")
             .row
               q-radio(v-model="alcohol" val="third" label="Запрещен")
+        .penalty.q-pl-xl(v-if="alcohol === 'third'")
+          .row.q-pb-xs
+            span Штраф, ₽
+          .row.q-pb-md
+            q-input(v-model="penalty" outlined dense)
+
         .row.q-pb-md
           .text-h6 Наличие при себе документа удостоверяющего личность
         .row.q-pb-xl
@@ -91,7 +98,7 @@
               q-radio(v-model="identification" val="fourth" label="Строго каждому участнику с оригиналом паспорта")
         .row.q-pb-md
           .text-h6 Наличие сменной обуви
-        .indoorShoes.q-pb-xl
+        .indoorShoes.q-pb-md
           .row
             .col
               .row
@@ -103,7 +110,7 @@
               q-radio(v-model="isProved" val="first" label="Предоставляется")
             .col-4
               q-radio(v-model="isProved" val="second" label="Не предоставляется")
-          .row.q-pl-xl(v-if="isProved === 'first'")
+          .row.q-pl-xl(v-if="isProved === 'first' && indoorShoes !== 'first'")
             .col.q-pl-xl
               .row
                 q-radio(v-model="isFree" val="first" label="Бесплатно")
@@ -117,7 +124,7 @@
 
         .row.q-pb-md
           .text-h6 Самостоятельная уборка зала
-        .row.q-pb-xl
+        .row.q-pb-md
           .col
             .row
               q-radio(v-model="cleaning" val="first" label="Не требуется")
@@ -125,21 +132,19 @@
               q-radio(v-model="cleaning" val="second" label="Требуется произвести уборку ")
             .row.q-pb-sm
               q-radio(v-model="cleaning" val="third" label="Требуется заранее освободить помещение")
-            .penalty(v-if="cleaning === 'third'")
+            .penalty.q-pl-xl(v-if="cleaning === 'third'")
               .row.q-pb-sm
                 span Освободить заранее, мин
               .row.q-pb-sm
                 q-input(v-model="leaveTime" outlined dense)
-            .row
-              q-checkbox(v-model="isPenalty" label="Установить штраф")
-            .penalty(v-if="isPenalty")
-              .row.q-pb-sm
-                span Установить штраф
-              .row.q-pb-sm
+            .penalty(v-if="cleaning !== 'first'")
+              .row
+                q-checkbox(v-model="isPenalty" label="Установить штраф")
+              .row.q-pl-xl(v-if="isPenalty")
                 q-input(v-model="extraPay2" outlined dense)
         .row.q-pb-md
           .text-h6 Ограничения на самостоятельные манипуляции с оснащением
-        .row.q-pb-xl
+        .row.q-pb-md
           .col
             .row
               q-checkbox(v-model="devices.first" label="Смена насадок")
@@ -153,7 +158,7 @@
               q-checkbox(v-model="devices.fives" label="Штраф за нарушение")
         .row.q-pb-md
           .text-h6 Циклорама
-        .row.q-pb-xl
+        .row.q-pb-md
           .col
             .row
               q-radio(v-model="cyclorama" val="first" label="Нет циклорамы")
@@ -188,8 +193,10 @@ export default {
     video: 'first',
     movement: 'second',
     penalty: 1000,
-    pet: 'fourth',
-    wildAnimal: 'fourth',
+    pet: 'third',
+    isPet: false,
+    wildAnimal: 'third',
+    isWildAnimal: false,
     alcohol: 'third',
     identification: 'fourth',
     indoorShoes: 'second',

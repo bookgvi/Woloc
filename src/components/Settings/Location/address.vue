@@ -4,15 +4,14 @@
       span.text-red *
     .row.q-pb-lg
       .col-8.q-pr-sm
-        q-select(
-          class="address"
-          v-model="singleStudio.address"
+        q-select.q-pb-sm(
+          v-if="showAddress"
+          v-model="form.address"
           :options="fullAddressArr"
+          :error="$v.form.address.$error"
           @input.native="getFullAddress($event)"
           @keyup.native.enter="showOnMap"
           @filter="emptyFilter"
-          :rules="[val => !!val || '* Обязательно для заполнения']"
-          lazy-rules
           use-input
           fill-input
           display-value
@@ -22,11 +21,12 @@
           template(v-slot:no-option)
             q-item
               q-item-section.text-grey No results
+        div(v-if="$v.form.address.$invalid && $v.form.address.$dirty" class="error") * - Поле обязательно для заполнения
       .col-4.q-pl-sm
         q-btn.block(label="Показать на карте" @click="showOnMap")
     .row.q-pb-lg
       yandexMap(
-        v-if="singleStudio.lon ? true : false"
+        v-if="singleStudio.lat"
         :settings="options.yaMap"
         map-type="map"
         scroll-zoom=false
@@ -37,9 +37,8 @@
         @click="setAddress"
       )
         ymapMarker(
-          v-if="isMarker"
           marker-id="singleStudio.id"
-          :coords="markerCoords"
+          :coords="[this.singleStudio.lat, this.singleStudio.lon]"
           :hint-content="singleStudio.name"
         )
     .row.q-pb-lg
@@ -73,36 +72,64 @@
 <script>
 import axios from 'axios'
 import { yandexMap, ymapMarker } from 'vue-yandex-maps'
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   props: {
-    singleStudio: Object
+    singleStudio: Object,
+    isRequired: Number
   },
   components: { yandexMap, ymapMarker },
   data () {
     return {
-      isMarker: false,
+      form: {
+        address: ''
+      },
+      showAddress: false,
       defaultAddress: 'г Москва, ул Кремль',
       fullAddressArr: [],
       yControls: [],
       options: {
-        token: 'daa0567fa0fb73ae73ae7e1e389dfefe52ef35b9',
+        token: '057e7170a2393938095876b5e635faf0ab785270', // ucann.ugoloc (pass: Ucann2019, mail: ucann.ugoloc@yandex.ru)
         yaMap: {
-          yAPI: 'f7da3df2-99ce-456f-b9e5-bc1934a8579a'
+          yAPI: 'b8ae7152-a149-4ead-af8c-bf39e29e6636' // ucann.ugoloc@yandex.ru (pass: Ucann2019)
         }
       },
       instWalk: 'Выйдя из метро идите вдоль торговых рядов вдоль и железной дороги. Перейдя железнодорожные пути пройдите через шлагбаум на территорию бывшего завода Станколит ...',
       instAuto: ''
     }
   },
+  validations: {
+    form: {
+      address: { required }
+    }
+  },
+  watch: {
+    'isRequiredVM' (newVal) {
+      this.$v.form.$touch()
+    },
+    'getAddressVM' (newVal, oldVal) {
+      this.form.address = this.singleStudio.address
+      this.showAddress = true
+    }
+  },
   computed: {
-    markerCoords () {
+    isRequiredVM () {
+      return this.isRequired
+    },
+    coords () {
       this.showOnMap()
       return [this.singleStudio.lat, this.singleStudio.lon]
+    },
+    getAddressVM () {
+      return this.singleStudio.address
     }
   },
   methods: {
     async getFullAddress (e) {
-      this.singleStudio.address = e.target.value
+      this.form.address = e.target.value
+      this.$emit('hInput', this.form.address, 'address')
+      this.$v.form.$touch()
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
         count: 5,
         query: e.target.value,
@@ -118,22 +145,20 @@ export default {
         .catch(err => { console.error('Catched...', err) })
     },
     async showOnMap () {
-      this.isMarker = false
+      this.reloadData++
       const { data } = await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
           apikey: this.options.yaMap.yAPI,
           format: 'json',
-          geocode: this.singleStudio.address || this.defaultAddress
+          geocode: this.form.address || this.defaultAddress
         }
       })
       this.singleStudio.lon = +data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
       this.singleStudio.lat = +data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
       this.$nextTick(_ => {
-        this.isMarker = true
       })
     },
     async setAddress (e) {
-      this.isMarker = false
       this.singleStudio.lon = e.get('coords')[1]
       this.singleStudio.lat = e.get('coords')[0]
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/geolocate/address', {
@@ -143,9 +168,11 @@ export default {
         headers: {
           Authorization: `Token ${this.options.token}`
         }
-      }).then(resp => { this.singleStudio.address = resp.data.suggestions[0].value })
+      }).then(resp => {
+        this.form.address = resp.data.suggestions[0].value
+        this.$emit('hInput', this.form.address, 'address')
+      })
         .catch(err => { console.error('Catched...', err) })
-      this.isMarker = true
     },
     emptyFilter (val, update) {
       update(() => {})

@@ -9,6 +9,9 @@ export default {
       extrasForRoom: []
     }
   },
+  // created () {
+  //   this.getAll()
+  // },
   methods: {
     async getForCalendar (payload) {
       this.loading.list = true

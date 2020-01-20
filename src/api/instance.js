@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { stringify } from 'qs'
-import { LocalStorage, Notify, Loading, QSpinnerGears } from 'quasar'
+import { LocalStorage, Loading, QSpinnerGears } from 'quasar'
 
 const currentURL = (_ => {
   const currentURL = window.location
@@ -61,28 +61,28 @@ instance.interceptors.response.use(
         case 401:
         case 403:
           LocalStorage.remove('user-token')
-          // window.location.href = `/login`
+          window.location.href = `/login`
           break
         default:
-          if (response.data && response.data.errors) {
-            if (Array.isArray(response.data.errors)) {
-              response.data.errors.forEach(err => {
-                Notify.create({
-                  message: err.title,
-                  color: 'negative',
-                  position: 'bottom-left',
-                  icon: 'warning'
-                })
-              })
-            } else {
-              Notify.create({
-                message: response.data.errors.title,
-                color: 'negative',
-                position: 'bottom-left',
-                icon: 'warning'
-              })
-            }
-          }
+          // if (response.data && response.data.errors) {
+          //   if (Array.isArray(response.data.errors)) {
+          //     response.data.errors.forEach(err => {
+          //       Notify.create({
+          //         message: err.title,
+          //         color: 'negative',
+          //         position: 'bottom-left',
+          //         icon: 'warning'
+          //       })
+          //     })
+          //   } else {
+          //     Notify.create({
+          //       message: response.data.errors.title,
+          //       color: 'negative',
+          //       position: 'bottom-left',
+          //       icon: 'warning'
+          //     })
+          //   }
+          // }
       }
       // return response.data
     }
