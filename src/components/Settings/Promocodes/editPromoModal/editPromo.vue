@@ -164,7 +164,7 @@ export default {
         typeAll: { 'rub': 'В рублях', 'percent': 'В процентах' },
         minPrice: '',
         isPublic: 0,
-        statusArr: ['Публичный', 'Персональный'],
+        statusArr: ['Персональный', 'Публичный'],
         lang: 'ru',
         dateLabel1: '',
         dateRange1: '',
@@ -269,10 +269,16 @@ export default {
     },
     async savePromo () {
       this.$v.form.$touch()
+      const selectedLocation = this.form.locationsAll.filter(item => item.name === this.form.locationSelected).pop()
+      const roomsOfSelectedLocation = selectedLocation.rooms
+      let selectedRooms = []
+      this.selectedRoom.forEach(item => {
+        selectedRooms.push(roomsOfSelectedLocation.filter(item2 => item2.name === item).pop())
+      })
       if (this.$v.form.$invalid) return
       this.$emit('createUpdate', this.row.id, {
         alias: this.form.alias,
-        rooms: this.form.roomSelected,
+        rooms: selectedRooms,
         discount: this.form.discount,
         minPrice: this.form.minPrice,
         isPublic: this.form.isPublic,

@@ -28,6 +28,7 @@ export default [
   {
     name: 'isPublic',
     label: 'статус',
+    field: ({ isPublic }) => ['Персональный', 'Публичный'].filter((item, index) => index === Number(isPublic)).pop(),
     active: true,
   },
   {
