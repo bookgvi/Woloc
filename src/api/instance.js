@@ -1,14 +1,14 @@
 import axios from 'axios'
 import { stringify } from 'qs'
-import { LocalStorage, Loading, QSpinnerGears } from 'quasar'
+import { LocalStorage, Loading, Notify, QSpinnerGears } from 'quasar'
 
 const currentURL = (_ => {
   const currentURL = window.location
   let baseURL = currentURL.hostname
   let isCabinet = currentURL.hostname.split('.')
   if (baseURL === 'localhost') {
-    // baseURL = 'https://pre.ugoloc.ucann.ru'
-    baseURL = 'https://ugoloc-828.shot.ugoloc.ucann.ru'
+    baseURL = 'https://pre.ugoloc.ucann.ru'
+    // baseURL = 'https://ugoloc-828.shot.ugoloc.ucann.ru'
   } else if (isCabinet[0] === `cabinet`) {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
@@ -57,6 +57,10 @@ instance.interceptors.response.use(
     const response = error.response
     // console.info('response error', response.data)// for debug
     if (response) {
+      const serverError = String(response.status).match(/^5\d./)
+      if (serverError && serverError[0]) {
+        return Promise.reject(error)
+      }
       switch (response.status) {
         case 401:
         case 403:
@@ -64,25 +68,25 @@ instance.interceptors.response.use(
           window.location.href = `/login`
           break
         default:
-          // if (response.data && response.data.errors) {
-          //   if (Array.isArray(response.data.errors)) {
-          //     response.data.errors.forEach(err => {
-          //       Notify.create({
-          //         message: err.title,
-          //         color: 'negative',
-          //         position: 'bottom-left',
-          //         icon: 'warning'
-          //       })
-          //     })
-          //   } else {
-          //     Notify.create({
-          //       message: response.data.errors.title,
-          //       color: 'negative',
-          //       position: 'bottom-left',
-          //       icon: 'warning'
-          //     })
-          //   }
-          // }
+          if (response.data && response.data.errors) {
+            if (Array.isArray(response.data.errors)) {
+              response.data.errors.forEach(err => {
+                Notify.create({
+                  message: err.title,
+                  color: 'negative',
+                  position: 'bottom-left',
+                  icon: 'warning'
+                })
+              })
+            } else {
+              Notify.create({
+                message: response.data.errors.title,
+                color: 'negative',
+                position: 'bottom-left',
+                icon: 'warning'
+              })
+            }
+          }
       }
       return response.data
     }

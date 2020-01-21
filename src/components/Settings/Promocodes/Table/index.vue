@@ -61,15 +61,18 @@ export default {
     },
     async createUpdate (id, value) {
       if (!id) {
-        await this.$app.promocodes.addNew(value)
+        const status = await this.$app.promocodes.addNew(value)
+        if (status) return
       } else {
-        await this.$app.promocodes.updateOne({ id, data: value })
+        const status = await this.$app.promocodes.updateOne({ id, data: value })
+        if (status) return
       }
       this.isModal = false
       this.keyNumber++
     },
     async promoDelete (id) {
-      await this.$app.promocodes.deleteOne(id)
+      const status = await this.$app.promocodes.deleteOne(id)
+      if (status) return
       this.isModal = false
       this.keyNumber++
     },
