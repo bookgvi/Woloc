@@ -1,6 +1,6 @@
 <template lang="pug">
-  q-page.bg-blue-grey-2.flex.justify-center.items-center.row
-    form.col-xs-12.col-sm-8.col-md-6.col-lg-4.col-xl-2(@submit.prevent="doLogin")
+  .row.bg-blue-grey-2.justify-center.window-height.items-center
+    form.col-3(@submit.prevent="doLogin")
       q-card.bg-white
         q-card-section.font-size-large {{ "Логин" }}
         q-card-section
