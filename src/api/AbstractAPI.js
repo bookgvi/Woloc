@@ -85,7 +85,7 @@ AbstractAPI.prototype = {
     try {
       const status = await api.post(`${this.url}/upload-image`, payload, config)
       if (!status.errors) {
-        showNotif('Изображение успешно добавлено', 'green')
+        // showNotif('Изображение успешно добавлено', 'green')
         return status.data
       } else {
         showNotif('Ошибка загрузки изображения', 'red')

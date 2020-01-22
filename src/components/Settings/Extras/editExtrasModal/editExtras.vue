@@ -1,5 +1,5 @@
 <template lang="pug">
-  form.editExtras(@submit.prevent="saveExtra")
+  form.editExtras(:key="pageReload" @submit.prevent="saveExtra")
     .row.justify-center
       .col
         .text-h6 Дополнительная услуга
@@ -68,8 +68,8 @@
         span Лимит
       .row
         q-input(v-model="form.maxLimit" outlined dense)
-    .row.q-py-md
-      images(:imgData="row" :page="page")
+    .row.q-pt-md
+      images(:imgData="row" :page="page" @reloadPage="pageReload++")
     .row.justify-center
       .col.q-mr-sm
         q-btn.q-py-sm(label="Удалить" @click="$emit('extraDelete', row.id)" no-caps flat style="width: 100%; border: 1px solid silver;")
@@ -100,6 +100,7 @@ export default {
   data () {
     return {
       page: 'extras',
+      pageReload: 0,
       form: {
         title: '',
         locationSelected: '',

@@ -45,7 +45,6 @@
 <script>
 import draggable from 'vuedraggable'
 import uploadForm from './uploadForm'
-import { showNotif } from '../../../utils/helpers'
 
 export default {
   name: 'images',
@@ -85,7 +84,7 @@ export default {
   },
   methods: {
     srcVM (val) {
-      // return `http://pre.ugoloc.ucann.ru/${val}`
+      // return `http://ugoloc-1052.shot.ugoloc.ucann.ru/${val}`
       return `${val}`
     },
     imgSortMethod () {
@@ -112,9 +111,9 @@ export default {
     },
     async deleteImg (img, index) {
       img.isDeleted = true
-      const result = await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
-      if (result.hasOwnProperty('data')) {
-        showNotif('Изображение удалено', 'orange')
+      await this.$app[this.page].updateOne({ id: this.imgDataVM.id, data: this.imgDataVM })
+      if (this.page === 'extras') {
+        this.imgData.images.splice(0, 1)
       }
     },
     showUploadFileDialog () {
