@@ -41,9 +41,13 @@ export default {
 
       this.$app[this.page].uploadImage(formData, config).then(({ data }) => {
         if (!data) return
-        this.$emit('closeUploadDialog')
         this.submitting = false
-        this.imgData.images.push(data)
+        if (this.page === 'extras' && this.imgData.images.length) {
+          this.imgData.images.splice(0, 1, data)
+        } else {
+          this.imgData.images.push(data)
+        }
+        this.$emit('closeUploadDialog')
       })
     },
     onAttachmentChange (e) {
