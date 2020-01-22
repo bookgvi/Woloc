@@ -62,17 +62,17 @@ export default {
     async createUpdate (id, value) {
       if (!id) {
         const status = await this.$app.promocodes.addNew(value)
-        if (status) return
+        if (status.errors) return
       } else {
         const status = await this.$app.promocodes.updateOne({ id, data: value })
-        if (status) return
+        if (status.errors) return
       }
       this.isModal = false
       this.keyNumber++
     },
     async promoDelete (id) {
       const status = await this.$app.promocodes.deleteOne(id)
-      if (status) return
+      if (status.errors) return
       this.isModal = false
       this.keyNumber++
     },
