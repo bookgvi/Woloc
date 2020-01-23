@@ -44,9 +44,14 @@ export default [
     width: 100
   },
   {
-    name: 'guestsCount',
+    name: 'status',
+    // field: ({ status }) => Number(status.id) === 2 ? '&check;' : ''
+  },
+  {
+    name: 'seats',
     label: 'Гости',
     active: true,
+    align: 'center',
     width: 60
   },
   {
@@ -59,8 +64,14 @@ export default [
   {
     name: 'date',
     label: 'Дата',
-    field: 'reservedFrom',
-    format: value => date.formatDate(value, 'D MMM YYYY'),
+    field: ({ reservedFrom }) => {
+      const now = new Date()
+      const currentYear = now.getFullYear()
+      const yearFromServer = date.formatDate(reservedFrom, 'YYYY')
+      return Number(currentYear) === Number(yearFromServer)
+        ? date.formatDate(reservedFrom, 'DD MMM')
+        : date.formatDate(reservedFrom, 'DD MMM YYYY')
+    },
     active: true,
     width: 60
   },
