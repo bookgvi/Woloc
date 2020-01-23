@@ -5,7 +5,7 @@
       text-color="red"
       no-caps
       :disabled="id < 1"
-      label="Удалить"
+      label="Отменить бронирование"
       full-width
       @click="dialog = !dialog"
     )
