@@ -83,7 +83,6 @@ module.exports = function (ctx) {
       analyze: false,
       // extractCSS: false,
       extendWebpack (cfg) {
-        cfg.devtool = 'source-map'
         cfg.module.rules.push({
           enforce: 'pre',
           test: /\.(js|vue)$/,
