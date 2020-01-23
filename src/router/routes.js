@@ -3,10 +3,16 @@ import { checkAuth, checkNoAuth } from 'src/utils/helpers'
 const routes = [
   {
     path: '/login',
-    name: 'login',
     exact: true,
     beforeEnter: checkNoAuth,
-    component: () => import('pages/Login.vue')
+    component: () => import('layouts/Default.vue'),
+    children: [
+      {
+        name: 'login',
+        path: '',
+        component: () => import('pages/Login.vue')
+      }
+    ]
   },
   {
     path: '/',
