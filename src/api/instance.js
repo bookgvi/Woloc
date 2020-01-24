@@ -13,6 +13,7 @@ const currentURL = (_ => {
     isCabinet.shift()
     baseURL = `https://${isCabinet.join('.')}`
   }
+  baseURL = 'https://ugoloc-828.shot.ugoloc.ucann.ru'
   return `${baseURL}/api`
 })()
 const instance = axios.create({
