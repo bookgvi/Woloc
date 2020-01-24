@@ -26,13 +26,17 @@
 
       template(v-else-if="name === 'bookingId'")
         div(:title="row.status.title") {{ value }}
+
       template(v-else-if="name === 'bookingStatus'")
         span(v-bind="bookingsStyle(value.title)")
+
       template(v-else-if="name === 'refundStatus'")
         span(v-bind="refundsStyle(value.title)")
         span(v-if="value.title !== 'Новый'") {{ value.title }}
+
       template(v-else-if="name === 'status'")
-        q-icon(v-if="Number(value.id) === 2" name="done" style="font-size: 1.2rem; color: green;")
+        q-icon(v-if="Number(value.id) === 2" name="done" title="Оплачено" style="font-size: 1.2rem; color: green;")
+
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'extras'")
