@@ -31,12 +31,10 @@
       template(v-else-if="name === 'refundStatus'")
         span(v-bind="refundsStyle(value.title)")
         span(v-if="value.title !== 'Новый'") {{ value.title }}
-      template(v-else-if="name === 'status'")
-        q-icon(v-if="Number(value.id) === 2" name="done" style="font-size: 1.2rem; color: green;")
       template(v-else-if="name === 'eventType'")
         q-icon(:name='value.icon')
       template(v-else-if="name === 'extras'")
-        div(v-if="value.total" :title="extrasM(value)") {{ value.items.length }}
+        div(v-if="value" :title="extrasM(value)") {{ value.items.length }}
         div(v-else) &mdash;
       template(v-else-if="['customerComment', 'promo'].includes(name)")
         transition(
@@ -96,12 +94,7 @@ export default {
     disabled: Boolean,
   },
   data: () => ({
-    fontOpacity: 100,
-    bgOpacity: 35,
-    canceledOrExpired: {
-      fontOpacity: 25,
-      bgOpacity: 6
-    }
+    opacity: 1
   }),
   methods: {
     controlsAreVisible (row) {
@@ -122,18 +115,18 @@ export default {
     getRoomStyle ({ color }) {
       return {
         height: '50%',
-        color: this.hexTOrgb(color, this.fontOpacity),
-        backgroundColor: this.hexTOrgb(color, this.bgOpacity)
+        color: this.hexTOrgb(color, this.opacity),
+        backgroundColor: this.hexTOrgb(color, this.opacity + 30)
       }
     },
-    hexTOrgb (color = '#fff', fontOpacity) {
+    hexTOrgb (color, opacity) {
       if (color[0] === '#') {
         color = color.slice(1, color.length)
       }
       const r = parseInt(color.slice(0, 2), 16)
       const g = parseInt(color.slice(2, 4), 16)
       const b = parseInt(color.slice(4, 6), 16)
-      return `rgba(${r}, ${g}, ${b}, ${fontOpacity > 1 ? fontOpacity / 100 : fontOpacity})`
+      return `rgba(${r}, ${g}, ${b}, ${opacity > 1 ? opacity / 100 : opacity})`
     },
     rowDialog (row) {
       // if (this.row.status && ['Отменено', 'Просрочено'].includes(this.row.status.title)) { return }
@@ -151,8 +144,9 @@ export default {
       this.$nextTick(_ => {
         if (['Отменено', 'Просрочено'].includes(status)) {
           this.$refs.qtr.$el.classList.add('text-grey-4')
-          this.fontOpacity = this.canceledOrExpired.fontOpacity
-          this.bgOpacity = this.canceledOrExpired.bgOpacity
+          this.opacity = -25
+        } else {
+          this.opacity = 1
         }
       })
     },
