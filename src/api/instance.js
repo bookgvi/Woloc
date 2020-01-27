@@ -36,6 +36,7 @@ instance.interceptors.request.use(
     // Do something before request is sent
     const token = LocalStorage.getItem('user-token')
     if (token) {
+      conf.headers['X-Requested-With'] = 'XMLHttpRequest'
       conf.headers['Authorization'] = `Bearer ${token}`
     }
     return conf
