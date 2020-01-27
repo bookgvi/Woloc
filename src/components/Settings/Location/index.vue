@@ -60,7 +60,9 @@ import equipment from './equipment'
 import rooms from './rooms'
 import StudioFilter from '../../Filters/StudioFilter'
 import FiltersList from '../../Filters/FiltersList'
+import { Util } from '../Helper/utils'
 
+const emptyLocation = new Util()
 export default {
   name: 'setting',
   components: {
@@ -122,7 +124,8 @@ export default {
     * */
     async newStudio () {
       this.rooms = []
-      const { services, facilities } = await this.$app.studios.getServicesFacilities()
+      const services = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.services))
+      const facilities = emptyLocation.clearExtras(emptyLocation.cloneObject(this.singleStudio.facilities))
       this.singleStudio = {
         lat: 55.751490781095335,
         lon: 37.618877799781785,

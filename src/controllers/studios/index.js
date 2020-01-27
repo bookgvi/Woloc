@@ -1,5 +1,4 @@
 import crudMixin from '../crudMixin'
-import api from '../../api'
 
 export default {
   name: 'studios',
@@ -22,10 +21,6 @@ export default {
       if (filter) {
         return this.list.find(({ id }) => id === filter.studio)
       } else return {}
-    },
-    async getServicesFacilities () {
-      const { data } = await api.studios.servicesFacilities()
-      return data
     }
   }
 }
