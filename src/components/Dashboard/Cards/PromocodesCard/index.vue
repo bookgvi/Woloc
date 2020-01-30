@@ -87,9 +87,7 @@ export default {
       const filter = {
         studio: this.studio,
       }
-      await this.$app.promocodes.getAll({
-        ...filter
-      })
+      await this.$app.promocodes.getAll({}, filter)
     },
     nameSlot (index) {
       const item = this.options[index]
