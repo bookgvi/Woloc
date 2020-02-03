@@ -6,7 +6,7 @@
       .col-8.q-pr-sm
         q-select.q-pb-sm(
           v-if="showAddress"
-          v-model="form.address"
+          v-model="addressVM"
           :options="fullAddressArr"
           :error="$v.form.address.$error"
           @input.native="getFullAddress($event)"
@@ -37,6 +37,7 @@
         @click="setAddress"
       )
         ymapMarker(
+          v-if="showBaloon"
           marker-id="singleStudio.id"
           :coords="[this.singleStudio.lat, this.singleStudio.lon]"
           :hint-content="singleStudio.name"
@@ -85,6 +86,7 @@ export default {
       form: {
         address: ''
       },
+      showBaloon: false,
       showAddress: false,
       defaultAddress: 'г Москва, ул Кремль',
       fullAddressArr: [],
@@ -123,12 +125,20 @@ export default {
     },
     getAddressVM () {
       return this.singleStudio.address
+    },
+    addressVM: {
+      get () {
+        return this.form.address
+      },
+      set (val) {
+        this.form.address = val
+        this.$emit('hInput', this.form.address, 'address')
+      }
     }
   },
   methods: {
     async getFullAddress (e) {
-      this.form.address = e.target.value
-      this.$emit('hInput', this.form.address, 'address')
+      this.addressVM = e.target.value
       this.$v.form.$touch()
       await axios.post('https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address', {
         count: 5,
@@ -145,7 +155,7 @@ export default {
         .catch(err => { console.error('Catched...', err) })
     },
     async showOnMap () {
-      this.reloadData++
+      this.showBaloon = false
       const { data } = await axios.get(`https://geocode-maps.yandex.ru/1.x/`, {
         params: {
           apikey: this.options.yaMap.yAPI,
@@ -155,8 +165,8 @@ export default {
       })
       this.singleStudio.lon = +data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[0]
       this.singleStudio.lat = +data.response.GeoObjectCollection.featureMember[0].GeoObject.Point.pos.split(' ')[1]
-      this.$nextTick(_ => {
-      })
+      this.showBaloon = true
+      this.reloadData++
     },
     async setAddress (e) {
       this.singleStudio.lon = e.get('coords')[1]
@@ -169,8 +179,7 @@ export default {
           Authorization: `Token ${this.options.token}`
         }
       }).then(resp => {
-        this.form.address = resp.data.suggestions[0].value
-        this.$emit('hInput', this.form.address, 'address')
+        this.addressVM = resp.data.suggestions[0].value
       })
         .catch(err => { console.error('Catched...', err) })
     },
