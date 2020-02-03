@@ -43,6 +43,16 @@ export default {
       singleStudio: {}
     }
   },
+  watch: {
+    'changeFilter' () {
+      this.filter()
+    }
+  },
+  computed: {
+    changeFilter () {
+      return this.$app.filters.getValues('settings')
+    }
+  },
   async mounted () {
     this.filter()
   },

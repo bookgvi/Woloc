@@ -5,48 +5,45 @@ export default [
     name: 'alias',
     label: 'промокод',
     active: true,
-    isPromocode: true
   },
   {
     name: 'discount',
     label: 'скидка',
     align: 'right',
+    headerStyle: 'text-align: right;',
     width: 100,
     active: true,
-    isPromocode: true
   },
   {
-    name: 'room',
+    name: 'rooms',
     label: 'Зал',
+    headerStyle: 'text-align: center;',
     active: true,
-    isPromocode: true
   },
   {
     name: 'minPrice',
     label: 'Мин. заказ, ₽.',
     align: 'right',
+    headerStyle: 'text-align: right;',
     width: 100,
     active: true,
-    isPromocode: true
   },
   {
     name: 'isPublic',
     label: 'статус',
+    field: ({ isPublic }) => ['Персональный', 'Публичный'].filter((item, index) => index === Number(isPublic)).pop(),
     active: true,
-    isPromocode: true
   },
   {
-    name: 'createdAt',
+    name: 'startedAt',
     label: 'Дата создания',
     format: value => date.formatDate(value, 'D MMMM YYYY в h:mm'),
     active: true,
-    isPromocode: true
   },
   {
     name: 'expiredAt',
     label: 'Активен до',
     format: value => date.formatDate(value, 'D MMMM'),
     active: true,
-    isPromocode: true
   },
 ]

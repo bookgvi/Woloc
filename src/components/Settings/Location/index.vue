@@ -141,6 +141,9 @@ export default {
     */
     async updateStudio () {
       this.isRequired++
+      if (this.singleStudio.phone) {
+        this.singleStudio.phone = String(this.singleStudio.phone).match(/\d/g).join('')
+      }
       let newStudioId = ''
       /*
       * Метод POST
@@ -173,6 +176,9 @@ export default {
     * */
     async createNewStudio () {
       this.isRequired++
+      if (this.singleStudio.phone) {
+        this.singleStudio.phone = String(this.singleStudio.phone).match(/\d/g).join('')
+      }
       /*
       * Метод POST
       * */
