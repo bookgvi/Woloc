@@ -316,13 +316,13 @@ export default {
         isPublic: this.fieldPromocode.isPublic.value,
         minPrice: this.fieldPromocode.minPrice,
         rooms: this.fieldPromocode.rooms.map(item => {
-          return item.value
+          return { id: item.value }
         }),
         startedAt: this.fieldPromocode.startedAt.format('YYYY-MM-DD'),
         type: this.fieldPromocode.type.value,
       }
-      await this.$app.promocodes.updateOne(id, params)
-      await this.$app.promocodes.getAll({ studio: this.studio })
+      await this.$app.promocodes.updateOne({ id, data: params })
+      await this.$app.promocodes.getAll({}, { studio: this.studio })
       this.dialogState = false
     },
     resetRange (range) {
