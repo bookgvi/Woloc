@@ -131,6 +131,7 @@ export default {
     prepaymentAmount () {
       let isPrepayment = this.row.prepayment / this.row.amount * 100
       if (isPrepayment) {
+        isPrepayment = Number.isInteger(isPrepayment) ? isPrepayment : isPrepayment.toFixed(2)
         return `Предоплата: ${isPrepayment}%`
       }
       return `Предоплата:`
