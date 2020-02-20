@@ -20,20 +20,18 @@
             :key="index"
           )
             td
-              q-checkbox(v-model="checkedOptions[index]" dense)
+              q-checkbox(:value="checkedOptions[index]" @input="hCheck($event, index, item)" dense)
               span &nbsp {{ item.name }}
             td.text-right
               q-icon(
-                v-if="item.status.id === 2"
                 size="7px"
-                color="red"
                 name="fas fa-circle"
-                style="cursor: pointer"
+                style="cursor: pointer; color: #FF8D8D;"
               )
                 q-tooltip
                   span.row.text-body2 {{ dateSlot(item.from, item.to) }}
                   span.row &nbsp
-                  span.row.text-body2.text-red Возврат {{ expiredDateSlot(item.from) }}
+                  span.row.text-body2(style="color: #FF8D8D") Возврат {{ expiredDateSlot(item.canceled) }}
             td.text-right
               span.text-black.text-body2 {{ item.value.toLocaleString('ru-RU', { style: 'decimal', useGrouping: true }) }} р.
     q-card-actions.q-pl-md.q-pb-md
@@ -66,7 +64,9 @@ export default {
   components: { StandartCard, NameSlot },
   data () {
     return {
-      checkedOptions: []
+      STATUS_NEW: 0,
+      checkedOptions: [],
+      idOfSelectedRefunds: []
     }
   },
   async created () {
@@ -79,13 +79,15 @@ export default {
     options () {
       const refundsList = this.$app.refunds.dashboardRefundsList.map(item => {
         return {
+          id: item.id,
           name: item.booking.customer.fullName,
           check: false,
           value: item.amount,
           status: item.status,
           returnedAt: item.returnedAt,
           from: item.booking.reservedFrom,
-          to: item.booking.reservedTo
+          to: item.booking.reservedTo,
+          canceled: item.booking.canceled
         }
       })
       return refundsList
@@ -100,13 +102,33 @@ export default {
       return this.$moment(dt).format('DD MMMM hh:mm')
     },
     async loadData () {
-      await this.$app.refunds.getForDashBoard()
+      await this.$app.refunds.getForDashBoard({ number: 1 }, { statuses: [this.STATUS_NEW] })
     },
-    accept () {
-      //
+    async accept () {
+      await this.chainOfRequests('accept')
+      this.idOfSelectedRefunds = []
+      this.loadData()
     },
-    decline () {
-      //
+    async decline () {
+      await this.chainOfRequests('decline')
+      this.idOfSelectedRefunds = []
+      this.loadData()
+    },
+    hCheck (e, index, item) {
+      this.checkedOptions.splice(index, 1, e)
+      const indexOfRefund = this.idOfSelectedRefunds.indexOf(item.id)
+      if (indexOfRefund === -1) {
+        this.idOfSelectedRefunds.push(item.id)
+      } else {
+        this.idOfSelectedRefunds.splice(indexOfRefund, 1)
+      }
+    },
+    async chainOfRequests (method) {
+      if (method === 'accept') {
+        return Promise.all(this.idOfSelectedRefunds.map(id => this.$app.refunds.confirm(id)))
+      } else if (method === 'decline') {
+        return Promise.all(this.idOfSelectedRefunds.map(id => this.$app.refunds.cancel(id)))
+      }
     }
   },
   watch: {

@@ -13,7 +13,7 @@
         parts-card
         bookings-card
         // requests-card
-        // refunds-card
+        refunds-card
         promocodes-card
       .column.col-4
         calendar-card

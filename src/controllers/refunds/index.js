@@ -10,9 +10,9 @@ export default {
     }
   },
   methods: {
-    async getForDashBoard (filter) {
+    async getForDashBoard (page, filter) {
       this.loading.list = true
-      const res = await api.refunds.getAll()
+      const res = await api.refunds.getAll(page, filter)
       if (res) {
         this.dashboardRefundsList = res.data.items
       }
