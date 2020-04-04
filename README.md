@@ -4,7 +4,7 @@ Admin Panel for ugoloc.ru
 
 ## Install the dependencies
 ```bash
-yarn 
+yarn or npm
 ```
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
