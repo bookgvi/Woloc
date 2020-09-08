@@ -1,4 +1,4 @@
-# Ugoloc Admin Panel (ugoloc-admin-front)
+# Ugoloc Admin Panel (ugoloc-admin-front) 
 
 Admin Panel for ugoloc.ru
 
